@@ -1,0 +1,16 @@
+ID,Name,Price,SKU,Size,Color,Material,Stock
+item-1,Red Sneakers,$59.99,SKU-1234,10,Red,Canvas,23
+item-2,Blue Running Shoes,$89.99,SKU-1235,9,Blue,Mesh,15
+item-3,Black Dress Shoes,$129.99,SKU-1236,11,Black,Leather,8
+item-4,White Tennis Shoes,$79.99,SKU-1237,8,White,Canvas,31
+item-5,Gray Hiking Boots,$149.99,SKU-1238,12,Gray,Suede,12
+item-6,Purple Training Shoes,$99.99,SKU-1239,7,Purple,Mesh,19
+item-7,Brown Loafers,$119.99,SKU-1240,10,Brown,Leather,16
+item-8,Green Basketball Shoes,$109.99,SKU-1241,13,Green,Synthetic,21
+item-9,Yellow Rain Boots,$69.99,SKU-1242,6,Yellow,Rubber,27
+item-10,Orange Cross-Trainers,$94.99,SKU-1243,11,Orange,Mesh,14
+item-11,Pink Walking Shoes,$84.99,SKU-1244,8,Pink,Canvas,25
+item-12,Teal Slip-Ons,$64.99,SKU-1245,9,Teal,Canvas,33
+item-13,Navy Boat Shoes,$79.99,SKU-1246,10,Navy,Leather,18
+item-14,Maroon High-Tops,$74.99,SKU-1247,7,Maroon,Canvas,22
+item-15,Silver Dance Shoes,$139.99,SKU-1248,8,Silver,Synthetic,11

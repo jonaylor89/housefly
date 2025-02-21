@@ -7,6 +7,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
+    "_check_solved": "./scripts/check_solved.sh",
     "check-answers": "./scripts/check_answers.sh",
     "ca": "npm run check-answers"
   },
