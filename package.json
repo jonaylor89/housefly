@@ -1,0 +1,27 @@
+{
+  "name": "housefly",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types",
+    "check-answers": "./scripts/check_answers.sh",
+    "ca": "npm run check-answers"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.0",
+    "ts-node": "^10.9.2",
+    "turbo": "^2.4.2",
+    "typescript": "5.7.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.7.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
