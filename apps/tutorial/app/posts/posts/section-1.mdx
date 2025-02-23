@@ -1,0 +1,172 @@
+---
+title: 'Basic HTML Scraping: The First Steps'
+publishedAt: '2025-02-28'
+summary: 'Learn the fundamentals of web scraping through hands-on exercises with static HTML pages'
+---
+
+Web scraping might seem intimidating at first, but like any skill, it's best learned through hands-on practice. In these first three chapters, we'll explore the fundamentals of extracting data from static HTML pages.
+
+## Chapter 1: Hello, Scraper!
+
+Our journey begins with the simplest possible scenario - extracting text from a basic HTML page. This chapter introduces you to the core concepts of:
+
+- Making HTTP requests to fetch web pages
+- Loading HTML content into a parser
+- Basic DOM selection using CSS selectors
+
+While the example may seem trivial (it's just a "hello world" after all!), it establishes the foundation for everything that follows.
+
+```html
+<!-- Example HTML structure -->
+<div class="content">
+  <p>Some text we want to extract</p>
+</div>
+```
+
+Here's a taste of what we're working with:
+
+```typescript
+// Basic concepts (not the solution!)
+import * as cheerio from 'cheerio';
+
+// Loading HTML content
+const $ = cheerio.load(htmlContent);
+
+// Using CSS selectors
+const text = $('p').text();  // Selects all <p> tags
+const specific = $('.content p').text();  // More specific selection
+```
+
+## Chapter 2: Structured Data
+
+Things get more interesting as we dive into a mock e-commerce product page. Here, we're faced with multiple elements with similar structures:
+
+```html
+<!-- Example product structure (simplified) -->
+<div class="product">
+  <h2>Product Name</h2>
+  <span class="price">$99.99</span>
+  <div class="specs">
+    <ul>
+      <li>Size: M</li>
+      <li>Color: Blue</li>
+    </ul>
+  </div>
+</div>
+```
+
+When dealing with structured data like this, you'll want to think about:
+
+```typescript
+// Conceptual approach (not the solution!)
+$('.product').each((index, element) => {
+  // For each product, we might want to:
+  // 1. Extract the basic info
+  const name = $(element).find('h2').text();
+
+  // 2. Parse nested data
+  const specs = $(element).find('.specs li');
+
+  // 3. Structure the output
+  const data = {
+    name,
+    specs: specs.map(/* ... */),
+  };
+});
+```
+
+Pro tip: Before writing any code, take time to analyze the HTML structure. Look for patterns in how the data is organized - are there consistent class names? How are parent and child elements related?
+
+
+## Chapter 3: AI-Assisted Scraping
+
+Now things get interesting! While the previous challenges taught us traditional scraping techniques, Chapter 3 introduces a modern approach: AI-assisted web scraping. We're faced with a nightmare scenario - inconsistent HTML structures, obfuscated class names, and multiple framework patterns all mixed together.
+
+Let's look at what makes this challenge special:
+
+```html
+<!-- Traditional product structure -->
+<div data-testid="product-container-1" class="_3xj_item">
+  <h2 data-qa="name">Red Sneakers</h2>
+  <span data-price-current="5999">$59.99</span>
+</div>
+
+<!-- React-style component -->
+<div class="ProductCard-root-1a2b3c">
+  <div class="ProductCard-title-4d5e6f">Pink Walking Shoes</div>
+  <div class="ProductCard-pricing-7g8h9i">$84.99</div>
+</div>
+
+<!-- Vue-style template -->
+<div data-v-abcdef class="product">
+  <h2 data-v-abcdef>Navy Boat Shoes</h2>
+  <span data-v-abcdef>$79.99</span>
+</div>
+```
+
+Traditional scraping approaches would struggle here because:
+- Class names are randomized or framework-specific
+- Data structures vary between products
+- Different frameworks use different patterns
+- Semantic meaning is lost in the markup
+
+This is where AI comes to the rescue. Instead of writing brittle selectors, we can describe what we want in natural language and let AI handle the pattern matching. The key concepts in this chapter include:
+
+- Prompt engineering for web scraping
+- Using AI to understand semantic meaning
+- Handling inconsistent data structures
+- Dealing with framework-specific markup
+- Maintaining data consistency across different patterns
+
+While AI isn't magic, it excels at tasks requiring pattern recognition and adaptation. This makes it particularly valuable for scraping modern web applications where consistent markup patterns can't be guaranteed.
+
+### A Note on AI Usage
+
+Remember that AI assistance doesn't mean completely automated solutions. The best results come from combining:
+- Clear problem definition
+- Well-structured prompts
+- Data validation
+- Human oversight
+
+Your challenge will be to craft prompts that help AI understand both the structure and the intent of what you're trying to extract.
+
+Ready to combine traditional web scraping knowledge with modern AI capabilities? Dive into Chapter 3 and discover how AI can help tackle even the messiest HTML!
+
+## Getting Started
+
+1. Experiment with different CSS selectors:
+```typescript
+// Different ways to select elements
+$('.class')           // By class
+$('#id')             // By ID
+$('div > p')         // Direct children
+$('div p')           // All descendants
+$('[data-type="x"]') // By attribute
+```
+
+2. Try modifying the output format
+3. Think about error handling and edge cases
+4. Consider how your solution might scale with larger datasets
+
+All the code you need to get started is in the project repository. Clone it, set up your environment, and start scraping!
+
+Looking for hints? The source HTML for each challenge is available in the `apps/chapter{n}/` directory. And the working solved examples are also available in `_solved/chapter{n}/`. Study the structure, plan your approach, and remember - every expert was once a beginner.
+
+Remember to handle your requests responsibly:
+```typescript
+// Basic error handling example
+async function fetchPage(url: string) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.text();
+  } catch (error) {
+    console.error('Failed to fetch page:', error);
+    throw error;
+  }
+}
+```
+
+Happy scraping!
