@@ -31,6 +31,8 @@ async function parseProducts(body: string): Promise<string> {
     ${body}
 
     Convert this HTML into clean CSV data following the format above. Extract each field carefully, maintaining exact values and formatting.
+
+    ONLY OUTPUT THE CSV DATA without back ticks or any other formatting
 `;
 
   const chatCompletion = await client.chat.completions.create({
