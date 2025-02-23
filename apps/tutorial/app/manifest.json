@@ -1,6 +1,8 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "Housefly: A Hands-On Web Scraping Playground",
+  "short_name": "Housefly",
+  "description": "Housefly is an interactive learning project designed to teach web scraping through structured challenges. Each chapter includes a companion website built specifically to be scraped, allowing you to practice in a controlled environment.",
+  "start_url": "/",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -11,6 +13,11 @@
       "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
     }
   ],
   "theme_color": "#ffffff",
