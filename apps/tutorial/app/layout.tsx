@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Navbar } from "./components/nav";
 import Footer from "./components/footer";
 import { Space_Grotesk } from "next/font/google";
-import { baseUrl } from "./sitemap";
+import { baseUrl } from "./lib/utils";
 
 const title = "Housefly - Web Scraping Playground";
 const description =

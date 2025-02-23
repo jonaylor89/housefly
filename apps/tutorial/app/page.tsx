@@ -1,6 +1,9 @@
 import { Posts } from "app/components/posts";
+import { getPosts } from "./posts/utils";
 
-export default function Page() {
+export default async function Page() {
+  const posts = await getPosts();
+
   return (
     <section>
       <h1 className="mb-8 text-2xl font-semibold tracking-tighter">Housefly</h1>
@@ -30,7 +33,7 @@ export default function Page() {
       </p>
 
       <div className="my-8">
-        <Posts />
+        <Posts posts={posts} />
       </div>
     </section>
   );

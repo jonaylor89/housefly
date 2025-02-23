@@ -1,3 +1,5 @@
+import type { MDXRemoteProps } from "next-mdx-remote/rsc";
+
 import Link from "next/link";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -26,9 +28,13 @@ function Table({ data }) {
   );
 }
 
-function CustomLink(props) {
-  let href = props.href;
+type CustomLinkProps = {
+  href: string;
+  children: React.ReactNode;
+  [key: string]: any;
+};
 
+function CustomLink({ href, children, ...props }: CustomLinkProps) {
   if (href.startsWith("/")) {
     return (
       <Link href={href} {...props}>
@@ -44,8 +50,14 @@ function CustomLink(props) {
   return <a target="_blank" rel="noopener noreferrer" {...props} />;
 }
 
-function RoundedImage(props) {
-  return <Image alt={props.alt} className="rounded-lg" {...props} />;
+type RoundedImageProps = {
+  alt: string;
+  src: string;
+  [key: string]: any;
+};
+
+function RoundedImage({ alt, ...props }: RoundedImageProps) {
+  return <Image alt={alt} className="rounded-lg" {...props} />;
 }
 
 function Code({ children, ...props }) {
@@ -86,7 +98,7 @@ function createHeading(level: number): React.FC {
   return Heading;
 }
 
-let components = {
+const customComponents = {
   h1: createHeading(1),
   h2: createHeading(2),
   h3: createHeading(3),
@@ -99,11 +111,12 @@ let components = {
   Table,
 };
 
-export function CustomMDX(props) {
+export function CustomMDX({ components, ...props }: MDXRemoteProps) {
   return (
+    // @ts-ignore
     <MDXRemote
       {...props}
-      components={{ ...components, ...(props.components || {}) }}
+      components={{ ...customComponents, ...(components || {}) }}
     />
   );
 }
