@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const navItems = {
@@ -18,6 +19,7 @@ export function Navbar() {
           id="nav"
         >
           <div className="flex flex-row space-x-0 pr-10">
+            <Image src="/housefly-logo.png" alt="Logo" width={36} height={36} />
             {Object.entries(navItems).map(([path, { name }]) => {
               return (
                 <Link

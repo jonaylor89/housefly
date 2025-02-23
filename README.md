@@ -1,4 +1,5 @@
 
+![Housefly Logo](/apps/tutorial/public/housefly-logo.png)
 
 # Housefly: A Hands-On Web Scraping Playground
 
@@ -58,7 +59,7 @@ housefly/
 1. Basic HTML Scraping
 - [x] Single static HTML file with simple text
 - [x] Single HTML file with structured data (tables, lists, divs with classes)
-- [ ] Single HTML file with unstructured text requiring AI-based structuring (e.g., extracting key information from free-form text)
+- [x] Single HTML file with unstructured text requiring AI-based structuring (e.g., extracting key information from free-form text)
 
 2. JavaScript-Rendered Content
 - [ ] Single-page site where content loads dynamically via JavaScript
