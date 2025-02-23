@@ -55,20 +55,46 @@ housefly/
 
 ## Roadmap
 
-- [x] basic single html file
-- [ ] basic single html with structured text
-- [ ] basic single html but with dynamic javascript content
-    - [ ] pupeteer or playwright
-- [ ] basic single html file with unstructured text needing structure (AI)
+1. Basic HTML Scraping
+- [x] Single static HTML file with simple text
+- [x] Single HTML file with structured data (tables, lists, divs with classes)
+- [ ] Single HTML file with unstructured text requiring AI-based structuring (e.g., extracting key information from free-form text)
+
+2. JavaScript-Rendered Content
+- [ ] Single-page site where content loads dynamically via JavaScript
+- [ ] Scraping sites with infinite scroll and lazy-loaded content
+
+3. Multi-Page Crawling
+- [ ] multiple pages within the same subdomain (/content/*)
     - [ ] storing data and duplicates (index of URL -> data)
-- [ ] multiple pages all within the same subdomain and path prefix (/content/*)
     - [ ] sitemap + link crawling
-- [ ] random websites with different path structure and unstructured data needing structure
-- [ ] random topic with unknown websites (perplexity style) crawl of unstructured data needing structure
-    - [ ] searxng
-- [ ] captchas and web crawling defense mechanisms
+- [ ] Sitemap crawling and extracting internal links
+- [ ] Managing duplicate data (indexing URLs vs. storing new content)
 
+4. Scraping API-Driven Websites
+- [ ] Extracting data from JSON responses in API-driven websites
+- [ ] Scraping sites where data loads via AJAX calls
+- [ ] Handling GraphQL APIs
 
+5. Interacting with Websites (Forms & Sessions)
+- [ ] Automating form submissions (e.g., login forms, search bars)
+- [ ] Handling session-based authentication (cookies, tokens)
+- [ ] Navigating paginated content
+
+6. Media & Non-Text Scraping
+- [ ] Extracting images and metadata (alt text, filenames)
+- [ ] Downloading and parsing PDFs
+- [ ] Scraping embedded video metadata (YouTube, Vimeo)
+
+7. Handling Web Crawling Defenses
+- [ ] Rate limiting and polite crawling (respecting robots.txt)
+- [ ] Handling CAPTCHAs with solver services
+- [ ] Dealing with anti-scraping mechanisms (e.g., Cloudflare, bot traps)
+
+8. Large-Scale & Unstructured Web Crawling
+- [ ] Scraping random websites with different path structures and data formats
+- [ ] AI-assisted parsing for messy and unstructured data
+- [ ] Building a search crawler (e.g., using searxng for discovering new content)
 
 ## Contributing
 
@@ -80,7 +106,7 @@ MIT License
 
 ## Ready to Start Scraping?
 
-👉 Try Housefly Now
+👉 [Try Housefly Now](https://housefly.cc)
 
 
 ## Disclaimer

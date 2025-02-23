@@ -24,6 +24,10 @@ if [ ! -f "$EXPECTED_FILE" ]; then
   exit 1
 fi
 
+set -a # automatically export all variables
+source .env
+set +a
+
 # Run the TypeScript file and capture output
 OUTPUT=$(deno --allow-net --allow-env "$INDEX_FILE")
 
