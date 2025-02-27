@@ -22,11 +22,11 @@ cd housefly
 
 2. Navigate to Chapter 1
 
-Each chapter contains a simple website to scrape, along with an expected.txt file defining the correct output.
+Each chapter contains a simple website to scrape, along with an `expected.txt` file defining the correct output.
 
 3. Write Your Scraper
 
-Implement your solution inside the corresponding solution{number}/ directory.
+Implement your solution inside the corresponding `solution{number}/` directory.
 
 4. Check Your Answer
 
@@ -34,6 +34,14 @@ Run the validation script to compare your scraper’s output against expected.tx
 
 ```sh
 npm run ca 1
+```
+
+5. Add Env Vars (Optional)
+
+Some of the challenges require 3rd party apis e.g. OpenAI and for those, there is a `.env.template` file that you can fill in and rename to `.env` to use them
+
+```
+mv .env.template .env
 ```
 
 ## Project Structure
