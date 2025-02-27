@@ -4,6 +4,7 @@ import { Navbar } from "./components/nav";
 import Footer from "./components/footer";
 import { Space_Grotesk } from "next/font/google";
 import { baseUrl } from "./lib/utils";
+import PlausibleProvider from "next-plausible";
 
 const title = "Housefly - Web Scraping Playground";
 const description =
@@ -58,9 +59,11 @@ export default function RootLayout({
     >
       <body className="antialiased max-w-2xl mx-4 mt-8 lg:mx-auto">
         <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          <Navbar />
-          {children}
-          <Footer />
+          <PlausibleProvider domain="housefly.cc">
+            <Navbar />
+            {children}
+            <Footer />
+          </PlausibleProvider>
         </main>
       </body>
     </html>

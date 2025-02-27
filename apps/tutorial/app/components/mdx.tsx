@@ -6,7 +6,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { highlight } from "sugar-high";
 import React from "react";
 
-function Table({ data }) {
+export function Table({ data }) {
   let headers = data.headers.map((header, index) => (
     <th key={index}>{header}</th>
   ));
@@ -34,7 +34,7 @@ type CustomLinkProps = {
   [key: string]: any;
 };
 
-function CustomLink({ href, children, ...props }: CustomLinkProps) {
+export function CustomLink({ href, children, ...props }: CustomLinkProps) {
   if (href.startsWith("/")) {
     return (
       <Link href={href} {...props}>
@@ -56,16 +56,17 @@ type RoundedImageProps = {
   [key: string]: any;
 };
 
-function RoundedImage({ alt, ...props }: RoundedImageProps) {
+export function RoundedImage({ alt, ...props }: RoundedImageProps) {
   return <Image alt={alt} className="rounded-lg" {...props} />;
 }
 
-function Code({ children, ...props }) {
+export function Code({ children, ...props }) {
   let codeHTML = highlight(children);
+  console.log({ codeHTML });
   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
 }
 
-function slugify(str: string) {
+export function slugify(str: string) {
   return str
     .toString()
     .toLowerCase()
@@ -76,7 +77,7 @@ function slugify(str: string) {
     .replace(/\-\-+/g, "-"); // Replace multiple - with single -
 }
 
-function createHeading(level: number): React.FC {
+export function createHeading(level: number): React.FC {
   const Heading = ({ children }) => {
     let slug = slugify(children);
     return React.createElement(
@@ -98,13 +99,20 @@ function createHeading(level: number): React.FC {
   return Heading;
 }
 
+export const H1 = createHeading(1);
+export const H2 = createHeading(2);
+export const H3 = createHeading(3);
+export const H4 = createHeading(4);
+export const H5 = createHeading(5);
+export const H6 = createHeading(6);
+
 const customComponents = {
-  h1: createHeading(1),
-  h2: createHeading(2),
-  h3: createHeading(3),
-  h4: createHeading(4),
-  h5: createHeading(5),
-  h6: createHeading(6),
+  h1: H1,
+  h2: H2,
+  h3: H3,
+  h4: H4,
+  h5: H5,
+  h6: H6,
   Image: RoundedImage,
   a: CustomLink,
   code: Code,

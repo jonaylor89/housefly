@@ -1,5 +1,6 @@
 import { Posts } from "app/components/posts";
 import { getPosts } from "./posts/utils";
+import Link from "next/link";
 
 export default async function Page() {
   const posts = await getPosts();
@@ -28,8 +29,10 @@ export default async function Page() {
 
       <h2 className="text-2xl font-semibold mt-6 mb-2">How to Get Started</h2>
       <p className="mb-4">
-        Instructions are in the README.md file of the GitHub repository. From
-        there, you can follow the steps to set up and run the project.
+        Instructions are in the{" "}
+        <Link href="https://github.com/jonaylor89/housefly">README.md</Link>{" "}
+        file of the GitHub repository. From there, you can follow the steps to
+        set up and run the project.
       </p>
 
       <div className="my-8">
