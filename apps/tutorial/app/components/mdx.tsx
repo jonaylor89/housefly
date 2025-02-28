@@ -62,7 +62,6 @@ export function RoundedImage({ alt, ...props }: RoundedImageProps) {
 
 export function Code({ children, ...props }) {
   let codeHTML = highlight(children);
-  console.log({ codeHTML });
   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
 }
 
