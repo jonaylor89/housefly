@@ -72,7 +72,7 @@ housefly/
 
 2. JavaScript-Rendered Content
 - [x] Single-page site where content loads dynamically via JavaScript
-- [ ] Scraping sites with infinite scroll and lazy-loaded content
+- [x] Scraping sites with infinite scroll and lazy-loaded content
 
 3. Multi-Page Crawling
 - [ ] multiple pages within the same subdomain (/content/*)

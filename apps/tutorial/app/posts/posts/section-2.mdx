@@ -1,7 +1,153 @@
 ---
-title: 'JavaScript-Rendered Content (coming soon)'
-publishedAt: '2025-03-04'
+title: 'JavaScript-Rendered Content'
+publishedAt: '2025-03-08'
 summary: 'Single-page site where content loads dynamically via JavaScript + infinite scroll / lazy loading'
 ---
 
-Coming soon...
+Modern web applications rarely serve complete HTML - instead, content is dynamically loaded and rendered through JavaScript. This presents unique challenges for web scraping that we'll tackle in these two chapters.
+
+## Chapter 4: Dynamic News Feed
+
+Our first challenge involves scraping a news feed where articles are dynamically loaded via JavaScript. This introduces several key concepts:
+
+- Browser automation with Playwright
+- Waiting for dynamic content to load
+- Handling JavaScript-rendered DOM elements
+
+The page structure looks something like this:
+
+```html
+<div class="news-feed">
+  <article class="news-item">
+    <h2>Breaking News Title</h2>
+    <p>Article content...</p>
+    <div class="meta">
+      <span>By Author Name</span>
+      <time datetime="2024-03-08T12:00:00Z">March 8, 2024</time>
+    </div>
+  </article>
+  <!-- More articles load dynamically -->
+</div>
+```
+The key differences from static HTML scraping:
+
+```typescript
+// Instead of cheerio.load(), we use Playwright
+const browser = await chromium.launch();
+const page = await browser.newPage();
+
+// Wait for content to render
+await page.waitForSelector('.news-item');
+
+// Extract data from the live DOM using page.$$eval()
+// This runs the callback function in the browser context
+// to evaluate all elements matching the selector at once
+const items = await page.$$eval('.news-item', elements => {
+  // Works like Array.map() on matching elements
+  // Returns serializable JavaScript objects
+  // Perfect for extracting data from multiple elements
+});
+```
+
+## Chapter 5: Infinite Scroll Gallery
+
+Building on our dynamic content knowledge, we tackle an even more complex scenario - a photo gallery with infinite scroll. This introduces:
+
+- Handling lazy-loaded content
+- Detecting and triggering scroll events
+- Managing async loading states
+- Extracting data from complex UI patterns
+
+The challenge here is that content loads progressively as the user scrolls:
+
+```html
+<div class="photo-gallery">
+  <div class="photo-card">
+    <img src="..." alt="Photo title" />
+    <h2>Photo Title</h2>
+    <p>By Photographer Name</p>
+    <div class="flex">
+      <span>❤️ 42</span>
+    </div>
+  </div>
+  <!-- More photos load on scroll -->
+</div>
+```
+
+Key concepts for handling infinite scroll:
+
+```typescript
+// Scroll to bottom until no new content loads
+let previousHeight;
+while (true) {
+  previousHeight = await page.evaluate('document.body.scrollHeight');
+  await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
+  await page.waitForTimeout(1500); // Wait for content
+
+  const newHeight = await page.evaluate('document.body.scrollHeight');
+  if (newHeight === previousHeight) {
+    break; // No more content to load
+  }
+}
+```
+
+### Important Considerations
+
+When working with JavaScript-rendered content:
+
+1. **Performance**: Dynamic content scraping is slower than static HTML
+2. **Resource Management**: Browser automation uses more system resources
+3. **Stability**: Need to handle loading states and network conditions
+4. **Rate Limiting**: Consider implementing delays between actions
+
+### Best Practices
+
+1. Use appropriate wait strategies:
+```typescript
+// Wait for specific elements
+await page.waitForSelector('.selector');
+
+// Wait for network idle
+await page.waitForLoadState('networkidle');
+
+// Custom wait conditions
+await page.waitForFunction(() => {
+  // Custom JavaScript condition
+});
+```
+
+2. Implement robust error handling:
+```typescript
+try {
+  await page.goto(url);
+  // ... scraping logic
+} catch (error) {
+  console.error('Scraping failed:', error);
+} finally {
+  await browser.close(); // Always clean up
+}
+```
+
+3. Consider implementing retry mechanisms for reliability
+4. Monitor memory usage when dealing with large datasets
+5. Validate extracted data for consistency
+
+### Testing Your Solution
+
+The test environment provides mock APIs that simulate real-world conditions:
+- Variable loading times
+- Network latency
+- Pagination mechanics
+- Error states
+
+Try these variations:
+1. Modify scroll timing
+2. Handle different screen sizes
+3. Test with slow network conditions
+4. Validate data integrity
+
+Ready to handle dynamic content? The challenge code and test environments are in the repository.
+
+Check the solved examples in `_solved/chapter4/` and `_solved/chapter5/` for reference implementations. Remember - modern web scraping is about understanding both HTML structure and application behavior.
+
+Happy scraping!
