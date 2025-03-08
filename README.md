@@ -33,6 +33,7 @@ Implement your solution inside the corresponding `solution{number}/` directory.
 Run the validation script to compare your scraper’s output against expected.txt:
 
 ```sh
+# npx install playwright (optionally for some exercises)
 npm run ca 1
 ```
 
@@ -70,7 +71,7 @@ housefly/
 - [x] Single HTML file with unstructured text requiring AI-based structuring (e.g., extracting key information from free-form text)
 
 2. JavaScript-Rendered Content
-- [ ] Single-page site where content loads dynamically via JavaScript
+- [x] Single-page site where content loads dynamically via JavaScript
 - [ ] Scraping sites with infinite scroll and lazy-loaded content
 
 3. Multi-Page Crawling

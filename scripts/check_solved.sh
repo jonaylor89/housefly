@@ -30,7 +30,7 @@ source .env
 set +a
 
 # Run the TypeScript file and capture output
-OUTPUT=$(deno --allow-net --allow-env "$INDEX_FILE")
+OUTPUT=$(deno --allow-net --allow-env --allow-sys --allow-read --allow-write --allow-run "$INDEX_FILE")
 
 # Compare output with expected result
 diff_output=$(echo "$OUTPUT" | diff --color=always -u "$EXPECTED_FILE" -)
