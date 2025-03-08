@@ -1,17 +1,47 @@
 #!/usr/bin/env sh
 
+# Help message
+show_help() {
+  echo "Usage: $0 [-s|--solved] <chapter_number>"
+  echo "Options:"
+  echo "  -s, --solved    Check solutions in _solved directory instead of apps directory"
+  echo "  -h, --help      Show this help message"
+}
+
+# Parse command line arguments
+CHECK_SOLVED=false
+CHAPTER_NUM=""
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -s | --solved )    CHECK_SOLVED=true
+                       ;;
+    -h | --help )      show_help
+                       exit 0
+                       ;;
+    * )                CHAPTER_NUM=$1
+                       ;;
+  esac
+  shift
+done
+
 # Ensure a chapter number is provided
-if [ -z "$1" ]; then
-  echo "🚨 Usage: $0 <chapter_number>"
+if [ -z "$CHAPTER_NUM" ]; then
+  echo "🚨 Missing chapter number"
+  show_help
   exit 1
 fi
 
-CHAPTER="chapter $1"
-SOLUTION="solution $1"
-CHAPTER_PATH="./apps/chapter$1"
-SOLUTION_PATH="./apps/solution$1"
-INDEX_FILE="$SOLUTION_PATH/index.ts"
+SOLUTION_PATH="./apps/solution$CHAPTER_NUM"
 EXPECTED_FILE="$SOLUTION_PATH/expected.txt"
+
+if [ "$CHECK_SOLVED" = true ]; then
+  BASE_PATH="./_solved/chapter$CHAPTER_NUM"
+else
+  BASE_PATH="./apps/solution$CHAPTER_NUM"
+fi
+
+INDEX_FILE="$BASE_PATH/index.ts"
 
 # Check if the necessary files exist
 if [ ! -f "$INDEX_FILE" ]; then
