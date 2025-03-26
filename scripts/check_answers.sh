@@ -33,12 +33,26 @@ if [ -z "$CHAPTER_NUM" ]; then
 fi
 
 SOLUTION_PATH="./apps/solution$CHAPTER_NUM"
-EXPECTED_FILE="$SOLUTION_PATH/expected.txt"
 
+# Find the expected file with any extension
 if [ "$CHECK_SOLVED" = true ]; then
   BASE_PATH="./_solved/chapter$CHAPTER_NUM"
 else
   BASE_PATH="./apps/solution$CHAPTER_NUM"
+fi
+
+# Find the expected file (could be any extension)
+EXPECTED_FILE=""
+for ext in txt json csv yaml xml; do
+  if [ -f "$SOLUTION_PATH/expected.$ext" ]; then
+    EXPECTED_FILE="$SOLUTION_PATH/expected.$ext"
+    break
+  fi
+done
+
+# If no expected file is found, try to find any file that starts with "expected."
+if [ -z "$EXPECTED_FILE" ]; then
+  EXPECTED_FILE=$(find "$SOLUTION_PATH" -name "expected.*" -type f | head -n 1)
 fi
 
 INDEX_FILE="$BASE_PATH/index.ts"
@@ -49,8 +63,8 @@ if [ ! -f "$INDEX_FILE" ]; then
   exit 1
 fi
 
-if [ ! -f "$EXPECTED_FILE" ]; then
-  echo "❌ Error: $EXPECTED_FILE does not exist."
+if [ -z "$EXPECTED_FILE" ] || [ ! -f "$EXPECTED_FILE" ]; then
+  echo "❌ Error: No expected file found in $SOLUTION_PATH"
   exit 1
 fi
 

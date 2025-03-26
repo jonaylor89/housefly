@@ -78,7 +78,7 @@ housefly/
 - [ ] multiple pages within the same subdomain (/content/*)
     - [ ] storing data and duplicates (index of URL -> data)
     - [ ] sitemap + link crawling
-- [ ] Sitemap crawling and extracting internal links
+    - [ ] Sitemap crawling and extracting internal links
 - [ ] Managing duplicate data (indexing URLs vs. storing new content)
 
 4. Scraping API-Driven Websites

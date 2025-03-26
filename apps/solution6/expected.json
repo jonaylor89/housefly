@@ -1,0 +1,577 @@
+{
+  "categories": {
+    "electronics": {
+      "phones": [
+        {
+          "name": "iPhone 15 Pro",
+          "price": 999.99,
+          "rating": {
+            "score": 5,
+            "count": 128
+          },
+          "features": [
+            "6.1-inch Super Retina XDR display",
+            "A17 Pro chip",
+            "256GB Storage",
+            "Titanium Design"
+          ],
+          "status": "In Stock"
+        },
+        {
+          "name": "Google Pixel 8 Pro",
+          "price": 899.99,
+          "rating": {
+            "score": 4.5,
+            "count": 86
+          },
+          "features": [
+            "6.7-inch LTPO OLED display",
+            "Google Tensor G3",
+            "128GB Storage",
+            "Triple Camera System"
+          ],
+          "status": "In Stock"
+        },
+        {
+          "name": "Samsung Galaxy S24 Ultra",
+          "price": 1299.99,
+          "rating": {
+            "score": 5,
+            "count": 92
+          },
+          "features": [
+            "6.8-inch Dynamic AMOLED",
+            "Snapdragon 8 Gen 3",
+            "512GB Storage",
+            "200MP Main Camera"
+          ],
+          "status": "Limited Stock"
+        },
+        {
+          "name": "OnePlus 12",
+          "price": 799.99,
+          "rating": {
+            "score": 4,
+            "count": 45
+          },
+          "features": [
+            "6.82-inch LTPO AMOLED",
+            "Snapdragon 8 Gen 3",
+            "256GB Storage",
+            "50MP Main Camera"
+          ],
+          "status": "In Stock"
+        },
+        {
+          "name": "Samsung Galaxy Z Fold 5",
+          "price": 1799.99,
+          "rating": {
+            "score": 4.5,
+            "count": 67
+          },
+          "features": [
+            "7.6-inch Foldable Display",
+            "Snapdragon 8 Gen 2",
+            "512GB Storage",
+            "Foldable Design"
+          ],
+          "status": "Out of Stock"
+        },
+        {
+          "name": "Sony Xperia 1 V",
+          "price": 1399.99,
+          "rating": {
+            "score": 4,
+            "count": 33
+          },
+          "features": [
+            "6.5-inch 4K HDR OLED",
+            "Snapdragon 8 Gen 2",
+            "256GB Storage",
+            "Professional Camera System"
+          ],
+          "status": "In Stock"
+        }
+      ],
+      "laptops": [
+        {
+          "name": "MacBook Pro M3 Pro",
+          "price": 2499.99,
+          "rating": {
+            "score": 5,
+            "count": 156
+          },
+          "features": [
+            "16-inch Liquid Retina XDR display",
+            "M3 Pro chip with 12-core CPU",
+            "32GB Unified Memory",
+            "1TB SSD Storage",
+            "Space Black"
+          ],
+          "status": "In Stock"
+        },
+        {
+          "name": "Dell XPS 15",
+          "price": 2299.99,
+          "rating": {
+            "score": 4.5,
+            "count": 98
+          },
+          "features": [
+            "15.6-inch 4K OLED Touch Display",
+            "Intel Core i9-13900H",
+            "32GB DDR5 RAM",
+            "1TB NVMe SSD",
+            "NVIDIA RTX 4070"
+          ],
+          "status": "Limited Stock"
+        },
+        {
+          "name": "Razer Blade 18",
+          "price": 3999.99,
+          "rating": {
+            "score": 5,
+            "count": 45
+          },
+          "features": [
+            "18-inch QHD+ 240Hz Display",
+            "Intel Core i9-13950HX",
+            "32GB DDR5 RAM",
+            "2TB NVMe SSD",
+            "NVIDIA RTX 4090"
+          ],
+          "status": "Out of Stock"
+        },
+        {
+          "name": "Lenovo ThinkPad X1 Carbon",
+          "price": 1799.99,
+          "rating": {
+            "score": 4.5,
+            "count": 167
+          },
+          "features": [
+            "14-inch 2.8K OLED Display",
+            "Intel Core i7-1355U",
+            "16GB LPDDR5 RAM",
+            "512GB SSD",
+            "Intel Iris Xe Graphics"
+          ],
+          "status": "In Stock"
+        },
+        {
+          "name": "Framework Laptop 16",
+          "price": 2199.99,
+          "rating": {
+            "score": 5,
+            "count": 78
+          },
+          "features": [
+            "16-inch 2560x1600 Display",
+            "AMD Ryzen 7 7840HS",
+            "32GB DDR5 RAM",
+            "1TB NVMe SSD",
+            "Modular Design"
+          ],
+          "status": "In Stock"
+        },
+        {
+          "name": "ASUS ROG Zephyrus G14",
+          "price": 1899.99,
+          "rating": {
+            "score": 4.5,
+            "count": 124
+          },
+          "features": [
+            "14-inch QHD 165Hz Display",
+            "AMD Ryzen 9 7940HS",
+            "32GB DDR5 RAM",
+            "1TB PCIe 4.0 SSD",
+            "NVIDIA RTX 4070"
+          ],
+          "status": "In Stock"
+        }
+      ],
+      "accessories": [
+        {
+          "name": "AirPods Pro (2nd Gen)",
+          "price": 249.99,
+          "rating": {
+            "score": 5,
+            "count": 345
+          },
+          "features": [
+            "Active Noise Cancellation",
+            "Adaptive Audio",
+            "MagSafe Charging Case",
+            "Up to 30 hours battery life"
+          ],
+          "status": "In Stock"
+        },
+        {
+          "name": "Apple Watch Series 9",
+          "price": 499.99,
+          "rating": {
+            "score": 4.5,
+            "count": 234
+          },
+          "features": [
+            "45mm Aluminum Case",
+            "Always-On Retina display",
+            "GPS + Cellular",
+            "Midnight color"
+          ],
+          "status": "Limited Stock"
+        },
+        {
+          "name": "Samsung Galaxy Buds2 Pro",
+          "price": 229.99,
+          "rating": {
+            "score": 4,
+            "count": 178
+          },
+          "features": [
+            "Active Noise Cancellation",
+            "360 Audio",
+            "IPX7 Water Resistant",
+            "Wireless Charging Case"
+          ],
+          "status": "In Stock"
+        },
+        {
+          "name": "Apple Pencil (2nd Gen)",
+          "price": 129.99,
+          "rating": {
+            "score": 4.5,
+            "count": 567
+          },
+          "features": [
+            "Wireless Pairing",
+            "Magnetic Attachment",
+            "Tilt and Pressure Sensitivity",
+            "Double-tap Feature"
+          ],
+          "status": "In Stock"
+        },
+        {
+          "name": "CalDigit TS4 Thunderbolt Dock",
+          "price": 399.99,
+          "rating": {
+            "score": 5,
+            "count": 89
+          },
+          "features": [
+            "18 Ports",
+            "Thunderbolt 4",
+            "98W Charging",
+            "8K Display Support"
+          ],
+          "status": "Out of Stock"
+        },
+        {
+          "name": "Samsung T7 Shield 2TB SSD",
+          "price": 179.99,
+          "rating": {
+            "score": 4.5,
+            "count": 432
+          },
+          "features": [
+            "Portable SSD",
+            "USB 3.2 Gen 2",
+            "IP65 Rating",
+            "Hardware Encryption"
+          ],
+          "status": "In Stock"
+        },
+        {
+          "name": "Logitech MX Keys Mini",
+          "price": 99.99,
+          "rating": {
+            "score": 5,
+            "count": 765
+          },
+          "features": [
+            "Wireless",
+            "Backlit Keys",
+            "Multi-Device",
+            "USB-C Charging"
+          ],
+          "status": "In Stock"
+        },
+        {
+          "name": "Logitech MX Master 3S",
+          "price": 99.99,
+          "rating": {
+            "score": 5,
+            "count": 892
+          },
+          "features": [
+            "8000 DPI Sensor",
+            "Quiet Clicks",
+            "Multi-Device",
+            "USB-C Quick Charging"
+          ],
+          "status": "Limited Stock"
+        },
+        {
+          "name": "Anker 737 GaNPrime",
+          "price": 89.99,
+          "rating": {
+            "score": 4.5,
+            "count": 543
+          },
+          "features": [
+            "120W Total Output",
+            "3 USB-C Ports",
+            "1 USB-A Port",
+            "GaN Technology"
+          ],
+          "status": "In Stock"
+        }
+      ]
+    },
+    "clothing": {
+      "mens": {
+        "shirts": [
+          {
+            "name": "Classic Oxford Shirt",
+            "price": 59.99,
+            "rating": {
+              "score": 4.5,
+              "count": 234
+            },
+            "features": [
+              "100% Cotton",
+              "Button-down collar",
+              "Regular fit",
+              "Available in White, Blue, Pink"
+            ],
+            "status": "In Stock"
+          },
+          {
+            "name": "Premium Cotton T-Shirt",
+            "price": 24.99,
+            "rating": {
+              "score": 5,
+              "count": 567
+            },
+            "features": [
+              "Organic Cotton",
+              "Crew neck",
+              "Regular fit",
+              "Multiple colors"
+            ],
+            "status": "In Stock"
+          },
+          {
+            "name": "Business Dress Shirt",
+            "price": 79.99,
+            "rating": {
+              "score": 4,
+              "count": 189
+            },
+            "features": [
+              "Cotton-blend",
+              "Spread collar",
+              "Slim fit",
+              "French cuffs"
+            ],
+            "status": "Limited Stock"
+          }
+        ],
+        "pants": [
+          {
+            "name": "Slim-Fit Chinos",
+            "price": 69.99,
+            "rating": {
+              "score": 4.5,
+              "count": 345
+            },
+            "features": [
+              "98% Cotton, 2% Elastane",
+              "Flat front",
+              "Slim fit",
+              "Available in Khaki, Navy, Gray"
+            ],
+            "status": "In Stock"
+          },
+          {
+            "name": "Premium Denim Jeans",
+            "price": 89.99,
+            "rating": {
+              "score": 5,
+              "count": 678
+            },
+            "features": [
+              "100% Cotton Denim",
+              "Straight leg",
+              "Regular fit",
+              "Dark wash"
+            ],
+            "status": "In Stock"
+          },
+          {
+            "name": "Performance Dress Pants",
+            "price": 99.99,
+            "rating": {
+              "score": 4,
+              "count": 234
+            },
+            "features": [
+              "Wool blend",
+              "Flat front",
+              "Classic fit",
+              "Wrinkle-resistant"
+            ],
+            "status": "Out of Stock"
+          }
+        ]
+      },
+      "womens": {
+        "dresses": [
+          {
+            "name": "Floral Maxi Dress",
+            "price": 89.99,
+            "rating": {
+              "score": 5,
+              "count": 345
+            },
+            "features": [
+              "100% Viscose",
+              "Floor length",
+              "V-neck",
+              "Floral print"
+            ],
+            "status": "In Stock"
+          },
+          {
+            "name": "Little Black Dress",
+            "price": 119.99,
+            "rating": {
+              "score": 4.5,
+              "count": 567
+            },
+            "features": [
+              "95% Polyester, 5% Spandex",
+              "Knee length",
+              "Fitted silhouette",
+              "Classic design"
+            ],
+            "status": "Limited Stock"
+          },
+          {
+            "name": "Summer Wrap Dress",
+            "price": 69.99,
+            "rating": {
+              "score": 4,
+              "count": 234
+            },
+            "features": [
+              "100% Cotton",
+              "Midi length",
+              "Wrap style",
+              "Multiple patterns"
+            ],
+            "status": "In Stock"
+          }
+        ],
+        "tops": [
+          {
+            "name": "Silk Blouse",
+            "price": 99.99,
+            "rating": {
+              "score": 4.5,
+              "count": 432
+            },
+            "features": [
+              "100% Silk",
+              "Button-up front",
+              "Long sleeve",
+              "Various colors"
+            ],
+            "status": "In Stock"
+          },
+          {
+            "name": "Cotton T-Shirt",
+            "price": 24.99,
+            "rating": {
+              "score": 5,
+              "count": 789
+            },
+            "features": [
+              "Organic Cotton",
+              "Crew neck",
+              "Short sleeve",
+              "Basic colors"
+            ],
+            "status": "In Stock"
+          },
+          {
+            "name": "Cashmere Sweater",
+            "price": 199.99,
+            "rating": {
+              "score": 4.5,
+              "count": 167
+            },
+            "features": [
+              "100% Cashmere",
+              "V-neck",
+              "Long sleeve",
+              "Luxury feel"
+            ],
+            "status": "Out of Stock"
+          }
+        ]
+      }
+    }
+  },
+  "featured_products": [
+    {
+      "name": "MacBook Pro M3 Pro",
+      "original_price": 2699.99,
+      "sale_price": 2499.99,
+      "savings": 200,
+      "status": "In Stock",
+      "tag": "BEST SELLER"
+    },
+    {
+      "name": "iPhone 15 Pro",
+      "original_price": 1099.99,
+      "sale_price": 999.99,
+      "savings": 100,
+      "status": "In Stock",
+      "tag": "HOT DEAL"
+    },
+    {
+      "name": "Little Black Dress",
+      "original_price": 139.99,
+      "sale_price": 119.99,
+      "savings": 20,
+      "status": "Limited Stock",
+      "tag": "TRENDING"
+    },
+    {
+      "name": "AirPods Pro (2nd Gen)",
+      "original_price": 279.99,
+      "sale_price": 249.99,
+      "savings": 30,
+      "status": "In Stock",
+      "tag": "TOP RATED"
+    },
+    {
+      "name": "Classic Wool Blazer",
+      "original_price": 299.99,
+      "sale_price": 249.99,
+      "savings": 50,
+      "status": "In Stock",
+      "tag": "EDITOR'S CHOICE"
+    },
+    {
+      "name": "Framework Laptop 16",
+      "original_price": 2399.99,
+      "sale_price": 2199.99,
+      "savings": 200,
+      "status": "In Stock",
+      "tag": "NEW ARRIVAL"
+    }
+  ]
+}
