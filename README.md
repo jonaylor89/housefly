@@ -75,11 +75,10 @@ housefly/
 - [x] Scraping sites with infinite scroll and lazy-loaded content
 
 3. Multi-Page Crawling
-- [ ] multiple pages within the same subdomain (/content/*)
-    - [ ] storing data and duplicates (index of URL -> data)
-    - [ ] sitemap + link crawling
+- [x] multiple pages within the same subdomain (/content/*)
+    - [x] storing data and duplicates (index of URL -> data)
+    - [x] sitemap + link crawling
     - [ ] Sitemap crawling and extracting internal links
-- [ ] Managing duplicate data (indexing URLs vs. storing new content)
 
 4. Scraping API-Driven Websites
 - [ ] Extracting data from JSON responses in API-driven websites

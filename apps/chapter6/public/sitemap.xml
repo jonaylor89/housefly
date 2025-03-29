@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+      <loc>https://techstyle-marketplace.com/index.html</loc>
+      <lastmod>2024-02-20</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+   </url>
+
+   <!-- Electronics Section -->
+   <url>
+      <loc>https://techstyle-marketplace.com/products/electronics/index.html</loc>
+      <lastmod>2024-02-20</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://techstyle-marketplace.com/products/electronics/phones.html</loc>
+      <lastmod>2024-02-20</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>0.7</priority>
+   </url>
+   <url>
+      <loc>https://techstyle-marketplace.com/products/electronics/laptops.html</loc>
+      <lastmod>2024-02-20</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>0.7</priority>
+   </url>
+   <url>
+      <loc>https://techstyle-marketplace.com/products/electronics/accessories.html</loc>
+      <lastmod>2024-02-20</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>0.7</priority>
+   </url>
+
+   <!-- Clothing Section -->
+   <url>
+      <loc>https://techstyle-marketplace.com/products/clothing/index.html</loc>
+      <lastmod>2024-02-20</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://techstyle-marketplace.com/products/clothing/mens.html</loc>
+      <lastmod>2024-02-20</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>0.7</priority>
+   </url>
+   <url>
+      <loc>https://techstyle-marketplace.com/products/clothing/womens.html</loc>
+      <lastmod>2024-02-20</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>0.7</priority>
+   </url>
+
+   <!-- Featured Products -->
+   <url>
+      <loc>https://techstyle-marketplace.com/products/featured.html</loc>
+      <lastmod>2024-02-20</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>0.9</priority>
+   </url>
+</urlset>

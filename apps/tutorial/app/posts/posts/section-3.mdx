@@ -1,7 +1,204 @@
 ---
-title: 'Multi-Page Crawling (coming soon)'
-publishedAt: '2025-03-14'
-summary: 'crawling sitemaps + subdomains, internal links, duplicate data'
+title: 'Multi-Page Crawling'
+publishedAt: '2025-03-25'
+summary: 'Master the techniques for crawling interconnected websites, managing sitemaps, and handling duplicate content'
 ---
 
-Coming soon...
+With the fundamentals of both static and dynamic content scraping under our belt, it's time to tackle a more comprehensive challenge: multi-page crawling. This section focuses on efficiently navigating and extracting data from websites with multiple interconnected pages.
+
+There are two main approaches to crawling multi-page websites:
+
+1. Link-based crawling - Following links between pages
+2. Sitemap-based crawling - Using the sitemap.xml file
+
+For sitemap crawling, most websites provide a sitemap.xml file that lists all important URLs. This structured XML file includes:
+
+- Page URLs
+- Last modified dates
+- Change frequency
+- Priority values
+
+Using the sitemap can be more efficient than link crawling since it:
+- Provides a complete list of pages upfront
+- Includes metadata about page importance and freshness
+- Avoids crawling unnecessary pages
+- Reduces server load
+
+But for this chapter, we'll focus on link-based crawling using Crawlee to build a crawler for a multi-page e-commerce site. Crawlee handles many of the complexities of web crawling for us, including:
+
+- Automatic queue management and URL deduplication
+- Built-in rate limiting and retry logic
+- Configurable request handling and routing
+- Data storage and export
+
+The site structure we'll be crawling looks like this:
+
+```
+Homepage
+├── Category: Electronics
+│   ├── Phones
+│   ├── Laptops
+│   └── Accessories
+├── Category: Clothing
+│   ├── Men's
+│   └── Women's
+└── Featured Products
+```
+
+Each product page has different layouts depending on the category, but we need to extract consistent information:
+
+```typescript
+// Example data structure we want to build
+interface ProductData {
+  name: string;
+  price: number;
+  rating: { score: number, count: number };
+  features: string[];
+  status: string; // In Stock, Out of Stock, etc.
+}
+
+interface ResultData {
+  categories: {
+    electronics: {
+      phones: ProductData[];
+      laptops: ProductData[];
+      accessories: ProductData[];
+    };
+    clothing: {
+      mens: {
+        shirts: ProductData[];
+        pants: ProductData[];
+      };
+      womens: {
+        dresses: ProductData[];
+        tops: ProductData[];
+      };
+    };
+  };
+  featured_products: FeaturedProduct[];
+}
+```
+
+### Key Crawling Concepts with Crawlee
+
+1. **Request Queue Management**
+
+Crawlee handles the queue automatically, but here's how we configure it:
+
+```typescript
+import { CheerioCrawler } from 'crawlee';
+
+const crawler = new CheerioCrawler({
+    // Handles each request
+    async requestHandler({ $, request, enqueueLinks }) {
+        // Process the page
+        const data = extractPageData($);
+
+        // Automatically queue new URLs found on the page
+        await enqueueLinks({
+            selector: 'a',
+            baseUrl: request.loadedUrl,
+        });
+    },
+    // Limit concurrent requests
+    maxConcurrency: 10,
+});
+```
+
+2. **URL Handling**
+
+Crawlee provides built-in URL handling and normalization:
+
+```typescript
+await crawler.run([startUrl]);
+
+// Or with more configuration:
+await crawler.addRequests([{
+    url: startUrl,
+    userData: {
+        label: 'start',
+    },
+}]);
+```
+
+3. **Route Handling**
+
+Route different URLs to specific handlers:
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, request }) {
+        const { label } = request.userData;
+
+        switch (label) {
+            case 'category':
+                return handleCategory($);
+            case 'product':
+                return handleProduct($);
+            default:
+                return handleHomepage($);
+        }
+    },
+});
+```
+
+4. **Data Collection**
+
+Crawlee provides built-in storage for collected data:
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, pushData }) {
+        const productData = extractProduct($);
+        await pushData(productData);
+    },
+});
+```
+
+### Web Crawling Best Practices
+
+While Crawlee handles many low-level concerns, you should still consider:
+
+1. **Configuration**
+   - Set appropriate rate limits
+   - Configure retry strategies
+   - Set meaningful user-agent strings
+
+2. **Error Handling**
+   - Use Crawlee's built-in error handling
+   - Implement custom error callbacks
+   - Log meaningful diagnostic information
+
+3. **Data Organization**
+   - Structure your data consistently
+   - Use request labels for routing
+   - Leverage Crawlee's dataset features
+
+4. **Resource Management**
+   - Configure maxConcurrency appropriately
+   - Use maxRequestsPerCrawl when needed
+   - Monitor memory usage
+
+### The Challenge
+
+Your task is to build a Crawlee-based crawler that:
+
+1. Starts at the homepage and discovers all product categories
+2. Visits each category and subcategory page
+3. Extracts product information from each listing
+4. Organizes data into a structured format
+5. Handles products that appear in multiple places (e.g., featured and category)
+
+The site contains approximately 25-30 products across different categories, with varying layouts and information structures. Your crawler should produce a comprehensive dataset that maintains the hierarchical relationship between categories and products.
+
+### Testing Your Solution
+
+Test for:
+- Completeness: Did you find all products?
+- Accuracy: Is the extracted data correct?
+- Structure: Is the data organized properly?
+- Efficiency: How many requests did you make?
+
+The solved example in `_solved/chapter6/` provides a reference implementation using Crawlee. Study it to understand how to leverage the library's features for efficient multi-page crawling and data organization.
+
+Happy crawling!
