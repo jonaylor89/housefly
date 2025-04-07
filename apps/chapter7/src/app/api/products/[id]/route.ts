@@ -3,18 +3,21 @@ import { mockProducts } from "@/data/products";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: number }> },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
+  const idNum = parseInt(id);
 
-  if (isNaN(id)) {
+  if (isNaN(idNum)) {
     return NextResponse.json(
       { message: "Invalid product ID" },
       { status: 400 },
     );
   }
 
-  const product = mockProducts.find((p) => p.id === id);
+  console.log({ id });
+
+  const product = mockProducts.find((p) => p.id === idNum);
 
   // Simulate API delay
   await new Promise((resolve) => setTimeout(resolve, 300)); // 300ms delay
