@@ -1,0 +1,31 @@
+id,name,price,description,category,image,rating_rate,rating_count
+1,"Classic T-Shirt",19.99,"A comfortable and stylish classic t-shirt.","Apparel","https://picsum.photos/seed/1/400/400",4.5,120
+2,"Wireless Headphones",89.99,"High-quality sound without the wires.","Electronics","https://picsum.photos/seed/2/400/400",4.8,250
+3,"Coffee Mug",12.5,"The perfect mug for your morning coffee.","Home Goods","https://picsum.photos/seed/3/400/400",4.2,85
+4,"Running Shoes",120,"Lightweight shoes for your daily run.","Apparel","https://picsum.photos/seed/4/400/400",4.6,180
+5,"Smartwatch",199.99,"Track your fitness and stay connected.","Electronics","https://picsum.photos/seed/5/400/400",4.7,310
+6,"Yoga Mat",29.99,"Non-slip mat for your yoga practice.","Sports","https://picsum.photos/seed/6/400/400",4.4,110
+7,"Bluetooth Speaker",59.99,"Portable speaker with great sound.","Electronics","https://picsum.photos/seed/7/400/400",4.6,150
+8,"Denim Jeans",55,"Classic fit denim jeans.","Apparel","https://picsum.photos/seed/8/400/400",4.3,90
+9,"Water Bottle",15.99,"Insulated stainless steel water bottle.","Home Goods","https://picsum.photos/seed/9/400/400",4.9,300
+10,"Backpack",75,"Durable backpack for everyday use.","Accessories","https://picsum.photos/seed/10/400/400",4.5,220
+11,"Gaming Mouse",49.99,"High-precision mouse for gaming.","Electronics","https://picsum.photos/seed/11/400/400",4.7,190
+12,"Hoodie",39.99,"Warm and comfortable hoodie.","Apparel","https://picsum.photos/seed/12/400/400",4.4,130
+13,"Throw Pillow",24.5,"Decorative pillow for your couch.","Home Goods","https://picsum.photos/seed/13/400/400",4.1,70
+14,"Sunglasses",65,"Stylish sunglasses with UV protection.","Accessories","https://picsum.photos/seed/14/400/400",4.6,140
+15,"Keyboard",110,"Mechanical keyboard for typing.","Electronics","https://picsum.photos/seed/15/400/400",4.8,280
+16,"Sneakers",95,"Casual sneakers for everyday wear.","Apparel","https://picsum.photos/seed/16/400/400",4.5,160
+17,"Wall Clock",35,"Modern design wall clock.","Home Goods","https://picsum.photos/seed/17/400/400",4.2,90
+18,"Dumbbells Set",80,"Adjustable dumbbells for home workouts.","Sports","https://picsum.photos/seed/18/400/400",4.7,200
+19,"External Hard Drive",99.99,"1TB external hard drive for backups.","Electronics","https://picsum.photos/seed/19/400/400",4.6,240
+20,"Beanie Hat",18,"Warm beanie for cold weather.","Apparel","https://picsum.photos/seed/20/400/400",4.3,100
+21,"Blender",69.99,"High-speed blender for smoothies.","Home Goods","https://picsum.photos/seed/21/400/400",4.5,170
+22,"Watch",150,"Classic analog watch.","Accessories","https://picsum.photos/seed/22/400/400",4.7,210
+23,"Webcam",35.99,"HD webcam for video calls.","Electronics","https://picsum.photos/seed/23/400/400",4.4,135
+24,"Dress Shirt",48,"Formal dress shirt.","Apparel","https://picsum.photos/seed/24/400/400",4.2,80
+25,"Desk Lamp",45,"Brighten up your workspace.","Home Goods","https://picsum.photos/seed/25/400/400",4.3,95
+26,"Resistance Bands",22.99,"Set of resistance bands for exercise.","Sports","https://picsum.photos/seed/26/400/400",4.5,125
+27,"Monitor",250,"27-inch computer monitor.","Electronics","https://picsum.photos/seed/27/400/400",4.7,320
+28,"Winter Jacket",130,"Insulated jacket for winter.","Apparel","https://picsum.photos/seed/28/400/400",4.6,195
+29,"Picture Frame",14.99,"Simple wooden picture frame.","Home Goods","https://picsum.photos/seed/29/400/400",4,60
+30,"Leather Wallet",40,"Genuine leather wallet.","Accessories","https://picsum.photos/seed/30/400/400",4.8,260

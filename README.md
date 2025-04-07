@@ -78,29 +78,33 @@ housefly/
 - [x] multiple pages within the same subdomain (/content/*)
     - [x] storing data and duplicates (index of URL -> data)
     - [x] sitemap + link crawling
-    - [ ] Sitemap crawling and extracting internal links
+    - [x] Sitemap crawling and extracting internal links
 
-4. Scraping API-Driven Websites
-- [ ] Extracting data from JSON responses in API-driven websites
-- [ ] Scraping sites where data loads via AJAX calls
-- [ ] Handling GraphQL APIs
+4. Advanced Website Interaction and APIs
+- [x] API-Driven Websites
+  - [x] Extracting data from JSON responses in API-driven websites
+  - [x] Scraping sites where data loads via AJAX calls
+- [ ] Forms and Authentication
+  - [ ] Automate form submissions (search, filters, logins)
+  - [ ] Handle authentication flows (cookies, tokens)
+  - [ ] Maintain sessions across requests
+  - [ ] Access protected content
+- [ ] Complex Data Collection
+  - [ ] Work with GraphQL APIs
+  - [ ] Navigate multi-step processes and form workflows
+  - [ ] Scrape across authenticated multi-page sequences
 
-5. Interacting with Websites (Forms & Sessions)
-- [ ] Automating form submissions (e.g., login forms, search bars)
-- [ ] Handling session-based authentication (cookies, tokens)
-- [ ] Navigating paginated content
-
-6. Media & Non-Text Scraping
+5. Media & Non-Text Scraping
 - [ ] Extracting images and metadata (alt text, filenames)
 - [ ] Downloading and parsing PDFs
 - [ ] Scraping embedded video metadata (YouTube, Vimeo)
 
-7. Handling Web Crawling Defenses
+6. Handling Web Crawling Defenses
 - [ ] Rate limiting and polite crawling (respecting robots.txt)
 - [ ] Handling CAPTCHAs with solver services
 - [ ] Dealing with anti-scraping mechanisms (e.g., Cloudflare, bot traps)
 
-8. Large-Scale & Unstructured Web Crawling
+7. Large-Scale & Unstructured Web Crawling
 - [ ] Scraping random websites with different path structures and data formats
 - [ ] AI-assisted parsing for messy and unstructured data
 - [ ] Building a search crawler (e.g., using searxng for discovering new content)
