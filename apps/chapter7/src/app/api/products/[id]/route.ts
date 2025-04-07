@@ -1,12 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { mockProducts } from "@/data/products";
 
-interface Params {
-  id: string;
-}
-
-export async function GET(request: Request, context: { params: Params }) {
-  const id = parseInt(context.params.id);
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: number }> },
+) {
+  const { id } = await params;
 
   if (isNaN(id)) {
     return NextResponse.json(
