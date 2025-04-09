@@ -84,11 +84,11 @@ housefly/
 - [x] API-Driven Websites
   - [x] Extracting data from JSON responses in API-driven websites
   - [x] Scraping sites where data loads via AJAX calls
-- [ ] Forms and Authentication
-  - [ ] Automate form submissions (search, filters, logins)
-  - [ ] Handle authentication flows (cookies, tokens)
-  - [ ] Maintain sessions across requests
-  - [ ] Access protected content
+- [x] Forms and Authentication
+  - [x] Automate form submissions (search, filters, logins)
+  - [x] Handle authentication flows (cookies, tokens)
+  - [x] Maintain sessions across requests
+  - [x] Access protected content
 - [ ] Complex Data Collection
   - [ ] Work with GraphQL APIs
   - [ ] Navigate multi-step processes and form workflows
