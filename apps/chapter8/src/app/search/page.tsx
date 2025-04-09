@@ -63,14 +63,14 @@ const AMENITIES = [
 ];
 
 export default function SearchPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
   const isAuthenticated = status === "authenticated";
-  
+
   // Current step in the multi-step form
   const [currentStep, setCurrentStep] = useState<FormStep>("destination");
-  
+
   // Form data
   const [formData, setFormData] = useState<SearchFormData>({
     destination: "",
@@ -80,15 +80,15 @@ export default function SearchPage() {
     priceMax: 1000,
     amenities: [],
   });
-  
+
   // Autocomplete suggestions
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  
+
   // Search results
   const [searchResults, setSearchResults] = useState<Listing[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Saved search ID (if loading a saved search)
   const [savedSearchId, setSavedSearchId] = useState<string | null>(null);
 
@@ -99,11 +99,11 @@ export default function SearchPage() {
       setSavedSearchId(searchId);
       loadSavedSearch(searchId);
     }
-    
+
     // Check for destination in URL params (from homepage)
     const destinationParam = searchParams.get("destination");
     if (destinationParam) {
-      setFormData(prev => ({ ...prev, destination: destinationParam }));
+      setFormData((prev) => ({ ...prev, destination: destinationParam }));
       // Move to the dates step if destination is provided
       setCurrentStep("dates");
     }
@@ -116,11 +116,11 @@ export default function SearchPage() {
       router.push("/login");
       return;
     }
-    
+
     try {
       setIsLoading(true);
       const response = await fetch(`/api/user/searches/${searchId}`);
-      
+
       if (response.ok) {
         const data = await response.json();
         setFormData({
@@ -131,7 +131,7 @@ export default function SearchPage() {
           priceMax: data.priceMax ?? 1000,
           amenities: data.amenities ?? [],
         });
-        
+
         // Move to results and perform search
         setCurrentStep("results");
         performSearch();
@@ -149,12 +149,12 @@ export default function SearchPage() {
   // Handle destination input change with autocomplete
   const handleDestinationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setFormData(prev => ({ ...prev, destination: value }));
-    
+    setFormData((prev) => ({ ...prev, destination: value }));
+
     // Filter destinations for autocomplete
     if (value.length > 1) {
-      const filtered = DESTINATIONS.filter(dest => 
-        dest.toLowerCase().includes(value.toLowerCase())
+      const filtered = DESTINATIONS.filter((dest) =>
+        dest.toLowerCase().includes(value.toLowerCase()),
       );
       setSuggestions(filtered);
       setShowSuggestions(true);
@@ -165,34 +165,34 @@ export default function SearchPage() {
 
   // Select suggestion from autocomplete
   const selectSuggestion = (suggestion: string) => {
-    setFormData(prev => ({ ...prev, destination: suggestion }));
+    setFormData((prev) => ({ ...prev, destination: suggestion }));
     setShowSuggestions(false);
   };
 
   // Handle date changes
   const handleDateChange = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates;
-    setFormData(prev => ({ ...prev, startDate: start, endDate: end }));
+    setFormData((prev) => ({ ...prev, startDate: start, endDate: end }));
   };
 
   // Handle price range changes
-  const handlePriceChange = (type: 'min' | 'max', value: string) => {
+  const handlePriceChange = (type: "min" | "max", value: string) => {
     const numValue = parseInt(value);
     if (isNaN(numValue)) return;
-    
-    setFormData(prev => ({
+
+    setFormData((prev) => ({
       ...prev,
-      [type === 'min' ? 'priceMin' : 'priceMax']: numValue
+      [type === "min" ? "priceMin" : "priceMax"]: numValue,
     }));
   };
 
   // Handle amenity checkbox changes
   const handleAmenityChange = (amenity: string, checked: boolean) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       amenities: checked
         ? [...prev.amenities, amenity]
-        : prev.amenities.filter(a => a !== amenity)
+        : prev.amenities.filter((a) => a !== amenity),
     }));
   };
 
@@ -240,7 +240,7 @@ export default function SearchPage() {
   // Perform search and get results
   const performSearch = async () => {
     setIsLoading(true);
-    
+
     try {
       // In a real app, this would be an API call to a backend service
       // For this demo, we'll use a timeout to simulate an API call
@@ -250,12 +250,13 @@ export default function SearchPage() {
           {
             id: "1",
             title: `${formData.destination} Luxury Hotel`,
-            description: "Experience luxury and comfort in this amazing hotel with stunning views.",
+            description:
+              "Experience luxury and comfort in this amazing hotel with stunning views.",
             price: 350,
             imageUrl: "/images/city.jpg",
             amenities: ["Wi-Fi", "Pool", "Spa", "Room service"],
             isPremium: true,
-            destinationId: "1"
+            destinationId: "1",
           },
           {
             id: "2",
@@ -265,47 +266,53 @@ export default function SearchPage() {
             imageUrl: "/images/beach.jpg",
             amenities: ["Wi-Fi", "Breakfast"],
             isPremium: false,
-            destinationId: "1"
+            destinationId: "1",
           },
           {
             id: "3",
             title: `${formData.destination} Family Resort`,
-            description: "Perfect for families with children, featuring kids club and activities.",
+            description:
+              "Perfect for families with children, featuring kids club and activities.",
             price: 250,
             imageUrl: "/images/mountain.jpg",
             amenities: ["Wi-Fi", "Pool", "Parking", "Restaurant"],
             isPremium: false,
-            destinationId: "1"
+            destinationId: "1",
           },
           {
             id: "4",
             title: `${formData.destination} Executive Suite`,
-            description: "High-end accommodations for business travelers with premium amenities.",
+            description:
+              "High-end accommodations for business travelers with premium amenities.",
             price: 450,
             imageUrl: "/images/city.jpg",
             amenities: ["Wi-Fi", "Gym", "Room service", "Spa"],
             isPremium: true,
-            destinationId: "1"
+            destinationId: "1",
           },
         ];
-        
+
         // Filter results based on price range
-        let filtered = results.filter(listing => 
-          listing.price >= formData.priceMin && listing.price <= formData.priceMax
+        let filtered = results.filter(
+          (listing) =>
+            listing.price >= formData.priceMin &&
+            listing.price <= formData.priceMax,
         );
-        
+
         // Filter by amenities if any are selected
         if (formData.amenities.length > 0) {
-          filtered = filtered.filter(listing => 
-            formData.amenities.every(amenity => listing.amenities.includes(amenity))
+          filtered = filtered.filter((listing) =>
+            formData.amenities.every((amenity) =>
+              listing.amenities.includes(amenity),
+            ),
           );
         }
-        
+
         // Hide premium listings for non-authenticated users
         if (!isAuthenticated) {
-          filtered = filtered.filter(listing => !listing.isPremium);
+          filtered = filtered.filter((listing) => !listing.isPremium);
         }
-        
+
         setSearchResults(filtered);
         setIsLoading(false);
       }, 1500); // Simulate network delay
@@ -323,12 +330,12 @@ export default function SearchPage() {
       router.push("/login");
       return;
     }
-    
+
     try {
       // Get CSRF token
       const csrfResponse = await fetch("/api/csrf");
       const { csrfToken } = await csrfResponse.json();
-      
+
       const response = await fetch("/api/user/searches", {
         method: "POST",
         headers: {
@@ -344,7 +351,7 @@ export default function SearchPage() {
           amenities: formData.amenities,
         }),
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         toast.success("Search saved successfully");
@@ -366,7 +373,9 @@ export default function SearchPage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">Where do you want to go?</h2>
             <div className="relative">
-              <label htmlFor="destination" className="label">Destination</label>
+              <label htmlFor="destination" className="label">
+                Destination
+              </label>
               <input
                 id="destination"
                 type="text"
@@ -376,7 +385,7 @@ export default function SearchPage() {
                 className="input"
                 autoComplete="off"
               />
-              
+
               {/* Autocomplete suggestions */}
               {showSuggestions && suggestions.length > 0 && (
                 <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
@@ -392,18 +401,15 @@ export default function SearchPage() {
                 </div>
               )}
             </div>
-            
+
             <div className="flex justify-end">
-              <button 
-                onClick={goToNextStep}
-                className="btn btn-primary"
-              >
+              <button onClick={goToNextStep} className="btn btn-primary">
                 Next: Select Dates
               </button>
             </div>
           </div>
         );
-        
+
       case "dates":
         return (
           <div className="space-y-6">
@@ -427,36 +433,30 @@ export default function SearchPage() {
                   : "No dates selected"}
               </p>
             </div>
-            
+
             <div className="flex justify-between">
-              <button 
-                onClick={goToPreviousStep}
-                className="btn btn-secondary"
-              >
+              <button onClick={goToPreviousStep} className="btn btn-secondary">
                 Back
               </button>
-              <button 
-                onClick={goToNextStep}
-                className="btn btn-primary"
-              >
+              <button onClick={goToNextStep} className="btn btn-primary">
                 Next: Refine Search
               </button>
             </div>
           </div>
         );
-        
+
       case "filters":
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">Refine your search</h2>
-            
+
             <div>
               <label className="label">Price range ($ per night)</label>
               <div className="flex items-center space-x-4">
                 <input
                   type="number"
                   value={formData.priceMin}
-                  onChange={(e) => handlePriceChange('min', e.target.value)}
+                  onChange={(e) => handlePriceChange("min", e.target.value)}
                   className="input w-28"
                   min="0"
                 />
@@ -464,13 +464,13 @@ export default function SearchPage() {
                 <input
                   type="number"
                   value={formData.priceMax}
-                  onChange={(e) => handlePriceChange('max', e.target.value)}
+                  onChange={(e) => handlePriceChange("max", e.target.value)}
                   className="input w-28"
                   min={formData.priceMin}
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="label">Amenities</label>
               <div className="grid grid-cols-2 gap-2">
@@ -480,7 +480,9 @@ export default function SearchPage() {
                       type="checkbox"
                       id={`amenity-${amenity}`}
                       checked={formData.amenities.includes(amenity)}
-                      onChange={(e) => handleAmenityChange(amenity, e.target.checked)}
+                      onChange={(e) =>
+                        handleAmenityChange(amenity, e.target.checked)
+                      }
                       className="mr-2 h-4 w-4"
                     />
                     <label htmlFor={`amenity-${amenity}`}>{amenity}</label>
@@ -488,40 +490,34 @@ export default function SearchPage() {
                 ))}
               </div>
             </div>
-            
+
             <div className="flex justify-between">
-              <button 
-                onClick={goToPreviousStep}
-                className="btn btn-secondary"
-              >
+              <button onClick={goToPreviousStep} className="btn btn-secondary">
                 Back
               </button>
-              <button 
-                onClick={goToNextStep}
-                className="btn btn-primary"
-              >
+              <button onClick={goToNextStep} className="btn btn-primary">
                 Search
               </button>
             </div>
           </div>
         );
-        
+
       case "results":
         return (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">Search Results</h2>
-              
+
               <div className="flex items-center space-x-2">
                 {!savedSearchId && isAuthenticated && (
-                  <button 
+                  <button
                     onClick={saveSearch}
                     className="btn btn-secondary text-sm"
                   >
                     Save this Search
                   </button>
                 )}
-                <button 
+                <button
                   onClick={goToPreviousStep}
                   className="btn btn-secondary text-sm"
                 >
@@ -529,43 +525,61 @@ export default function SearchPage() {
                 </button>
               </div>
             </div>
-            
+
             <div className="bg-blue-50 p-4 rounded-md">
               <h3 className="font-medium mb-2">Search criteria:</h3>
-              <p><span className="font-medium">Destination:</span> {formData.destination}</p>
+              <p>
+                <span className="font-medium">Destination:</span>{" "}
+                {formData.destination}
+              </p>
               {formData.startDate && formData.endDate && (
                 <p>
                   <span className="font-medium">Dates:</span>{" "}
-                  {formData.startDate.toLocaleDateString()} - {formData.endDate.toLocaleDateString()}
+                  {formData.startDate.toLocaleDateString()} -{" "}
+                  {formData.endDate.toLocaleDateString()}
                 </p>
               )}
               <p>
-                <span className="font-medium">Price:</span> ${formData.priceMin} - ${formData.priceMax} per night
+                <span className="font-medium">Price:</span> ${formData.priceMin}{" "}
+                - ${formData.priceMax} per night
               </p>
               {formData.amenities.length > 0 && (
                 <p>
-                  <span className="font-medium">Amenities:</span> {formData.amenities.join(", ")}
+                  <span className="font-medium">Amenities:</span>{" "}
+                  {formData.amenities.join(", ")}
                 </p>
               )}
             </div>
-            
+
             {savedSearchId && (
               <div className="bg-green-50 p-4 rounded-md text-green-800">
-                <p className="font-medium">This search has been saved to your account!</p>
+                <p className="font-medium">
+                  This search has been saved to your account!
+                </p>
               </div>
             )}
-            
+
             {!isAuthenticated && (
               <div className="bg-yellow-50 p-4 rounded-md">
-                <p className="text-yellow-700 font-medium">Some premium listings are only visible to logged-in users.</p>
+                <p className="text-yellow-700 font-medium">
+                  Some premium listings are only visible to logged-in users.
+                </p>
                 <p className="text-yellow-700">
-                  <Link href="/login" className="text-blue-600 hover:underline">Log in</Link> or{" "}
-                  <Link href="/register" className="text-blue-600 hover:underline">create an account</Link>{" "}
+                  <Link href="/login" className="text-blue-600 hover:underline">
+                    Log in
+                  </Link>{" "}
+                  or{" "}
+                  <Link
+                    href="/register"
+                    className="text-blue-600 hover:underline"
+                  >
+                    create an account
+                  </Link>{" "}
                   to see all available options.
                 </p>
               </div>
             )}
-            
+
             {isLoading ? (
               <div className="flex justify-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
@@ -573,7 +587,10 @@ export default function SearchPage() {
             ) : searchResults.length > 0 ? (
               <div className="space-y-6">
                 {searchResults.map((listing) => (
-                  <div key={listing.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+                  <div
+                    key={listing.id}
+                    className="bg-white rounded-lg shadow-md overflow-hidden"
+                  >
                     <div className="flex flex-col md:flex-row">
                       <div className="md:w-1/3 relative h-48 md:h-auto">
                         <Image
@@ -591,13 +608,17 @@ export default function SearchPage() {
                       <div className="md:w-2/3 p-6">
                         <div className="flex justify-between items-start">
                           <h3 className="text-xl font-bold">{listing.title}</h3>
-                          <p className="text-2xl font-bold text-blue-600">${listing.price}</p>
+                          <p className="text-2xl font-bold text-blue-600">
+                            ${listing.price}
+                          </p>
                         </div>
-                        <p className="text-gray-600 my-3">{listing.description}</p>
+                        <p className="text-gray-600 my-3">
+                          {listing.description}
+                        </p>
                         <div className="flex flex-wrap gap-2 mb-4">
                           {listing.amenities.map((amenity) => (
-                            <span 
-                              key={amenity} 
+                            <span
+                              key={amenity}
                               className="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-full"
                             >
                               {amenity}
@@ -614,18 +635,17 @@ export default function SearchPage() {
               </div>
             ) : (
               <div className="text-center py-12">
-                <p className="text-gray-500 text-lg mb-4">No results found matching your criteria.</p>
-                <button 
-                  onClick={goToPreviousStep} 
-                  className="btn btn-primary"
-                >
+                <p className="text-gray-500 text-lg mb-4">
+                  No results found matching your criteria.
+                </p>
+                <button onClick={goToPreviousStep} className="btn btn-primary">
                   Modify Your Search
                 </button>
               </div>
             )}
           </div>
         );
-      
+
       default:
         return null;
     }

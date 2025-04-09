@@ -27,7 +27,7 @@ export default function LoginPage() {
       // Include CSRF token handling
       const csrfResponse = await fetch("/api/csrf");
       const { csrfToken } = await csrfResponse.json();
-      
+
       const result = await signIn("credentials", {
         email: formData.email,
         password: formData.password,
@@ -52,13 +52,17 @@ export default function LoginPage() {
   return (
     <div className="max-w-md mx-auto">
       <div className="card">
-        <h1 className="text-2xl font-bold mb-6 text-center">Log In to Your Account</h1>
-        
+        <h1 className="text-2xl font-bold mb-6 text-center">
+          Log In to Your Account
+        </h1>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <input type="hidden" name="csrfToken" />
-          
+
           <div>
-            <label htmlFor="email" className="label">Email</label>
+            <label htmlFor="email" className="label">
+              Email
+            </label>
             <input
               id="email"
               name="email"
@@ -70,9 +74,11 @@ export default function LoginPage() {
               placeholder="your@email.com"
             />
           </div>
-          
+
           <div>
-            <label htmlFor="password" className="label">Password</label>
+            <label htmlFor="password" className="label">
+              Password
+            </label>
             <input
               id="password"
               name="password"
@@ -84,7 +90,7 @@ export default function LoginPage() {
               placeholder="••••••••"
             />
           </div>
-          
+
           <button
             type="submit"
             disabled={isLoading}
@@ -93,10 +99,10 @@ export default function LoginPage() {
             {isLoading ? "Logging in..." : "Log In"}
           </button>
         </form>
-        
+
         <div className="mt-6 text-center text-gray-600">
           <p>
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/register" className="text-blue-600 hover:underline">
               Register here
             </Link>

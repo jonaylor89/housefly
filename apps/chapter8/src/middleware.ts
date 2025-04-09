@@ -3,7 +3,7 @@ import { withAuth } from "next-auth/middleware";
 // Export the middleware to protect routes
 export default withAuth({
   callbacks: {
-    authorized({ req, token }) {
+    authorized({ token }) {
       // Return true if the user has a valid token
       return !!token;
     },
@@ -12,8 +12,5 @@ export default withAuth({
 
 // Define which routes should be protected
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/api/user/:path*",
-  ],
+  matcher: ["/dashboard/:path*", "/api/user/:path*"],
 };
