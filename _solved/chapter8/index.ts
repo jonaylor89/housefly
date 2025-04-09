@@ -220,14 +220,16 @@ async function extractSearchResults(page: Page): Promise<any[]> {
 
         // Get the title
         const titleElement = el.querySelector("h3");
-        const title = titleElement ? titleElement.textContent.trim() : "";
+        const title = titleElement
+          ? (titleElement.textContent?.trim() ?? "")
+          : "";
 
         // Get destination from title (assuming format "[Location] [Type]")
         const destination = title.split(" ")[0];
 
         // Get the price
         const priceElement = el.querySelector(".text-blue-600");
-        const priceText = priceElement ? priceElement.textContent.trim() : "";
+        const priceText = priceElement ? priceElement.textContent?.trim() : "";
         const price = priceText
           ? parseInt(priceText.replace(/[^0-9]/g, ""))
           : 0;
@@ -235,7 +237,7 @@ async function extractSearchResults(page: Page): Promise<any[]> {
         // Get the description
         const descriptionElement = el.querySelector(".text-gray-600");
         const description = descriptionElement
-          ? descriptionElement.textContent.trim()
+          ? descriptionElement.textContent?.trim()
           : "";
 
         // Get amenities
@@ -243,7 +245,7 @@ async function extractSearchResults(page: Page): Promise<any[]> {
           ".bg-blue-50.text-blue-700",
         );
         const amenities = Array.from(amenityElements).map((amenity) =>
-          amenity.textContent.trim(),
+          amenity.textContent?.trim(),
         );
 
         return {
