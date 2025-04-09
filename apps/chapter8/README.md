@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Chapter 8: Forms and Authentication
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This chapter focuses on handling forms and authentication in web scraping. The companion website is a travel booking platform that requires user authentication to access premium content and features.
+
+## Website Features
+
+- **User Authentication System**: Registration and login flows with CSRF protection
+- **Multi-step Booking Form**: Destination search with autocomplete, date selection, filtering options, and results display
+- **Session Management**: Cookie-based authentication with session timeout
+- **Protected Content**: Premium listings only accessible to authenticated users
+- **User Profiles**: Save search preferences to user accounts
+
+## Learning Objectives
+
+1. Automate form submissions for search, filtering, and authentication
+2. Handle login flows and maintain authenticated sessions
+3. Extract data from protected areas of websites
+4. Work with multi-step processes and form workflows
+5. Manage cookies and session state across multiple requests
+
+## Technical Implementation
+
+- Built with Next.js and NextAuth.js for authentication
+- Uses Prisma with SQLite for data storage
+- Implements form validation and CSRF protection
+- Demonstrates proper session management techniques
+
+## Scraping Challenge
+
+Create a scraper that can:
+
+1. Register a new user account (or log in with existing credentials)
+2. Navigate through the multi-step booking form to search for travel options
+3. Apply filters such as date range, price, and amenities
+4. Extract both public and premium listing details
+5. Save search preferences to the user's profile
+6. Handle session timeouts by re-authenticating when necessary
+
+## Solution Approach
+
+Students should use Playwright or a similar tool that can:
+
+- Manage browser sessions and cookies
+- Fill and submit forms with proper validation handling
+- Extract and utilize CSRF tokens
+- Navigate through multi-step processes
+- Handle conditional logic based on authentication state
+
+## Running the Website
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# From the chapter8 directory
+npm install
+npm run setup    # Sets up the database with sample data
+npm run dev      # Starts the development server on port 3008
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The site will be available at http://localhost:3008
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Demo user credentials:
+- Email: demo@example.com
+- Password: password123
