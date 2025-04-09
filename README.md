@@ -56,7 +56,7 @@ housefly/
 │   ├── chapter2/
 │   ├── chapter3/
 │   ├── solution1/  # Place your Chapter 1 solution here
-│   │   ├── expected.txt
+│   │   ├── expected.(txt, csv, json)
 │   │   ├── index.ts
 │   │   ├── package.json
 ├── scripts/

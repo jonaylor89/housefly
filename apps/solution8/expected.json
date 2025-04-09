@@ -1,0 +1,41 @@
+{
+  "searchResults": [
+    {
+      "title": "Paris, France Luxury Hotel",
+      "destination": "Paris,",
+      "price": 350,
+      "description": "Experience luxury and comfort in this amazing hotel with stunning views.",
+      "amenities": ["Wi-Fi", "Pool", "Spa", "Room service"],
+      "isPremium": true
+    },
+    {
+      "title": "Paris, France Budget Stay",
+      "destination": "Paris,",
+      "price": 120,
+      "description": "Affordable accommodation in a convenient location.",
+      "amenities": ["Wi-Fi", "Breakfast"],
+      "isPremium": false
+    },
+    {
+      "title": "Paris, France Family Resort",
+      "destination": "Paris,",
+      "price": 250,
+      "description": "Perfect for families with children, featuring kids club and activities.",
+      "amenities": ["Wi-Fi", "Pool", "Parking", "Restaurant"],
+      "isPremium": false
+    }
+  ],
+  "premiumListings": [
+    {
+      "title": "Paris, France Luxury Hotel",
+      "destination": "Paris,",
+      "price": 350,
+      "description": "Experience luxury and comfort in this amazing hotel with stunning views.",
+      "amenities": ["Wi-Fi", "Pool", "Spa", "Room service"],
+      "isPremium": true
+    }
+  ],
+  "savedSearch": {
+    "destination": "Paris,"
+  }
+}

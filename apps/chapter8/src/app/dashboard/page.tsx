@@ -36,7 +36,7 @@ export default function DashboardPage() {
       const fetchSavedSearches = async () => {
         try {
           const response = await fetch("/api/user/searches");
-          
+
           if (response.ok) {
             const data = await response.json();
             setSavedSearches(data.searches);
@@ -63,8 +63,8 @@ export default function DashboardPage() {
       });
 
       if (response.ok) {
-        setSavedSearches((prev) => 
-          prev.filter((search) => search.id !== searchId)
+        setSavedSearches((prev) =>
+          prev.filter((search) => search.id !== searchId),
         );
         toast.success("Search deleted successfully");
       } else {
@@ -88,7 +88,9 @@ export default function DashboardPage() {
   return (
     <div className="max-w-6xl mx-auto">
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h1 className="text-2xl font-bold mb-2">Welcome, {session?.user?.name || "Traveler"}!</h1>
+        <h1 className="text-2xl font-bold mb-2">
+          Welcome, {session?.user?.name || "Traveler"}!
+        </h1>
         <p className="text-gray-600">
           Manage your profile and view your saved travel searches.
         </p>
@@ -96,63 +98,74 @@ export default function DashboardPage() {
 
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <h2 className="text-xl font-semibold mb-4">Your Saved Searches</h2>
-        
+
         {isLoading ? (
           <div className="flex justify-center items-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
           </div>
         ) : savedSearches.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-gray-500 mb-4">You don't have any saved searches yet.</p>
-            <Link 
-              href="/search" 
-              className="btn btn-primary"
-            >
+            <p className="text-gray-500 mb-4">
+              You don&apos;t have any saved searches yet.
+            </p>
+            <Link href="/search" className="btn btn-primary">
               Start a New Search
             </Link>
           </div>
         ) : (
           <div className="space-y-4">
             {savedSearches.map((search) => (
-              <div key={search.id} className="border rounded-md p-4 hover:bg-gray-50 transition-colors">
+              <div
+                key={search.id}
+                className="border rounded-md p-4 hover:bg-gray-50 transition-colors"
+              >
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="font-medium text-lg">{search.destination}</h3>
+                    <h3 className="font-medium text-lg">
+                      {search.destination}
+                    </h3>
                     <div className="text-sm text-gray-600 mt-1">
                       {search.startDate && search.endDate ? (
                         <p>
-                          {format(new Date(search.startDate), "MMM d, yyyy")} - {format(new Date(search.endDate), "MMM d, yyyy")}
+                          {format(new Date(search.startDate), "MMM d, yyyy")} -{" "}
+                          {format(new Date(search.endDate), "MMM d, yyyy")}
                         </p>
                       ) : (
                         <p>No dates specified</p>
                       )}
-                      
+
                       {search.priceMin && search.priceMax ? (
-                        <p>Price range: ${search.priceMin} - ${search.priceMax}</p>
+                        <p>
+                          Price range: ${search.priceMin} - ${search.priceMax}
+                        </p>
                       ) : (
                         <p>No price range specified</p>
                       )}
-                      
+
                       {search.amenities && search.amenities.length > 0 ? (
                         <p>Amenities: {search.amenities.join(", ")}</p>
                       ) : (
                         <p>No amenities specified</p>
                       )}
-                      
+
                       <p className="mt-1 text-xs">
-                        Saved on {format(new Date(search.createdAt), "MMM d, yyyy 'at' h:mm a")}
+                        Saved on{" "}
+                        {format(
+                          new Date(search.createdAt),
+                          "MMM d, yyyy 'at' h:mm a",
+                        )}
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex space-x-2">
-                    <Link 
+                    <Link
                       href={`/search?id=${search.id}`}
                       className="btn btn-secondary text-sm px-3 py-1"
                     >
                       Load Search
                     </Link>
-                    <button 
+                    <button
                       onClick={() => handleDeleteSearch(search.id)}
                       className="btn btn-danger text-sm px-3 py-1"
                     >

@@ -7,12 +7,9 @@ import { authOptions } from "@/lib/auth";
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
-    
+
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { message: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const searches = await prisma.search.findMany({
@@ -20,12 +17,22 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json({ searches });
+    // Deserialize the amenities array for each search
+    const processedSearches = searches.map((search) => {
+      return {
+        ...search,
+        amenities: search.amenities
+          ? JSON.parse(search.amenities as string)
+          : [],
+      };
+    });
+
+    return NextResponse.json({ searches: processedSearches });
   } catch (error) {
     console.error("Error fetching searches:", error);
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -34,20 +41,18 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions);
-    
+
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { message: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { destination, startDate, endDate, priceMin, priceMax, amenities } = await request.json();
+    const { destination, startDate, endDate, priceMin, priceMax, amenities } =
+      await request.json();
 
     if (!destination) {
       return NextResponse.json(
         { message: "Destination is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -66,13 +71,13 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { message: "Search saved successfully", id: savedSearch.id },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Error saving search:", error);
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
