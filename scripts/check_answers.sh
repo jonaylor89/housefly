@@ -75,7 +75,38 @@ set +a
 # Run the TypeScript file and capture output
 OUTPUT=$(deno --allow-net --allow-env --allow-sys --allow-read --allow-write --allow-run "$INDEX_FILE")
 
-# Compare output with expected result
+# Get file extension to determine how to compare
+FILE_EXT="${EXPECTED_FILE##*.}"
+
+# Special handling for JSON files
+if [ "$FILE_EXT" = "json" ] && command -v jq > /dev/null; then
+  # Use jq to normalize JSON for comparison
+  EXPECTED_JSON=$(jq -S . "$EXPECTED_FILE" 2>/dev/null)
+  OUTPUT_JSON=$(echo "$OUTPUT" | jq -S . 2>/dev/null)
+
+  if [ $? -eq 0 ] && [ -n "$EXPECTED_JSON" ] && [ -n "$OUTPUT_JSON" ]; then
+    if [ "$EXPECTED_JSON" = "$OUTPUT_JSON" ]; then
+      echo "🎉 Test passed! JSON outputs are equivalent. 🎯"
+      exit 0
+    else
+      echo "💥 Test failed! JSON outputs differ semantically. Here's what went wrong:"
+      # Create temporary files for diff comparison
+      TMP_EXPECTED=$(mktemp)
+      TMP_OUTPUT=$(mktemp)
+      echo "$EXPECTED_JSON" > "$TMP_EXPECTED"
+      echo "$OUTPUT_JSON" > "$TMP_OUTPUT"
+      diff_output=$(diff --color=always -u "$TMP_EXPECTED" "$TMP_OUTPUT")
+      rm -f "$TMP_EXPECTED" "$TMP_OUTPUT" # Clean up temp files
+      echo "$diff_output"
+      echo "⚡ Try fixing the errors and run again! 🚀"
+      exit 1
+    fi
+  else
+    echo "⚠️ Warning: Could not parse JSON with jq, falling back to regular diff."
+  fi
+fi
+
+# Regular diff comparison for non-JSON files or if jq failed
 diff_output=$(echo "$OUTPUT" | diff --color=always -u "$EXPECTED_FILE" -)
 
 if [ $? -eq 0 ]; then
