@@ -53,8 +53,8 @@ export async function GET(
 
 // DELETE a saved search
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } },
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -63,7 +63,7 @@ export async function DELETE(
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const searchId = params.id;
+    const { id: searchId } = await params;
 
     // First, check if the search exists and belongs to the user
     const search = await prisma.search.findUnique({
