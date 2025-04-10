@@ -9,7 +9,7 @@ const CREDENTIALS = {
 
 // Main function to run the scraper
 async function main() {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: false });
   const context = await browser.newContext({
     viewport: { width: 1280, height: 800 },
     userAgent:
