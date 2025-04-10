@@ -2,6 +2,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "./generated/client"
 }
 
 datasource db {
@@ -32,38 +33,38 @@ model Session {
 }
 
 model Search {
-  id            String    @id @default(uuid())
-  userId        String
-  destination   String
-  startDate     DateTime?
-  endDate       DateTime?
-  priceMin      Int?
-  priceMax      Int?
-  amenities     String?   // Stored as JSON string
-  createdAt     DateTime  @default(now())
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String    @id @default(uuid())
+  userId      String
+  destination String
+  startDate   DateTime?
+  endDate     DateTime?
+  priceMin    Int?
+  priceMax    Int?
+  amenities   String? // Stored as JSON string
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Destination {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   name        String
   description String
   imageUrl    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   listings    Listing[]
 }
 
 model Listing {
-  id            String   @id @default(uuid())
+  id            String      @id @default(uuid())
   destinationId String
   title         String
   description   String
   price         Int
   imageUrl      String
-  amenities     String   // Stored as JSON string
-  isPremium     Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  amenities     String // Stored as JSON string
+  isPremium     Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
 }
