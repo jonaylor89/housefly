@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import DatePicker from "react-datepicker";
@@ -92,60 +92,6 @@ export default function SearchPage() {
   // Saved search ID (if loading a saved search)
   const [savedSearchId, setSavedSearchId] = useState<string | null>(null);
 
-  // Check for search ID in URL params (for loading saved searches)
-  useEffect(() => {
-    const searchId = searchParams.get("id");
-    if (searchId) {
-      setSavedSearchId(searchId);
-      loadSavedSearch(searchId);
-    }
-
-    // Check for destination in URL params (from homepage)
-    const destinationParam = searchParams.get("destination");
-    if (destinationParam) {
-      setFormData((prev) => ({ ...prev, destination: destinationParam }));
-      // Move to the dates step if destination is provided
-      setCurrentStep("dates");
-    }
-  }, [searchParams]);
-
-  // Load a saved search by ID
-  const loadSavedSearch = async (searchId: string) => {
-    if (!isAuthenticated) {
-      toast.error("Please log in to load saved searches");
-      router.push("/login");
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      const response = await fetch(`/api/user/searches/${searchId}`);
-
-      if (response.ok) {
-        const data = await response.json();
-        setFormData({
-          destination: data.destination,
-          startDate: data.startDate ? new Date(data.startDate) : null,
-          endDate: data.endDate ? new Date(data.endDate) : null,
-          priceMin: data.priceMin ?? 0,
-          priceMax: data.priceMax ?? 1000,
-          amenities: data.amenities ?? [],
-        });
-
-        // Move to results and perform search
-        setCurrentStep("results");
-        performSearch();
-      } else {
-        toast.error("Failed to load saved search");
-      }
-    } catch (error) {
-      console.error("Error loading saved search:", error);
-      toast.error("An error occurred while loading your search");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   // Handle destination input change with autocomplete
   const handleDestinationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -170,9 +116,16 @@ export default function SearchPage() {
   };
 
   // Handle date changes
-  const handleDateChange = (dates: [Date | null, Date | null]) => {
-    const [start, end] = dates;
-    setFormData((prev) => ({ ...prev, startDate: start, endDate: end }));
+  const handleDateChange = (
+    dates: [Date | null, Date | null] | Date | null,
+  ) => {
+    if (Array.isArray(dates)) {
+      const [start, end] = dates;
+      setFormData((prev) => ({ ...prev, startDate: start, endDate: end }));
+    } else {
+      // Single date selected
+      setFormData((prev) => ({ ...prev, startDate: dates }));
+    }
   };
 
   // Handle price range changes
@@ -238,7 +191,7 @@ export default function SearchPage() {
   };
 
   // Perform search and get results
-  const performSearch = async () => {
+  const performSearch = useCallback(async () => {
     setIsLoading(true);
 
     try {
@@ -321,7 +274,53 @@ export default function SearchPage() {
       toast.error("An error occurred during search");
       setIsLoading(false);
     }
-  };
+  }, [
+    formData.amenities,
+    formData.destination,
+    formData.priceMax,
+    formData.priceMin,
+    isAuthenticated,
+  ]);
+
+  // Load a saved search by ID
+  const loadSavedSearch = useCallback(
+    async (searchId: string) => {
+      if (!isAuthenticated) {
+        toast.error("Please log in to load saved searches");
+        router.push("/login");
+        return;
+      }
+
+      try {
+        setIsLoading(true);
+        const response = await fetch(`/api/user/searches/${searchId}`);
+
+        if (response.ok) {
+          const data = await response.json();
+          setFormData({
+            destination: data.destination,
+            startDate: data.startDate ? new Date(data.startDate) : null,
+            endDate: data.endDate ? new Date(data.endDate) : null,
+            priceMin: data.priceMin ?? 0,
+            priceMax: data.priceMax ?? 1000,
+            amenities: data.amenities ?? [],
+          });
+
+          // Move to results and perform search
+          setCurrentStep("results");
+          performSearch();
+        } else {
+          toast.error("Failed to load saved search");
+        }
+      } catch (error) {
+        console.error("Error loading saved search:", error);
+        toast.error("An error occurred while loading your search");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [isAuthenticated, performSearch, router],
+  );
 
   // Save the current search to user profile
   const saveSearch = async () => {
@@ -417,6 +416,7 @@ export default function SearchPage() {
             <div>
               <label className="label">Select dates (optional)</label>
               <div className="bg-white border rounded-md p-4">
+                {/* @ts-expect-error - Type incompatibility with React 19 */}
                 <DatePicker
                   selected={formData.startDate}
                   onChange={handleDateChange}
@@ -650,6 +650,23 @@ export default function SearchPage() {
         return null;
     }
   };
+
+  // Check for search ID in URL params (for loading saved searches)
+  useEffect(() => {
+    const searchId = searchParams.get("id");
+    if (searchId) {
+      setSavedSearchId(searchId);
+      loadSavedSearch(searchId);
+    }
+
+    // Check for destination in URL params (from homepage)
+    const destinationParam = searchParams.get("destination");
+    if (destinationParam) {
+      setFormData((prev) => ({ ...prev, destination: destinationParam }));
+      // Move to the dates step if destination is provided
+      setCurrentStep("dates");
+    }
+  }, [loadSavedSearch, searchParams]);
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
