@@ -129,25 +129,31 @@ export default function SearchPage() {
   };
 
   // Handle price range changes
-  const handlePriceChange = (type: "min" | "max", value: string) => {
-    const numValue = parseInt(value);
-    if (isNaN(numValue)) return;
+  const handlePriceChange = useCallback(
+    (type: "min" | "max", value: string) => {
+      const numValue = parseInt(value);
+      if (isNaN(numValue)) return;
 
-    setFormData((prev) => ({
-      ...prev,
-      [type === "min" ? "priceMin" : "priceMax"]: numValue,
-    }));
-  };
+      setFormData((prev) => ({
+        ...prev,
+        [type === "min" ? "priceMin" : "priceMax"]: numValue,
+      }));
+    },
+    [],
+  );
 
   // Handle amenity checkbox changes
-  const handleAmenityChange = (amenity: string, checked: boolean) => {
-    setFormData((prev) => ({
-      ...prev,
-      amenities: checked
-        ? [...prev.amenities, amenity]
-        : prev.amenities.filter((a) => a !== amenity),
-    }));
-  };
+  const handleAmenityChange = useCallback(
+    (amenity: string, checked: boolean) => {
+      setFormData((prev) => ({
+        ...prev,
+        amenities: checked
+          ? [...prev.amenities, amenity]
+          : prev.amenities.filter((a) => a !== amenity),
+      }));
+    },
+    [],
+  );
 
   // Move to next step in the form
   const goToNextStep = () => {
@@ -323,7 +329,7 @@ export default function SearchPage() {
   );
 
   // Save the current search to user profile
-  const saveSearch = async () => {
+  const saveSearch = useCallback(async () => {
     if (!isAuthenticated) {
       toast.error("Please log in to save searches");
       router.push("/login");
@@ -362,7 +368,16 @@ export default function SearchPage() {
       console.error("Error saving search:", error);
       toast.error("An error occurred while saving your search");
     }
-  };
+  }, [
+    formData.amenities,
+    formData.destination,
+    formData.endDate,
+    formData.priceMax,
+    formData.priceMin,
+    formData.startDate,
+    isAuthenticated,
+    router,
+  ]);
 
   // Render current step
   const renderCurrentStep = () => {
