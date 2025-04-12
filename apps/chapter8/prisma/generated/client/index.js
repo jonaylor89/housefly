@@ -84,6 +84,9 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -145,6 +148,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
@@ -195,18 +203,18 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
+  "activeProvider": "postgresql",
   "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
-        "fromEnvVar": null,
-        "value": "file:./dev.db"
+        "fromEnvVar": "DATABASE_URL",
+        "value": null
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = \"file:./dev.db\"\n}\n\nmodel User {\n  id            String    @id @default(uuid())\n  name          String?\n  email         String    @unique\n  password      String\n  createdAt     DateTime  @default(now())\n  updatedAt     DateTime  @updatedAt\n  sessions      Session[]\n  savedSearches Search[]\n}\n\nmodel Session {\n  id           String   @id @default(uuid())\n  userId       String\n  expires      DateTime\n  sessionToken String   @unique\n  accessToken  String   @unique\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel Search {\n  id          String    @id @default(uuid())\n  userId      String\n  destination String\n  startDate   DateTime?\n  endDate     DateTime?\n  priceMin    Int?\n  priceMax    Int?\n  amenities   String? // Stored as JSON string\n  createdAt   DateTime  @default(now())\n  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel Destination {\n  id          String    @id @default(uuid())\n  name        String\n  description String\n  imageUrl    String\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n  listings    Listing[]\n}\n\nmodel Listing {\n  id            String      @id @default(uuid())\n  destinationId String\n  title         String\n  description   String\n  price         Int\n  imageUrl      String\n  amenities     String // Stored as JSON string\n  isPremium     Boolean     @default(false)\n  createdAt     DateTime    @default(now())\n  updatedAt     DateTime    @updatedAt\n  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)\n}\n",
-  "inlineSchemaHash": "62ec44351fb197d0d7cf547eaf33d39016799bef0749a13466502e18849c2df9",
+  "inlineSchema": "// This is your Prisma schema file\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id            String    @id @default(uuid())\n  name          String?\n  email         String    @unique\n  password      String\n  createdAt     DateTime  @default(now())\n  updatedAt     DateTime  @updatedAt\n  sessions      Session[]\n  savedSearches Search[]\n}\n\nmodel Session {\n  id           String   @id @default(uuid())\n  userId       String\n  expires      DateTime\n  sessionToken String   @unique\n  accessToken  String   @unique\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel Search {\n  id          String    @id @default(uuid())\n  userId      String\n  destination String\n  startDate   DateTime?\n  endDate     DateTime?\n  priceMin    Int?\n  priceMax    Int?\n  amenities   String? // Stored as JSON string\n  createdAt   DateTime  @default(now())\n  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel Destination {\n  id          String    @id @default(uuid())\n  name        String\n  description String\n  imageUrl    String\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n  listings    Listing[]\n}\n\nmodel Listing {\n  id            String      @id @default(uuid())\n  destinationId String\n  title         String\n  description   String\n  price         Int\n  imageUrl      String\n  amenities     String // Stored as JSON string\n  isPremium     Boolean     @default(false)\n  createdAt     DateTime    @default(now())\n  updatedAt     DateTime    @updatedAt\n  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)\n}\n",
+  "inlineSchemaHash": "881148ef3650496055011f59f3bd4c52e9a68434ec549208a677a666cf9a6cee",
   "copyEngine": true
 }
 
