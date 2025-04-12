@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary: #f3f4f6;
+  --secondary-hover: #e5e7eb;
+  --accent: #6366f1;
+  --success: #22c55e;
+  --warning: #eab308;
+  --danger: #ef4444;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+    --secondary: #1f2937;
+    --secondary-hover: #374151;
+    --card-bg: #1f2937;
+    --card-border: #374151;
+    --code-bg: #374151;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Custom Components */
+@layer components {
+  .btn {
+    @apply inline-block px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  .btn-primary {
+    @apply btn bg-blue-700 hover:bg-blue-800 text-white focus:ring-blue-500;
+  }
+  .btn-secondary {
+    @apply btn bg-gray-100 hover:bg-gray-200 text-gray-800 focus:ring-gray-400;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 hover:bg-red-700 text-white focus:ring-red-500;
+  }
+  .btn-outline {
+    @apply btn border border-gray-300 hover:bg-gray-50 text-gray-700 focus:ring-blue-500;
+  }
+  .btn-success {
+    @apply btn bg-green-600 hover:bg-green-700 text-white focus:ring-green-500;
+  }
+  .btn-warning {
+    @apply btn bg-yellow-500 hover:bg-yellow-600 text-white focus:ring-yellow-500;
+  }
+  .btn-filter {
+    @apply btn px-4 py-2 rounded-full;
+  }
+  .card {
+    @apply bg-white dark:bg-[var(--card-bg)] border border-gray-200 dark:border-[var(--card-border)] rounded-lg shadow-sm hover:shadow-md transition-shadow p-6;
+  }
+  .badge {
+    @apply inline-block px-2 py-1 rounded text-xs font-medium;
+  }
+  .badge-easy {
+    @apply badge bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+  }
+  .badge-medium {
+    @apply badge bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200;
+  }
+  .badge-hard {
+    @apply badge bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+  }
+  .badge-category {
+    @apply badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+  }
+  .code-block {
+    @apply bg-gray-100 dark:bg-[var(--code-bg)] p-4 rounded-md font-mono text-sm whitespace-pre-wrap overflow-x-auto;
+  }
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700;
+  }
+  .prose {
+    @apply dark:prose-invert;
+  }
+}

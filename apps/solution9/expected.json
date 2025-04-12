@@ -1,0 +1,32 @@
+{
+  "challenges": [
+    {
+      "id": "1",
+      "title": "Two Sum",
+      "difficulty": "easy",
+      "category": "algorithms",
+      "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target."
+    },
+    {
+      "id": "2",
+      "title": "Linked List Cycle",
+      "difficulty": "medium",
+      "category": "data-structures",
+      "description": "Given head, the head of a linked list, determine if the linked list has a cycle in it."
+    },
+    {
+      "id": "3",
+      "title": "Design a Rate Limiter",
+      "difficulty": "hard",
+      "category": "system-design",
+      "description": "Design a rate limiter that prevents a user from making too many API requests within a certain time frame."
+    }
+  ],
+  "user": {
+    "id": "1",
+    "name": "Demo User",
+    "email": "user@example.com",
+    "bookmarks": ["1", "3"],
+    "completedChallenges": ["2"]
+  }
+}
