@@ -89,10 +89,7 @@ housefly/
   - [x] Handle authentication flows (cookies, tokens)
   - [x] Maintain sessions across requests
   - [x] Access protected content
-- [ ] Complex Data Collection
-  - [ ] Work with GraphQL APIs
-  - [ ] Navigate multi-step processes and form workflows
-  - [ ] Scrape across authenticated multi-page sequences
+- [x] Work with GraphQL APIs
 
 5. Media & Non-Text Scraping
 - [ ] Extracting images and metadata (alt text, filenames)
