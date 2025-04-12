@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
 
 async function main() {
   console.log(`Start seeding...`);
@@ -30,17 +28,20 @@ async function main() {
   const destinations = [
     {
       name: "Paris, France",
-      description: "The city of lights and romance, famous for the Eiffel Tower and cuisine.",
+      description:
+        "The city of lights and romance, famous for the Eiffel Tower and cuisine.",
       imageUrl: "/images/city.jpg",
     },
     {
       name: "Bali, Indonesia",
-      description: "A tropical paradise with beautiful beaches and rich cultural heritage.",
+      description:
+        "A tropical paradise with beautiful beaches and rich cultural heritage.",
       imageUrl: "/images/beach.jpg",
     },
     {
       name: "Swiss Alps",
-      description: "Stunning mountain views and world-class skiing destinations.",
+      description:
+        "Stunning mountain views and world-class skiing destinations.",
       imageUrl: "/images/mountain.jpg",
     },
   ];

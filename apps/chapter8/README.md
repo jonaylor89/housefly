@@ -23,7 +23,7 @@ This chapter focuses on handling forms and authentication in web scraping. The c
 ## Technical Implementation
 
 - Built with Next.js and NextAuth.js for authentication
-- Uses Prisma with SQLite for data storage
+- Uses Prisma with PostgreSQL for data storage
 - Implements form validation and CSRF protection
 - Demonstrates proper session management techniques
 

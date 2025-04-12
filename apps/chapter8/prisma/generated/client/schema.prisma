@@ -19,6 +19,8 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   savedSearches Search[]
+
+  @@map("User")
 }
 
 model Session {
@@ -30,6 +32,8 @@ model Session {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("Session")
 }
 
 model Search {
@@ -43,6 +47,8 @@ model Search {
   amenities   String? // Stored as JSON string
   createdAt   DateTime  @default(now())
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("Search")
 }
 
 model Destination {
@@ -53,6 +59,8 @@ model Destination {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   listings    Listing[]
+
+  @@map("Destination")
 }
 
 model Listing {
@@ -67,4 +75,6 @@ model Listing {
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+
+  @@map("Listing")
 }
