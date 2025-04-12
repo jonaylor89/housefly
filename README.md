@@ -16,7 +16,7 @@ Housefly is an interactive learning project designed to teach web scraping throu
 1. Clone the Repository
 
 ```sh
-git clone https://github.com/yourusername/housefly.git
+git clone https://github.com/jonaylor89/housefly.git
 cd housefly
 ```
 
