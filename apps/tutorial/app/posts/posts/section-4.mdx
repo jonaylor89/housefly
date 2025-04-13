@@ -1,7 +1,53 @@
 ---
-title: 'Advanced Website Interaction and APIs (coming soon)'
-publishedAt: '2025-04-04'
-summary: 'API-Driven Websites, Forms and Authentication, and GraphQL'
+title: 'Advanced Website Interaction and APIs'
+publishedAt: '2025-04-13'
+summary: 'Learn to scrape API-driven sites, handle forms & logins, and interact with GraphQL endpoints.'
 ---
 
-Coming soon...
+Welcome to Section 4! We've covered scraping static and JavaScript-rendered content, as well as navigating multi-page sites. Now, we dive into more complex scenarios involving direct API interaction, form submissions, authentication, and specialized APIs like GraphQL. These techniques are crucial for tackling modern web applications.
+
+### 1. API-Driven Websites (Chapter 7)
+
+Many modern websites don't load all their data with the initial HTML. Instead, they use JavaScript to fetch data from backend APIs (often using `fetch` or `XMLHttpRequest`) after the page loads. Scraping these sites efficiently often means bypassing the UI and interacting directly with these APIs.
+
+**Key Concepts:**
+
+*   **Identifying API Requests:** Use your browser's developer tools (Network tab) to spot requests (often XHR/Fetch) that return data, usually in JSON format.
+*   **Scraping APIs Directly:** Once you find an API endpoint, you can often make requests directly to it using libraries like `axios` or the built-in `fetch` in Node.js. This is usually faster and more reliable than browser automation.
+*   **Handling Pagination & Parameters:** APIs often use query parameters for pagination (`page`, `limit`), filtering, or sorting. You'll need to understand and replicate these in your scraping script.
+
+**The Challenge (Chapter 7):** You'll scrape an e-commerce site where product listings are loaded dynamically from a RESTful API. Your task is to fetch all products by interacting with this API, handling pagination correctly.
+
+*Find a reference solution demonstrating direct API scraping in the `_solved/chapter7/` directory.*
+
+### 2. Forms and Authentication (Chapter 8)
+
+Often, valuable data is behind a login screen or requires submitting forms, like on a travel booking platform where searching for destinations or accessing premium listings necessitates authentication. Handling these interactions requires automating browser actions.
+
+**Key Concepts:**
+
+*   **Automating Form Submissions:** Use tools like Playwright or Puppeteer to fill input fields, select options, and click buttons to submit forms (e.g., login forms, search bars, filter controls).
+*   **Managing Authentication:**
+    *   **Cookie-Based:** Log in once, and the browser context (managed by Playwright/Puppeteer) often handles session cookies automatically for subsequent requests.
+    *   **Token-Based (e.g., JWT):** Log in, extract the token (often from local storage or an API response), and include it in the headers (e.g., `Authorization: Bearer <token>`) for subsequent API requests.
+*   **Handling Sessions:** Maintain the logged-in state across different pages or actions within your scraper.
+*   **Accessing Protected Content:** Once authenticated, you can navigate to and scrape pages or data only available to logged-in users.
+
+**The Challenge (Chapter 8):** This chapter involves a multi-step process: logging into a site, navigating to a search page, filling out a complex multi-part form with filters, extracting the results (including premium content only visible when logged in), and even saving the search to a user dashboard.
+
+### 3. Working with GraphQL APIs (Chapter 9)
+
+GraphQL is an increasingly popular alternative to REST APIs. It allows clients to request exactly the data they need using a specific query language.
+
+**Key Concepts:**
+
+*   **GraphQL Endpoint:** Typically, there's a single endpoint (e.g., `/graphql` or `/api/graphql`).
+*   **Query Language:** You'll need to construct GraphQL queries to specify the fields and relationships you want to retrieve. Tools like Insomnia or Postman can help explore GraphQL schemas.
+*   **Mutations:** Used for actions that change data (like logging in or submitting data), similar to POST/PUT/DELETE in REST.
+*   **Authentication:** Often involves sending an `Authorization` header, similar to REST APIs, typically obtained after a login mutation.
+
+**The Challenge (Chapter 9):** You'll interact with a site backed by a GraphQL API. The task is to authenticate via a login mutation and then fetch specific structured data about challenges and user profiles using GraphQL queries.
+
+Mastering these advanced techniques significantly expands the range of websites and data you can scrape effectively. Remember to always scrape responsibly and respect websites' terms of service.
+
+Happy scraping!
