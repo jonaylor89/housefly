@@ -9,9 +9,12 @@
     "check-types": "turbo run check-types",
     "_check_solved": "./scripts/check_answers.sh -s",
     "check-answers": "./scripts/check_answers.sh",
-    "ca": "npm run check-answers"
+    "ca": "npm run check-answers",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1",
     "prettier": "^3.5.0",
     "ts-node": "^10.9.2",
     "turbo": "^2.5.0",
