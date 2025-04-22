@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { CustomMDX } from "app/components/mdx";
 import { formatDate, getPosts } from "app/posts/utils";
 import { baseUrl } from "app/lib/utils";
+import { useParams } from "next/navigation";
 
 export async function generateStaticParams() {
   let posts = await getPosts();
@@ -14,9 +15,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: Readonly<{
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }>) {
-  const post = (await getPosts()).find((post) => post.slug === params.slug);
+  const { slug } = await params;
+  const post = (await getPosts()).find((post) => post.slug === slug);
   if (!post) {
     return null;
   }
@@ -57,10 +59,11 @@ export async function generateMetadata({
 
 export default async function Post({
   params,
-}: Readonly<{
-  params: { slug: string };
-}>) {
-  const post = (await getPosts()).find((post) => post.slug === params.slug);
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const post = (await getPosts()).find((post) => post.slug === slug);
 
   if (!post) {
     notFound();
