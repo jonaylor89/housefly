@@ -38,56 +38,283 @@ body {
 }
 
 /* Custom Components */
-@layer components {
-  .btn {
-    @apply inline-block px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
-  }
-  .btn-primary {
-    @apply btn bg-blue-700 hover:bg-blue-800 text-white focus:ring-blue-500;
-  }
-  .btn-secondary {
-    @apply btn bg-gray-100 hover:bg-gray-200 text-gray-800 focus:ring-gray-400;
-  }
-  .btn-danger {
-    @apply btn bg-red-600 hover:bg-red-700 text-white focus:ring-red-500;
-  }
+
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  border-radius: 0.375rem; /* rounded-md */
+  font-weight: 500; /* font-medium */
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  border: 1px solid transparent; /* Ensure border width for outline consistency */
+  cursor: pointer;
+  text-decoration: none; /* Remove default link underline */
+  line-height: inherit; /* Inherit line height */
+  outline: 2px solid transparent; /* Default outline */
+  outline-offset: 2px;
+}
+
+.btn:focus-visible {
+  /* Use focus-visible for better accessibility */
+  /* Define CSS variables for ring effect - mimicking Tailwind's approach */
+  --tw-ring-offset-shadow: var(--tw-ring-offset-width, 2px) 0 0 0
+    var(--tw-ring-offset-color, var(--background, #fff));
+  --tw-ring-shadow: 0 0 0 calc(2px + var(--tw-ring-offset-width, 2px))
+    var(--tw-ring-color, rgba(59, 130, 246, 0.5)); /* Default ring color if not specified */
+  box-shadow:
+    var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+    var(--tw-shadow, 0 0 #0000);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+.btn-primary:focus-visible {
+  --tw-ring-color: var(--primary); /* focus:ring-blue-500 */
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--foreground);
+}
+.btn-secondary:hover {
+  background-color: var(--secondary-hover);
+}
+.btn-secondary:focus-visible {
+  --tw-ring-color: #9ca3af; /* focus:ring-gray-400 */
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: #ffffff;
+}
+.btn-danger:hover {
+  background-color: #dc2626; /* Slightly darker red (red-600) */
+}
+.btn-danger:focus-visible {
+  --tw-ring-color: var(--danger); /* focus:ring-red-500 */
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  color: #374151; /* text-gray-700 */
+}
+.btn-outline:hover {
+  background-color: #f9fafb; /* hover:bg-gray-50 */
+}
+.btn-outline:focus-visible {
+  --tw-ring-color: var(--primary); /* focus:ring-blue-500 */
+}
+@media (prefers-color-scheme: dark) {
   .btn-outline {
-    @apply btn border border-gray-300 hover:bg-gray-50 text-gray-700 focus:ring-blue-500;
+    border-color: var(--card-border, #374151);
+    color: var(--foreground);
   }
-  .btn-success {
-    @apply btn bg-green-600 hover:bg-green-700 text-white focus:ring-green-500;
+  .btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.05);
   }
-  .btn-warning {
-    @apply btn bg-yellow-500 hover:bg-yellow-600 text-white focus:ring-yellow-500;
-  }
-  .btn-filter {
-    @apply btn px-4 py-2 rounded-full;
-  }
+}
+
+.btn-success {
+  background-color: var(--success);
+  color: #ffffff;
+}
+.btn-success:hover {
+  background-color: #16a34a; /* Slightly darker green (green-600) */
+}
+.btn-success:focus-visible {
+  --tw-ring-color: var(--success); /* focus:ring-green-500 */
+}
+
+.btn-warning {
+  background-color: var(--warning);
+  /* Tailwind uses text-white for yellow-500, check contrast */
+  color: #ffffff;
+}
+.btn-warning:hover {
+  background-color: #ca8a04; /* hover:bg-yellow-600 */
+}
+.btn-warning:focus-visible {
+  --tw-ring-color: var(--warning); /* focus:ring-yellow-500 */
+}
+
+.btn-filter {
+  /* Inherits .btn styles */
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  border-radius: 9999px; /* rounded-full */
+}
+
+.card {
+  background-color: var(--background); /* bg-white */
+  border: 1px solid #e5e7eb; /* border border-gray-200 */
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+  transition-property: box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  padding: 1.5rem; /* p-6 */
+}
+.card:hover {
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1); /* hover:shadow-md */
+}
+@media (prefers-color-scheme: dark) {
   .card {
-    @apply bg-white dark:bg-[var(--card-bg)] border border-gray-200 dark:border-[var(--card-border)] rounded-lg shadow-sm hover:shadow-md transition-shadow p-6;
+    background-color: var(--card-bg, #1f2937); /* dark:bg-[var(--card-bg)] */
+    border-color: var(
+      --card-border,
+      #374151
+    ); /* dark:border-[var(--card-border)] */
   }
-  .badge {
-    @apply inline-block px-2 py-1 rounded text-xs font-medium;
-  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem; /* py-1 px-2 */
+  border-radius: 0.25rem; /* rounded */
+  font-size: 0.75rem; /* text-xs */
+  line-height: 1rem;
+  font-weight: 500; /* font-medium */
+}
+
+.badge-easy {
+  background-color: #dcfce7; /* bg-green-100 */
+  color: #166534; /* text-green-800 */
+}
+@media (prefers-color-scheme: dark) {
   .badge-easy {
-    @apply badge bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+    background-color: #14532d; /* dark:bg-green-900 */
+    color: #bbf7d0; /* dark:text-green-200 */
   }
+}
+
+.badge-medium {
+  background-color: #fef9c3; /* bg-yellow-100 */
+  color: #854d0e; /* text-yellow-800 */
+}
+@media (prefers-color-scheme: dark) {
   .badge-medium {
-    @apply badge bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200;
+    background-color: #713f12; /* dark:bg-yellow-900 */
+    color: #fef08a; /* dark:text-yellow-200 */
   }
+}
+
+.badge-hard {
+  background-color: #fee2e2; /* bg-red-100 */
+  color: #991b1b; /* text-red-800 */
+}
+@media (prefers-color-scheme: dark) {
   .badge-hard {
-    @apply badge bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+    background-color: #7f1d1d; /* dark:bg-red-900 */
+    color: #fecaca; /* dark:text-red-200 */
   }
+}
+
+.badge-category {
+  background-color: #dbeafe; /* bg-blue-100 */
+  color: #1e40af; /* text-blue-800 */
+}
+@media (prefers-color-scheme: dark) {
   .badge-category {
-    @apply badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+    background-color: #1e3a8a; /* dark:bg-blue-900 */
+    color: #bfdbfe; /* dark:text-blue-200 */
   }
+}
+
+.code-block {
+  background-color: #f3f4f6; /* bg-gray-100 */
+  padding: 1rem; /* p-4 */
+  border-radius: 0.375rem; /* rounded-md */
+  font-family: var(--font-mono); /* font-mono */
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  white-space: pre-wrap; /* whitespace-pre-wrap */
+  overflow-x: auto; /* overflow-x-auto */
+  color: var(--foreground); /* Ensure text color */
+}
+@media (prefers-color-scheme: dark) {
   .code-block {
-    @apply bg-gray-100 dark:bg-[var(--code-bg)] p-4 rounded-md font-mono text-sm whitespace-pre-wrap overflow-x-auto;
+    background-color: var(--code-bg, #374151); /* dark:bg-[var(--code-bg)] */
+    color: var(--foreground);
   }
+}
+
+.input-field {
+  width: 100%; /* w-full */
+  padding: 0.5rem 0.75rem; /* py-2 px-3 */
+  border-width: 1px;
+  border-style: solid;
+  border-color: #d1d5db; /* border-gray-300 */
+  border-radius: 0.375rem; /* rounded-md */
+  background-color: var(--background); /* bg-white */
+  color: var(--foreground);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+.input-field:focus {
+  border-color: var(--primary); /* focus:border-blue-500 */
+  box-shadow: 0 0 0 1px var(--primary); /* focus:ring-blue-500 (simplified ring) */
+  outline: none; /* Remove default focus outline when using custom ring */
+}
+@media (prefers-color-scheme: dark) {
   .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700;
+    border-color: #4b5563; /* dark:border-gray-600 */
+    background-color: var(
+      --secondary-hover,
+      #374151
+    ); /* dark:bg-gray-700 - using var for potential theme consistency */
+    color: var(--foreground);
   }
+  .input-field:focus {
+    border-color: var(--primary-hover); /* Lighter blue for dark mode focus */
+    box-shadow: 0 0 0 1px var(--primary-hover); /* Lighter blue for dark mode focus ring */
+  }
+}
+
+/* Basic prose dark mode styling - approximate replacement for dark:prose-invert */
+/* Assumes .prose might contain various text elements */
+@media (prefers-color-scheme: dark) {
   .prose {
-    @apply dark:prose-invert;
+    color: var(--foreground);
   }
+  /* Select common prose elements, excluding those within elements explicitly marked as not-prose */
+  .prose
+    :where(h1, h2, h3, h4, h5, h6, strong, b, blockquote, thead, th):not(
+      :where([class~="not-prose"] *)
+    ) {
+    color: inherit; /* Inherit from .prose */
+  }
+  .prose :where(a):not(:where([class~="not-prose"] *)) {
+    color: var(--primary-hover); /* Use a lighter/brighter link color */
+  }
+  .prose :where(code):not(:where([class~="not-prose"] *)) {
+    color: #fcd34d; /* Example: yellow-300 */
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.1em 0.3em;
+    border-radius: 0.25em;
+    font-size: 0.9em;
+  }
+  .prose :where(pre code):not(:where([class~="not-prose"] *)) {
+    background-color: transparent; /* Code inside pre usually doesn't need separate bg */
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+  }
+  .prose :where(pre):not(:where([class~="not-prose"] *)) {
+    background-color: var(--code-bg, #374151); /* Match code-block bg */
+    padding: 1em;
+    border-radius: 0.375rem;
+    overflow-x: auto;
+  }
+  /* Add more overrides as needed for other prose elements like lists, blockquotes etc. */
 }

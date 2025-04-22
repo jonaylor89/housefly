@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/auth';
-import { fetchGraphQL } from '@/lib/graphql-client';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/auth";
+import { fetchGraphQL } from "@/lib/graphql-client";
 
 type Challenge = {
   id: string;
@@ -15,15 +15,19 @@ type Challenge = {
 
 export default function Dashboard() {
   const router = useRouter();
-  const { user, token, isLoading: authLoading } = useAuth();
-  const [bookmarkedChallenges, setBookmarkedChallenges] = useState<Challenge[]>([]);
-  const [completedChallenges, setCompletedChallenges] = useState<Challenge[]>([]);
+  const { user, token, isLoading: authLoading, logout } = useAuth();
+  const [bookmarkedChallenges, setBookmarkedChallenges] = useState<Challenge[]>(
+    [],
+  );
+  const [completedChallenges, setCompletedChallenges] = useState<Challenge[]>(
+    [],
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Redirect if not logged in
     if (!authLoading && !user) {
-      router.push('/login');
+      router.push("/login");
       return;
     }
 
@@ -52,7 +56,7 @@ export default function Dashboard() {
             }
             `,
             {},
-            token
+            token,
           );
 
           if (data.me) {
@@ -60,7 +64,7 @@ export default function Dashboard() {
             setCompletedChallenges(data.me.completedChallenges);
           }
         } catch (error) {
-          console.error('Failed to fetch user data:', error);
+          console.error("Failed to fetch user data:", error);
         } finally {
           setLoading(false);
         }
@@ -99,9 +103,8 @@ export default function Dashboard() {
               </Link>
               <button
                 onClick={() => {
-                  const { logout } = useAuth();
                   logout();
-                  router.push('/');
+                  router.push("/");
                 }}
                 className="hover:underline"
               >
@@ -115,17 +118,27 @@ export default function Dashboard() {
 
       <main className="flex-grow container mx-auto p-4">
         <h1 className="text-3xl font-bold mb-8">Your Dashboard</h1>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <section className="card">
-            <h2 className="text-xl font-semibold mb-4">Bookmarked Challenges</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Bookmarked Challenges
+            </h2>
             {bookmarkedChallenges.length === 0 ? (
-              <p className="text-gray-500">You haven't bookmarked any challenges yet.</p>
+              <p className="text-gray-500">
+                You haven't bookmarked any challenges yet.
+              </p>
             ) : (
               <ul className="space-y-4">
                 {bookmarkedChallenges.map((challenge) => (
-                  <li key={challenge.id} className="border-b border-gray-200 dark:border-gray-700 pb-3">
-                    <Link href={`/challenges/${challenge.id}`} className="hover:text-blue-600">
+                  <li
+                    key={challenge.id}
+                    className="border-b border-gray-200 dark:border-gray-700 pb-3"
+                  >
+                    <Link
+                      href={`/challenges/${challenge.id}`}
+                      className="hover:text-blue-600"
+                    >
                       <h3 className="font-medium">{challenge.title}</h3>
                       <div className="flex gap-2 mt-1">
                         <span className={`badge badge-${challenge.difficulty}`}>
@@ -145,12 +158,20 @@ export default function Dashboard() {
           <section className="card">
             <h2 className="text-xl font-semibold mb-4">Completed Challenges</h2>
             {completedChallenges.length === 0 ? (
-              <p className="text-gray-500">You haven't completed any challenges yet.</p>
+              <p className="text-gray-500">
+                You haven't completed any challenges yet.
+              </p>
             ) : (
               <ul className="space-y-4">
                 {completedChallenges.map((challenge) => (
-                  <li key={challenge.id} className="border-b border-gray-200 dark:border-gray-700 pb-3">
-                    <Link href={`/challenges/${challenge.id}`} className="hover:text-blue-600">
+                  <li
+                    key={challenge.id}
+                    className="border-b border-gray-200 dark:border-gray-700 pb-3"
+                  >
+                    <Link
+                      href={`/challenges/${challenge.id}`}
+                      className="hover:text-blue-600"
+                    >
                       <h3 className="font-medium">{challenge.title}</h3>
                       <div className="flex gap-2 mt-1">
                         <span className={`badge badge-${challenge.difficulty}`}>
@@ -178,7 +199,9 @@ export default function Dashboard() {
       <footer className="bg-gray-100 p-6 mt-8">
         <div className="container mx-auto text-center">
           <p>GraphQL Developer Hub - A demo site for learning web scraping</p>
-          <p className="text-sm text-gray-600 mt-2">This is a simplified example with an in-memory GraphQL API</p>
+          <p className="text-sm text-gray-600 mt-2">
+            This is a simplified example with an in-memory GraphQL API
+          </p>
         </div>
       </footer>
     </div>

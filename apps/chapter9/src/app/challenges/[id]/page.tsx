@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useAuth } from '@/lib/auth';
-import { fetchGraphQL } from '@/lib/graphql-client';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useAuth } from "@/lib/auth";
+import { fetchGraphQL } from "@/lib/graphql-client";
 
 type ChallengeDetails = {
   id: string;
@@ -34,17 +34,22 @@ type ChallengeDetails = {
   }[];
 };
 
-type Step = 'description' | 'starter-code' | 'hints' | 'solution' | 'discussion';
+type Step =
+  | "description"
+  | "starter-code"
+  | "hints"
+  | "solution"
+  | "discussion";
 
 export default function ChallengePage({ params }: { params: { id: string } }) {
   const { user, token } = useAuth();
   const [challenge, setChallenge] = useState<ChallengeDetails | null>(null);
   const [loading, setLoading] = useState(true);
-  const [currentStep, setCurrentStep] = useState<Step>('description');
+  const [currentStep, setCurrentStep] = useState<Step>("description");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [userCode, setUserCode] = useState('');
-  const [newComment, setNewComment] = useState('');
+  const [userCode, setUserCode] = useState("");
+  const [newComment, setNewComment] = useState("");
   const [submittingComment, setSubmittingComment] = useState(false);
 
   useEffect(() => {
@@ -94,16 +99,22 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
           }
           `,
           { id: params.id },
-          token
+          token,
         );
 
         setChallenge(result.challenge);
-        
+
         if (user && result.me) {
           // Check if challenge is bookmarked
-          setIsBookmarked(result.me.bookmarks.some((c: any) => c.id === params.id));
+          setIsBookmarked(
+            result.me.bookmarks.some((c: { id: string }) => c.id === params.id),
+          );
           // Check if challenge is completed
-          setIsCompleted(result.me.completedChallenges.some((c: any) => c.id === params.id));
+          setIsCompleted(
+            result.me.completedChallenges.some(
+              (c: { id: string }) => c.id === params.id,
+            ),
+          );
         }
 
         // Initialize user code with starter code
@@ -111,7 +122,7 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
           setUserCode(result.challenge.starterCode);
         }
       } catch (error) {
-        console.error('Failed to fetch challenge details:', error);
+        console.error("Failed to fetch challenge details:", error);
       } finally {
         setLoading(false);
       }
@@ -122,12 +133,12 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
 
   const handleBookmark = async () => {
     if (!user) {
-      alert('Please login to bookmark challenges');
+      alert("Please login to bookmark challenges");
       return;
     }
 
     try {
-      const mutation = isBookmarked ? 'unbookmark' : 'bookmark';
+      const mutation = isBookmarked ? "unbookmark" : "bookmark";
       await fetchGraphQL(
         `
         mutation ${mutation}Challenge($challengeId: ID!) {
@@ -140,18 +151,21 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
         }
         `,
         { challengeId: params.id },
-        token
+        token,
       );
 
       setIsBookmarked(!isBookmarked);
     } catch (error) {
-      console.error(`Failed to ${isBookmarked ? 'unbookmark' : 'bookmark'} challenge:`, error);
+      console.error(
+        `Failed to ${isBookmarked ? "unbookmark" : "bookmark"} challenge:`,
+        error,
+      );
     }
   };
 
   const handleComplete = async () => {
     if (!user) {
-      alert('Please login to mark challenges as completed');
+      alert("Please login to mark challenges as completed");
       return;
     }
 
@@ -168,18 +182,18 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
         }
         `,
         { challengeId: params.id },
-        token
+        token,
       );
 
       setIsCompleted(true);
     } catch (error) {
-      console.error('Failed to mark challenge as completed:', error);
+      console.error("Failed to mark challenge as completed:", error);
     }
   };
 
   const handleAddComment = async () => {
     if (!user) {
-      alert('Please login to add comments');
+      alert("Please login to add comments");
       return;
     }
 
@@ -211,7 +225,7 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
         }
         `,
         { challengeId: params.id, content: newComment },
-        token
+        token,
       );
 
       // Update comments with the new one
@@ -222,9 +236,9 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
         });
       }
 
-      setNewComment('');
+      setNewComment("");
     } catch (error) {
-      console.error('Failed to add comment:', error);
+      console.error("Failed to add comment:", error);
     } finally {
       setSubmittingComment(false);
     }
@@ -299,21 +313,19 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
               <span className={`badge badge-${challenge.difficulty}`}>
                 {challenge.difficulty}
               </span>
-              <span className="badge badge-category">
-                {challenge.category}
-              </span>
+              <span className="badge badge-category">{challenge.category}</span>
             </div>
           </div>
-          
+
           <div className="flex gap-2 mt-4 md:mt-0">
             <button
               onClick={handleBookmark}
-              className={`btn ${isBookmarked ? 'btn-warning' : 'btn-outline'} flex items-center gap-1`}
+              className={`btn ${isBookmarked ? "btn-warning" : "btn-outline"} flex items-center gap-1`}
             >
-              <span className="text-lg">{isBookmarked ? '★' : '☆'}</span>
-              {isBookmarked ? 'Bookmarked' : 'Bookmark'}
+              <span className="text-lg">{isBookmarked ? "★" : "☆"}</span>
+              {isBookmarked ? "Bookmarked" : "Bookmark"}
             </button>
-            
+
             {!isCompleted && (
               <button
                 onClick={handleComplete}
@@ -323,7 +335,7 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
                 Mark as Completed
               </button>
             )}
-            
+
             {isCompleted && (
               <div className="btn btn-success flex items-center gap-1 cursor-not-allowed opacity-70">
                 <span className="text-lg">✓</span>
@@ -335,40 +347,40 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
 
         <div className="flex border-b border-gray-200 dark:border-gray-700 mb-6">
           <button
-            className={`px-4 py-2 ${currentStep === 'description' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setCurrentStep('description')}
+            className={`px-4 py-2 ${currentStep === "description" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+            onClick={() => setCurrentStep("description")}
           >
             Description
           </button>
           <button
-            className={`px-4 py-2 ${currentStep === 'starter-code' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setCurrentStep('starter-code')}
+            className={`px-4 py-2 ${currentStep === "starter-code" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+            onClick={() => setCurrentStep("starter-code")}
           >
             Starter Code
           </button>
           <button
-            className={`px-4 py-2 ${currentStep === 'hints' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setCurrentStep('hints')}
+            className={`px-4 py-2 ${currentStep === "hints" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+            onClick={() => setCurrentStep("hints")}
           >
             Hints
           </button>
-          {(isCompleted || user?.id === '2') && (
+          {(isCompleted || user?.id === "2") && (
             <button
-              className={`px-4 py-2 ${currentStep === 'solution' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-              onClick={() => setCurrentStep('solution')}
+              className={`px-4 py-2 ${currentStep === "solution" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+              onClick={() => setCurrentStep("solution")}
             >
               Solution
             </button>
           )}
           <button
-            className={`px-4 py-2 ${currentStep === 'discussion' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setCurrentStep('discussion')}
+            className={`px-4 py-2 ${currentStep === "discussion" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+            onClick={() => setCurrentStep("discussion")}
           >
             Discussion
           </button>
         </div>
 
-        {currentStep === 'description' && (
+        {currentStep === "description" && (
           <div className="card">
             <h2 className="text-xl font-semibold mb-4">Problem Description</h2>
             <div className="prose max-w-none">
@@ -376,7 +388,7 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
             </div>
             <div className="mt-6 flex gap-4">
               <button
-                onClick={() => setCurrentStep('starter-code')}
+                onClick={() => setCurrentStep("starter-code")}
                 className="btn-primary"
               >
                 Start Coding →
@@ -385,14 +397,14 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
           </div>
         )}
 
-        {currentStep === 'starter-code' && (
+        {currentStep === "starter-code" && (
           <div className="card">
             <h2 className="text-xl font-semibold mb-4">Starter Code</h2>
-            <div className="code-block mb-6">
-              {challenge.starterCode}
-            </div>
+            <div className="code-block mb-6">{challenge.starterCode}</div>
             <div className="mb-4">
-              <label htmlFor="solution" className="block font-medium mb-2">Your Solution:</label>
+              <label htmlFor="solution" className="block font-medium mb-2">
+                Your Solution:
+              </label>
               <textarea
                 id="solution"
                 rows={10}
@@ -403,22 +415,19 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
             </div>
             <div className="flex justify-between">
               <button
-                onClick={() => setCurrentStep('description')}
+                onClick={() => setCurrentStep("description")}
                 className="btn-secondary"
               >
                 ← Back to Description
               </button>
               <div className="flex gap-4">
                 <button
-                  onClick={() => setCurrentStep('hints')}
+                  onClick={() => setCurrentStep("hints")}
                   className="btn-outline"
                 >
                   Need a Hint?
                 </button>
-                <button
-                  onClick={handleComplete}
-                  className="btn-success"
-                >
+                <button onClick={handleComplete} className="btn-success">
                   Submit Solution
                 </button>
               </div>
@@ -426,7 +435,7 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
           </div>
         )}
 
-        {currentStep === 'hints' && (
+        {currentStep === "hints" && (
           <div className="card">
             <h2 className="text-xl font-semibold mb-4">Hints</h2>
             <ul className="list-disc pl-5 space-y-3 prose max-w-none">
@@ -436,14 +445,14 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
             </ul>
             <div className="mt-6 flex justify-between">
               <button
-                onClick={() => setCurrentStep('starter-code')}
+                onClick={() => setCurrentStep("starter-code")}
                 className="btn-secondary"
               >
                 ← Back to Code
               </button>
-              {(isCompleted || user?.id === '2') && (
+              {(isCompleted || user?.id === "2") && (
                 <button
-                  onClick={() => setCurrentStep('solution')}
+                  onClick={() => setCurrentStep("solution")}
                   className="btn-primary"
                 >
                   View Solution →
@@ -453,15 +462,13 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
           </div>
         )}
 
-        {currentStep === 'solution' && (isCompleted || user?.id === '2') && (
+        {currentStep === "solution" && (isCompleted || user?.id === "2") && (
           <div className="card">
             <h2 className="text-xl font-semibold mb-4">Solution</h2>
-            <div className="code-block">
-              {challenge.solution}
-            </div>
+            <div className="code-block">{challenge.solution}</div>
             <div className="mt-6">
               <button
-                onClick={() => setCurrentStep('discussion')}
+                onClick={() => setCurrentStep("discussion")}
                 className="btn-primary"
               >
                 Join the Discussion →
@@ -470,14 +477,16 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
           </div>
         )}
 
-        {currentStep === 'discussion' && (
+        {currentStep === "discussion" && (
           <div className="card">
             <h2 className="text-xl font-semibold mb-4">Discussion</h2>
-            
+
             {/* Add new comment */}
             {user ? (
               <div className="mb-8">
-                <label htmlFor="comment" className="block font-medium mb-2">Add your comment:</label>
+                <label htmlFor="comment" className="block font-medium mb-2">
+                  Add your comment:
+                </label>
                 <textarea
                   id="comment"
                   rows={3}
@@ -492,23 +501,30 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
                     disabled={submittingComment || !newComment.trim()}
                     className="btn-primary disabled:opacity-50"
                   >
-                    {submittingComment ? 'Posting...' : 'Post Comment'}
+                    {submittingComment ? "Posting..." : "Post Comment"}
                   </button>
                 </div>
               </div>
             ) : (
               <div className="mb-8 p-4 bg-blue-50 dark:bg-blue-900/30 rounded border border-blue-200 dark:border-blue-800">
-                <p className="mb-2">You need to be logged in to post comments.</p>
-                <Link href="/login" className="text-blue-600 hover:text-blue-800 font-medium">
+                <p className="mb-2">
+                  You need to be logged in to post comments.
+                </p>
+                <Link
+                  href="/login"
+                  className="text-blue-600 hover:text-blue-800 font-medium"
+                >
                   Login to join the discussion →
                 </Link>
               </div>
             )}
-            
+
             {/* Comments list */}
             <div className="space-y-6">
               {challenge.comments.length === 0 ? (
-                <p className="text-gray-500">No comments yet. Be the first to share your thoughts!</p>
+                <p className="text-gray-500">
+                  No comments yet. Be the first to share your thoughts!
+                </p>
               ) : (
                 challenge.comments.map((comment) => (
                   <div key={comment.id} className="border-b pb-4">
@@ -524,22 +540,31 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
                           </span>
                         </div>
                         <p className="mt-1">{comment.content}</p>
-                        
+
                         {comment.replies.length > 0 && (
                           <div className="ml-6 mt-3 space-y-3">
                             {comment.replies.map((reply) => (
-                              <div key={reply.id} className="flex items-start gap-2">
+                              <div
+                                key={reply.id}
+                                className="flex items-start gap-2"
+                              >
                                 <div className="bg-gray-200 rounded-full w-6 h-6 flex items-center justify-center text-gray-700 font-medium text-xs">
                                   {reply.user.name.charAt(0)}
                                 </div>
                                 <div className="flex-1">
                                   <div className="flex justify-between">
-                                    <h4 className="font-medium text-sm">{reply.user.name}</h4>
+                                    <h4 className="font-medium text-sm">
+                                      {reply.user.name}
+                                    </h4>
                                     <span className="text-xs text-gray-500">
-                                      {new Date(reply.createdAt).toLocaleDateString()}
+                                      {new Date(
+                                        reply.createdAt,
+                                      ).toLocaleDateString()}
                                     </span>
                                   </div>
-                                  <p className="mt-1 text-sm">{reply.content}</p>
+                                  <p className="mt-1 text-sm">
+                                    {reply.content}
+                                  </p>
                                 </div>
                               </div>
                             ))}
@@ -558,7 +583,9 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
       <footer className="bg-gray-100 p-6 mt-8">
         <div className="container mx-auto text-center">
           <p>GraphQL Developer Hub - A demo site for learning web scraping</p>
-          <p className="text-sm text-gray-600 mt-2">This is a simplified example with an in-memory GraphQL API</p>
+          <p className="text-sm text-gray-600 mt-2">
+            This is a simplified example with an in-memory GraphQL API
+          </p>
         </div>
       </footer>
     </div>
