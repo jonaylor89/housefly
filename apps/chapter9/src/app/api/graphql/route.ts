@@ -14,7 +14,7 @@ const server = new ApolloServer({
 const handler = startServerAndCreateNextHandler<NextApiRequest>(server, {
   context: async (req) => {
     // Simple auth handling using headers
-    const authHeader = req.headers["authorization"];
+    const authHeader = req.headers.get("Authorization");
     let user = undefined;
 
     if (authHeader) {
