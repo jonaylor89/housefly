@@ -280,7 +280,7 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-blue-800 text-white p-4">
+      <header className="bg-[#282828] text-white p-4">
         <div className="container mx-auto flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold">
             GraphQL Developer Hub
@@ -288,16 +288,22 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
           <nav>
             {user ? (
               <div className="flex items-center gap-4">
-                <Link href="/dashboard" className="hover:underline">
+                <Link
+                  href="/dashboard"
+                  className="text-gray-300 hover:text-white"
+                >
                   Dashboard
                 </Link>
-                <Link href="/challenges" className="hover:underline">
+                <Link
+                  href="/challenges"
+                  className="text-gray-300 hover:text-white"
+                >
                   Challenges
                 </Link>
-                <span>Welcome, {user.name}</span>
+                <span className="text-gray-300">Welcome, {user.name}</span>
               </div>
             ) : (
-              <Link href="/login" className="hover:underline">
+              <Link href="/login" className="text-gray-300 hover:text-white">
                 Login
               </Link>
             )}
@@ -345,35 +351,35 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
           </div>
         </div>
 
-        <div className="flex border-b border-gray-200 dark:border-gray-700 mb-6">
+        <div className="flex border-b border-gray-200 dark:border-gray-700 mb-6 select-none">
           <button
-            className={`px-4 py-2 ${currentStep === "description" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+            className={`px-4 py-3 text-sm font-medium transition-colors ${currentStep === "description" ? "border-b-2 border-[#3c8ffe] text-[#3c8ffe]" : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300"}`}
             onClick={() => setCurrentStep("description")}
           >
             Description
           </button>
           <button
-            className={`px-4 py-2 ${currentStep === "starter-code" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+            className={`px-4 py-3 text-sm font-medium transition-colors ${currentStep === "starter-code" ? "border-b-2 border-[#3c8ffe] text-[#3c8ffe]" : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300"}`}
             onClick={() => setCurrentStep("starter-code")}
           >
             Starter Code
           </button>
           <button
-            className={`px-4 py-2 ${currentStep === "hints" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+            className={`px-4 py-3 text-sm font-medium transition-colors ${currentStep === "hints" ? "border-b-2 border-[#3c8ffe] text-[#3c8ffe]" : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300"}`}
             onClick={() => setCurrentStep("hints")}
           >
             Hints
           </button>
           {(isCompleted || user?.id === "2") && (
             <button
-              className={`px-4 py-2 ${currentStep === "solution" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+              className={`px-4 py-3 text-sm font-medium transition-colors ${currentStep === "solution" ? "border-b-2 border-[#3c8ffe] text-[#3c8ffe]" : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300"}`}
               onClick={() => setCurrentStep("solution")}
             >
               Solution
             </button>
           )}
           <button
-            className={`px-4 py-2 ${currentStep === "discussion" ? "border-b-2 border-blue-600 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+            className={`px-4 py-3 text-sm font-medium transition-colors ${currentStep === "discussion" ? "border-b-2 border-[#3c8ffe] text-[#3c8ffe]" : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300"}`}
             onClick={() => setCurrentStep("discussion")}
           >
             Discussion
@@ -399,16 +405,21 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
 
         {currentStep === "starter-code" && (
           <div className="card">
-            <h2 className="text-xl font-semibold mb-4">Starter Code</h2>
-            <div className="code-block mb-6">{challenge.starterCode}</div>
+            <h2 className="text-lg font-semibold mb-4">Starter Code</h2>
+            <div className="code-block mb-6 bg-[#f7f7f7] dark:bg-[#2c2c2c] overflow-auto">
+              {challenge.starterCode}
+            </div>
             <div className="mb-4">
-              <label htmlFor="solution" className="block font-medium mb-2">
+              <label
+                htmlFor="solution"
+                className="block font-medium text-sm mb-2"
+              >
                 Your Solution:
               </label>
               <textarea
                 id="solution"
                 rows={10}
-                className="input-field font-mono"
+                className="input-field font-mono text-sm bg-[#f7f7f7] dark:bg-[#2c2c2c]"
                 value={userCode}
                 onChange={(e) => setUserCode(e.target.value)}
               ></textarea>
@@ -580,10 +591,12 @@ export default function ChallengePage({ params }: { params: { id: string } }) {
         )}
       </main>
 
-      <footer className="bg-gray-100 p-6 mt-8">
+      <footer className="bg-[#f3f4f5] dark:bg-[#282828] p-5 border-t border-gray-200 dark:border-gray-700 mt-8">
         <div className="container mx-auto text-center">
-          <p>GraphQL Developer Hub - A demo site for learning web scraping</p>
-          <p className="text-sm text-gray-600 mt-2">
+          <p className="text-gray-700 dark:text-gray-300">
+            GraphQL Developer Hub - A demo site for learning web scraping
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
             This is a simplified example with an in-memory GraphQL API
           </p>
         </div>

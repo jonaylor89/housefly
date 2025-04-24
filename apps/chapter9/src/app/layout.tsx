@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Source_Sans_3, Source_Code_Pro } from "next/font/google";
+import { Inter, Nunito, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth";
 
-const sansFont = Source_Sans_3({
+const nunitoFont = Nunito({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+});
+
+const sansFont = Inter({
   variable: "--font-source-sans-3",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const monoFont = Source_Code_Pro({
@@ -25,7 +31,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${sansFont.variable} ${monoFont.variable} antialiased`}>
+      <body
+        className={`${nunitoFont.variable} ${sansFont.variable} ${monoFont.variable} antialiased`}
+      >
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

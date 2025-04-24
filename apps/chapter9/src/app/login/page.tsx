@@ -30,7 +30,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-blue-800 text-white p-4">
+      <header className="bg-[#282828] text-white p-4">
         <div className="container mx-auto flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold">
             GraphQL Developer Hub
@@ -39,18 +39,18 @@ export default function Login() {
       </header>
 
       <main className="flex-grow flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-          <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <div className="w-full max-w-md bg-white dark:bg-[#282828] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-xl font-bold mb-6 text-center">Sign In</h2>
           
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+            <div className="bg-[rgba(239,71,67,0.1)] border border-[#ef4743] text-[#ef4743] px-4 py-2 rounded mb-4 text-sm" role="alert">
               <span className="block sm:inline">{error}</span>
             </div>
           )}
           
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Email</label>
+              <label htmlFor="email" className="block text-gray-700 dark:text-gray-300 text-sm font-medium mb-1">Email</label>
               <input
                 type="email"
                 id="email"
@@ -64,7 +64,7 @@ export default function Login() {
             </div>
             
             <div className="mb-6">
-              <label htmlFor="password" className="block text-gray-700 font-medium mb-2">Password</label>
+              <label htmlFor="password" className="block text-gray-700 dark:text-gray-300 text-sm font-medium mb-1">Password</label>
               <input
                 type="password"
                 id="password"
@@ -79,18 +79,18 @@ export default function Login() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full btn-primary disabled:opacity-50"
+              className="w-full btn-primary disabled:opacity-50 py-2"
             >
-              {isLoading ? 'Logging in...' : 'Login'}
+              {isLoading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
         </div>
       </main>
       
-      <footer className="bg-gray-100 p-6">
+      <footer className="bg-[#f3f4f5] dark:bg-[#282828] p-5 border-t border-gray-200 dark:border-gray-700">
         <div className="container mx-auto text-center">
-          <p>GraphQL Developer Hub - A demo site for learning web scraping</p>
-          <p className="text-sm text-gray-600 mt-2">This is a simplified example with an in-memory GraphQL API</p>
+          <p className="text-gray-700 dark:text-gray-300">GraphQL Developer Hub - A demo site for learning web scraping</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">This is a simplified example with an in-memory GraphQL API</p>
         </div>
       </footer>
     </div>

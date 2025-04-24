@@ -1,67 +1,109 @@
+@import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* LeetCode Theme */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --secondary: #f3f4f6;
-  --secondary-hover: #e5e7eb;
-  --accent: #6366f1;
-  --success: #22c55e;
-  --warning: #eab308;
-  --danger: #ef4444;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Light Theme - Exact LeetCode colors */
+  --background: #ffffff; /* White background */
+  --foreground: #262626; /* Darker text */
+  --primary: #3c8ffe; /* LeetCode blue */
+  --primary-hover: #265f96; /* Darker hover blue */
+  --secondary: #f3f4f5; /* Very light gray - LeetCode secondary buttons */
+  --secondary-hover: #e5e7eb; /* Light gray hover */
+  --accent: #6366f1; /* Kept original */
+  --success: #00b8a3; /* LeetCode green */
+  --warning: #ffc01e; /* LeetCode yellow */
+  --danger: #ef4743; /* LeetCode red */
+  --card-bg: #ffffff;
+  --card-border: #e7e7e7; /* Lighter border like LeetCode */
+  --code-bg: #f7f7f7; /* Slightly off-white for code */
+  --input-border: #e7e7e7; /* Lighter border */
+  --input-focus-border: var(--primary);
+  --input-focus-ring: var(--primary);
+  --header-bg: #282828; /* Dark header like LeetCode */
+  --header-text: #ffffff; /* White text in header */
+  --font-sans: var(--font-source-sans-3);
+  --font-mono: var(--font-source-code-pro);
+
+  /* Typography */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #3b82f6;
-    --primary-hover: #60a5fa;
-    --secondary: #1f2937;
-    --secondary-hover: #374151;
-    --card-bg: #1f2937;
-    --card-border: #374151;
-    --code-bg: #374151;
+    /* Dark Theme - Closer to LeetCode Dark */
+    --background: #1a1a1a; /* Very dark gray */
+    --foreground: #eff1f3; /* Off-white text */
+    --primary: #3c8ffe; /* LeetCode blue */
+    --primary-hover: #6aaeff; /* Lighter hover blue */
+    --secondary: #2c2c2c; /* Medium dark gray */
+    --secondary-hover: #3e3e3e; /* Lighter dark gray */
+    --success: #00af9b; /* LeetCode green in dark mode */
+    --warning: #ffb800; /* LeetCode yellow in dark mode */
+    --danger: #f76560; /* LeetCode red in dark mode */
+    --card-bg: #282828; /* Slightly lighter dark gray - closer to LeetCode */
+    --card-border: #3a3a3a; /* Subtle border */
+    --code-bg: #2c2c2c; /* Dark background for code */
+    --input-border: #3e3e3e;
+    --input-focus-border: var(--primary-hover);
+    --input-focus-ring: var(--primary-hover);
+    --header-bg: #1a1a1a; /* Dark header for dark mode */
+    --header-text: #ffffff; /* White text in header */
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-nunito);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Components */
+/* Custom Components - LeetCode Style Adjustments */
 
 .btn {
-  display: inline-block;
-  padding: 0.5rem 1rem; /* py-2 px-4 */
-  border-radius: 0.375rem; /* rounded-md */
+  display: inline-flex; /* Use flex for alignment */
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem; /* Slightly adjusted padding */
+  border-radius: 0.25rem; /* Sharper corners */
   font-weight: 500; /* font-medium */
-  transition-property: color, background-color, border-color, box-shadow;
+  transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-  border: 1px solid transparent; /* Ensure border width for outline consistency */
+  transition-duration: 200ms;
+  border: 1px solid transparent;
   cursor: pointer;
-  text-decoration: none; /* Remove default link underline */
-  line-height: inherit; /* Inherit line height */
-  outline: 2px solid transparent; /* Default outline */
+  text-decoration: none;
+  line-height: 1.25; /* Adjusted line-height */
+  outline: 2px solid transparent;
   outline-offset: 2px;
+  white-space: nowrap; /* Prevent wrapping */
+  letter-spacing: 0.01em;
 }
 
 .btn:focus-visible {
-  /* Use focus-visible for better accessibility */
-  /* Define CSS variables for ring effect - mimicking Tailwind's approach */
   --tw-ring-offset-shadow: var(--tw-ring-offset-width, 2px) 0 0 0
     var(--tw-ring-offset-color, var(--background, #fff));
   --tw-ring-shadow: 0 0 0 calc(2px + var(--tw-ring-offset-width, 2px))
-    var(--tw-ring-color, rgba(59, 130, 246, 0.5)); /* Default ring color if not specified */
+    var(--tw-ring-color, rgba(74, 144, 226, 0.5)); /* Adjusted default ring color */
   box-shadow:
     var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
     var(--tw-shadow, 0 0 #0000);
@@ -70,23 +112,33 @@ body {
 .btn-primary {
   background-color: var(--primary);
   color: #ffffff;
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.25rem;
+  box-shadow: none;
 }
 .btn-primary:hover {
   background-color: var(--primary-hover);
 }
 .btn-primary:focus-visible {
-  --tw-ring-color: var(--primary); /* focus:ring-blue-500 */
+  --tw-ring-color: var(--primary);
 }
 
 .btn-secondary {
   background-color: var(--secondary);
   color: var(--foreground);
+  border: 1px solid var(--card-border); /* Add border for secondary */
 }
 .btn-secondary:hover {
   background-color: var(--secondary-hover);
 }
 .btn-secondary:focus-visible {
-  --tw-ring-color: #9ca3af; /* focus:ring-gray-400 */
+  --tw-ring-color: #9ca3af; /* Keep gray ring for secondary */
+}
+@media (prefers-color-scheme: dark) {
+  .btn-secondary {
+    border-color: var(--card-border);
+  }
 }
 
 .btn-danger {
@@ -94,30 +146,26 @@ body {
   color: #ffffff;
 }
 .btn-danger:hover {
-  background-color: #dc2626; /* Slightly darker red (red-600) */
+  filter: brightness(90%); /* Slight darken on hover */
 }
 .btn-danger:focus-visible {
-  --tw-ring-color: var(--danger); /* focus:ring-red-500 */
+  --tw-ring-color: var(--danger);
 }
 
 .btn-outline {
   background-color: transparent;
-  border: 1px solid #d1d5db; /* border-gray-300 */
-  color: #374151; /* text-gray-700 */
+  border: 1px solid var(--input-border); /* Use input border color */
+  color: var(--foreground); /* Use foreground color */
 }
 .btn-outline:hover {
-  background-color: #f9fafb; /* hover:bg-gray-50 */
+  background-color: rgba(128, 128, 128, 0.1); /* Subtle gray hover */
 }
 .btn-outline:focus-visible {
-  --tw-ring-color: var(--primary); /* focus:ring-blue-500 */
+  --tw-ring-color: var(--primary);
 }
 @media (prefers-color-scheme: dark) {
-  .btn-outline {
-    border-color: var(--card-border, #374151);
-    color: var(--foreground);
-  }
   .btn-outline:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.08);
   }
 }
 
@@ -126,168 +174,154 @@ body {
   color: #ffffff;
 }
 .btn-success:hover {
-  background-color: #16a34a; /* Slightly darker green (green-600) */
+  filter: brightness(90%);
 }
 .btn-success:focus-visible {
-  --tw-ring-color: var(--success); /* focus:ring-green-500 */
+  --tw-ring-color: var(--success);
 }
 
 .btn-warning {
   background-color: var(--warning);
-  /* Tailwind uses text-white for yellow-500, check contrast */
-  color: #ffffff;
+  color: #333; /* Use dark text for better contrast on yellow */
 }
 .btn-warning:hover {
-  background-color: #ca8a04; /* hover:bg-yellow-600 */
+  filter: brightness(90%);
 }
 .btn-warning:focus-visible {
-  --tw-ring-color: var(--warning); /* focus:ring-yellow-500 */
+  --tw-ring-color: var(--warning);
+}
+@media (prefers-color-scheme: dark) {
+  .btn-warning {
+    color: #111; /* Ensure dark text in dark mode too */
+  }
 }
 
 .btn-filter {
   /* Inherits .btn styles */
-  padding: 0.5rem 1rem; /* py-2 px-4 */
+  padding: 0.3rem 0.8rem; /* Smaller padding */
   border-radius: 9999px; /* rounded-full */
+  font-size: 0.875rem; /* text-sm */
 }
 
 .card {
-  background-color: var(--background); /* bg-white */
-  border: 1px solid #e5e7eb; /* border border-gray-200 */
-  border-radius: 0.5rem; /* rounded-lg */
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
-  transition-property: box-shadow;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-  padding: 1.5rem; /* p-6 */
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 0.25rem; /* Even less rounded like LeetCode */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Very subtle shadow */
+  transition: all 0.2s ease-in-out;
+  padding: 1.25rem; /* Slightly less padding like LeetCode */
 }
 .card:hover {
-  box-shadow:
-    0 4px 6px -1px rgb(0 0 0 / 0.1),
-    0 2px 4px -2px rgb(0 0 0 / 0.1); /* hover:shadow-md */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Subtle hover shadow */
+  border-color: rgba(60, 143, 254, 0.3); /* Subtle highlight color on hover */
 }
-@media (prefers-color-scheme: dark) {
-  .card {
-    background-color: var(--card-bg, #1f2937); /* dark:bg-[var(--card-bg)] */
-    border-color: var(
-      --card-border,
-      #374151
-    ); /* dark:border-[var(--card-border)] */
-  }
-}
+/* No dark mode override needed as variables handle it */
 
 .badge {
   display: inline-block;
-  padding: 0.25rem 0.5rem; /* py-1 px-2 */
-  border-radius: 0.25rem; /* rounded */
-  font-size: 0.75rem; /* text-xs */
-  line-height: 1rem;
+  padding: 0.15rem 0.5rem; /* Even smaller padding like LeetCode */
+  border-radius: 0.25rem; /* Less rounded like LeetCode badges */
+  font-size: 0.7rem; /* Smaller text */
+  line-height: 1; /* Tighten line height */
   font-weight: 500; /* font-medium */
+  text-transform: capitalize; /* Capitalize */
+  letter-spacing: 0.01em; /* Slight letter spacing */
 }
 
+/* Use LeetCode badge colors */
 .badge-easy {
-  background-color: #dcfce7; /* bg-green-100 */
-  color: #166534; /* text-green-800 */
+  background-color: rgba(0, 184, 163, 0.15);
+  color: var(--success);
 }
 @media (prefers-color-scheme: dark) {
   .badge-easy {
-    background-color: #14532d; /* dark:bg-green-900 */
-    color: #bbf7d0; /* dark:text-green-200 */
+    background-color: rgba(0, 175, 155, 0.2);
+    color: var(--success);
   }
 }
 
 .badge-medium {
-  background-color: #fef9c3; /* bg-yellow-100 */
-  color: #854d0e; /* text-yellow-800 */
+  background-color: rgba(255, 192, 30, 0.15);
+  color: var(--warning);
 }
 @media (prefers-color-scheme: dark) {
   .badge-medium {
-    background-color: #713f12; /* dark:bg-yellow-900 */
-    color: #fef08a; /* dark:text-yellow-200 */
+    background-color: rgba(255, 184, 0, 0.2);
+    color: var(--warning);
   }
 }
 
 .badge-hard {
-  background-color: #fee2e2; /* bg-red-100 */
-  color: #991b1b; /* text-red-800 */
+  background-color: rgba(239, 71, 67, 0.15);
+  color: var(--danger);
 }
 @media (prefers-color-scheme: dark) {
   .badge-hard {
-    background-color: #7f1d1d; /* dark:bg-red-900 */
-    color: #fecaca; /* dark:text-red-200 */
+    background-color: rgba(247, 101, 96, 0.2);
+    color: var(--danger);
   }
 }
 
 .badge-category {
-  background-color: #dbeafe; /* bg-blue-100 */
-  color: #1e40af; /* text-blue-800 */
+  background-color: rgba(74, 144, 226, 0.15); /* Primary color based */
+  color: var(--primary);
 }
 @media (prefers-color-scheme: dark) {
   .badge-category {
-    background-color: #1e3a8a; /* dark:bg-blue-900 */
-    color: #bfdbfe; /* dark:text-blue-200 */
+    background-color: rgba(74, 144, 226, 0.2);
+    color: var(--primary-hover);
   }
 }
 
 .code-block {
-  background-color: #f3f4f6; /* bg-gray-100 */
-  padding: 1rem; /* p-4 */
-  border-radius: 0.375rem; /* rounded-md */
+  background-color: var(--code-bg);
+  padding: 1.25rem; /* Slightly more padding */
+  border-radius: 0.25rem; /* Match card border radius */
+  border: 1px solid var(--card-border); /* Add subtle border */
   font-family: var(--font-mono); /* font-mono */
   font-size: 0.875rem; /* text-sm */
-  line-height: 1.25rem;
+  line-height: 1.6; /* Improve code readability */
   white-space: pre-wrap; /* whitespace-pre-wrap */
   overflow-x: auto; /* overflow-x-auto */
   color: var(--foreground); /* Ensure text color */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle inset shadow */
+  tab-size: 2; /* Set tab size */
 }
-@media (prefers-color-scheme: dark) {
-  .code-block {
-    background-color: var(--code-bg, #374151); /* dark:bg-[var(--code-bg)] */
-    color: var(--foreground);
-  }
-}
+/* No dark mode override needed as variables handle it */
 
 .input-field {
   width: 100%; /* w-full */
-  padding: 0.5rem 0.75rem; /* py-2 px-3 */
+  padding: 0.6rem 0.75rem; /* Slightly taller */
   border-width: 1px;
   border-style: solid;
-  border-color: #d1d5db; /* border-gray-300 */
-  border-radius: 0.375rem; /* rounded-md */
-  background-color: var(--background); /* bg-white */
+  border-color: var(--input-border);
+  border-radius: 0.25rem; /* Sharper corners */
+  background-color: var(--background); /* Match body background */
   color: var(--foreground);
   outline: 2px solid transparent;
   outline-offset: 2px;
-  transition:
-    border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  font-size: var(--text-sm);
 }
 .input-field:focus {
-  border-color: var(--primary); /* focus:border-blue-500 */
-  box-shadow: 0 0 0 1px var(--primary); /* focus:ring-blue-500 (simplified ring) */
-  outline: none; /* Remove default focus outline when using custom ring */
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 1px var(--input-focus-ring);
+  outline: none;
 }
 @media (prefers-color-scheme: dark) {
   .input-field {
-    border-color: #4b5563; /* dark:border-gray-600 */
+    /* Variables already handle dark mode colors */
     background-color: var(
-      --secondary-hover,
-      #374151
-    ); /* dark:bg-gray-700 - using var for potential theme consistency */
-    color: var(--foreground);
-  }
-  .input-field:focus {
-    border-color: var(--primary-hover); /* Lighter blue for dark mode focus */
-    box-shadow: 0 0 0 1px var(--primary-hover); /* Lighter blue for dark mode focus ring */
+      --secondary-hover
+    ); /* Use a slightly different bg for input in dark mode */
   }
 }
 
-/* Basic prose dark mode styling - approximate replacement for dark:prose-invert */
-/* Assumes .prose might contain various text elements */
+/* Basic prose dark mode styling - adjusted for new theme */
 @media (prefers-color-scheme: dark) {
   .prose {
     color: var(--foreground);
   }
-  /* Select common prose elements, excluding those within elements explicitly marked as not-prose */
   .prose
     :where(h1, h2, h3, h4, h5, h6, strong, b, blockquote, thead, th):not(
       :where([class~="not-prose"] *)
@@ -295,26 +329,33 @@ body {
     color: inherit; /* Inherit from .prose */
   }
   .prose :where(a):not(:where([class~="not-prose"] *)) {
-    color: var(--primary-hover); /* Use a lighter/brighter link color */
+    color: var(--primary-hover);
   }
-  .prose :where(code):not(:where([class~="not-prose"] *)) {
-    color: #fcd34d; /* Example: yellow-300 */
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 0.1em 0.3em;
+  /* Inline code */
+  .prose :where(code):not(pre code):not(:where([class~="not-prose"] *)) {
+    color: var(--foreground); /* Match surrounding text */
+    background-color: var(--secondary); /* Use secondary bg */
+    padding: 0.1em 0.4em;
     border-radius: 0.25em;
     font-size: 0.9em;
+    border: 1px solid var(--card-border); /* Add subtle border */
   }
+  /* Code within pre blocks */
   .prose :where(pre code):not(:where([class~="not-prose"] *)) {
-    background-color: transparent; /* Code inside pre usually doesn't need separate bg */
+    background-color: transparent;
     padding: 0;
     border-radius: 0;
     font-size: inherit;
+    border: none; /* No border for code inside pre */
+    color: inherit; /* Inherit color from pre */
   }
+  /* Pre block */
   .prose :where(pre):not(:where([class~="not-prose"] *)) {
-    background-color: var(--code-bg, #374151); /* Match code-block bg */
+    background-color: var(--code-bg); /* Use code-block bg */
     padding: 1em;
     border-radius: 0.375rem;
     overflow-x: auto;
+    border: 1px solid var(--card-border); /* Match code-block border */
   }
-  /* Add more overrides as needed for other prose elements like lists, blockquotes etc. */
+  /* Add more overrides as needed */
 }

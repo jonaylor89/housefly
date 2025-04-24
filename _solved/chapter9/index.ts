@@ -59,11 +59,12 @@ async function loginDemoUser(): Promise<string | null> {
   try {
     const data = await fetchGraphQL(loginMutation, {
       email: DEMO_USER_EMAIL,
-      password: DEMO_USER_PASSWOR,
+      password: DEMO_USER_PASSWORD,
     });
+
     return data.login.token;
   } catch (error) {
-    console.error("Login failed. Make sure the demo server is running.");
+    console.error("Login failed. Make sure the demo server is running.", error);
     return null;
   }
 }
@@ -113,8 +114,10 @@ async function main() {
       challenges: data.challenges.edges.map((edge: any) => edge.node),
       user: {
         ...data.me,
-        bookmarks: data.me.bookmarks.map((b: any) => b.id),
-        completedChallenges: data.me.completedChallenges.map((c: any) => c.id),
+        bookmarks: data.me?.bookmarks?.map((b: any) => b.id),
+        completedChallenges: data.me?.completedChallenges?.map(
+          (c: any) => c.id,
+        ),
       },
     };
 

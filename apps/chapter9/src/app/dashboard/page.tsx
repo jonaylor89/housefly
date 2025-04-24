@@ -91,14 +91,14 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-blue-800 text-white p-4">
+      <header className="bg-[#282828] text-white p-4">
         <div className="container mx-auto flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold">
             GraphQL Developer Hub
           </Link>
           <nav>
             <div className="flex items-center gap-4">
-              <Link href="/challenges" className="hover:underline">
+              <Link href="/challenges" className="text-gray-300 hover:text-white">
                 Challenges
               </Link>
               <button
@@ -106,11 +106,11 @@ export default function Dashboard() {
                   logout();
                   router.push("/");
                 }}
-                className="hover:underline"
+                className="text-gray-300 hover:text-white"
               >
                 Logout
               </button>
-              <span>Welcome, {user?.name}</span>
+              <span className="text-gray-300">Welcome, {user?.name}</span>
             </div>
           </nav>
         </div>
@@ -119,17 +119,17 @@ export default function Dashboard() {
       <main className="flex-grow container mx-auto p-4">
         <h1 className="text-3xl font-bold mb-8">Your Dashboard</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <section className="card">
-            <h2 className="text-xl font-semibold mb-4">
+            <h2 className="text-lg font-semibold mb-4">
               Bookmarked Challenges
             </h2>
             {bookmarkedChallenges.length === 0 ? (
-              <p className="text-gray-500">
+              <p className="text-gray-500 dark:text-gray-400 text-sm">
                 You haven't bookmarked any challenges yet.
               </p>
             ) : (
-              <ul className="space-y-4">
+              <ul className="space-y-3">
                 {bookmarkedChallenges.map((challenge) => (
                   <li
                     key={challenge.id}
@@ -137,9 +137,9 @@ export default function Dashboard() {
                   >
                     <Link
                       href={`/challenges/${challenge.id}`}
-                      className="hover:text-blue-600"
+                      className="hover:text-[#3c8ffe]"
                     >
-                      <h3 className="font-medium">{challenge.title}</h3>
+                      <h3 className="font-medium text-sm">{challenge.title}</h3>
                       <div className="flex gap-2 mt-1">
                         <span className={`badge badge-${challenge.difficulty}`}>
                           {challenge.difficulty}
@@ -156,13 +156,13 @@ export default function Dashboard() {
           </section>
 
           <section className="card">
-            <h2 className="text-xl font-semibold mb-4">Completed Challenges</h2>
+            <h2 className="text-lg font-semibold mb-4">Completed Challenges</h2>
             {completedChallenges.length === 0 ? (
-              <p className="text-gray-500">
+              <p className="text-gray-500 dark:text-gray-400 text-sm">
                 You haven't completed any challenges yet.
               </p>
             ) : (
-              <ul className="space-y-4">
+              <ul className="space-y-3">
                 {completedChallenges.map((challenge) => (
                   <li
                     key={challenge.id}
@@ -170,9 +170,9 @@ export default function Dashboard() {
                   >
                     <Link
                       href={`/challenges/${challenge.id}`}
-                      className="hover:text-blue-600"
+                      className="hover:text-[#3c8ffe]"
                     >
-                      <h3 className="font-medium">{challenge.title}</h3>
+                      <h3 className="font-medium text-sm">{challenge.title}</h3>
                       <div className="flex gap-2 mt-1">
                         <span className={`badge badge-${challenge.difficulty}`}>
                           {challenge.difficulty}
@@ -196,10 +196,10 @@ export default function Dashboard() {
         </div>
       </main>
 
-      <footer className="bg-gray-100 p-6 mt-8">
+      <footer className="bg-[#f3f4f5] dark:bg-[#282828] p-5 border-t border-gray-200 dark:border-gray-700 mt-8">
         <div className="container mx-auto text-center">
-          <p>GraphQL Developer Hub - A demo site for learning web scraping</p>
-          <p className="text-sm text-gray-600 mt-2">
+          <p className="text-gray-700 dark:text-gray-300">GraphQL Developer Hub - A demo site for learning web scraping</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
             This is a simplified example with an in-memory GraphQL API
           </p>
         </div>
