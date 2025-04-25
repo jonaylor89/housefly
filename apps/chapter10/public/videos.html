@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Collection - Digital Archive</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Digital Archive</h1>
+        <p class="subtitle">Video Collection</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="intro">
+        <h2>Historical Video Archives</h2>
+        <p>
+          Explore our collection of embedded videos from various sources. Each
+          video contains metadata including titles, descriptions, and source
+          information. Challenge: Extract video metadata including titles,
+          descriptions, and video source URLs/IDs.
+        </p>
+        <a href="./index.html" class="btn" style="margin-top: 1rem"
+          >Back to Home</a
+        >
+      </section>
+
+      <section class="video-collection">
+        <article class="video-item">
+          <div class="video-container">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/WZyRbnpGyzQ"
+              title="The Moon Landing Speech"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="video-info">
+            <h3>President Kennedy's Moon Speech</h3>
+            <p>
+              On May 25, 1961, President John F. Kennedy announced before a
+              special joint session of Congress the dramatic and ambitious goal
+              of sending an American safely to the Moon before the end of the
+              decade.
+            </p>
+            <span class="video-source">Source: YouTube</span>
+          </div>
+        </article>
+
+        <article class="video-item">
+          <div class="video-container">
+            <video controls>
+              <source src="./videos/historical_footage.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="video-info">
+            <h3>San Francisco After the 1906 Earthquake</h3>
+            <p>
+              Rare footage showing the aftermath of the 1906 San Francisco
+              earthquake and fire. This film, shot just days after the
+              devastating event, shows the extent of the damage to the city's
+              infrastructure.
+            </p>
+            <span class="video-source">Source: National Archives</span>
+          </div>
+        </article>
+
+        <article class="video-item">
+          <div class="video-container">
+            <iframe
+              src="https://player.vimeo.com/video/373352865"
+              width="640"
+              height="360"
+              frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+              title="The Wright Brothers' First Flight"
+            ></iframe>
+          </div>
+          <div class="video-info">
+            <h3>The Berlin Wall: Rise and Fall</h3>
+            <p>
+              This documentary explores the history of the Berlin Wall from its
+              construction in 1961 to its fall in 1989. It includes interviews
+              with people who lived through this divided period in German
+              history.
+            </p>
+            <span class="video-source">Source: Vimeo</span>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 1941 Digital Archive - Created for Housefly Chapter 10</p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -4,6 +4,8 @@ import { getPosts } from "app/posts/utils";
 export async function GET() {
   let allPosts = await getPosts();
 
+  console.log({ allPosts: allPosts.map((post) => post.metadata) });
+
   const itemsXml = allPosts
     .sort((a, b) => {
       if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {

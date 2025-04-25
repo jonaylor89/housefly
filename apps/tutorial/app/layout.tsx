@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
 };
 
-const cx = (...classes) => classes.filter(Boolean).join(" ");
+const cx = (...classes: unknown[]) => classes.filter(Boolean).join(" ");
 
 const SpaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -46,9 +46,9 @@ const SpaceGrotesk = Space_Grotesk({
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html
       lang="en"
@@ -61,7 +61,7 @@ export default function RootLayout({
         <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
           <PlausibleProvider domain="housefly.cc">
             <Navbar />
-            {children}
+            <>{children}</>
             <Footer />
           </PlausibleProvider>
         </main>
