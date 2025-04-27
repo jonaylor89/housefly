@@ -1,14 +1,7 @@
 {
-  "osint": {
-    "claimed_date": "1941",
-    "actual_date_range": {
-      "start": "2023-06-01",
-      "end": "2023-06-10"
-    }
-  },
   "images": [
     {
-      "src": "./images/historical_nyc_skyline_1931.jpg",
+      "src": "/images/historical_nyc_skyline_1931.jpg",
       "alt": "Black and white photograph of the New York City skyline taken in 1931, showing early skyscrapers including the Empire State Building under construction",
       "filename": "historical_nyc_skyline_1931.jpg",
       "caption": "New York City skyline in 1931, featuring the recently completed Empire State Building. This iconic Depression-era image captures the city's growing vertical ambitions.",
@@ -19,7 +12,7 @@
       "last_modified": "2023-06-05T14:23:17Z"
     },
     {
-      "src": "./images/moon_landing_1969.jpg",
+      "src": "/images/moon_landing_1969.jpg",
       "alt": "Famous photograph of Buzz Aldrin on the lunar surface during the Apollo 11 mission in 1969",
       "filename": "moon_landing_1969.jpg",
       "caption": "Astronaut Buzz Aldrin on the Moon's surface during the historic Apollo 11 mission, July 20, 1969. Photograph taken by Neil Armstrong.",
@@ -30,7 +23,7 @@
       "last_modified": "2023-06-05T14:24:42Z"
     },
     {
-      "src": "./images/industrial_revolution_factory_1880.jpg",
+      "src": "/images/industrial_revolution_factory_1880.jpg",
       "alt": "Industrial factory floor with textile machines and workers during the height of the Industrial Revolution circa 1880",
       "filename": "industrial_revolution_factory_1880.jpg",
       "caption": "Cotton textile factory floor in Manchester during the late Industrial Revolution period, showing working conditions and machinery of the era.",
@@ -41,7 +34,7 @@
       "last_modified": "2023-06-05T14:25:17Z"
     },
     {
-      "src": "./images/womens_suffrage_march_1913.jpg",
+      "src": "/images/womens_suffrage_march_1913.jpg",
       "alt": "Women marching for voting rights during the Women's Suffrage Parade in Washington D.C., 1913",
       "filename": "womens_suffrage_march_1913.jpg",
       "caption": "Women's suffrage parade on Pennsylvania Avenue, Washington D.C., March 3, 1913. Over 5,000 women marched for voting rights.",
@@ -52,7 +45,7 @@
       "last_modified": "2023-06-05T14:26:03Z"
     },
     {
-      "src": "./images/first_computer_eniac_1946.jpg",
+      "src": "/images/first_computer_eniac_1946.jpg",
       "alt": "The ENIAC (Electronic Numerical Integrator and Computer), one of the world's first general-purpose computers, with operators working at control panels, 1946",
       "filename": "first_computer_eniac_1946.jpg",
       "caption": "The ENIAC, unveiled in 1946 at the University of Pennsylvania, was one of the first general-purpose digital computers. It weighed 30 tons and contained 18,000 vacuum tubes.",
@@ -63,7 +56,7 @@
       "last_modified": "2023-06-05T14:27:11Z"
     },
     {
-      "src": "./images/berlin_wall_fall_1989.jpg",
+      "src": "/images/berlin_wall_fall_1989.jpg",
       "alt": "Civilians climbing and dismantling the Berlin Wall after its fall in November 1989",
       "filename": "berlin_wall_fall_1989.jpg",
       "caption": "The fall of the Berlin Wall, November 9, 1989. East German citizens celebrate atop the wall after the announcement that the border would be opened, marking a pivotal moment in the end of the Cold War.",
@@ -74,7 +67,7 @@
       "last_modified": "2023-06-05T14:27:45Z"
     },
     {
-      "src": "./images/wright_brothers_flight_1903.jpg",
+      "src": "/images/wright_brothers_flight_1903.jpg",
       "alt": "The Wright brothers' first powered flight at Kitty Hawk, North Carolina on December 17, 1903",
       "filename": "wright_brothers_flight_1903.jpg",
       "caption": "The first successful powered flight by the Wright brothers at Kitty Hawk, North Carolina, December 17, 1903. This 12-second flight changed transportation forever.",
@@ -85,7 +78,7 @@
       "last_modified": "2023-06-05T14:28:22Z"
     },
     {
-      "src": "./images/map_ancient_rome_117AD.jpg",
+      "src": "/images/map_ancient_rome_117AD.jpg",
       "alt": "Detailed historical map showing the Roman Empire at its greatest extent under Emperor Trajan in 117 AD",
       "filename": "map_ancient_rome_117AD.jpg",
       "caption": null,
@@ -99,62 +92,9 @@
   "documents": [
     {
       "title": "Historical Letter from 1865",
-      "url": "./documents/historical_letter_1865.pdf",
+      "url": "/documents/historical_letter_1865.pdf",
       "description": "A digitized copy of a letter written by General Sherman to President Lincoln near the end of the American Civil War. This document is primarily text-based with minimal formatting.",
-      "textContent": "This is placeholder content for the letter's text content that students would extract from the PDF."
-    },
-    {
-      "title": "Census Data Report 1900",
-      "url": "./documents/census_data_1900.pdf",
-      "description": "An excerpt from the 1900 census containing demographic tables and statistical data. This document contains structured tabular data with headers and numerical values.",
-      "textContent": "This is placeholder content for the census data text that students would extract from the PDF.",
-      "tableData": [
-        {
-          "region": "Northeast",
-          "population": 15268171,
-          "malePercentage": 49.2,
-          "femalePercentage": 50.8
-        },
-        {
-          "region": "Midwest",
-          "population": 12981335,
-          "malePercentage": 51.4,
-          "femalePercentage": 48.6
-        },
-        {
-          "region": "South",
-          "population": 10973879,
-          "malePercentage": 50.1,
-          "femalePercentage": 49.9
-        },
-        {
-          "region": "West",
-          "population": 4325697,
-          "malePercentage": 58.2,
-          "femalePercentage": 41.8
-        }
-      ]
-    },
-    {
-      "title": "Scientific Publication on Evolution",
-      "url": "./documents/evolution_publication.pdf",
-      "description": "A scientific paper discussing evolutionary theory with text, diagrams, and references. This document contains a mix of text content, images, and a structured bibliography.",
-      "textContent": "This is placeholder content for the scientific publication text that students would extract from the PDF.",
-      "figures": [
-        {
-          "figureNumber": 1,
-          "caption": "Evolutionary tree showing the relationship between primates"
-        },
-        {
-          "figureNumber": 2,
-          "caption": "Comparison of homologous structures across vertebrate species"
-        }
-      ],
-      "references": [
-        "Darwin, C. (1859). On the Origin of Species.",
-        "Gould, S.J. (2002). The Structure of Evolutionary Theory.",
-        "Dawkins, R. (1976). The Selfish Gene."
-      ]
+      "pages": 21
     }
   ],
   "videos": [
@@ -162,22 +102,22 @@
       "title": "President Kennedy's Moon Speech",
       "description": "On May 25, 1961, President John F. Kennedy announced before a special joint session of Congress the dramatic and ambitious goal of sending an American safely to the Moon before the end of the decade.",
       "source": "YouTube",
-      "videoId": "dQw4w9WgXcQ",
-      "embedUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      "videoId": "WZyRbnpGyzQ",
+      "embedUrl": "https://www.youtube.com/embed/WZyRbnpGyzQ"
     },
     {
       "title": "San Francisco After the 1906 Earthquake",
       "description": "Rare footage showing the aftermath of the 1906 San Francisco earthquake and fire. This film, shot just days after the devastating event, shows the extent of the damage to the city's infrastructure.",
       "source": "National Archives",
-      "videoUrl": "./videos/historical_footage.mp4",
+      "videoUrl": "/videos/historical_footage.mp4",
       "format": "video/mp4"
     },
     {
       "title": "The Berlin Wall: Rise and Fall",
       "description": "This documentary explores the history of the Berlin Wall from its construction in 1961 to its fall in 1989. It includes interviews with people who lived through this divided period in German history.",
       "source": "Vimeo",
-      "videoId": "76979871",
-      "embedUrl": "https://player.vimeo.com/video/76979871"
+      "videoId": "373352865",
+      "embedUrl": "https://player.vimeo.com/video/373352865"
     }
   ]
 }
