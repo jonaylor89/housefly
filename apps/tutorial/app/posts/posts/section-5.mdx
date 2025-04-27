@@ -1,7 +1,83 @@
 ---
-title: 'Media & Non-Text Scraping (coming soon)'
-publishedAt: '2025-04-16'
-summary: 'Extracting images and metadata, parsing PDFs, scraping embedded videos'
+title: 'Media + Non-Text Scraping'
+publishedAt: '2025-04-26'
+summary: 'Learn techniques for scraping beyond text: extracting images with metadata, downloading, and parsing PDFs, and capturing video information.'
 ---
 
-Coming soon...
+Welcome to Section 5! So far, we've covered scraping static and dynamic HTML content, navigating multi-page sites, and interacting with APIs and forms. Now we're moving beyond text to explore media content extraction. This section focuses on techniques for handling various media types encountered during web scraping.
+
+### 1. Extracting Images and Metadata (Chapter 10)
+
+Images constitute a significant portion of web content, and scraping them involves more than just downloading the files. Valuable context is often stored in associated metadata.
+
+**Key Concepts:**
+
+* **Image Identification:** Using selectors to locate image elements in HTML (`<img>` tags, background images, etc.)
+* **Metadata Extraction:** Gathering critical information such as:
+  * `alt` text (essential for accessibility and describing image content)
+  * Filenames (often contain descriptive information like dates or subjects)
+  * Captions and surrounding text
+  * Custom data attributes (e.g., `data-photographer`, `data-location`)
+* **Image Download:** Techniques for efficiently saving images while maintaining organization
+* **EXIF Data:** For some images, extracting embedded technical metadata (camera settings, GPS coordinates, etc.)
+
+**The Challenge (Chapter 10):** You'll scrape a digital archive website containing various historical images. Your task is to extract not just the images themselves, but also all associated metadata including alt text, filename information, captions, and custom attributes.
+
+### 2. Downloading and Parsing PDFs
+
+Many valuable documents on the web are stored as PDFs, which require special handling to extract their content.
+
+**Key Concepts:**
+
+* **PDF Detection:** Finding PDF links on web pages
+* **Downloading:** Techniques for retrieving PDF files
+* **Text Extraction:** Using libraries like `pdf-parse` or `pdf.js` to extract text content
+* **Structured Data:** Handling documents with:
+  * Basic text
+  * Tables and columns
+  * Forms
+  * Embedded images
+* **Metadata Access:** Extracting document properties (title, author, creation date)
+
+**The Challenge (Chapter 10):** As part of the digital archive scraping exercise, you'll download PDF documents with varying structures—from simple text-based documents to more complex ones containing tables and embedded images. Your solution must extract and organize this content appropriately.
+
+### 3. Scraping Embedded Video Metadata
+
+Videos are commonly embedded in webpages via iframes or specialized players, with their metadata accessible through different techniques.
+
+**Key Concepts:**
+
+* **Video Embed Identification:** Recognizing different embedding methods:
+  * YouTube/Vimeo iframes
+  * HTML5 `<video>` elements
+  * Custom video players
+* **Metadata Extraction:** Gathering:
+  * Video titles and descriptions
+  * Platform information
+  * Video IDs or direct URLs
+  * Duration, uploader, and other available attributes
+* **Thumbnail Access:** Retrieving preview images associated with videos
+
+**The Challenge (Chapter 10):** The final component of the digital archive exercise requires you to extract information about embedded videos from multiple sources, including YouTube, Vimeo, and native HTML5 video elements.
+
+### OSINT & Digital Forensics Applications
+
+The techniques covered in this section also have applications in Open Source Intelligence (OSINT) and digital forensics. Media metadata can reveal important information about content authenticity, including discrepancies in publication dates, geographic origins, and source information.
+
+These skills are valuable for researchers and analysts working in fields where content verification is crucial. If you're interested in learning more about these applications, check out resources like [OSINT Framework](https://osintframework.com/) or [Intel Techniques](https://inteltechniques.com/index.html).
+
+While we won't focus on investigative techniques in our challenges, understanding how metadata can be extracted and analyzed is an important skill for comprehensive web scraping projects.
+
+### Practical Considerations
+
+When scraping media content, keep these important factors in mind:
+
+1. **Storage Requirements:** Media files can be large—plan accordingly
+2. **Bandwidth Usage:** Downloading numerous media files can consume significant bandwidth
+3. **Rate Limiting:** Many sites restrict the rate of media downloads
+4. **Legal Considerations:** Be aware of copyright restrictions on media content
+5. **Error Handling:** Some media may be inaccessible or corrupted—your solution should handle these cases gracefully
+
+Mastering these techniques will significantly expand your web scraping capabilities beyond text-based content, allowing you to capture and utilize the full spectrum of media available on the web.
+
+Happy scraping!

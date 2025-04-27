@@ -431,7 +431,6 @@ export default function SearchPage() {
             <div>
               <label className="label">Select dates (optional)</label>
               <div className="bg-white border rounded-md p-4">
-                {/* @ts-expect-error - Type incompatibility with React 19 */}
                 <DatePicker
                   selected={formData.startDate}
                   onChange={handleDateChange}

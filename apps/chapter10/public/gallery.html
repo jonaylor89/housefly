@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Gallery - Digital Archive</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Digital Archive</h1>
+        <p class="subtitle">Image Gallery</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="intro">
+        <h2>Historical Image Collection</h2>
+        <p>
+          Browse our curated collection of historical images. Each image
+          contains valuable metadata including descriptive alt text and
+          meaningful filenames. Challenge: Extract image sources, alt text,
+          filenames, and captions from this gallery.
+        </p>
+        <a href="/index.html" class="btn" style="margin-top: 1rem"
+          >Back to Home</a
+        >
+      </section>
+
+      <section class="gallery">
+        <figure class="gallery-item">
+          <img
+            src="/images/historical_nyc_skyline_1931.jpg"
+            alt="Black and white photograph of the New York City skyline taken in 1931, showing early skyscrapers including the Empire State Building under construction"
+            width="600"
+            height="400"
+            loading="lazy"
+            data-photographer="Unknown"
+            data-location="New York, NY"
+          />
+          <figcaption>
+            New York City skyline in 1931, featuring the recently completed
+            Empire State Building. This iconic Depression-era image captures the
+            city's growing vertical ambitions.
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img
+            src="/images/moon_landing_1969.jpg"
+            alt="Famous photograph of Buzz Aldrin on the lunar surface during the Apollo 11 mission in 1969"
+            width="600"
+            height="400"
+            loading="lazy"
+            data-photographer="Neil Armstrong"
+            data-location="Sea of Tranquility, Moon"
+          />
+          <figcaption>
+            Astronaut Buzz Aldrin on the Moon's surface during the historic
+            Apollo 11 mission, July 20, 1969. Photograph taken by Neil
+            Armstrong.
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img
+            src="/images/industrial_revolution_factory_1880.jpg"
+            alt="Industrial factory floor with textile machines and workers during the height of the Industrial Revolution circa 1880"
+            width="600"
+            height="400"
+            loading="lazy"
+            data-photographer="Historical Archives"
+            data-location="Manchester, England"
+          />
+          <figcaption>
+            Cotton textile factory floor in Manchester during the late
+            Industrial Revolution period, showing working conditions and
+            machinery of the era.
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img
+            src="/images/womens_suffrage_march_1913.jpg"
+            alt="Women marching for voting rights during the Women's Suffrage Parade in Washington D.C., 1913"
+            width="600"
+            height="400"
+            loading="lazy"
+            data-photographer="Library of Congress"
+            data-location="Washington, D.C."
+          />
+          <figcaption>
+            Women's suffrage parade on Pennsylvania Avenue, Washington D.C.,
+            March 3, 1913. Over 5,000 women marched for voting rights.
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img
+            src="/images/first_computer_eniac_1946.jpg"
+            alt="The ENIAC (Electronic Numerical Integrator and Computer), one of the world's first general-purpose computers, with operators working at control panels, 1946"
+            width="600"
+            height="400"
+            loading="lazy"
+            data-photographer="U.S. Army"
+            data-location="University of Pennsylvania"
+          />
+          <figcaption>
+            The ENIAC, unveiled in 1946 at the University of Pennsylvania, was
+            one of the first general-purpose digital computers. It weighed 30
+            tons and contained 18,000 vacuum tubes.
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img
+            src="/images/berlin_wall_fall_1989.jpg"
+            alt="Civilians climbing and dismantling the Berlin Wall after its fall in November 1989"
+            width="600"
+            height="400"
+            loading="lazy"
+            data-photographer="Reuters"
+            data-location="Berlin, Germany"
+          />
+          <figcaption>
+            The fall of the Berlin Wall, November 9, 1989. East German citizens
+            celebrate atop the wall after the announcement that the border would
+            be opened, marking a pivotal moment in the end of the Cold War.
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img
+            src="/images/wright_brothers_flight_1903.jpg"
+            alt="The Wright brothers' first powered flight at Kitty Hawk, North Carolina on December 17, 1903"
+            width="600"
+            height="400"
+            loading="lazy"
+            data-photographer="John T. Daniels"
+            data-location="Kitty Hawk, North Carolina"
+          />
+          <figcaption>
+            The first successful powered flight by the Wright brothers at Kitty
+            Hawk, North Carolina, December 17, 1903. This 12-second flight
+            changed transportation forever.
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img
+            src="/images/map_ancient_rome_117AD.jpg"
+            alt="Detailed historical map showing the Roman Empire at its greatest extent under Emperor Trajan in 117 AD"
+            width="600"
+            height="400"
+            loading="lazy"
+            data-creator="Historical Cartography Institute"
+            data-date="2005 recreation"
+          />
+          <!-- No figcaption for this one to test scraping without captions -->
+        </figure>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 1941 Digital Archive - Created for Housefly Chapter 10</p>
+      </div>
+    </footer>
+  </body>
+</html>

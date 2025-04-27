@@ -13,6 +13,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
+    "@types/pdf-parse": "^1.1.5",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.1",
     "prettier": "^3.5.0",
@@ -30,6 +31,7 @@
   ],
   "dependencies": {
     "crawlee": "^3.13.0",
+    "pdf-parse": "^1.1.1",
     "playwright": "^1.51.1"
   }
 }
