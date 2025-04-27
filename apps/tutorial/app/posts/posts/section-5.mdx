@@ -62,17 +62,11 @@ Videos are commonly embedded in webpages via iframes or specialized players, wit
 
 ### OSINT & Digital Forensics Applications
 
-The techniques in this section have powerful applications in Open Source Intelligence (OSINT) and digital forensics, particularly for verifying the authenticity of web content:
+The techniques covered in this section also have applications in Open Source Intelligence (OSINT) and digital forensics. Media metadata can reveal important information about content authenticity, including discrepancies in publication dates, geographic origins, and source information.
 
-1. **Publication Date Verification**: While CMS platforms allow authors to manipulate displayed dates, the HTTP Last-Modified headers of static resources (like images) often reveal the true timeline. This discrepancy can expose backdated or falsely dated content.
+These skills are valuable for researchers and analysts working in fields where content verification is crucial. If you're interested in learning more about these applications, check out resources like [OSINT Framework](https://osintframework.com/) or [Intel Techniques](https://inteltechniques.com/index.html).
 
-2. **Content Authenticity Analysis**: Metadata from images (EXIF data) can reveal camera models, timestamps, and even GPS coordinates that might contradict the claimed origin of the content.
-
-3. **Source Identification**: PDF metadata often contains creation software, author information, and modification history that can help trace the document's origins.
-
-4. **Embedded Video Analysis**: Video metadata might reveal upload dates or source information inconsistent with the surrounding content.
-
-In Chapter 10, you'll practice these techniques by investigating a website with inconsistent publication dates between what's claimed and what's revealed by the underlying media files.
+While we won't focus on investigative techniques in our challenges, understanding how metadata can be extracted and analyzed is an important skill for comprehensive web scraping projects.
 
 ### Practical Considerations
 
