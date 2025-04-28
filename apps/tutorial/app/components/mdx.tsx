@@ -35,7 +35,6 @@ type CustomLinkProps = {
 };
 
 export function CustomLink({ href, children, ...props }: CustomLinkProps) {
-  console.log({ href, children, props });
   if (href.startsWith("/")) {
     return (
       <Link href={href} {...props}>
