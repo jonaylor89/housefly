@@ -35,10 +35,11 @@ type CustomLinkProps = {
 };
 
 export function CustomLink({ href, children, ...props }: CustomLinkProps) {
+  console.log({ href, children, props });
   if (href.startsWith("/")) {
     return (
       <Link href={href} {...props}>
-        {props.children}
+        {children}
       </Link>
     );
   }
@@ -47,7 +48,11 @@ export function CustomLink({ href, children, ...props }: CustomLinkProps) {
     return <a {...props} />;
   }
 
-  return <a target="_blank" rel="noopener noreferrer" {...props} />;
+  return (
+    <Link href={href} {...props}>
+      {children}
+    </Link>
+  );
 }
 
 type RoundedImageProps = {
