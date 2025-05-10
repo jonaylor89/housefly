@@ -92,9 +92,9 @@ housefly/
 - [x] Work with GraphQL APIs
 
 5. Media & Non-Text Scraping
-- [ ] Extracting images and metadata (alt text, filenames)
-- [ ] Downloading and parsing PDFs
-- [ ] Scraping embedded video metadata (YouTube, Vimeo)
+- [x] Extracting images and metadata (alt text, filenames)
+- [x] Downloading and parsing PDFs
+- [x] Scraping embedded video metadata (YouTube, Vimeo)
 
 6. Handling Web Crawling Defenses
 - [ ] Rate limiting and polite crawling (respecting robots.txt)

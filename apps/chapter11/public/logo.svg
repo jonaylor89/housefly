@@ -1,0 +1,8 @@
+<svg width="240" height="60" viewBox="0 0 240 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="60" height="60" rx="8" fill="#0E153A"/>
+  <path d="M30 8L48 42H12L30 8Z" fill="#3D9970"/>
+  <circle cx="30" cy="30" r="10" fill="#0E153A"/>
+  <circle cx="30" cy="30" r="7" fill="#3D9970"/>
+  <path d="M28 25L32 30L28 35" stroke="#0E153A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="70" y="36" font-family="Arial" font-weight="bold" font-size="24" fill="#0E153A">CryptoDefend</text>
+</svg>
