@@ -1,0 +1,166 @@
+{
+  "market_data": [
+    {
+      "symbol": "BTC/USD",
+      "price": "35000.00",
+      "change_24h": "2.34",
+      "volume_24h": 1200000000,
+      "high_24h": "36245.67",
+      "low_24h": "34125.42",
+      "market_cap": 678000000000,
+      "circulating_supply": 19350000,
+      "max_supply": 21000000,
+      "all_time_high": "69000.00",
+      "all_time_high_date": "2021-11-10T14:24:11.000Z",
+      "price_prediction_24h": "35800.00"
+    },
+    {
+      "symbol": "ETH/USD",
+      "price": "2000.00",
+      "change_24h": "-0.87",
+      "volume_24h": 845000000,
+      "high_24h": "2050.75",
+      "low_24h": "1980.42",
+      "market_cap": 240000000000,
+      "circulating_supply": 120050000,
+      "max_supply": null,
+      "all_time_high": "4878.26",
+      "all_time_high_date": "2021-11-10T14:24:11.000Z",
+      "price_prediction_24h": "1978.50"
+    },
+    {
+      "symbol": "BNB/USD",
+      "price": "300.00",
+      "change_24h": "1.24",
+      "volume_24h": 125000000,
+      "high_24h": "305.75",
+      "low_24h": "295.20",
+      "market_cap": 46500000000,
+      "circulating_supply": 155000000,
+      "max_supply": 165116760,
+      "all_time_high": "686.31",
+      "all_time_high_date": "2021-05-10T07:24:11.000Z",
+      "price_prediction_24h": "302.50"
+    },
+    {
+      "symbol": "SOL/USD",
+      "price": "45.00",
+      "change_24h": "5.12",
+      "volume_24h": 324000000,
+      "high_24h": "47.32",
+      "low_24h": "42.75",
+      "market_cap": 18540000000,
+      "circulating_supply": 412000000,
+      "max_supply": null,
+      "all_time_high": "260.06",
+      "all_time_high_date": "2021-11-06T21:54:35.000Z",
+      "price_prediction_24h": "48.25"
+    },
+    {
+      "symbol": "ADA/USD",
+      "price": "0.50",
+      "change_24h": "-1.45",
+      "volume_24h": 98500000,
+      "high_24h": "0.52",
+      "low_24h": "0.49",
+      "market_cap": 17680000000,
+      "circulating_supply": 35360000000,
+      "max_supply": 45000000000,
+      "all_time_high": "3.10",
+      "all_time_high_date": "2021-09-02T06:10:00.000Z",
+      "price_prediction_24h": "0.49"
+    },
+    {
+      "symbol": "XRP/USD",
+      "price": "0.60",
+      "change_24h": "3.25",
+      "volume_24h": 156000000,
+      "high_24h": "0.62",
+      "low_24h": "0.58",
+      "market_cap": 32280000000,
+      "circulating_supply": 53800000000,
+      "max_supply": 100000000000,
+      "all_time_high": "3.40",
+      "all_time_high_date": "2018-01-07T00:00:00.000Z",
+      "price_prediction_24h": "0.63"
+    },
+    {
+      "symbol": "DOT/USD",
+      "price": "7.00",
+      "change_24h": "-0.35",
+      "volume_24h": 67400000,
+      "high_24h": "7.15",
+      "low_24h": "6.95",
+      "market_cap": 8085000000,
+      "circulating_supply": 1155000000,
+      "max_supply": null,
+      "all_time_high": "55.00",
+      "all_time_high_date": "2021-11-04T16:35:12.000Z",
+      "price_prediction_24h": "6.95"
+    },
+    {
+      "symbol": "DOGE/USD",
+      "price": "0.10",
+      "change_24h": "8.45",
+      "volume_24h": 245000000,
+      "high_24h": "0.11",
+      "low_24h": "0.09",
+      "market_cap": 14020000000,
+      "circulating_supply": 140200000000,
+      "max_supply": null,
+      "all_time_high": "0.74",
+      "all_time_high_date": "2021-05-08T05:45:30.000Z",
+      "price_prediction_24h": "0.11"
+    },
+    {
+      "symbol": "AVAX/USD",
+      "price": "25.00",
+      "change_24h": "-2.15",
+      "volume_24h": 87300000,
+      "high_24h": "26.12",
+      "low_24h": "24.65",
+      "market_cap": 8900000000,
+      "circulating_supply": 356000000,
+      "max_supply": 720000000,
+      "all_time_high": "146.22",
+      "all_time_high_date": "2021-11-21T14:24:00.000Z",
+      "price_prediction_24h": "24.50"
+    },
+    {
+      "symbol": "MATIC/USD",
+      "price": "1.00",
+      "change_24h": "4.25",
+      "volume_24h": 132000000,
+      "high_24h": "1.04",
+      "low_24h": "0.96",
+      "market_cap": 9260000000,
+      "circulating_supply": 9260000000,
+      "max_supply": 10000000000,
+      "all_time_high": "2.92",
+      "all_time_high_date": "2021-12-27T02:08:34.000Z",
+      "price_prediction_24h": "1.06"
+    }
+  ],
+  "order_books": {
+    "BTC/USD": {
+      "bids": [["34960.00", "0.5423"], ["34925.00", "1.2500"], /* ... */],
+      "asks": [["35040.00", "0.7800"], ["35080.00", "1.5000"], /* ... */],
+      "timestamp": 1635930896123,
+      "liquidity_score": "0.87",
+      "order_imbalance": "0.23"
+    },
+    "ETH/USD": {
+      "bids": [["1990.00", "2.5000"], ["1985.00", "5.7500"], /* ... */],
+      "asks": [["2010.00", "3.2500"], ["2015.00", "6.5000"], /* ... */],
+      "timestamp": 1635930896123,
+      "liquidity_score": "0.92",
+      "order_imbalance": "-0.15"
+    },
+    /* ... data for other pairs ... */
+  },
+  "metadata": {
+    "data_source": "CryptoDefend Exchange API",
+    "scrape_completed_at": "2023-11-01T14:32:45.123Z",
+    "version": "1.0"
+  }
+}

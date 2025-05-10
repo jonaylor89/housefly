@@ -10,7 +10,7 @@
     "_check_solved": "./scripts/check_answers.sh -s",
     "check-answers": "./scripts/check_answers.sh",
     "ca": "npm run check-answers",
-    "prepare": "node .husky/install.mjs"
+    "prepare": "husky"
   },
   "devDependencies": {
     "@types/pdf-parse": "^1.1.5",

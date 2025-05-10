@@ -1,0 +1,21 @@
+User-agent: *
+Disallow: /api/admin/
+Disallow: /api/internal/
+Disallow: /private/
+Disallow: /orderbook/restricted/
+
+User-agent: *
+Allow: /api/market/public/
+Allow: /api/orderbook/public/
+Allow: /trading/
+
+# Crawl-delay directive
+Crawl-delay: 2
+
+# Hidden allowance for specific parts (students need to discover this)
+User-agent: GoodBot
+Allow: /orderbook/restricted/
+Crawl-delay: 1
+
+# Sitemap
+Sitemap: https://example.com/sitemap.xml
