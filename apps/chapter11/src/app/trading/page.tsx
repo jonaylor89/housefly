@@ -63,8 +63,8 @@ export default function Trading() {
       // Show success message
       setSuccess(
         `Successfully ${action === "buy" ? "bought" : "sold"} ${amount} ${selectedSymbol.split("/")[0]} ` +
-          `at ${orderType === "market" ? "market" : "limit"} price of $${parseFloat(currentPrice).toFixed(2)} ` +
-          `for a total of $${total.toFixed(2)}`,
+          `at ${orderType === "market" ? "market" : "limit"} price of $${parseFloat(currentPrice).toFixed(3)} ` +
+          `for a total of $${total.toFixed(3)}`,
       );
 
       // Clear form
@@ -115,7 +115,7 @@ export default function Trading() {
                         </span>
                       </div>
                       <div className="text-xl mt-1">
-                        ${parseFloat(item.price).toFixed(2)}
+                        ${parseFloat(item.price).toFixed(3)}
                       </div>
                     </button>
                   ))}
@@ -266,7 +266,7 @@ export default function Trading() {
                             marketData.find(
                               (item) => item.symbol === selectedSymbol,
                             )?.price || "0",
-                          ).toFixed(2)}
+                          ).toFixed(3)}
                     </div>
                   </div>
                   <div>
@@ -281,7 +281,7 @@ export default function Trading() {
                                 (item) => item.symbol === selectedSymbol,
                               )?.price || "0",
                             )
-                          ).toFixed(2)
+                          ).toFixed(3)
                         : "---.--"}
                     </div>
                   </div>
