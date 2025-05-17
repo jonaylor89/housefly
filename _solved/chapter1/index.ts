@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 
-const URI = "https://chapter1.housefly.cc";
+const URI = "http://chapter1.housefly.cc";
 
 async function main() {
   const response = await fetch(URI);
