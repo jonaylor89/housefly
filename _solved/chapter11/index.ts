@@ -2,7 +2,7 @@ const BASE_URL = "http://localhost:3000";
 const API_BASE_URL = `${BASE_URL}/api`;
 const USER_AGENT = "GoodBot";
 
-// Trading pairs to fetch data for
+// Cryptocurrency trading pairs
 const TRADING_PAIRS = [
   "BTC/USD",
   "ETH/USD",
@@ -16,7 +16,6 @@ const TRADING_PAIRS = [
   "MATIC/USD",
 ];
 
-// Define the structure of market data
 interface MarketData {
   symbol: string;
   price: string;
@@ -31,13 +30,13 @@ interface OrderBookData {
   timestamp: number;
 }
 
-// Fetch client to handle retries
+// HTTP client interface with retry support
 interface FetchClient {
   get: (url: string, options?: RequestInit) => Promise<any>;
   post: (url: string, data?: any, options?: RequestInit) => Promise<any>;
 }
 
-// Create fetch client with retry logic
+// Factory function for HTTP client with exponential backoff
 const createFetchClient = (): FetchClient => {
   const defaultHeaders = {
     Accept: "application/json",
@@ -117,9 +116,7 @@ const createFetchClient = (): FetchClient => {
   };
 };
 
-/**
- * Parse and extract robots.txt rules
- */
+/** Fetches and parses robots.txt to extract crawling rules */
 async function parseRobotsTxt(client: FetchClient): Promise<{
   allowedPaths: string[];
   disallowedPaths: string[];
@@ -128,7 +125,7 @@ async function parseRobotsTxt(client: FetchClient): Promise<{
 }> {
   try {
     console.error("Fetching robots.txt from", `${BASE_URL}/robots.txt`);
-    // Use native fetch instead of client to avoid JSON parsing
+    // Raw fetch for plain text response
     const response = await fetch(`${BASE_URL}/robots.txt`, {
       headers: {
         Accept: "text/plain",
@@ -218,9 +215,7 @@ async function parseRobotsTxt(client: FetchClient): Promise<{
   }
 }
 
-/**
- * Solve a simple math CAPTCHA
- */
+/** Solves server-provided math CAPTCHA challenges */
 async function solveMathCaptcha(problem: string): Promise<string> {
   // Parse the math problem
   const parts = problem.split(" ");
@@ -247,9 +242,7 @@ async function solveMathCaptcha(problem: string): Promise<string> {
   return solution.toString();
 }
 
-/**
- * Fetch and verify CAPTCHA
- */
+/** Requests CAPTCHA challenge, solves it, and verifies the solution */
 async function fetchAndSolveCaptcha(client: FetchClient): Promise<boolean> {
   try {
     // Fetch CAPTCHA
@@ -287,9 +280,7 @@ async function fetchAndSolveCaptcha(client: FetchClient): Promise<boolean> {
   }
 }
 
-/**
- * Login to the exchange
- */
+/** Authenticates with the exchange API */
 async function login(
   client: FetchClient,
   username: string,
@@ -316,9 +307,7 @@ async function login(
   }
 }
 
-/**
- * Fetch public market data
- */
+/** Retrieves public market data for all trading pairs */
 async function fetchPublicMarketData(
   client: FetchClient,
 ): Promise<MarketData[]> {
@@ -336,9 +325,7 @@ async function fetchPublicMarketData(
   }
 }
 
-/**
- * Fetch public order book data
- */
+/** Retrieves public order book data for a specific trading pair */
 async function fetchPublicOrderBook(
   client: FetchClient,
   symbol: string,
@@ -365,9 +352,7 @@ async function fetchPublicOrderBook(
   }
 }
 
-/**
- * Fetch restricted order book data
- */
+/** Retrieves restricted order book data that requires authentication */
 async function fetchRestrictedOrderBook(
   client: FetchClient,
   symbol: string,
@@ -442,9 +427,7 @@ async function fetchRestrictedOrderBook(
   }
 }
 
-/**
- * Process and format order book data
- */
+/** Validates and normalizes order book data */
 function processOrderBookData(
   data: OrderBookData | null,
 ): OrderBookData | null {
@@ -477,15 +460,12 @@ function processOrderBookData(
   }
 }
 
-/**
- * Main function to scrape the crypto exchange
- */
+/** Main execution function that orchestrates the data collection process */
 async function main() {
   // Create fetch client with proper User-Agent
   const client = createFetchClient();
 
-  // Override the client's User-Agent and add robots check header for all requests
-  // Override the client's User-Agent for all requests
+  // Add consistent headers for all requests
   const originalGet = client.get;
   client.get = async (url: string, options: RequestInit = {}): Promise<any> => {
     const newOptions = {
