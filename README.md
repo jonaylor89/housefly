@@ -97,9 +97,9 @@ housefly/
 - [x] Scraping embedded video metadata (YouTube, Vimeo)
 
 6. Handling Web Crawling Defenses
-- [ ] Rate limiting and polite crawling (respecting robots.txt)
-- [ ] Handling CAPTCHAs with solver services
-- [ ] Dealing with anti-scraping mechanisms (e.g., Cloudflare, bot traps)
+- [x] Rate limiting and polite crawling (respecting robots.txt)
+  - [x] Handling CAPTCHAs with solver services
+  - [x] Dealing with anti-scraping mechanisms (e.g., Cloudflare, bot traps)
 
 7. Large-Scale & Unstructured Web Crawling
 - [ ] Scraping random websites with different path structures and data formats
