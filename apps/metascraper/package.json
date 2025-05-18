@@ -1,0 +1,23 @@
+{
+  "name": "metascraper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "deno index.ts",
+    "search": "deno search-cli.ts",
+    "visualize": "deno visualize.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "Meta-crawler that crawls across previous chapter demos and builds a simple search index",
+  "dependencies": {
+    "crawlee": "^3.0.0",
+    "cheerio": "^1.0.0",
+    "playwright": "^1.40.0",
+    "@anthropic-ai/sdk": "^0.10.0",
+    "dotenv": "^16.3.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
+  }
+}
