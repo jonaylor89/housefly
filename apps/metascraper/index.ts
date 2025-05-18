@@ -1,29 +1,26 @@
 import { PlaywrightCrawler } from 'crawlee';
 import * as cheerio from 'cheerio';
-import * as fs from 'fs/promises';
-import Anthropic from '@anthropic-ai/sdk';
+import * as fs from 'node:fs/promises';
+import OpenAI from 'openai';
 
-// Initialize Claude client for AI-assisted parsing
-const claude = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY || '',
-});
+// Initialize OpenAI client for AI-assisted parsing
+const openai = new OpenAI();
 
 // Define the chapters to crawl
 const chapters = [
   'http://chapter1.housefly.cc',
-  'http://chapter2.housefly.cc',
-  'http://chapter3.housefly.cc',
-  'http://chapter4.housefly.cc',
-  'http://chapter5.housefly.cc',
-  'http://chapter6.housefly.cc',
-  'http://chapter7.housefly.cc',
-  'http://chapter8.housefly.cc',
-  'http://chapter9.housefly.cc',
+  'https://chapter2.housefly.cc',
+  'https://chapter3.housefly.cc',
+  'https://chapter4.housefly.cc',
+  'https://chapter5.housefly.cc',
+  'https://chapter6.housefly.cc',
+  'https://chapter7.housefly.cc',
+  'https://chapter8.housefly.cc',
+  'https://chapter9.housefly.cc',
   'http://chapter10.housefly.cc',
-  'http://chapter11.housefly.cc',
+  'https://chapter11.housefly.cc',
 ];
 
-// Simple search index structure
 interface IndexEntry {
   url: string;
   title: string;
@@ -35,46 +32,50 @@ interface IndexEntry {
 
 const searchIndex: IndexEntry[] = [];
 
-// Function to extract structured data from unstructured content using Claude
+// Function to extract structured data from unstructured content using OpenAI
 async function extractStructuredData(title: string, content: string): Promise<any> {
   try {
-    const response = await claude.completions.create({
-      model: 'claude-3-haiku-20240307',
+    // Prepare the request to OpenAI
+    const response = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
       max_tokens: 1000,
-      messages: [{
-        role: 'user',
-        content: `Extract structured data from this webpage content. Return a JSON object with the key information.
+      messages: [
+        {
+          role: 'system',
+          content: 'You extract structured data from webpages and return it as JSON.'
+        },
+        {
+          role: 'user',
+          content: `Extract structured data from this webpage content. Return a JSON object with the key information.
 
 Title: ${title}
-Content: ${content.substring(0, 5000)}`, // Limit content length
-      }],
+Content: ${content.substring(0, 4000)}` // Limit content length
+        }
+      ],
+      response_format: { type: 'json_object' },
     });
 
-    // Extract JSON from the response
-    const jsonMatch = response.content[0].text.match(/```json\n(.+?)```/s) || 
-                      response.content[0].text.match(/\{.+\}/s);
-                      
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[1] || jsonMatch[0]);
+    // Extract the response content
+    const responseText = response.choices[0]?.message?.content || '{}';
+    
+    // Parse the JSON response
+    try {
+      return JSON.parse(responseText);
+    } catch (parseError) {
+      console.error('Failed to parse JSON response:', parseError);
+      return {};
     }
-    return {};
   } catch (error) {
-    console.error('Error using Claude:', error);
+    console.error('Error using OpenAI:', error);
     return {};
   }
 }
 
-// Main crawler function
 async function runCrawler() {
-  // Create storage directory for the search index
-  await fs.mkdir('./apps/metascaper/data', { recursive: true });
+  await fs.mkdir('./apps/metascraper/data', { recursive: true });
   
-  // Initialize the crawler
   const crawler = new PlaywrightCrawler({
-    // Limit number of concurrent requests
     maxConcurrency: 2,
-    
-    // Use the default playwright browser
     launchContext: {
       launchOptions: {
         headless: true,
@@ -150,14 +151,14 @@ async function runCrawler() {
   
   // Save the search index to disk
   await fs.writeFile(
-    './apps/metascaper/data/search_index.json', 
+    './apps/metascraper/data/search_index.json', 
     JSON.stringify(searchIndex, null, 2)
   );
   
   // Generate stats
   const stats = {
     totalPages: searchIndex.length,
-    pagesPerChapter: {},
+    pagesPerChapter: {} as Record<number, number>,
     totalKeywords: searchIndex.reduce((sum, entry) => sum + entry.keywords.length, 0),
     dataCaptured: new Date().toISOString(),
   };
@@ -171,21 +172,21 @@ async function runCrawler() {
   });
   
   await fs.writeFile(
-    './apps/metascaper/data/stats.json', 
+    './apps/metascraper/data/stats.json', 
     JSON.stringify(stats, null, 2)
   );
   
   console.log('Crawling complete!');
   console.log(`Processed ${searchIndex.length} pages across the Housefly chapters.`);
-  console.log('Search index saved to ./apps/metascaper/data/search_index.json');
-  console.log('Stats saved to ./apps/metascaper/data/stats.json');
+  console.log('Search index saved to ./apps/metascraper/data/search_index.json');
+  console.log('Stats saved to ./apps/metascraper/data/stats.json');
 }
 
 // Simple search function to query the index
 async function searchFunction(query: string, limit = 5) {
   try {
     // Load the search index
-    const indexData = await fs.readFile('./apps/metascaper/data/search_index.json', 'utf-8');
+    const indexData = await fs.readFile('./apps/metascraper/data/search_index.json', 'utf-8');
     const index: IndexEntry[] = JSON.parse(indexData);
     
     // Split query into terms
@@ -265,4 +266,4 @@ Housefly MetaScraper - Chapter 7: Large-Scale & Unstructured Web Crawling
   }
 }
 
-main().catch(error => console.error('Error:', error));
+main().catch(console.error);
