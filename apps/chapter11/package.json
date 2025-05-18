@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@vercel/functions": "^2.0.3",
-    "canvas": "^2.11.2",
-    "chart.js": "^4.4.0",
+    "canvas": "^3.1.0",
+    "chartjs": "^0.3.24",
     "date-fns": "^2.30.0",
     "jose": "^4.14.6",
     "next": "15.3.1",
