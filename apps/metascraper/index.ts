@@ -1,12 +1,7 @@
-import { PlaywrightCrawler, Dataset } from 'crawlee';
-import { chromium } from 'playwright';
+import { PlaywrightCrawler } from 'crawlee';
 import * as cheerio from 'cheerio';
 import * as fs from 'fs/promises';
-import * as path from 'path';
-import * as dotenv from 'dotenv';
 import Anthropic from '@anthropic-ai/sdk';
-
-dotenv.config();
 
 // Initialize Claude client for AI-assisted parsing
 const claude = new Anthropic({
@@ -43,7 +38,7 @@ const searchIndex: IndexEntry[] = [];
 // Function to extract structured data from unstructured content using Claude
 async function extractStructuredData(title: string, content: string): Promise<any> {
   try {
-    const response = await claude.messages.create({
+    const response = await claude.completions.create({
       model: 'claude-3-haiku-20240307',
       max_tokens: 1000,
       messages: [{
