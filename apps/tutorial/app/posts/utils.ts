@@ -52,11 +52,22 @@ async function getMDXData(dir: string) {
   );
 }
 
-export async function getPosts() {
-  return await getMDXData(path.join(process.cwd(), "app", "posts", "posts"));
+export async function getPosts(locale: string = "en") {
+  const postsDir = path.join(process.cwd(), "app", "posts", "posts", locale);
+  const posts = await getMDXData(postsDir);
+  
+  // Format the posts for display
+  return posts.map(post => ({
+    title: post.metadata.title,
+    summary: post.metadata.summary,
+    publishedAt: post.metadata.publishedAt,
+    slug: post.slug,
+    content: post.content,
+    image: post.metadata.image,
+  }));
 }
 
-export function formatDate(date: string, includeRelative = false) {
+export function formatDate(date: string, includeRelative = false, locale = 'en') {
   let currentDate = new Date();
   if (!date.includes("T")) {
     date = `${date}T00:00:00`;
@@ -70,16 +81,18 @@ export function formatDate(date: string, includeRelative = false) {
   let formattedDate = "";
 
   if (yearsAgo > 0) {
-    formattedDate = `${yearsAgo}y ago`;
+    formattedDate = locale === 'ru' ? `${yearsAgo} г. назад` : `${yearsAgo}y ago`;
   } else if (monthsAgo > 0) {
-    formattedDate = `${monthsAgo}mo ago`;
+    formattedDate = locale === 'ru' ? `${monthsAgo} мес. назад` : `${monthsAgo}mo ago`;
   } else if (daysAgo > 0) {
-    formattedDate = `${daysAgo}d ago`;
+    formattedDate = locale === 'ru' ? `${daysAgo} д. назад` : `${daysAgo}d ago`;
   } else {
-    formattedDate = "Today";
+    formattedDate = locale === 'ru' ? "Сегодня" : "Today";
   }
 
-  let fullDate = targetDate.toLocaleString("en-us", {
+  // Use appropriate locale formatting
+  const localeString = locale === 'ru' ? 'ru-RU' : 'en-US';
+  let fullDate = targetDate.toLocaleString(localeString, {
     month: "short",
     day: "numeric",
     year: "numeric",
