@@ -1,5 +1,5 @@
 import { Posts } from "app/components/posts";
-import { getPosts } from "../../posts/utils";
+import { getPosts } from "../../lib/utils";
 
 export default async function PostsPage({
   params: { locale },

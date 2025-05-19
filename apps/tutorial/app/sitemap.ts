@@ -1,4 +1,4 @@
-import { getPosts } from "app/posts/utils";
+import { getPosts } from "app/lib/utils";
 
 export const baseUrl = "https://housefly.cc";
 const locales = ['en', 'ru'];
