@@ -53,7 +53,7 @@ async function getMDXData(dir: string) {
 }
 
 export async function getPosts(locale: string = "en") {
-  const postsDir = path.join(process.cwd(), "app", "posts", "posts", locale);
+  const postsDir = path.join(process.cwd(), "app", "[locale]", "posts", "posts", locale);
   const posts = await getMDXData(postsDir);
   
   // Format the posts for display

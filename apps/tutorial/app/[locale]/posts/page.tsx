@@ -6,7 +6,7 @@ export default async function PostsPage({
 }: {
   params: { locale: string };
 }) {
-  const posts = await getPosts();
+  const posts = await getPosts(locale);
 
   return (
     <section>
