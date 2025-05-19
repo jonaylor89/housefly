@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { CustomMDX } from "app/components/mdx";
 import { formatDate, getPosts } from "app/posts/utils";
 import { baseUrl } from "app/lib/utils";
-import { useParams } from "next/navigation";
 
 export async function generateStaticParams() {
   let posts = await getPosts();

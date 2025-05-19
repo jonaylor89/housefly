@@ -1,7 +1,8 @@
 import { CustomMDX } from "app/components/mdx";
-import { getPosts } from "../../../posts/utils";
+import { formatDate, getPosts } from "../../../posts/utils";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { baseUrl } from "app/lib/utils";
 
 type PostParams = {
   params: {
@@ -40,9 +41,37 @@ export async function generateMetadata({ params }: PostParams): Promise<Metadata
     return {};
   }
   
+  const {
+    title,
+    publishedAt: publishedTime,
+    summary: description,
+    image,
+  } = post;
+  const ogImage = image
+    ? image
+    : `${baseUrl}/og?title=${encodeURIComponent(title)}`;
+
   return {
-    title: post.title,
-    description: post.summary,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      publishedTime,
+      url: `${baseUrl}/posts/${post.slug}`,
+      images: [
+        {
+          url: ogImage,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
 
@@ -57,10 +86,39 @@ export default async function PostPage({ params }: PostParams) {
 
   return (
     <section>
-      <h1 className="mb-8 text-2xl font-semibold tracking-tighter">{post.title}</h1>
-      <div className="mb-8">
-        <CustomMDX source={post.content} />
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.title,
+            datePublished: post.publishedAt,
+            dateModified: post.publishedAt,
+            description: post.summary,
+            image: post.image
+              ? `${baseUrl}${post.image}`
+              : `/og?title=${encodeURIComponent(post.title)}`,
+            url: `${baseUrl}/posts/${post.slug}`,
+            author: {
+              "@type": "Person",
+              name: "Housefly",
+            },
+          }),
+        }}
+      />
+      <h1 className="title font-semibold text-2xl tracking-tighter">
+        {post.title}
+      </h1>
+      <div className="flex justify-between items-center mt-2 mb-8 text-sm">
+        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+          {formatDate(post.publishedAt, false, locale)}
+        </p>
       </div>
+      <article className="prose">
+        <CustomMDX source={post.content} />
+      </article>
     </section>
   );
 }
