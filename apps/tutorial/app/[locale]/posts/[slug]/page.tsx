@@ -11,24 +11,30 @@ type PostParams = {
 };
 
 export async function generateStaticParams() {
-  // Get all posts available
-  const posts = await getPosts();
-  // Return params for each post with both locales
-  return posts.flatMap((post) => [
-    {
-      locale: 'en',
-      slug: post.slug,
-    },
-    {
-      locale: 'ru',
-      slug: post.slug,
-    },
-  ]);
+  // Get all posts for both locales
+  const enPosts = await getPosts('en');
+  const ruPosts = await getPosts('ru');
+  
+  // Create params for English posts
+  const enParams = enPosts.map((post) => ({
+    locale: 'en',
+    slug: post.slug,
+  }));
+  
+  // Create params for Russian posts
+  const ruParams = ruPosts.map((post) => ({
+    locale: 'ru',
+    slug: post.slug,
+  }));
+  
+  // Combine all params
+  return [...enParams, ...ruParams];
 }
 
 export async function generateMetadata({ params }: PostParams): Promise<Metadata> {
-  const posts = await getPosts();
-  const post = posts.find((post) => post.slug === params.slug);
+  const { locale, slug } = params;
+  const posts = await getPosts(locale);
+  const post = posts.find((post) => post.slug === slug);
   
   if (!post) {
     return {};
