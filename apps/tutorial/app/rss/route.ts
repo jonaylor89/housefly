@@ -1,5 +1,4 @@
-import { baseUrl } from "app/lib/utils";
-import { getPosts } from "app/posts/utils";
+import { baseUrl, getPosts } from "app/lib/utils";
 
 export async function GET() {
   let allPosts = await getPosts();

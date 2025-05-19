@@ -1,5 +1,5 @@
 import { CustomMDX } from "app/components/mdx";
-import { formatDate, getPosts } from "../../../posts/utils";
+import { formatDate, getPosts } from "../../../lib/utils";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { baseUrl } from "app/lib/utils";

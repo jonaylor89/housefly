@@ -1,5 +1,5 @@
 import { Posts } from "app/components/posts";
-import { getPosts } from "../posts/utils";
+import { getPosts } from "../lib/utils";
 import Link from "next/link";
 import { getDictionaryForLocale } from "../i18n/locale";
 

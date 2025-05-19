@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatDate } from "app/posts/utils";
+import { formatDate } from "app/lib/utils";
 
 type Post = {
   title: string;
