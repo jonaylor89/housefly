@@ -4,11 +4,11 @@ import { getPosts } from "app/posts/utils";
 export async function GET() {
   let allPosts = await getPosts();
 
-  console.log({ allPosts: allPosts.map((post) => post.metadata) });
+  console.log({ allPosts: allPosts.map((post) => post) });
 
   const itemsXml = allPosts
     .sort((a, b) => {
-      if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
+      if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
         return -1;
       }
       return 1;
@@ -16,11 +16,11 @@ export async function GET() {
     .map(
       (post) =>
         `<item>
-          <title>${post.metadata.title}</title>
+          <title>${post.title}</title>
           <link>${baseUrl}/posts/${post.slug}</link>
-          <description>${post.metadata.summary || ""}</description>
+          <description>${post.summary || ""}</description>
           <pubDate>${new Date(
-            post.metadata.publishedAt,
+            post.publishedAt,
           ).toUTCString()}</pubDate>
         </item>`,
     )

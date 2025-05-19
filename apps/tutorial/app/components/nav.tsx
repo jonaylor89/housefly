@@ -1,19 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
+import { LanguageSwitcher } from "./language-switcher";
+import { Dictionary } from "../i18n/dictionaries";
 
-const navItems = {
-  "/": {
-    name: "home",
-  },
-  "/posts": {
-    name: "posts",
-  },
-  "/how-to": {
-    name: "how-to",
-  },
+type NavbarProps = {
+  locale: string;
+  dictionary: Dictionary;
 };
 
-export function Navbar() {
+export function Navbar({ locale, dictionary }: NavbarProps) {
+  // Create the nav items dynamically based on the locale and dictionary
+  const navItems = {
+    [`/${locale}`]: {
+      name: dictionary.nav.home,
+    },
+    [`/${locale}/posts`]: {
+      name: dictionary.nav.posts,
+    },
+    [`/${locale}/how-to`]: {
+      name: dictionary.nav.howTo,
+    },
+  };
   return (
     <aside className="-ml-[8px] mb-16 tracking-tight">
       <div className="lg:sticky lg:top-20">
@@ -21,8 +28,8 @@ export function Navbar() {
           className="flex flex-row items-start relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
           id="nav"
         >
-          <div className="flex flex-row space-x-0 pr-10">
-            <Link href="/">
+          <div className="flex flex-row space-x-0 pr-10 w-full">
+            <Link href={`/${locale}`}>
               <Image
                 src="/housefly-logo.png"
                 alt="Logo"
@@ -42,6 +49,10 @@ export function Navbar() {
                 </Link>
               );
             })}
+            
+            <div className="ml-auto">
+              <LanguageSwitcher />
+            </div>
           </div>
         </nav>
       </div>
