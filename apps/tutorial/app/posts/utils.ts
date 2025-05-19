@@ -52,8 +52,19 @@ async function getMDXData(dir: string) {
   );
 }
 
-export async function getPosts() {
-  return await getMDXData(path.join(process.cwd(), "app", "posts", "posts"));
+export async function getPosts(locale: string = "en") {
+  const postsDir = path.join(process.cwd(), "app", "posts", "posts", locale);
+  const posts = await getMDXData(postsDir);
+  
+  // Format the posts for display
+  return posts.map(post => ({
+    title: post.metadata.title,
+    summary: post.metadata.summary,
+    publishedAt: post.metadata.publishedAt,
+    slug: post.slug,
+    content: post.content,
+    image: post.metadata.image,
+  }));
 }
 
 export function formatDate(date: string, includeRelative = false) {

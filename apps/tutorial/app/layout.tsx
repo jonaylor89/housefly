@@ -44,28 +44,12 @@ const SpaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
 });
 
+// This is the default layout that redirects to the localized pages
+// The middleware handles redirects to the correct locale
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html
-      lang="en"
-      className={cx(
-        "text-black bg-white dark:text-white dark:bg-black",
-        SpaceGrotesk.variable,
-      )}
-    >
-      <body className="antialiased max-w-2xl mx-4 mt-8 lg:mx-auto">
-        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          <PlausibleProvider domain="housefly.cc">
-            <Navbar />
-            <>{children}</>
-            <Footer />
-          </PlausibleProvider>
-        </main>
-      </body>
-    </html>
-  );
+  return children;
 }
