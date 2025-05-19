@@ -8,7 +8,7 @@ const openai = new OpenAI();
 
 // Define the chapters to crawl
 const chapters = [
-  'http://chapter1.housefly.cc',
+  'https://housefly-chapter1.netlify.app',
   'https://chapter2.housefly.cc',
   'https://chapter3.housefly.cc',
   'https://chapter4.housefly.cc',
