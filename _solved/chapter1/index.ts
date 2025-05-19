@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 
-const URI = "http://chapter1.housefly.cc";
+const URI = "housefly-chapter1.netlify.app";
 
 async function main() {
   const response = await fetch(URI);
