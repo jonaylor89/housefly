@@ -1,7 +1,17 @@
-import { PlaywrightCrawler } from 'crawlee';
+import { 
+  // BaseHttpClient, 
+  // HttpRequest, 
+  // HttpResponse, 
+  PlaywrightCrawler, 
+  // RedirectHandler, 
+  // ResponseTypes, 
+  // StreamingHttpResponse,
+} from 'crawlee';
 import * as cheerio from 'cheerio';
 import * as fs from 'node:fs/promises';
 import OpenAI from 'openai';
+// import { Readable } from 'node:stream';
+// import { Buffer } from "node:buffer";
 
 // Initialize OpenAI client for AI-assisted parsing
 const openai = new OpenAI();
@@ -32,6 +42,86 @@ interface IndexEntry {
 
 const searchIndex: IndexEntry[] = [];
 
+// class CustomHttpClient implements BaseHttpClient {
+//   async sendRequest<TResponseType extends keyof ResponseTypes = "text">(
+//     request: HttpRequest<TResponseType>,
+//   ): Promise<HttpResponse<TResponseType>> {
+//     const { url, method = "GET", headers = {}, payload } = request;
+
+//     const options: RequestInit = {
+//       method,
+//       headers: headers ? new Headers(headers as HeadersInit) : undefined,
+//       body: payload ? JSON.stringify(payload) : undefined,
+//     };
+
+//     const response = await fetch(url, options);
+//     const contentType = response.headers.get("content-type") || "";
+
+//     let responseBody: any;
+//     if (
+//       request.responseType === "json" ||
+//       contentType.includes("application/json")
+//     ) {
+//       responseBody = await response.json();
+//     } else if (request.responseType === "buffer") {
+//       const arrayBuffer = await response.arrayBuffer();
+//       responseBody = Buffer.from(arrayBuffer);
+//     } else {
+//       responseBody = await response.text();
+//     }
+
+//     return {
+//       url: response.url,
+//       statusCode: response.status,
+//       headers: Object.fromEntries(response.headers.entries()),
+//       body: responseBody as any,
+//       request,
+//       redirectUrls: [],
+//       trailers: {},
+//       complete: true,
+//     };
+//   }
+
+//   async stream(
+//     request: HttpRequest,
+//     _onRedirect?: RedirectHandler,
+//   ): Promise<StreamingHttpResponse> {
+//     // Simple implementation that fetches the content and converts it to a stream
+//     const response = await fetch(request.url, {
+//       method: request.method || "GET",
+//       headers: request.headers
+//         ? new Headers(request.headers as HeadersInit)
+//         : undefined,
+//       body: request.payload ? JSON.stringify(request.payload) : undefined,
+//     });
+
+//     // Create a readable stream from the response body
+//     const responseBody = await response.arrayBuffer();
+//     const buffer = Buffer.from(responseBody);
+//     const nodeStream = Readable.from(buffer);
+
+//     // Create StreamingHttpResponse object
+//     const streamingResponse: StreamingHttpResponse = {
+//       url: response.url,
+//       statusCode: response.status,
+//       headers: Object.fromEntries(response.headers.entries()),
+//       request,
+//       stream: nodeStream,
+//       complete: true,
+//       downloadProgress: {
+//         percent: 100,
+//         transferred: buffer.length,
+//         total: buffer.length,
+//       },
+//       uploadProgress: { percent: 0, transferred: 0 },
+//       redirectUrls: [],
+//       trailers: {},
+//     };
+
+//     return streamingResponse;
+//   }
+// }
+
 // Function to extract structured data from unstructured content using OpenAI
 async function extractStructuredData(title: string, content: string): Promise<any> {
   try {
@@ -57,7 +147,7 @@ Content: ${content.substring(0, 4000)}` // Limit content length
 
     // Extract the response content
     const responseText = response.choices[0]?.message?.content || '{}';
-    
+
     // Parse the JSON response
     try {
       return JSON.parse(responseText);
@@ -72,89 +162,123 @@ Content: ${content.substring(0, 4000)}` // Limit content length
 }
 
 async function runCrawler() {
-  await fs.mkdir('./apps/metascraper/data', { recursive: true });
-  
+  await fs.mkdir('./data', { recursive: true });
+
   const crawler = new PlaywrightCrawler({
-    maxConcurrency: 2,
+    // httpClient: new CustomHttpClient(),
+    maxConcurrency: 1, // Reduced to avoid overwhelming sites
+    maxRequestRetries: 5,
+    navigationTimeoutSecs: 60,
+    requestHandlerTimeoutSecs: 120,
+    maxRequestsPerMinute: 10, // Rate limiting to be gentler on servers
     launchContext: {
       launchOptions: {
         headless: true,
       },
     },
-    
+    retryOnBlocked: true,
+
     // Main processing function
     async requestHandler({ request, page, enqueueLinks, log }) {
       const url = request.url;
       log.info(`Processing: ${url}`);
 
-      // Extract chapter number from URL
-      const chapterMatch = url.match(/chapter(\d+)\.housefly\.cc/);
+      // Extract chapter number from URL (supports both Netlify and housefly.cc domains)
+      const chapterMatch = url.match(/chapter(\d+)/i);
       const chapterNumber = chapterMatch ? parseInt(chapterMatch[1]) : 0;
 
-      // Wait for the content to load
-      await page.waitForLoadState('networkidle');
-      
-      // Get page content
-      const title = await page.title();
-      const content = await page.content();
-      
-      // Use Cheerio to parse content and extract text
-      const $ = cheerio.load(content);
-      const bodyText = $('body').text().replace(/\s+/g, ' ').trim();
-      
-      // Basic keyword extraction
-      const keywords = bodyText
-        .toLowerCase()
-        .split(/\W+/)
-        .filter(word => word.length > 3)
-        .filter((word, i, arr) => arr.indexOf(word) === i)
-        .slice(0, 20);
-        
-      // Use AI to extract structured data from the content
-      const extractedData = await extractStructuredData(title, bodyText);
-      
-      // Add to search index
-      searchIndex.push({
-        url,
-        title,
-        content: bodyText.substring(0, 1000), // Store preview
-        keywords,
-        chapterNumber,
-        extractedData,
-      });
-      
-      // Discover and enqueue links only if we're on a chapter site
-      // and the URL is not already in our index
-      if (chapterNumber > 0) {
-        // Find all links on the page
-        await enqueueLinks({
-          strategy: 'same-hostname',
-          transformRequestFunction: (req) => {
-            // Avoid enqueuing URLs that have already been processed
-            if (searchIndex.some(entry => entry.url === req.url)) {
-              return false;
-            }
-            return req;
-          },
+      try {
+        // Wait briefly before navigation to avoid overwhelming servers
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        // Wait for the content to load with a more robust strategy
+        await page.waitForLoadState('domcontentloaded');
+        await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {
+          log.warning(`Network didn't reach idle state for ${url}, continuing anyway`);
+        });
+
+        // Get page content
+        const title = await page.title();
+        const content = await page.content();
+
+        // Use Cheerio to parse content and extract text
+        const $ = cheerio.load(content);
+        const bodyText = $('body').text().replace(/\s+/g, ' ').trim();
+
+        // Basic keyword extraction
+        const keywords = bodyText
+          .toLowerCase()
+          .split(/\W+/)
+          .filter(word => word.length > 3)
+          .filter((word, i, arr) => arr.indexOf(word) === i)
+          .slice(0, 20);
+
+        // Use AI to extract structured data from the content
+        const extractedData = await extractStructuredData(title, bodyText);
+
+        // Add to search index
+        searchIndex.push({
+          url,
+          title,
+          content: bodyText.substring(0, 1000), // Store preview
+          keywords,
+          chapterNumber,
+          extractedData,
+        });
+
+        // Discover and enqueue links only if we're on a chapter site
+        // and the URL is not already in our index
+        if (chapterNumber > 0) {
+          // Find all links on the page
+          await enqueueLinks({
+            strategy: 'same-hostname',
+          });
+        }
+      } catch (error) {
+        log.error(`Error processing ${url}: ${error}`);
+        // Add a basic entry to search index so we have something
+        searchIndex.push({
+          url,
+          title: `Chapter ${chapterNumber} Page (Error)`,
+          content: `Error processing this page: ${error}`,
+          keywords: [],
+          chapterNumber,
+          extractedData: {},
         });
       }
     },
-    
+
     // Handle errors
-    async failedRequestHandler({ request, log }) {
-      log.error(`Request failed: ${request.url}`);
+    async failedRequestHandler({ request, log, error }) {
+      const url = request.url;
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      log.error(`Request failed: ${url}. Error: ${errorMessage}`);
+
+      // Try to extract chapter number from the URL
+      const chapterMatch = url.match(/chapter(\d+)/i);
+      const chapterNumber = chapterMatch ? parseInt(chapterMatch[1]) : 0;
+
+      // Add a placeholder entry in the search index so we at least have something
+      searchIndex.push({
+        url,
+        title: `Chapter ${chapterNumber} Page (Failed)`,
+        content: `Could not process this page after multiple attempts. Error: ${errorMessage}`,
+        keywords: [],
+        chapterNumber,
+        extractedData: {},
+      });
     },
   });
 
   // Start the crawler with our initial URLs
   await crawler.run(chapters);
-  
+
   // Save the search index to disk
   await fs.writeFile(
-    './apps/metascraper/data/search_index.json', 
+    './data/search_index.json',
     JSON.stringify(searchIndex, null, 2)
   );
-  
+
   // Generate stats
   const stats = {
     totalPages: searchIndex.length,
@@ -162,7 +286,7 @@ async function runCrawler() {
     totalKeywords: searchIndex.reduce((sum, entry) => sum + entry.keywords.length, 0),
     dataCaptured: new Date().toISOString(),
   };
-  
+
   // Count pages per chapter
   searchIndex.forEach(entry => {
     if (!stats.pagesPerChapter[entry.chapterNumber]) {
@@ -170,50 +294,50 @@ async function runCrawler() {
     }
     stats.pagesPerChapter[entry.chapterNumber]++;
   });
-  
+
   await fs.writeFile(
-    './apps/metascraper/data/stats.json', 
+    './data/stats.json',
     JSON.stringify(stats, null, 2)
   );
-  
+
   console.log('Crawling complete!');
   console.log(`Processed ${searchIndex.length} pages across the Housefly chapters.`);
-  console.log('Search index saved to ./apps/metascraper/data/search_index.json');
-  console.log('Stats saved to ./apps/metascraper/data/stats.json');
+  console.log('Search index saved to ./data/search_index.json');
+  console.log('Stats saved to ./data/stats.json');
 }
 
 // Simple search function to query the index
 async function searchFunction(query: string, limit = 5) {
   try {
     // Load the search index
-    const indexData = await fs.readFile('./apps/metascraper/data/search_index.json', 'utf-8');
+    const indexData = await fs.readFile('./data/search_index.json', 'utf-8');
     const index: IndexEntry[] = JSON.parse(indexData);
-    
+
     // Split query into terms
     const terms = query.toLowerCase().split(/\W+/).filter(term => term.length > 2);
-    
+
     // Score each document based on term frequency
     const results = index
       .map(entry => {
         const score = terms.reduce((sum, term) => {
           // Check title (high weight)
           if (entry.title.toLowerCase().includes(term)) sum += 5;
-          
+
           // Check content
           if (entry.content.toLowerCase().includes(term)) sum += 3;
-          
+
           // Check keywords
           if (entry.keywords.includes(term)) sum += 2;
-          
+
           return sum;
         }, 0);
-        
+
         return { entry, score };
       })
       .filter(item => item.score > 0)
       .sort((a, b) => b.score - a.score)
       .slice(0, limit);
-      
+
     return results.map(item => ({
       url: item.entry.url,
       title: item.entry.title,
@@ -231,7 +355,7 @@ async function searchFunction(query: string, limit = 5) {
 async function main() {
   const args = process.argv.slice(2);
   const command = args[0];
-  
+
   if (command === 'crawl') {
     console.log('Starting crawler...');
     await runCrawler();
@@ -241,10 +365,10 @@ async function main() {
       console.log('Please provide a search query.');
       return;
     }
-    
+
     console.log(`Searching for: "${query}"...`);
     const results = await searchFunction(query);
-    
+
     if (results.length === 0) {
       console.log('No results found.');
     } else {
