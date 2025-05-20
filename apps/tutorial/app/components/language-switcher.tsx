@@ -27,7 +27,7 @@ export function LanguageSwitcher() {
     <div className="language-switcher">
       <Link 
         href={targetPath}
-        className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+        className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-100 rounded-md transition-colors"
       >
         {currentLocale === 'en' ? "Русский" : "English"}
       </Link>

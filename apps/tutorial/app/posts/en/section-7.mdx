@@ -1,7 +1,152 @@
 ---
-title: 'Large-Scale + Unstructured Web Crawling (coming soon)'
-publishedAt: '2025-05-23'
+title: 'Large-Scale + Unstructured Web Crawling'
+publishedAt: '2025-05-21'
 summary: 'AI-assisted parsing for messy and unstructured data + search crawlers'
 ---
 
-Coming soon...
+Welcome to the final section in our hands-on web crawling tutorial series. Instead of a traditional lesson, we're taking a different approach. For this section, I've built the Housefly Metascraper—a production-ready crawler in the `./apps/metascraper` directory that demonstrates how to apply everything we've learned in a real-world scenario.
+
+The Metascraper demonstrates how our step-by-step journey—from scraping simple static HTML, navigating JavaScript-rendered content, to interacting with APIs and overcoming crawling defenses—culminates in a tool that can handle **the unstructured, diverse, and chaotic web at scale.**
+
+We'll explore how to crawl across a wide variety of websites—without knowing in advance what kind of data structures to expect—and introduce **AI-assisted parsing**, **dynamic schema detection**, and the techniques needed for **scaling to thousands (or millions) of pages** without falling apart.
+
+## What Does "Unstructured" and "Large-Scale" Really Mean?
+
+In previous sections, we often knew:
+- What sites we were targeting.
+- What data we wanted (e.g., tables, lists, JSON responses).
+- How many pages we needed to visit.
+
+But in large-scale unstructured crawling:
+- The websites vary wildly: some are structured, others are blogs with irregular formatting.
+- Paths and URLs are unpredictable.
+- Schema is inconsistent or non-existent.
+- We want to **crawl thousands of pages**, potentially across **multiple domains**.
+
+Think:
+- Research crawlers gathering data across academic websites.
+- AI assistants indexing blogs for topic-specific knowledge.
+- Search engines that must generalize across the entire public internet.
+
+This is the final boss of web crawling.
+
+## Part 1: Architecting for Large-Scale Crawling
+
+Let's talk about how to scale up your crawler before we worry about parsing.
+
+### Design Patterns
+
+To build a large-scale crawler, your architecture should be:
+- **Queue-driven:** Use a message queue (like Redis, RabbitMQ, or Kafka) to store pending URLs.
+- **Worker-based:** Separate crawlers into worker processes that pull from the queue and process jobs independently.
+- **Deduplicated:** Maintain a fingerprinted index (e.g., SHA1 of URL or HTML content) to avoid processing the same page twice.
+- **Resumable:** Persist crawl state so it can recover from crashes.
+
+Here's a minimal design diagram:
+
+## Part 2: Cutting-Edge Techniques for 2025
+
+### Residential Proxies
+
+One of the most significant advances in large-scale scraping is the use of **residential proxies**. Unlike datacenter IPs which websites can easily detect and block, residential proxies route your requests through real consumer IP addresses, making your scraper appear as a legitimate user.
+
+### AI-Powered Autonomous Agents
+
+The most revolutionary advancement in 2025 is **agentic scraping**. Rather than hard-coding scrapers for each site format:
+
+- LLMs with vision capabilities can understand and extract data from previously unseen layouts
+- AI agents can autonomously navigate complex sites by mimicking human browsing patterns
+- Adaptive parsing automatically adjusts to layout changes without requiring code updates
+
+## Part 3: AI-Assisted Parsing
+
+Fine-tune or prompt-engineer a model to output clean JSON:
+
+```json
+{
+  "name": "Dr. Maria Lopez",
+  "title": "Climate Scientist",
+  "organization": "Stanford",
+  "topic": "2023 UN Climate Summit, AI in climate modeling"
+}
+```
+
+## Part 4: Storing, Indexing, and Searching the Data
+
+You'll collect **lots of heterogeneous data**. Choose your storage based on your goals and how structured the data is.
+
+### Storage Strategies
+
+- **PostgreSQL** or **SQLite**: Best for structured tabular data where you know the schema (e.g., articles, prices, timestamps). You can use indexes, foreign keys, and full-text search (FTS).
+- **MongoDB** or **Elasticsearch**: Great for semi-structured or flexible data formats like JSON blobs where schema may vary across records.
+- **S3 / IPFS / File System**: Ideal for raw HTML snapshots, images, PDFs, and large binary files. Store the metadata in a database and link to the file location.
+
+Use UUIDs or URL hashes as primary keys so you can de-duplicate and track previously crawled items.
+
+### Making It Searchable
+
+Once stored, you'll want to **explore and query** the content.
+
+Options include:
+
+- **PostgreSQL FTS (Full-Text Search)**: Use `tsvector` and `tsquery` to build robust keyword search capabilities with ranking.
+- **Typesense** or **Meilisearch**: Lightweight, schema-flexible full-text search engines perfect for fast indexing and fuzzy search.
+- **Elasticsearch**: Best for more complex search use cases or logs, with powerful filtering and analytics.
+
+You should index fields like:
+- Title
+- Author
+- Date published
+- Keywords or tags (if extracted)
+- Main content
+- Domain / source
+
+### Semantic Search with Embeddings
+
+For deeper understanding and retrieval (beyond keywords), use **text embeddings**:
+
+1. Use a model like OpenAI's `text-embedding-3-small` or open-source alternatives like `bge-small-en`.
+2. Convert your crawled content into embedding vectors.
+3. Store them in a **vector database** like:
+   - **Qdrant**
+   - **Weaviate**
+   - **Pinecone**
+   - **FAISS** (for local / in-memory use)
+
+This enables semantic queries like:
+> "Show me articles where someone talks about bike-friendly urban development in cold climates."
+
+By comparing the query embedding to stored embeddings, your crawler becomes a knowledge engine.
+
+### Metadata & Enrichment
+
+Finally, enrich your data with additional metadata:
+
+- **Language detection** (e.g., with `langdetect` or fastText).
+- **Content category classification** using zero-shot models or fine-tuned classifiers.
+- **Named Entity Recognition (NER)** to extract people, organizations, and places.
+- **Geotagging** based on content or source.
+
+Store this alongside the main data so you can filter and sort by it later.
+
+## Part 5: Search-Driven Discovery Crawlers
+
+The most advanced approach to large-scale crawling doesn't even begin with URLs—instead, it starts with **search queries**.
+
+Inspired by tools like SearchXNG and Perplexity, the Metascraper demonstrates a search-first strategy where the crawler:
+
+1. Begins with a **topic or question** rather than a seed URL list
+2. Uses search engine APIs to discover relevant pages in real-time
+3. Dynamically builds its crawl queue based on search results
+4. Intelligently follows citations and references to expand knowledge
+
+This approach offers several advantages:
+
+- **Targeted Exploration**: Rather than exhaustive crawling, you only visit pages likely to contain relevant information
+- **Up-to-date Results**: Each crawl starts fresh with current search results
+- **Domain-agnostic**: Not limited to pre-defined sites or URL patterns
+- **Intention-driven**: Aligns with how humans actually research topics
+
+The Metascraper's search-driven mode demonstrates how to combine search APIs, prioritization algorithms, and context-aware extraction to build knowledge graphs from dynamically discovered content without knowing in advance which URLs you'll visit.
+
+Happy scraping
