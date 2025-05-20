@@ -1,0 +1,177 @@
+---
+title: 'Scraping HTML Básico: Los Primeros Pasos'
+publishedAt: '2025-02-23'
+summary: 'Aprende los fundamentos del web scraping a través de ejercicios prácticos con páginas HTML estáticas'
+---
+
+El web scraping puede parecer intimidante al principio, pero como cualquier habilidad, se aprende mejor a través de la práctica. En estos primeros tres capítulos, exploraremos los fundamentos de la extracción de datos de páginas HTML estáticas.
+
+## Capítulo 1: El Experto en Scraping HTML
+
+Nuestro viaje comienza con el escenario más simple posible - extraer texto de una página HTML básica. Este capítulo te introduce a los conceptos fundamentales de:
+
+- Hacer peticiones HTTP para obtener páginas web
+- Cargar contenido HTML en un analizador
+- Selección básica del DOM usando selectores CSS
+
+Aunque el ejemplo pueda parecer trivial (¡después de todo, es solo un "hola mundo"!), establece la base para todo lo que sigue.
+
+```html
+<!-- Estructura HTML de ejemplo -->
+<div class="content">
+  <p>Algún texto que queremos extraer</p>
+</div>
+```
+
+He aquí una muestra de lo que estamos trabajando:
+
+```typescript
+// Conceptos básicos (¡no la solución!)
+import * as cheerio from 'cheerio';
+
+// Cargar contenido HTML
+const $ = cheerio.load(htmlContent);
+
+// Usar selectores CSS
+const text = $('p').text();  // Selecciona todas las etiquetas <p>
+const specific = $('.content p').text();  // Selección más específica
+```
+
+## Capítulo 2: Datos Estructurados
+
+Las cosas se vuelven más interesantes cuando nos sumergimos en una página de producto de comercio electrónico de ejemplo. Aquí, nos enfrentamos a múltiples elementos con estructuras similares:
+
+```html
+<!-- Estructura de producto de ejemplo (simplificada) -->
+<div class="product">
+  <h2>Nombre del Producto</h2>
+  <span class="price">$99.99</span>
+  <div class="specs">
+    <ul>
+      <li>Tamaño: M</li>
+      <li>Color: Azul</li>
+    </ul>
+  </div>
+</div>
+```
+
+Cuando se trata de datos estructurados como este, querrás pensar en:
+
+```typescript
+// Enfoque conceptual (¡no la solución!)
+$('.product').each((index, element) => {
+  // Para cada producto, podríamos querer:
+  // 1. Extraer la información básica
+  const name = $(element).find('h2').text();
+
+  // 2. Analizar datos anidados
+  const specs = $(element).find('.specs li');
+
+  // 3. Estructurar la salida
+  const data = {
+    name,
+    specs: specs.map(/* ... */),
+  };
+});
+```
+
+Consejo profesional: Antes de escribir cualquier código, tómate tiempo para analizar la estructura HTML. Busca patrones en cómo se organizan los datos - ¿hay nombres de clase consistentes? ¿Cómo se relacionan los elementos padre e hijo?
+
+
+## Capítulo 3: Scraping Asistido por IA
+
+¡Ahora las cosas se ponen interesantes! Mientras que los desafíos anteriores nos enseñaron técnicas tradicionales de scraping, el Capítulo 3 introduce un enfoque moderno: web scraping asistido por IA. Nos enfrentamos a un escenario de pesadilla - estructuras HTML inconsistentes, nombres de clase ofuscados y múltiples patrones de frameworks mezclados.
+
+Veamos lo que hace especial este desafío:
+
+```html
+<!-- Estructura de producto tradicional -->
+<div data-testid="product-container-1" class="_3xj_item">
+  <h2 data-qa="name">Zapatillas Rojas</h2>
+  <span data-price-current="5999">$59.99</span>
+</div>
+
+<!-- Componente estilo React -->
+<div class="ProductCard-root-1a2b3c">
+  <div class="ProductCard-title-4d5e6f">Zapatos de Caminar Rosas</div>
+  <div class="ProductCard-pricing-7g8h9i">$84.99</div>
+</div>
+
+<!-- Plantilla estilo Vue -->
+<div data-v-abcdef class="product">
+  <h2 data-v-abcdef>Zapatos de Barco Azul Marino</h2>
+  <span data-v-abcdef>$79.99</span>
+</div>
+```
+
+Los enfoques tradicionales de scraping tendrían dificultades aquí porque:
+- Los nombres de clase son aleatorios o específicos del framework
+- Las estructuras de datos varían entre productos
+- Diferentes frameworks usan diferentes patrones
+- El significado semántico se pierde en el marcado
+
+Aquí es donde la IA viene al rescate. En lugar de escribir selectores frágiles, podemos describir lo que queremos en lenguaje natural y dejar que la IA maneje la coincidencia de patrones. Los conceptos clave en este capítulo incluyen:
+
+- Ingeniería de prompts para web scraping
+- Uso de IA para entender el significado semántico
+- Manejo de estructuras de datos inconsistentes
+- Lidiar con marcado específico de framework
+- Mantener la consistencia de datos a través de diferentes patrones
+
+Si bien la IA no es magia, sobresale en tareas que requieren reconocimiento de patrones y adaptación. Esto la hace particularmente valiosa para scrapear aplicaciones web modernas donde no se pueden garantizar patrones de marcado consistentes.
+
+### Una Nota sobre el Uso de IA
+
+Recuerda que la asistencia de IA no significa soluciones completamente automatizadas. Los mejores resultados vienen de combinar:
+- Definición clara del problema
+- Prompts bien estructurados
+- Validación de datos
+- Supervisión humana
+
+Tu desafío será crear prompts que ayuden a la IA a entender tanto la estructura como la intención de lo que estás tratando de extraer.
+
+¿Listo para combinar el conocimiento tradicional de web scraping con las capacidades modernas de IA? ¡Descubramos cómo la IA puede ayudar a abordar incluso el HTML más desordenado!
+
+## Pistas
+
+1. Experimenta con diferentes selectores CSS:
+```typescript
+// Diferentes formas de seleccionar elementos
+$('.class')           // Por clase
+$('#id')             // Por ID
+$('div > p')         // Hijos directos
+$('div p')           // Todos los descendientes
+$('[data-type="x"]') // Por atributo
+```
+
+2. Intenta modificar el formato de salida
+3. Piensa en el manejo de errores y casos extremos
+4. Considera cómo podría escalar tu solución con conjuntos de datos más grandes
+
+Todo el código que necesitas para comenzar está en el repositorio del proyecto. ¡Clónalo, configura tu entorno y comienza a hacer scraping!
+
+```sh
+git clone https://github.com/jonaylor89/housefly.git
+cd hosuefly
+```
+
+¿Buscas pistas? El HTML fuente para cada desafío está disponible en el directorio `apps/chapter{n}/`. Y los ejemplos resueltos funcionales también están disponibles en `_solved/chapter{n}/`. Estudia la estructura, planifica tu enfoque, y recuerda - todo experto fue alguna vez un principiante.
+
+Recuerda manejar tus solicitudes de manera responsable:
+```typescript
+// Ejemplo básico de manejo de errores
+async function fetchPage(url: string) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`¡Error HTTP! estado: ${response.status}`);
+    }
+    return await response.text();
+  } catch (error) {
+    console.error('Error al obtener la página:', error);
+    throw error;
+  }
+}
+```
+
+¡Feliz scraping!

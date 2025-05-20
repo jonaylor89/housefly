@@ -12,25 +12,33 @@ export function LanguageSwitcher() {
     locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   ) || 'en';
   
-  // Get the alternative locale
-  const alternativeLocale = currentLocale === 'en' ? 'ru' : 'en';
-  
   // Get the path without the locale prefix
   const pathnameWithoutLocale = pathname
     .replace(new RegExp(`^\/${currentLocale}($|\/)`), '/')
     .replace(/^\/$/, '');
-  
-  // Construct target path with the alternative locale
-  const targetPath = `/${alternativeLocale}${pathnameWithoutLocale}`;
+
+  // Map of language display names
+  const languageNames = {
+    en: 'English',
+    ru: 'Русский',
+    es: 'Español',
+    zh: '中文',
+    ja: '日本語'
+  };
 
   return (
-    <div className="language-switcher">
-      <Link 
-        href={targetPath}
-        className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-100 rounded-md transition-colors"
-      >
-        {currentLocale === 'en' ? "Русский" : "English"}
-      </Link>
+    <div className="language-switcher flex gap-2">
+      {locales.map(locale => (
+        locale !== currentLocale && (
+          <Link 
+            key={locale}
+            href={`/${locale}${pathnameWithoutLocale}`}
+            className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-100 rounded-md transition-colors"
+          >
+            {languageNames[locale]}
+          </Link>
+        )
+      ))}
     </div>
   );
 }

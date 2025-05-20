@@ -1,0 +1,153 @@
+---
+title: 'JavaScriptレンダリングされたコンテンツ'
+publishedAt: '2025-03-08'
+summary: 'JavaScriptで動的にコンテンツが読み込まれるシングルページサイト + 無限スクロール/遅延読み込み'
+---
+
+現代のWebアプリケーションは完全なHTMLを提供することはほとんどなく、代わりにJavaScriptを通じてコンテンツが動的に読み込まれ、レンダリングされます。これは、これからの2章で取り組むウェブスクレイピングに独自の課題を提示します。
+
+## 第4章: 動的ニュースフィード
+
+最初の課題は、JavaScriptを通じて動的に読み込まれる記事のニュースフィードをスクレイピングすることです。これにはいくつかの重要な概念が含まれます：
+
+- Playwrightを使用したブラウザ自動化
+- 動的コンテンツの読み込み完了を待つ
+- JavaScriptでレンダリングされたDOM要素の処理
+
+ページの構造は次のようなものです：
+
+```html
+<div class="news-feed">
+  <article class="news-item">
+    <h2>速報タイトル</h2>
+    <p>記事の内容...</p>
+    <div class="meta">
+      <span>著者名</span>
+      <time datetime="2024-03-08T12:00:00Z">2024年3月8日</time>
+    </div>
+  </article>
+  <!-- さらに記事が動的に読み込まれる -->
+</div>
+```
+静的HTMLスクレイピングとの主な違い：
+
+```typescript
+// cheerio.load()の代わりに、Playwrightを使用します
+const browser = await chromium.launch();
+const page = await browser.newPage();
+
+// コンテンツがレンダリングされるのを待つ
+await page.waitForSelector('.news-item');
+
+// page.$$eval()を使用してライブDOMからデータを抽出
+// これはブラウザコンテキストでコールバック関数を実行し
+// セレクタに一致するすべての要素を一度に評価します
+const items = await page.$$eval('.news-item', elements => {
+  // 一致する要素でArray.map()のように動作します
+  // シリアライズ可能なJavaScriptオブジェクトを返します
+  // 複数の要素からデータを抽出するのに最適です
+});
+```
+
+## 第5章: 無限スクロールギャラリー
+
+動的コンテンツの知識を基に、さらに複雑なシナリオ - 無限スクロールの写真ギャラリーに取り組みます。これには以下が含まれます：
+
+- 遅延読み込みコンテンツの処理
+- スクロールイベントの検出とトリガー
+- 非同期読み込み状態の管理
+- 複雑なUIパターンからのデータ抽出
+
+ここでの課題は、ユーザーがスクロールするにつれてコンテンツが順次読み込まれることです：
+
+```html
+<div class="photo-gallery">
+  <div class="photo-card">
+    <img src="..." alt="写真タイトル" />
+    <h2>写真タイトル</h2>
+    <p>撮影者名による</p>
+    <div class="flex">
+      <span>❤️ 42</span>
+    </div>
+  </div>
+  <!-- スクロール時に読み込まれる写真がさらにあります -->
+</div>
+```
+
+無限スクロールを処理するためのキーコンセプト：
+
+```typescript
+// 新しいコンテンツが読み込まれなくなるまで下までスクロール
+let previousHeight;
+while (true) {
+  previousHeight = await page.evaluate('document.body.scrollHeight');
+  await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
+  await page.waitForTimeout(1500); // コンテンツの読み込みを待つ
+
+  const newHeight = await page.evaluate('document.body.scrollHeight');
+  if (newHeight === previousHeight) {
+    break; // 読み込むコンテンツがなくなった
+  }
+}
+```
+
+### 重要な考慮事項
+
+JavaScriptレンダリングされたコンテンツを処理する場合：
+
+1. **パフォーマンス**: 動的コンテンツのスクレイピングは静的HTMLよりも過程が遅い
+2. **リソース管理**: ブラウザ自動化はより多くのシステムリソースを使用する
+3. **安定性**: 読み込み状態とネットワーク状態の処理が必要
+4. **レート制限**: アクション間の遅延実装を考慮する必要がある
+
+### ベストプラクティス
+
+1. 適切な待機戦略を使用する：
+```typescript
+// 特定の要素を待つ
+await page.waitForSelector('.selector');
+
+// ネットワークアイドル状態を待つ
+await page.waitForLoadState('networkidle');
+
+// カスタム待機条件
+await page.waitForFunction(() => {
+  // カスタムJavaScript条件
+});
+```
+
+2. 強力なエラーハンドリングを実装する：
+```typescript
+try {
+  await page.goto(url);
+  // ... スクレイピングロジック
+} catch (error) {
+  console.error('スクレイピング失敗:', error);
+} finally {
+  await browser.close(); // 常にクリーンアップする
+}
+```
+
+3. 信頼性のためのリトライメカニズムの実装を検討する
+4. 大規模データセットを扱うときはメモリ使用量を監視する
+5. 抽出されたデータの一貫性を検証する
+
+### ソリューションのテスト
+
+テスト環境は現実世界の状態をシミュレートするモックAPIを提供します：
+- 可変ロード時間
+- ネットワークレイテンシー
+- ページングメカニズム
+- エラー状態
+
+これらのバリエーションを試してみてください：
+1. スクロールタイミングの変更
+2. 異なる画面サイズの対応
+3. 低速ネットワーク環境でのテスト
+4. データの完全性検証
+
+動的コンテンツを処理する準備はできましたか？チャレンジコードとテスト環境はリポジトリにあります。
+
+参考実装として、`_solved/chapter4/`と`_solved/chapter5/`の解決済み例をチェックしてください。現代のウェブスクレイピングは、HTML構造とアプリケーションの振る舞いの両方を理解することが重要です。
+
+スクレイピングをお楽しみください！

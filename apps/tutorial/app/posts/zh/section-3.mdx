@@ -1,0 +1,204 @@
+---
+title: '多页面爬取'
+publishedAt: '2025-03-25'
+summary: '掌握爬取互联网站、管理网站地图和处理重复内容的技术'
+---
+
+掌握了静态和动态内容抓取的基础知识后，现在是时候迎接更全面的挑战：多页面爬取。本节重点介绍如何高效地导航和提取具有多个互连页面的网站数据。
+
+爬取多页面网站有两种主要方法：
+
+1. 基于链接的爬取 - 跟随页面之间的链接
+2. 基于网站地图的爬取 - 使用sitemap.xml文件
+
+对于网站地图爬取，大多数网站提供了一个sitemap.xml文件，列出所有重要的URL。这种结构化的XML文件包括：
+
+- 页面URL
+- 最后修改日期
+- 变更频率
+- 优先级值
+
+使用网站地图比链接爬取更高效，因为它：
+- 预先提供完整的页面列表
+- 包含关于页面重要性和新鲜度的元数据
+- 避免爬取不必要的页面
+- 减轻服务器负载
+
+但在本章中，我们将专注于使用Crawlee进行基于链接的爬取，为多页面电子商务网站构建爬虫。Crawlee为我们处理了网络爬取的许多复杂性，包括：
+
+- 自动队列管理和URL去重
+- 内置速率限制和重试逻辑
+- 可配置的请求处理和路由
+- 数据存储和导出
+
+我们将爬取的网站结构如下：
+
+```
+首页
+├── 分类：电子产品
+│   ├── 手机
+│   ├── 笔记本电脑
+│   └── 配件
+├── 分类：服装
+│   ├── 男装
+│   └── 女装
+└── 特色产品
+```
+
+每个产品页面根据类别有不同的布局，但我们需要提取一致的信息：
+
+```typescript
+// 我们要构建的示例数据结构
+interface ProductData {
+  name: string;
+  price: number;
+  rating: { score: number, count: number };
+  features: string[];
+  status: string; // 有货、缺货等
+}
+
+interface ResultData {
+  categories: {
+    electronics: {
+      phones: ProductData[];
+      laptops: ProductData[];
+      accessories: ProductData[];
+    };
+    clothing: {
+      mens: {
+        shirts: ProductData[];
+        pants: ProductData[];
+      };
+      womens: {
+        dresses: ProductData[];
+        tops: ProductData[];
+      };
+    };
+  };
+  featured_products: FeaturedProduct[];
+}
+```
+
+### 使用Crawlee的关键爬取概念
+
+1. **请求队列管理**
+
+Crawlee自动处理队列，以下是我们如何配置它：
+
+```typescript
+import { CheerioCrawler } from 'crawlee';
+
+const crawler = new CheerioCrawler({
+    // 处理每个请求
+    async requestHandler({ $, request, enqueueLinks }) {
+        // 处理页面
+        const data = extractPageData($);
+
+        // 自动将页面上发现的新URL加入队列
+        await enqueueLinks({
+            selector: 'a',
+            baseUrl: request.loadedUrl,
+        });
+    },
+    // 限制并发请求
+    maxConcurrency: 10,
+});
+```
+
+2. **URL处理**
+
+Crawlee提供内置的URL处理和规范化：
+
+```typescript
+await crawler.run([startUrl]);
+
+// 或者更多配置：
+await crawler.addRequests([{
+    url: startUrl,
+    userData: {
+        label: 'start',
+    },
+}]);
+```
+
+3. **路由处理**
+
+将不同URL路由到特定处理程序：
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, request }) {
+        const { label } = request.userData;
+
+        switch (label) {
+            case 'category':
+                return handleCategory($);
+            case 'product':
+                return handleProduct($);
+            default:
+                return handleHomepage($);
+        }
+    },
+});
+```
+
+4. **数据收集**
+
+Crawlee为收集的数据提供内置存储：
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, pushData }) {
+        const productData = extractProduct($);
+        await pushData(productData);
+    },
+});
+```
+
+### 网络爬取最佳实践
+
+虽然Crawlee处理了许多低级问题，但你仍应考虑：
+
+1. **配置**
+   - 设置适当的速率限制
+   - 配置重试策略
+   - 设置有意义的用户代理字符串
+
+2. **错误处理**
+   - 使用Crawlee的内置错误处理
+   - 实现自定义错误回调
+   - 记录有意义的诊断信息
+
+3. **数据组织**
+   - 一致地构建数据结构
+   - 使用请求标签进行路由
+   - 利用Crawlee的数据集功能
+
+4. **资源管理**
+   - 适当配置maxConcurrency
+   - 在需要时使用maxRequestsPerCrawl
+   - 监控内存使用
+
+### 挑战
+
+你的任务是构建一个基于Crawlee的爬虫，它能：
+
+1. 从首页开始并发现所有产品类别
+2. 访问每个类别和子类别页面
+3. 从每个列表中提取产品信息
+4. 将数据组织成结构化格式
+5. 处理出现在多个位置的产品（例如，特色产品和类别）
+
+该站点包含约25-30个产品，分布在不同类别中，具有各种布局和信息结构。你的爬虫应该生成一个全面的数据集，保持类别和产品之间的层次关系。
+
+### 测试你的解决方案
+
+测试：
+- 完整性：你找到了所有产品吗？
+- 准确性：提取的数据正确吗？
+- 结构：数据是否正确组织？
+- 效率：你发出了多少请求？
+
+`_solved/chapter6/`中的解决示例提供了使用Crawlee的参考实现。研究它以了解如何利用库的功能来高效进行多页面爬取和数据组织。
+
+祝爬取愉快！
