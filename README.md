@@ -63,49 +63,6 @@ housefly/
 │   ├── check_answers.sh  # Script to validate solutions
 ```
 
-## Roadmap
-
-1. Basic HTML Scraping
-- [x] Single static HTML file with simple text
-- [x] Single HTML file with structured data (tables, lists, divs with classes)
-- [x] Single HTML file with unstructured text requiring AI-based structuring (e.g., extracting key information from free-form text)
-
-2. JavaScript-Rendered Content
-- [x] Single-page site where content loads dynamically via JavaScript
-- [x] Scraping sites with infinite scroll and lazy-loaded content
-
-3. Multi-Page Crawling
-- [x] multiple pages within the same subdomain (/content/*)
-    - [x] storing data and duplicates (index of URL -> data)
-    - [x] sitemap + link crawling
-    - [x] Sitemap crawling and extracting internal links
-
-4. Advanced Website Interaction and APIs
-- [x] API-Driven Websites
-  - [x] Extracting data from JSON responses in API-driven websites
-  - [x] Scraping sites where data loads via AJAX calls
-- [x] Forms and Authentication
-  - [x] Automate form submissions (search, filters, logins)
-  - [x] Handle authentication flows (cookies, tokens)
-  - [x] Maintain sessions across requests
-  - [x] Access protected content
-- [x] Work with GraphQL APIs
-
-5. Media & Non-Text Scraping
-- [x] Extracting images and metadata (alt text, filenames)
-- [x] Downloading and parsing PDFs
-- [x] Scraping embedded video metadata (YouTube, Vimeo)
-
-6. Handling Web Crawling Defenses
-- [x] Rate limiting and polite crawling (respecting robots.txt)
-  - [x] Handling CAPTCHAs with solver services
-  - [x] Dealing with anti-scraping mechanisms (e.g., Cloudflare, bot traps)
-
-7. Large-Scale & Unstructured Web Crawling
-- [ ] Scraping random websites with different path structures and data formats
-- [ ] AI-assisted parsing for messy and unstructured data
-- [ ] Building a search crawler (e.g., using searxng for discovering new content)
-
 ## Contributing
 
 Pull requests and suggestions are welcome! Feel free to open issues for bug reports or feature requests.

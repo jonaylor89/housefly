@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://chapter11.housefly.cc";
 const API_BASE_URL = `${BASE_URL}/api`;
 const USER_AGENT = "GoodBot";
 

@@ -1,0 +1,22 @@
+{
+  "name": "metascraper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "deno --allow-ffi --allow-net --allow-env --allow-sys --allow-read --allow-write --allow-run index.ts",
+    "start-ts": "ts-node index.ts",
+    "search": "deno --allow-ffi --allow-net --allow-env --allow-sys --allow-read --allow-write --allow-run search-cli.ts",
+    "visualize": "deno --allow-ffi --allow-net --allow-env --allow-sys --allow-read --allow-write --allow-run visualize.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "Meta-crawler that crawls across previous chapter demos and builds a simple search index",
+  "dependencies": {
+    "crawlee": "^3.0.0",
+    "cheerio": "^1.0.0",
+    "playwright": "^1.40.0",
+    "openai": "^4.20.0",
+    "typescript": "^5.3.2"
+  }
+}
