@@ -39,6 +39,9 @@ export type Dictionary = {
     title: string;
     description: string;
   };
+  posts: {
+    title: string;
+  };
 };
 
 export const dictionaries: Record<string, Dictionary> = {
@@ -83,6 +86,9 @@ export const dictionaries: Record<string, Dictionary> = {
       title: "Housefly - Web Scraping Playground",
       description: "An interactive learning project designed to teach web scraping through structured challenges, featuring realistic scenarios and automated solution checking.",
     },
+    posts: {
+      title: "Posts",
+    },
   },
   ru: {
     home: {
@@ -124,6 +130,9 @@ export const dictionaries: Record<string, Dictionary> = {
     metadata: {
       title: "Housefly - Платформа для обучения веб-скрапингу",
       description: "Интерактивный обучающий проект, разработанный для изучения веб-скрапинга через структурированные задачи, с реалистичными сценариями и автоматической проверкой решений.",
+    },
+    posts: {
+      title: "Статьи",
     },
   },
   es: {
@@ -167,6 +176,9 @@ export const dictionaries: Record<string, Dictionary> = {
       title: "Housefly - Plataforma de Aprendizaje de Web Scraping",
       description: "Un proyecto de aprendizaje interactivo diseñado para enseñar web scraping a través de desafíos estructurados, con escenarios realistas y verificación automática de soluciones.",
     },
+    posts: {
+      title: "Artículos",
+    },
   },
   zh: {
     home: {
@@ -209,6 +221,9 @@ export const dictionaries: Record<string, Dictionary> = {
       title: "Housefly - 网络爬虫学习平台",
       description: "一个交互式学习项目，旨在通过结构化的挑战教授网络爬虫，包含真实场景和自动解决方案检查。",
     },
+    posts: {
+      title: "文章",
+    },
   },
   ja: {
     home: {
@@ -250,6 +265,9 @@ export const dictionaries: Record<string, Dictionary> = {
     metadata: {
       title: "Housefly - Webスクレイピング学習プラットフォーム",
       description: "構造化された課題を通じてWebスクレイピングを教えるために設計されたインタラクティブな学習プロジェクトで、現実的なシナリオと自動解決策チェックを備えています。",
+    },
+    posts: {
+      title: "投稿",
     },
   }
 };

@@ -1,60 +1,61 @@
 ---
-title: 'u30deu30ebu30c1u30dau30fcu30b8u30afu30edu30fcu30eau30f3u30b0'
+title: 'マルチページクローリング'
 publishedAt: '2025-03-25'
-summary: 'u76f8u4e92u63a5u7d9au3055u308cu305fu30a6u30a7u30d6u30b5u30a4u30c8u306eu30afu30edu30fcu30eau30f3u30b0u3001u30b5u30a4u30c8u30deu30c3u30d7u306eu7ba1u7406u3001u91cdu8907u30b3u30f3u30c6u30f3u30c4u306eu51e6u7406u306eu30c6u30afu30cbu30c3u30afu3092u30deu30b9u30bfu30fcu3059u308b'
+summary: '相互接続されたウェブサイトのクローリング技術、サイトマップ管理、重複コンテンツの処理をマスターする'
 ---
 
-u9759u7684u30b3u30f3u30c6u30f3u30c4u3068u52d5u7684u30b3u30f3u30c6u30f3u30c4u306eu30b9u30afu30ecu30a4u30d4u30f3u30b0u306eu57fau672cu3092u30deu30b9u30bfu30fcu3057u305fu4ecau3001u3088u308au5305u62ecu7684u306au8ab2u984cu306bu53d6u308au7d44u3080u6642u304cu6765u307eu3057u305fuff1au30deu30ebu30c1u30dau30fcu30b8u30afu30edu30fcu30eau30f3u30b0u3067u3059u3002u3053u306eu30bbu30afu30b7u30e7u30f3u3067u306fu3001u8907u6570u306eu76f8u4e92u63a5u7d9au3055u308cu305fu30dau30fcu30b8u3092u6301u3064u30a6u30a7u30d6u30b5u30a4u30c8u304bu3089u30c7u30fcu30bfu3092u52b9u7387u7684u306bu30cau30d3u30b2u30fcu30c8u3057u62bdu51fau3059u308bu3053u3068u306bu7126u70b9u3092u5f53u3066u307eu3059u3002
+静的コンテンツと動的コンテンツのスクレイピングの基礎を習得したところで、より包括的な課題に取り組む時が来ました：マルチページクローリング。このセクションでは、複数の相互接続されたページを持つウェブサイトから効率的にナビゲートしてデータを抽出することに焦点を当てます。
 
-u30deu30ebu30c1u30dau30fcu30b8u30a6u30a7u30d6u30b5u30a4u30c8u3092u30afu30edu30fcu30ebu3059u308bu4e3bu306au30a2u30d7u30edu30fcu30c1u304c2u3064u3042u308au307eu3059uff1a
+マルチページウェブサイトをクローリングする主な方法は2つあります：
 
-1. u30eau30f3u30afu30d9u30fcu30b9u306eu30afu30edu30fcu30eau30f3u30b0 - u30dau30fcu30b8u9593u306eu30eau30f3u30afu3092u8ffdu8de1u3059u308b
-2. u30b5u30a4u30c8u30deu30c3u30d7u30d9u30fcu30b9u306eu30afu30edu30fcu30eau30f3u30b0 - sitemap.xmlu30d5u30a1u30a4u30ebu3092u4f7fu7528u3059u308b
+1. リンクベースクローリング - ページ間のリンクをたどる
+2. サイトマップベースクローリング - sitemap.xmlファイルを使用する
 
-u30b5u30a4u30c8u30deu30c3u30d7u30afu30edu30fcu30eau30f3u30b0u306bu3064u3044u3066u306fu3001u307bu3068u3093u3069u306eu30a6u30a7u30d6u30b5u30a4u30c8u304cu3059u3079u3066u306eu91cdu8981u306aURLu3092u30eau30b9u30c8u30a2u30c3u30d7u3057u305fsitemap.xmlu30d5u30a1u30a4u30ebu3092u63d0u4f9bu3057u3066u3044u307eu3059u3002u3053u306eu69cbu9020u5316u3055u308cu305fXMLu30d5u30a1u30a4u30ebu306bu306fu4ee5u4e0bu304cu542bu307eu308cu307eu3059uff1a
+サイトマップクローリングでは、ほとんどのウェブサイトがすべての重要なURLをリストしたsitemap.xmlファイルを提供しています。この構造化されたXMLファイルには以下が含まれます：
 
-- u30dau30fcu30b8URL
-- u6700u7d42u66f4u65b0u65e5
-- u5909u66f4u9891u5ea6
-- u512au5148u5ea6u5024
+- ページURL
+- 最終更新日
+- 更新頻度
+- 優先度の値
 
-u30b5u30a4u30c8u30deu30c3u30d7u3092u4f7fu7528u3059u308bu3068u3001u30eau30f3u30afu30afu30edu30fcu30eau30f3u30b0u3088u308au3082u52b9u7387u7684u306bu306au308au307eu3059uff1a
-- u4e88u3081u5b8cu5168u306au30dau30fcu30b8u30eau30b9u30c8u3092u63d0u4f9b
-- u30dau30fcu30b8u306eu91cdu8981u6027u3068u65b0u9baeu3055u306bu95a2u3059u308bu30e1u30bfu30c7u30fcu30bfu3092u542bu3080
-- u4e0du8981u306au30dau30fcu30b8u306eu30afu30edu30fcu30ebu3092u56deu907f
-- u30b5u30fcu30d0u30fcu8ca0u8377u3092u8efdu6e1b
+サイトマップを使用することは、以下の理由でリンククローリングよりも効率的です：
 
-u3057u304bu3057u3001u3053u306eu7ae0u3067u306fu3001Crawleeu3092u4f7fu7528u3057u305fu30eau30f3u30afu30d9u30fcu30b9u306eu30afu30edu30fcu30eau30f3u30b0u306bu7126u70b9u3092u5f53u3066u3001u30deu30ebu30c1u30dau30fcu30b8u306eu30d5u30a7u30a4u30afECu30b5u30a4u30c8u7528u306eu30afu30edu30fcu30e9u30fcu3092u69cbu7bc9u3057u307eu3059u3002Crawleeu306fu30a6u30a7u30d6u30afu30edu30fcu30eau30f3u30b0u306eu591au304fu306eu8907u96d1u3055u3092u51e6u7406u3057u307eu3059uff1a
+- 事前にページの完全なリストを提供
+- ページの重要性と新しさに関するメタデータを含む
+- 不要なページのクローリングを回避
+- サーバー負荷を軽減
 
-- u81eau52d5u30adu30e5u30fcu7ba1u7406u3068URLu91cdu8907u6392u9664
-- u7d44u307fu8fbcu307fu306eu30ecu30fcu30c8u5236u9650u3068u518du8a66u884cu30edu30b8u30c3u30af
-- u8a2du5b9au53efu80fdu306au30eau30afu30a8u30b9u30c8u51e6u7406u3068u30ebu30fcu30c6u30a3u30f3u30b0
-- u30c7u30fcu30bfu30b9u30c8u30ecu30fcu30b8u3068u30a8u30afu30b9u30ddu30fcu30c8
+しかし、この章では、Crawleeを使用してマルチページeコマースサイトのクローラーを構築するためのリンクベースクローリングに焦点を当てます。Crawleeは以下を含むウェブクローリングの複雑さの多くを処理してくれます：
 
-u30afu30edu30fcu30ebu3059u308bu30b5u30a4u30c8u69cbu9020u306fu6b21u306eu3088u3046u306bu306au3063u3066u3044u307eu3059uff1a
+- 自動キュー管理とURL重複排除
+- 組み込みレート制限と再試行ロジック
+- 設定可能なリクエスト処理とルーティング
+- データストレージとエクスポート
+
+クローリングするサイト構造は次のようになります：
 
 ```
-u30dbu30fcu30e0u30dau30fcu30b8
-u251cu2500u2500 u30abu30c6u30b4u30ea: u5bb6u96fb
-u2502   u251cu2500u2500 u30b9u30deu30fcu30c8u30d5u30a9u30f3
-u2502   u251cu2500u2500 u30ceu30fcu30c8u30d1u30bdu30b3u30f3
-u2502   u2514u2500u2500 u30a2u30afu30bbu30b5u30eau30fc
-u251cu2500u2500 u30abu30c6u30b4u30ea: u8863u6599
-u2502   u251cu2500u2500 u30e1u30f3u30ba
-u2502   u2514u2500u2500 u30ecu30c7u30a3u30fcu30b9
-u2514u2500u2500 u304au3059u3059u3081u5546u54c1
+ホームページ
+├── カテゴリ: エレクトロニクス
+│   ├── 携帯電話
+│   ├── ノートパソコン
+│   └── アクセサリ
+├── カテゴリ: 衣料品
+│   ├── メンズ
+│   └── レディース
+└── 注目商品
 ```
 
-u5404u5546u54c1u30dau30fcu30b8u306fu30abu30c6u30b4u30eau306bu3088u3063u3066u30ecu30a4u30a2u30a6u30c8u304cu7570u306au308au307eu3059u304cu3001u4e00u8cabu3057u305fu60c5u5831u3092u62bdu51fau3059u308bu5fc5u8981u304cu3042u308au307eu3059uff1a
+各商品ページはカテゴリによって異なるレイアウトを持ちますが、一貫した情報を抽出する必要があります：
 
 ```typescript
-// u69cbu7bc9u3057u305fu3044u30c7u30fcu30bfu69cbu9020u4f8b
+// 構築したいデータ構造の例
 interface ProductData {
   name: string;
   price: number;
   rating: { score: number, count: number };
   features: string[];
-  status: string; // u5728u5eabu3042u308au3001u5728u5eabu306au3057u306au3069
+  status: string; // 在庫あり、在庫なし、など
 }
 
 interface ResultData {
@@ -79,40 +80,40 @@ interface ResultData {
 }
 ```
 
-### Crawleeu3092u4f7fu7528u3057u305fu30adu30fcu30afu30edu30fcu30eau30f3u30b0u30b3u30f3u30bbu30d7u30c8
+### Crawleeでの主要なクローリング概念
 
-1. **u30eau30afu30a8u30b9u30c8u30adu30e5u30fcu7ba1u7406**
+1. **リクエストキュー管理**
 
-Crawleeu306fu30adu30e5u30fcu3092u81eau52d5u7684u306bu51e6u7406u3057u307eu3059u304cu3001u8a2du5b9au65b9u6cd5u306fu6b21u306eu3068u304au308au3067u3059uff1a
+Crawleeはキューを自動的に処理しますが、設定方法は次のとおりです：
 
 ```typescript
 import { CheerioCrawler } from 'crawlee';
 
 const crawler = new CheerioCrawler({
-    // u5404u30eau30afu30a8u30b9u30c8u3092u51e6u7406
+    // 各リクエストを処理
     async requestHandler({ $, request, enqueueLinks }) {
-        // u30dau30fcu30b8u3092u51e6u7406
+        // ページを処理
         const data = extractPageData($);
 
-        // u30dau30fcu30b8u3067u898bu3064u304bu3063u305fu65b0u3057u3044URLu3092u81eau52d5u7684u306bu30adu30e5u30fcu306bu5165u308cu308b
+        // ページで見つかった新しいURLを自動的にキューに追加
         await enqueueLinks({
             selector: 'a',
             baseUrl: request.loadedUrl,
         });
     },
-    // u540cu6642u30eau30afu30a8u30b9u30c8u6570u306eu5236u9650
+    // 同時リクエストを制限
     maxConcurrency: 10,
 });
 ```
 
-2. **URLu51e6u7406**
+2. **URL処理**
 
-Crawleeu306fu7d44u307fu8fbcu307fu306eURLu51e6u7406u3068u6b63u898fu5316u3092u63d0u4f9bu3057u307eu3059uff1a
+Crawleeは組み込みのURL処理と正規化を提供します：
 
 ```typescript
 await crawler.run([startUrl]);
 
-// u3088u308au8a73u7d30u306au8a2du5b9au3067uff1a
+// より多くの設定で：
 await crawler.addRequests([{
     url: startUrl,
     userData: {
@@ -121,9 +122,9 @@ await crawler.addRequests([{
 }]);
 ```
 
-3. **u30ebu30fcu30c8u30cfu30f3u30c9u30eau30f3u30b0**
+3. **ルート処理**
 
-u7570u306au308bURLu3092u7279u5b9au306eu30cfu30f3u30c9u30e9u306bu30ebu30fcu30c6u30a3u30f3u30b0u3057u307eu3059uff1a
+異なるURLを特定のハンドラーにルーティング：
 
 ```typescript
 const crawler = new CheerioCrawler({
@@ -142,9 +143,9 @@ const crawler = new CheerioCrawler({
 });
 ```
 
-4. **u30c7u30fcu30bfu53ceu96c6**
+4. **データ収集**
 
-Crawleeu306fu53ceu96c6u3057u305fu30c7u30fcu30bfu306eu7d44u307fu8fbcu307fu30b9u30c8u30ecu30fcu30b8u3092u63d0u4f9bu3057u307eu3059uff1a
+Crawleeは収集されたデータのための組み込みストレージを提供します：
 
 ```typescript
 const crawler = new CheerioCrawler({
@@ -155,50 +156,50 @@ const crawler = new CheerioCrawler({
 });
 ```
 
-### u30a6u30a7u30d6u30afu30edu30fcu30eau30f3u30b0u306eu30d9u30b9u30c8u30d7u30e9u30afu30c6u30a3u30b9
+### ウェブクローリングのベストプラクティス
 
-Crawleeu304cu591au304fu306eu4f4eu30ecu30d9u30ebu306eu554fu984cu3092u51e6u7406u3057u3066u3044u307eu3059u304cu3001u4ee5u4e0bu306eu70b9u306bu3082u8003u616eu3059u3079u304du3067u3059uff1a
+Crawleeが多くの低レベルの懸念を処理しますが、以下も考慮すべきです：
 
-1. **u8a2du5b9a**
-   - u9069u5207u306au30ecu30fcu30c8u5236u9650u3092u8a2du5b9au3059u308b
-   - u518du8a66u884cu6226u7565u3092u8a2du5b9au3059u308b
-   - u610fu5473u306eu3042u308bUser-Agentu6587u5b57u5217u3092u8a2du5b9au3059u308b
+1. **設定**
+   - 適切なレート制限を設定
+   - 再試行戦略を設定
+   - 意味のあるユーザーエージェント文字列を設定
 
-2. **u30a8u30e9u30fcu51e6u7406**
-   - Crawleeu306eu7d44u307fu8fbcu307fu30a8u30e9u30fcu51e6u7406u3092u4f7fu7528u3059u308b
-   - u30abu30b9u30bfu30e0u30a8u30e9u30fcu30b3u30fcu30ebu30d0u30c3u30afu3092u5b9fu88c5u3059u308b
-   - u610fu5473u306eu3042u308bu8a3au65adu60c5u5831u3092u30edu30b0u306bu8a18u9332u3059u308b
+2. **エラー処理**
+   - Crawleeの組み込みエラー処理を使用
+   - カスタムエラーコールバックを実装
+   - 意味のある診断情報をログ
 
-3. **u30c7u30fcu30bfu7d44u7e54**
-   - u30c7u30fcu30bfu3092u4e00u8cabu3057u305fu69cbu9020u3067u7d44u7e54u3059u308b
-   - u30ebu30fcu30c6u30a3u30f3u30b0u306bu30eau30afu30a8u30b9u30c8u30e9u30d9u30ebu3092u4f7fu7528u3059u308b
-   - Crawleeu306eu30c7u30fcu30bfu30bbu30c3u30c8u6a5fu80fdu3092u6d3bu7528u3059u308b
+3. **データ組織**
+   - データを一貫して構造化
+   - ルーティングにリクエストラベルを使用
+   - Crawleeのデータセット機能を活用
 
-4. **u30eau30bdu30fcu30b9u7ba1u7406**
-   - maxConcurrencyu3092u9069u5207u306bu8a2du5b9au3059u308b
-   - u5fc5u8981u306bu5fdcu3058u3066maxRequestsPerCrawlu3092u4f7fu7528u3059u308b
-   - u30e1u30e2u30eau4f7fu7528u91cfu3092u30e2u30cbu30bfu30eau30f3u30b0u3059u308b
+4. **リソース管理**
+   - maxConcurrencyを適切に設定
+   - 必要に応じてmaxRequestsPerCrawlを使用
+   - メモリ使用量を監視
 
-### u8ab2u984c
+### チャレンジ
 
-u3042u306au305fu306eu30bfu30b9u30afu306fu3001Crawleeu30d9u30fcu30b9u306eu30afu30edu30fcu30e9u30fcu3092u69cbu7bc9u3059u308bu3053u3068u3067u3059uff1a
+あなたのタスクは、以下を行うCrawleeベースのクローラーを構築することです：
 
-1. u30dbu30fcu30e0u30dau30fcu30b8u304bu3089u59cbu3081u3066u3001u3059u3079u3066u306eu5546u54c1u30abu30c6u30b4u30eau3092u767au898bu3059u308b
-2. u5404u30abu30c6u30b4u30eau3068u30b5u30d6u30abu30c6u30b4u30eau30dau30fcu30b8u3092u8a2au554fu3059u308b
-3. u5404u30eau30b9u30c6u30a3u30f3u30b0u304bu3089u5546u54c1u60c5u5831u3092u62bdu51fau3059u308b
-4. u30c7u30fcu30bfu3092u69cbu9020u5316u3055u308cu305fu5f62u5f0fu306bu6574u7406u3059u308b
-5. u8907u6570u306eu5834u6240u306bu8868u793au3055u308cu308bu5546u54c1u3092u51e6u7406u3059u308buff08u4f8buff1au304au3059u3059u3081u5546u54c1u3068u30abu30c6u30b4u30eau5185u306eu5546u54c1uff09
+1. ホームページから開始し、すべての商品カテゴリを発見
+2. 各カテゴリとサブカテゴリページを訪問
+3. 各リストから商品情報を抽出
+4. データを構造化された形式に整理
+5. 複数の場所に表示される商品（例：注目商品とカテゴリ）を処理
 
-u30b5u30a4u30c8u306bu306fu3001u7570u306au308bu30ecu30a4u30a2u30a6u30c8u3068u60c5u5831u69cbu9020u3092u6301u3064u7d0425-30u306eu5546u54c1u304cu69d8u3005u306au30abu30c6u30b4u30eau306bu5206u6563u3057u3066u3044u307eu3059u3002u3042u306au305fu306eu30afu30edu30fcu30e9u30fcu306fu3001u30abu30c6u30b4u30eau3068u5546u54c1u9593u306eu968eu5c64u95a2u4fc2u3092u7dadu6301u3059u308bu5305u62ecu7684u306au30c7u30fcu30bfu30bbu30c3u30c8u3092u751fu6210u3059u308bu5fc5u8981u304cu3042u308au307eu3059u3002
+サイトには異なるカテゴリにわたって約25-30の商品があり、さまざまなレイアウトと情報構造を持ちます。あなたのクローラーは、カテゴリと商品間の階層関係を維持する包括的なデータセットを生成すべきです。
 
-### u30bdu30eau30e5u30fcu30b7u30e7u30f3u306eu30c6u30b9u30c8
+### ソリューションのテスト
 
-u6b21u306eu70b9u3092u30c6u30b9u30c8u3057u307eu3059uff1a
-- u5b8cu5168u6027uff1au3059u3079u3066u306eu5546u54c1u3092u898bu3064u3051u307eu3057u305fu304buff1f
-- u6b63u78bau6027uff1au62bdu51fau3055u308cu305fu30c7u30fcu30bfu306fu6b63u3057u3044u3067u3059u304buff1f
-- u69cbu9020uff1au30c7u30fcu30bfu306fu9069u5207u306bu6574u7406u3055u308cu3066u3044u307eu3059u304buff1f
-- u52b9u7387uff1au3069u308cu3060u3051u306eu30eau30afu30a8u30b9u30c8u3092u884cu3044u307eu3057u305fu304buff1f
+以下をテストしてください：
+- 完全性：すべての商品を見つけましたか？
+- 正確性：抽出されたデータは正しいですか？
+- 構造：データは適切に整理されていますか？
+- 効率性：どのくらいのリクエストを行いましたか？
 
-`_solved/chapter6/`u306bu3042u308bu89e3u6c7au4f8bu306fu3001Crawleeu3092u4f7fu7528u3057u305fu53c2u8003u5b9eu88c5u3092u63d0u4f9bu3057u3066u3044u307eu3059u3002u52b9u7387u7684u306au30deu30ebu30c1u30dau30fcu30b8u30afu30edu30fcu30eau30f3u30b0u3068u30c7u30fcu30bfu7d44u7e54u306eu305fu3081u306bu30e9u30a4u30d6u30e9u30eau306eu6a5fu80fdu3092u6d3bu7528u3059u308bu65b9u6cd5u3092u7406u89e3u3059u308bu305fu3081u306bu7814u7a76u3057u3066u304fu3060u3055u3044u3002
+`_solved/chapter6/`の解決例は、Crawleeを使用したリファレンス実装を提供します。ライブラリの機能を効率的なマルチページクローリングとデータ組織に活用する方法を理解するために学習してください。
 
-u30afu30edu30fcu30eau30f3u30b0u3092u304au697du3057u307fu304fu3060u3055u3044uff01
+ハッピークローリング！
