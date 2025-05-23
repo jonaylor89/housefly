@@ -4,4 +4,173 @@ publishedAt: '2025-02-23'
 summary: '通过静态HTML页面的实践练习学习网络爬虫的基础知识'
 ---
 
-网络爬虫一开始可能看起来很奇怪，但就像任何技能一样，最好通过动手实践来学习。在这前三章中，我们将探索从静态HTML页面提取数据的基础知识。
+网络爬虫一开始可能看起来令人生畏，但就像任何技能一样，最好通过实践来学习。在前三章中，我们将探索从静态HTML页面提取数据的基础知识。
+
+## 第1章：HTML爬虫大师
+
+我们的旅程从最简单的场景开始——从基本HTML页面提取文本。本章介绍了以下核心概念：
+
+- 发出HTTP请求以获取网页
+- 将HTML内容加载到解析器中
+- 使用CSS选择器进行基本DOM选择
+
+虽然这个例子可能看起来微不足道（毕竟这只是一个"hello world"！），但它为后续的一切奠定了基础。
+
+```html
+<!-- HTML结构示例 -->
+<div class="content">
+  <p>我们想要提取的一些文本</p>
+</div>
+```
+
+这是我们正在处理的内容的预览：
+
+```typescript
+// 基本概念（不是解决方案！）
+import * as cheerio from 'cheerio';
+
+// 加载HTML内容
+const $ = cheerio.load(htmlContent);
+
+// 使用CSS选择器
+const text = $('p').text();  // 选择所有<p>标签
+const specific = $('.content p').text();  // 更具体的选择
+```
+
+## 第2章：结构化数据
+
+当我们深入模拟电商产品页面时，事情变得更有趣了。在这里，我们面临具有相似结构的多个元素：
+
+```html
+<!-- 产品结构示例（简化） -->
+<div class="product">
+  <h2>产品名称</h2>
+  <span class="price">$99.99</span>
+  <div class="specs">
+    <ul>
+      <li>尺寸：M</li>
+      <li>颜色：蓝色</li>
+    </ul>
+  </div>
+</div>
+```
+
+处理这样的结构化数据时，您需要考虑：
+
+```typescript
+// 概念方法（不是解决方案！）
+$('.product').each((index, element) => {
+  // 对于每个产品，我们可能想要：
+  // 1. 提取基本信息
+  const name = $(element).find('h2').text();
+
+  // 2. 解析嵌套数据
+  const specs = $(element).find('.specs li');
+
+  // 3. 构建输出
+  const data = {
+    name,
+    specs: specs.map(/* ... */),
+  };
+});
+```
+
+专业提示：在编写任何代码之前，花时间分析HTML结构。寻找数据组织的模式——是否有一致的类名？父元素和子元素是如何关联的？
+
+## 第3章：AI辅助爬虫
+
+现在事情变得有趣了！虽然之前的挑战教会了我们传统的爬虫技术，但第3章介绍了一种现代方法：AI辅助的网络爬虫。我们面临着一个噩梦般的场景——不一致的HTML结构、混淆的类名，以及混合在一起的多种框架模式。
+
+让我们看看是什么让这个挑战变得特殊：
+
+```html
+<!-- 传统产品结构 -->
+<div data-testid="product-container-1" class="_3xj_item">
+  <h2 data-qa="name">红色运动鞋</h2>
+  <span data-price-current="5999">$59.99</span>
+</div>
+
+<!-- React风格组件 -->
+<div class="ProductCard-root-1a2b3c">
+  <div class="ProductCard-title-4d5e6f">粉色步行鞋</div>
+  <div class="ProductCard-pricing-7g8h9i">$84.99</div>
+</div>
+
+<!-- Vue风格模板 -->
+<div data-v-abcdef class="product">
+  <h2 data-v-abcdef>深蓝色船鞋</h2>
+  <span data-v-abcdef>$79.99</span>
+</div>
+```
+
+传统的爬虫方法在这里会遇到困难，因为：
+- 类名是随机化的或框架特定的
+- 产品之间的数据结构不同
+- 不同的框架使用不同的模式
+- 在标记中语义意义丢失
+
+这就是AI出手相救的地方。我们可以用自然语言描述我们想要的内容，让AI处理模式匹配，而不是编写脆弱的选择器。本章的关键概念包括：
+
+- 网络爬虫的提示工程
+- 使用AI理解语义含义
+- 处理不一致的数据结构
+- 处理框架特定的标记
+- 在不同模式间保持数据一致性
+
+虽然AI不是魔法，但它擅长需要模式识别和适应的任务。这使得它在爬取现代网络应用程序时特别有价值，因为在这些应用中不能保证一致的标记模式。
+
+### 关于AI使用的说明
+
+请记住，AI辅助并不意味着完全自动化的解决方案。最好的结果来自于结合：
+- 清晰的问题定义
+- 结构良好的提示
+- 数据验证
+- 人工监督
+
+您的挑战将是制作提示，帮助AI理解您试图提取的内容的结构和意图。
+
+准备好将传统的网络爬虫知识与现代AI能力相结合了吗？让我们找出AI如何帮助处理最混乱的HTML！
+
+## 提示
+
+1. 尝试不同的CSS选择器：
+```typescript
+// 选择元素的不同方法
+$('.class')           // 按类选择
+$('#id')             // 按ID选择
+$('div > p')         // 直接子元素
+$('div p')           // 所有后代
+$('[data-type="x"]') // 按属性选择
+```
+
+2. 尝试修改输出格式
+3. 考虑错误处理和边界情况
+4. 考虑您的解决方案如何在更大的数据集上扩展
+
+开始所需的所有代码都在项目仓库中。克隆它，设置您的环境，然后开始爬取！
+
+```sh
+git clone https://github.com/jonaylor89/housefly.git
+cd hosuefly
+```
+
+寻找提示？每个挑战的源HTML在`apps/chapter{n}/`目录中可用。工作的已解决示例也在`_solved/chapter{n}/`中可用。研究结构，规划你的方法，记住——每个专家都曾经是初学者。
+
+记住要负责任地处理您的请求：
+```typescript
+// 基本错误处理示例
+async function fetchPage(url: string) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP错误！状态：${response.status}`);
+    }
+    return await response.text();
+  } catch (error) {
+    console.error('获取页面失败：', error);
+    throw error;
+  }
+}
+```
+
+爬虫愉快！
