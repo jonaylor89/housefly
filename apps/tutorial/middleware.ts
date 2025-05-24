@@ -44,26 +44,6 @@ function getLocale(request: NextRequest) {
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   
-  // Skip middleware for public files and API routes
-  if (
-    pathname.startsWith('/_next') ||
-    pathname.startsWith('/api/') ||
-    pathname.startsWith('/static') ||
-    pathname.startsWith('/favicon.ico') ||
-    pathname.startsWith('/robots.txt') ||
-    pathname.startsWith('/sitemap') ||
-    pathname.startsWith('/sw.js') ||
-    pathname.startsWith('/sw.js.map') ||
-    pathname.startsWith('/manifest.json') ||
-    pathname.startsWith('/apple-touch-icon') ||
-    pathname.startsWith('/browserconfig.xml') ||
-    pathname.startsWith('/images') ||
-    pathname.startsWith('/fonts') ||
-    pathname.startsWith('/styles') ||
-    pathname.includes('.')
-  ) {
-    return;
-  }
 
   // Check if the pathname already has a locale
   const pathnameIsMissingLocale = locales.every(
@@ -83,4 +63,17 @@ export function middleware(request: NextRequest) {
       )
     );
   }
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+  ],
 }
