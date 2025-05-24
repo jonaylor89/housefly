@@ -26,7 +26,9 @@ export function LanguageSwitcher() {
     ru: 'Русский',
     es: 'Español',
     zh: '中文',
-    ja: '日本語'
+    ja: '日本語',
+    de: 'Deutsch',
+    ro: 'Română',
   };
 
   // Close dropdown when clicking outside

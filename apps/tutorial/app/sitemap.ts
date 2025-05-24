@@ -1,7 +1,7 @@
 import { getPosts } from "app/lib/utils";
+import { locales } from "./i18n/constants";
 
 export const baseUrl = "https://housefly.cc";
-const locales = ['en', 'ru', 'es', 'zh', 'ja'];
 
 export default async function sitemap() {
   // Generate entries for all posts in both languages

@@ -1,0 +1,152 @@
+---
+title: 'Großmaßstäbliches + Unstrukturiertes Web-Crawling'
+publishedAt: '2025-05-20'
+summary: 'KI-unterstütztes Parsing für chaotische und unstrukturierte Daten + Such-Crawler'
+---
+
+Willkommen zum finalen Abschnitt in unserer hands-on Web-Crawling-Tutorial-Serie. Anstelle einer traditionellen Lektion nehmen wir einen anderen Ansatz. Für diesen Abschnitt habe ich den Housefly Metascraper gebaut - einen Crawler im `./apps/metascraper` Verzeichnis, der demonstriert, wie alles, was wir gelernt haben, in einem realen Szenario angewendet wird.
+
+Der Metascraper demonstriert, wie unsere schrittweise Reise - vom Scraping einfacher statischer HTML-Seiten, Navigation durch JavaScript-gerenderte Inhalte, bis hin zur Interaktion mit APIs und Überwindung von Crawling-Abwehrmechanismen - in einem Tool kulminiert, das **das unstrukturierte, vielfältige und chaotische Web im großen Maßstab** handhaben kann.
+
+Wir werden erkunden, wie man über eine große Vielfalt von Websites crawlt - ohne im Voraus zu wissen, welche Art von Datenstrukturen zu erwarten sind - und **KI-unterstütztes Parsing**, **dynamische Schema-Erkennung** und die Techniken einführen, die für **die Skalierung auf Tausende (oder Millionen) von Seiten** benötigt werden, ohne auseinanderzufallen.
+
+## Was bedeuten "Unstrukturiert" und "Großmaßstäblich" wirklich?
+
+In vorherigen Abschnitten wussten wir oft:
+- Welche Sites wir anvisieren.
+- Welche Daten wir wollten (z.B. Tabellen, Listen, JSON-Responses).
+- Wie viele Seiten wir besuchen mussten.
+
+Aber beim großmaßstäblichen unstrukturierten Crawling:
+- Die Websites variieren wild: einige sind strukturiert, andere sind Blogs mit unregelmäßiger Formatierung.
+- Pfade und URLs sind unvorhersagbar.
+- Schema ist inkonsistent oder nicht existent.
+- Wir wollen **Tausende von Seiten crawlen**, potenziell über **mehrere Domains**.
+
+Denke an:
+- Forschungs-Crawler, die Daten über akademische Websites sammeln.
+- KI-Assistenten, die Blogs für themenspezifisches Wissen indexieren.
+- Suchmaschinen, die über das gesamte öffentliche Internet generalisieren müssen.
+
+Das ist der Endgegner des Web-Crawlings.
+
+## Teil 1: Architektur für Großmaßstäbliches Crawling
+
+Lass uns darüber sprechen, wie man seinen Crawler skaliert, bevor wir uns um das Parsing sorgen.
+
+### Design-Muster
+
+Um einen großmaßstäblichen Crawler zu bauen, sollte deine Architektur sein:
+- **Queue-gesteuert:** Verwende eine Message-Queue (wie Redis, RabbitMQ oder Kafka) zur Speicherung ausstehender URLs.
+- **Worker-basiert:** Trenne Crawler in Worker-Prozesse, die aus der Queue ziehen und Jobs unabhängig verarbeiten.
+- **Dedupliziert:** Führe einen Fingerprint-Index (z.B. SHA1 der URL oder HTML-Inhalte), um die doppelte Verarbeitung derselben Seite zu vermeiden.
+- **Wiederaufnehmbar:** Persistiere Crawl-Status, damit er sich von Abstürzen erholen kann.
+
+Hier ist ein minimales Design-Diagramm:
+
+## Teil 2: Spitzentechnologien für 2025
+
+### Residential Proxies
+
+Einer der bedeutendsten Fortschritte beim großmaßstäblichen Scraping ist die Verwendung von **Residential Proxies**. Im Gegensatz zu Datacenter-IPs, die Websites leicht erkennen und blockieren können, routen Residential Proxies deine Requests über echte Verbraucher-IP-Adressen und lassen deinen Scraper als legitimer Nutzer erscheinen.
+
+### KI-gestützte autonome Agenten
+
+Der revolutionärste Fortschritt in 2025 ist **agentisches Scraping**. Anstatt Scraper für jedes Site-Format hart zu kodieren:
+
+- LLMs mit Vision-Fähigkeiten können Daten aus zuvor ungesehenen Layouts verstehen und extrahieren
+- KI-Agenten können autonom komplexe Sites navigieren, indem sie menschliche Browsing-Muster nachahmen
+- Adaptives Parsing passt sich automatisch an Layout-Änderungen an, ohne Code-Updates zu erfordern
+
+## Teil 3: KI-unterstütztes Parsing
+
+Fine-tune oder prompt-engineer ein Modell, um sauberes JSON auszugeben:
+
+```json
+{
+  "name": "Dr. Maria Lopez",
+  "title": "Klimawissenschaftlerin",
+  "organization": "Stanford",
+  "topic": "2023 UN-Klimagipfel, KI in der Klimamodellierung"
+}
+```
+
+## Teil 4: Speichern, Indexieren und Durchsuchen der Daten
+
+Du wirst **viele heterogene Daten** sammeln. Wähle deine Speicherung basierend auf deinen Zielen und wie strukturiert die Daten sind.
+
+### Speicherstrategien
+
+- **PostgreSQL** oder **SQLite**: Am besten für strukturierte tabellarische Daten, wo du das Schema kennst (z.B. Artikel, Preise, Timestamps). Du kannst Indizes, Foreign Keys und Volltextsuche (FTS) verwenden.
+- **MongoDB** oder **Elasticsearch**: Großartig für halbstrukturierte oder flexible Datenformate wie JSON-Blobs, wo das Schema zwischen Datensätzen variieren kann.
+- **S3 / IPFS / Dateisystem**: Ideal für rohe HTML-Snapshots, Bilder, PDFs und große Binärdateien. Speichere die Metadaten in einer Datenbank und verlinke zur Datei-Location.
+
+Verwende UUIDs oder URL-Hashes als Primärschlüssel, damit du deduplizieren und zuvor gecrawlte Items verfolgen kannst.
+
+### Es durchsuchbar machen
+
+Einmal gespeichert, wirst du den Inhalt **erkunden und abfragen** wollen.
+
+Optionen umfassen:
+
+- **PostgreSQL FTS (Volltextsuche)**: Verwende `tsvector` und `tsquery`, um robuste Keyword-Suchfähigkeiten mit Ranking zu erstellen.
+- **Typesense** oder **Meilisearch**: Leichtgewichtige, schema-flexible Volltextsuchmaschinen, perfekt für schnelle Indexierung und Fuzzy-Suche.
+- **Elasticsearch**: Am besten für komplexere Such-Use-Cases oder Logs, mit leistungsstarker Filterung und Analytik.
+
+Du solltest Felder indexieren wie:
+- Titel
+- Autor
+- Veröffentlichungsdatum
+- Keywords oder Tags (falls extrahiert)
+- Hauptinhalt
+- Domain / Quelle
+
+### Semantische Suche mit Embeddings
+
+Für tieferes Verständnis und Abruf (jenseits von Keywords) verwende **Text-Embeddings**:
+
+1. Verwende ein Modell wie OpenAIs `text-embedding-3-small` oder Open-Source-Alternativen wie `bge-small-en`.
+2. Konvertiere deinen gecrawlten Inhalt in Embedding-Vektoren.
+3. Speichere sie in einer **Vektordatenbank** wie:
+   - **Qdrant**
+   - **Weaviate**
+   - **Pinecone**
+   - **FAISS** (für lokale / In-Memory-Verwendung)
+
+Das ermöglicht semantische Queries wie:
+> "Zeige mir Artikel, wo jemand über fahrradfreundliche Stadtentwicklung in kalten Klimata spricht."
+
+Durch Vergleich des Query-Embeddings mit gespeicherten Embeddings wird dein Crawler zu einer Wissens-Engine.
+
+### Metadaten & Anreicherung
+
+Schließlich reichere deine Daten mit zusätzlichen Metadaten an:
+
+- **Spracherkennung** (z.B. mit `langdetect` oder fastText).
+- **Inhaltskategorie-Klassifikation** mit Zero-Shot-Modellen oder fine-tuned Classifiern.
+- **Named Entity Recognition (NER)** zur Extraktion von Personen, Organisationen und Orten.
+- **Geotagging** basierend auf Inhalt oder Quelle.
+
+Speichere das neben den Hauptdaten, damit du später danach filtern und sortieren kannst.
+
+## Teil 5: Suchgesteuerte Discovery-Crawler
+
+Der fortgeschrittenste Ansatz für großmaßstäbliches Crawling beginnt nicht einmal mit URLs - stattdessen startet er mit **Suchanfragen**.
+
+Inspiriert von Tools wie SearchXNG und Perplexity demonstriert der Metascraper eine Such-first-Strategie, bei der der Crawler:
+
+1. Mit einem **Thema oder einer Frage** beginnt, anstatt mit einer Seed-URL-Liste
+2. Suchmaschinen-APIs verwendet, um relevante Seiten in Echtzeit zu entdecken
+3. Dynamisch seine Crawl-Queue basierend auf Suchergebnissen aufbaut
+4. Intelligent Zitate und Referenzen verfolgt, um Wissen zu erweitern
+
+Dieser Ansatz bietet mehrere Vorteile:
+
+- **Zielgerichtete Erkundung**: Anstatt erschöpfendem Crawling besuchst du nur Seiten, die wahrscheinlich relevante Informationen enthalten
+- **Aktuelle Ergebnisse**: Jeder Crawl startet frisch mit aktuellen Suchergebnissen
+- **Domain-agnostisch**: Nicht auf vordefinierte Sites oder URL-Muster beschränkt
+- **Intentionsgesteuert**: Orientiert sich daran, wie Menschen tatsächlich Themen recherchieren
+
+Der Such-gesteuerte Modus des Metascrapers demonstriert, wie man Such-APIs, Priorisierungsalgorithmen und kontextbewusste Extraktion kombiniert, um Wissensgraphen aus dynamisch entdeckten Inhalten zu erstellen, ohne im Voraus zu wissen, welche URLs du besuchen wirst.
+
+Frohes Scraping

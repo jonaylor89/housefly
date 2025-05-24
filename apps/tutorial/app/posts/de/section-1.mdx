@@ -1,0 +1,177 @@
+---
+title: 'Grundlagen des HTML-Scraping: Die ersten Schritte'
+publishedAt: '2025-02-23'
+summary: 'Lerne die Grundlagen des Web-Scrapings durch praktische Übungen mit statischen HTML-Seiten'
+---
+
+Web-Scraping mag anfangs einschüchternd wirken, aber wie jede Fähigkeit wird es am besten durch praktisches Üben erlernt. In diesen ersten drei Kapiteln erkunden wir die Grundlagen der Datenextraktion von statischen HTML-Seiten.
+
+## Kapitel 1: Der HTML-Scraper Chad
+
+Unsere Reise beginnt mit dem einfachstmöglichen Szenario - das Extrahieren von Text von einer einfachen HTML-Seite. Dieses Kapitel führt dich in die Kernkonzepte ein:
+
+- HTTP-Requests zum Abrufen von Webseiten
+- Laden von HTML-Inhalten in einen Parser
+- Grundlegende DOM-Selektion mit CSS-Selektoren
+
+Während das Beispiel trivial erscheinen mag (es ist nur ein "hello world" schließlich!), legt es das Fundament für alles Folgende.
+
+```html
+<!-- Beispiel HTML-Struktur -->
+<div class="content">
+  <p>Text, den wir extrahieren möchten</p>
+</div>
+```
+
+Hier ist ein Vorgeschmack auf das, womit wir arbeiten:
+
+```typescript
+// Grundkonzepte (nicht die Lösung!)
+import * as cheerio from 'cheerio';
+
+// HTML-Inhalt laden
+const $ = cheerio.load(htmlContent);
+
+// CSS-Selektoren verwenden
+const text = $('p').text();  // Wählt alle <p> Tags aus
+const specific = $('.content p').text();  // Spezifischere Auswahl
+```
+
+## Kapitel 2: Strukturierte Daten
+
+Die Dinge werden interessanter, wenn wir uns in eine nachgestellte E-Commerce-Produktseite vertiefen. Hier stehen wir vor mehreren Elementen mit ähnlichen Strukturen:
+
+```html
+<!-- Beispiel Produktstruktur (vereinfacht) -->
+<div class="product">
+  <h2>Produktname</h2>
+  <span class="price">99,99€</span>
+  <div class="specs">
+    <ul>
+      <li>Größe: M</li>
+      <li>Farbe: Blau</li>
+    </ul>
+  </div>
+</div>
+```
+
+Beim Umgang mit strukturierten Daten wie diesen solltest du über Folgendes nachdenken:
+
+```typescript
+// Konzeptioneller Ansatz (nicht die Lösung!)
+$('.product').each((index, element) => {
+  // Für jedes Produkt könnten wir:
+  // 1. Die Grundinformationen extrahieren
+  const name = $(element).find('h2').text();
+
+  // 2. Verschachtelte Daten parsen
+  const specs = $(element).find('.specs li');
+
+  // 3. Die Ausgabe strukturieren
+  const data = {
+    name,
+    specs: specs.map(/* ... */),
+  };
+});
+```
+
+Profi-Tipp: Bevor du Code schreibst, nimm dir Zeit, die HTML-Struktur zu analysieren. Suche nach Mustern in der Datenorganisation - gibt es konsistente Klassennamen? Wie sind übergeordnete und untergeordnete Elemente verwandt?
+
+
+## Kapitel 3: KI-unterstütztes Scraping
+
+Jetzt wird es interessant! Während die vorherigen Herausforderungen uns traditionelle Scraping-Techniken lehrten, führt Kapitel 3 einen modernen Ansatz ein: KI-unterstütztes Web-Scraping. Wir stehen vor einem Albtraum-Szenario - inkonsistente HTML-Strukturen, verschleierte Klassennamen und mehrere Framework-Muster, alle zusammengemischt.
+
+Schauen wir uns an, was diese Herausforderung besonders macht:
+
+```html
+<!-- Traditionelle Produktstruktur -->
+<div data-testid="product-container-1" class="_3xj_item">
+  <h2 data-qa="name">Rote Sneaker</h2>
+  <span data-price-current="5999">59,99€</span>
+</div>
+
+<!-- React-Style Komponente -->
+<div class="ProductCard-root-1a2b3c">
+  <div class="ProductCard-title-4d5e6f">Rosa Laufschuhe</div>
+  <div class="ProductCard-pricing-7g8h9i">84,99€</div>
+</div>
+
+<!-- Vue-Style Template -->
+<div data-v-abcdef class="product">
+  <h2 data-v-abcdef>Navy Bootsschuhe</h2>
+  <span data-v-abcdef>79,99€</span>
+</div>
+```
+
+Traditionelle Scraping-Ansätze würden hier kämpfen, weil:
+- Klassennamen sind randomisiert oder framework-spezifisch
+- Datenstrukturen variieren zwischen Produkten
+- Verschiedene Frameworks verwenden verschiedene Muster
+- Semantische Bedeutung geht im Markup verloren
+
+Hier kommt die KI zur Rettung. Anstatt spröde Selektoren zu schreiben, können wir beschreiben, was wir in natürlicher Sprache wollen, und die KI das Muster-Matching übernehmen lassen. Die Schlüsselkonzepte in diesem Kapitel umfassen:
+
+- Prompt-Engineering für Web-Scraping
+- KI verwenden, um semantische Bedeutung zu verstehen
+- Umgang mit inkonsistenten Datenstrukturen
+- Umgang mit framework-spezifischem Markup
+- Datenkonsistenz über verschiedene Muster hinweg aufrechterhalten
+
+Während KI keine Magie ist, glänzt sie bei Aufgaben, die Mustererkennung und Anpassung erfordern. Das macht sie besonders wertvoll für das Scraping moderner Webanwendungen, wo konsistente Markup-Muster nicht garantiert werden können.
+
+### Ein Hinweis zur KI-Nutzung
+
+Denke daran, dass KI-Unterstützung nicht vollautomatische Lösungen bedeutet. Die besten Ergebnisse kommen von der Kombination:
+- Klare Problemdefinition
+- Gut strukturierte Prompts
+- Datenvalidierung
+- Menschliche Aufsicht
+
+Deine Herausforderung wird es sein, Prompts zu erstellen, die der KI helfen, sowohl die Struktur als auch die Absicht dessen zu verstehen, was du zu extrahieren versuchst.
+
+Bereit, traditionelles Web-Scraping-Wissen mit modernen KI-Fähigkeiten zu kombinieren? Lass uns herausfinden, wie KI helfen kann, selbst das chaotischste HTML zu bewältigen!
+
+## Hinweise
+
+1. Experimentiere mit verschiedenen CSS-Selektoren:
+```typescript
+// Verschiedene Wege, Elemente auszuwählen
+$('.class')           // Nach Klasse
+$('#id')             // Nach ID
+$('div > p')         // Direkte Kinder
+$('div p')           // Alle Nachkommen
+$('[data-type="x"]') // Nach Attribut
+```
+
+2. Versuche, das Ausgabeformat zu modifizieren
+3. Denke über Fehlerbehandlung und Grenzfälle nach
+4. Überlege, wie deine Lösung mit größeren Datensätzen skalieren könnte
+
+Alles Code, den du zum Starten brauchst, ist im Projekt-Repository. Klone es, richte deine Umgebung ein und starte das Scraping!
+
+```sh
+git clone https://github.com/jonaylor89/housefly.git
+cd hosuefly
+```
+
+Suchst du nach Hinweisen? Der Quell-HTML für jede Herausforderung ist im `apps/chapter{n}/` Verzeichnis verfügbar. Und die funktionierenden gelösten Beispiele sind auch in `_solved/chapter{n}/` verfügbar. Studiere die Struktur, plane deinen Ansatz und denke daran - jeder Experte war einmal ein Anfänger.
+
+Denke daran, deine Requests verantwortungsvoll zu handhaben:
+```typescript
+// Beispiel für grundlegende Fehlerbehandlung
+async function fetchPage(url: string) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.text();
+  } catch (error) {
+    console.error('Failed to fetch page:', error);
+    throw error;
+  }
+}
+```
+
+Frohes Scraping!

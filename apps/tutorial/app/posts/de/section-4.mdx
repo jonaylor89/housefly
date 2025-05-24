@@ -1,0 +1,53 @@
+---
+title: 'Erweiterte Website-Interaktion und APIs'
+publishedAt: '2025-04-14'
+summary: 'Lerne API-gesteuerte Sites zu scrapen, Formulare und Logins zu handhaben und mit GraphQL-Endpoints zu interagieren.'
+---
+
+Willkommen zu Abschnitt 4! Wir haben das Scraping statischer und JavaScript-gerenderter Inhalte sowie die Navigation mehrseitiger Sites behandelt. Jetzt tauchen wir in komplexere Szenarien ein, die direkte API-Interaktion, Formularübermittlungen, Authentifizierung und spezialisierte APIs wie GraphQL beinhalten. Diese Techniken sind entscheidend für die Bewältigung moderner Webanwendungen.
+
+### 1. API-gesteuerte Websites (Kapitel 7)
+
+Viele moderne Websites laden nicht alle ihre Daten mit dem ursprünglichen HTML. Stattdessen verwenden sie JavaScript, um Daten von Backend-APIs (oft mit `fetch` oder `XMLHttpRequest`) abzurufen, nachdem die Seite geladen wurde. Das effiziente Scraping dieser Sites bedeutet oft, die UI zu umgehen und direkt mit diesen APIs zu interagieren.
+
+**Schlüsselkonzepte:**
+
+*   **API-Requests identifizieren:** Verwende die Entwicklertools deines Browsers (Network-Tab), um Requests zu erkennen (oft XHR/Fetch), die Daten zurückgeben, normalerweise im JSON-Format.
+*   **APIs direkt scrapen:** Sobald du einen API-Endpoint gefunden hast, kannst du oft Requests direkt mit Bibliotheken wie `axios` oder dem eingebauten `fetch` in Node.js machen. Das ist normalerweise schneller und zuverlässiger als Browser-Automatisierung.
+*   **Paginierung & Parameter handhaben:** APIs verwenden oft Query-Parameter für Paginierung (`page`, `limit`), Filterung oder Sortierung. Du musst diese in deinem Scraping-Script verstehen und replizieren.
+
+**Die Herausforderung (Kapitel 7):** Du wirst eine E-Commerce-Site scrapen, bei der Produktlisten dynamisch von einer RESTful API geladen werden. Deine Aufgabe ist es, alle Produkte durch Interaktion mit dieser API abzurufen und die Paginierung korrekt zu handhaben.
+
+*Finde eine Referenzlösung, die direktes API-Scraping demonstriert, im `_solved/chapter7/` Verzeichnis.*
+
+### 2. Formulare und Authentifizierung (Kapitel 8)
+
+Oft befinden sich wertvolle Daten hinter einem Login-Bildschirm oder erfordern das Einreichen komplexer Formulare. Zum Beispiel verlangt die Reisebuchungsplattform in Kapitel 8 Authentifizierung, um auf Kernfunktionalitäten zuzugreifen. Um nach Zielen zu suchen (mit Autocomplete), Reisedaten auszuwählen (Interaktion mit einem Kalender-Widget), Filter anzuwenden und Ergebnisse anzuzeigen (einschließlich Premium-Listings, die nur für eingeloggte Nutzer verfügbar sind), musst du zuerst den Login-Prozess automatisieren. Das beinhaltet die Handhabung von Formularen, Verwaltung von Session-Cookies (einschließlich potenzieller Timeouts, die eine Neuerstellung der Authentifizierung und CSRF-Schutz erfordern) und letztendlich die Kontrolle des Browsers, um Aktionen wie ein echter Nutzer durchzuführen.
+
+**Schlüsselkonzepte:**
+
+*   **Formularübermittlungen automatisieren:** Verwende Tools wie Playwright oder Puppeteer, um Eingabefelder auszufüllen, Optionen auszuwählen und Schaltflächen zu klicken, um Formulare zu übermitteln (z.B. Login-Formulare, Suchleisten, Filter-Controls).
+*   **Authentifizierung verwalten:**
+    *   **Cookie-basiert:** Einmal einloggen, und der Browser-Kontext (verwaltet von Playwright/Puppeteer) handhabt Session-Cookies oft automatisch für nachfolgende Requests.
+    *   **Token-basiert (z.B. JWT):** Einloggen, Token extrahieren (oft aus local storage oder einer API-Response), und es in den Headern (z.B. `Authorization: Bearer <token>`) für nachfolgende API-Requests einschließen.
+*   **Sessions handhaben:** Den eingeloggten Zustand über verschiedene Seiten oder Aktionen innerhalb deines Scrapers aufrechterhalten.
+*   **Auf geschützte Inhalte zugreifen:** Sobald authentifiziert, kannst du zu Seiten oder Daten navigieren und sie scrapen, die nur für eingeloggte Nutzer verfügbar sind.
+
+**Die Herausforderung (Kapitel 8):** Dieses Kapitel beinhaltet einen mehrstufigen Prozess: Einloggen in eine Site, Navigation zu einer Suchseite, Ausfüllen eines komplexen mehrteiligen Formulars mit Filtern, Extrahieren der Ergebnisse (einschließlich Premium-Inhalte, die nur beim Einloggen sichtbar sind) und sogar Speichern der Suche in einem Nutzer-Dashboard.
+
+### 3. Arbeiten mit GraphQL APIs (Kapitel 9)
+
+GraphQL ist eine zunehmend populäre Alternative zu REST APIs. Es ermöglicht Clients, genau die Daten anzufordern, die sie benötigen, unter Verwendung einer spezifischen Query-Sprache.
+
+**Schlüsselkonzepte:**
+
+*   **GraphQL-Endpoint:** Typischerweise gibt es einen einzigen Endpoint (z.B. `/graphql` oder `/api/graphql`).
+*   **Query-Sprache:** Du musst GraphQL-Queries konstruieren, um die Felder und Beziehungen zu spezifizieren, die du abrufen möchtest. Tools wie Insomnia oder Postman können helfen, GraphQL-Schemas zu erkunden.
+*   **Mutations:** Verwendet für Aktionen, die Daten ändern (wie Einloggen oder Daten übermitteln), ähnlich zu POST/PUT/DELETE in REST.
+*   **Authentifizierung:** Beinhaltet oft das Senden eines `Authorization`-Headers, ähnlich zu REST APIs, typischerweise nach einer Login-Mutation erhalten.
+
+**Die Herausforderung (Kapitel 9):** Du wirst mit einer Site interagieren, die von einer GraphQL API unterstützt wird. Die Aufgabe ist es, sich über eine Login-Mutation zu authentifizieren und dann spezifische strukturierte Daten über Herausforderungen und Nutzerprofile mit GraphQL-Queries abzurufen.
+
+Die Beherrschung dieser fortgeschrittenen Techniken erweitert erheblich das Spektrum der Websites und Daten, die du effektiv scrapen kannst. Denke daran, immer verantwortungsvoll zu scrapen und die Nutzungsbedingungen der Websites zu respektieren.
+
+Frohes Scraping!

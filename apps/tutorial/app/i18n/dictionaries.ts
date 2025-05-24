@@ -269,6 +269,96 @@ export const dictionaries: Record<string, Dictionary> = {
     posts: {
       title: "投稿",
     },
+  },
+  de: {
+    home: {
+      heading: "Housefly",
+      intro: "Web Scraping ist eine wichtige Fähigkeit für Entwickler, aber das Erlernen kann schwierig sein. Deshalb habe ich Housefly erstellt, ein praktisches Projekt, das Web Scraping durch interaktive Übungen lehrt. Inspiriert von Google Gruyere bietet Housefly eine Reihe kleiner Tutorials mit speziell entwickelten Begleit-Websites, die zum Scrapen gedacht sind. Das Ziel? Dir eine sichere, strukturierte Umgebung zu bieten, um deine Scraping-Fähigkeiten zu üben und zu verfeinern.",
+      whyCreated: {
+        title: "Warum habe ich das gemacht?",
+        content: "Ich habe unzählige Tutorials gesehen, die Web Scraping in der Theorie erklären, aber nur sehr wenige bieten echte, kontrollierte Umgebungen zum Experimentieren. Housefly löst das, indem es eigenständige Herausforderungen bietet, bei denen du bereitgestellte Websites scrapst und deine Lösungen gegen erwartete Ausgaben validierst. Es ist für praktische Lerner gemacht, die handeln wollen, anstatt nur zu lesen.",
+      },
+      getStarted: {
+        title: "Wie fange ich an",
+        content: "Anweisungen befinden sich in der README.md-Datei des GitHub-Repositorys. Von dort aus kannst du den Schritten folgen, um das Projekt einzurichten und auszuführen.",
+      },
+    },
+    nav: {
+      home: "startseite",
+      posts: "beiträge",
+      howTo: "anleitung",
+    },
+    howTo: {
+      title: "Wie fange ich an",
+      description: "Lerne, wie du mit Housefly anfängst",
+      content: {
+        heading: "Wie fange ich an",
+        cloneRepo: {
+          title: "Repository klonen",
+          description: "Klone das Repository mit folgendem Befehl:",
+        },
+        chapter1: {
+          title: "Zu Kapitel 1 navigieren",
+          description: "Jedes Kapitel enthält eine einfache Website zum Scrapen sowie eine expected.txt-Datei, die die korrekte Ausgabe definiert.",
+        },
+        writeScraper: {
+          title: "Schreibe deinen Scraper",
+          description: "Implementiere deine Lösung im entsprechenden solution[number]/ Verzeichnis.",
+        },
+      },
+    },
+    metadata: {
+      title: "Housefly - Web Scraping Lernplattform",
+      description: "Ein interaktives Lernprojekt, das Web Scraping durch strukturierte Herausforderungen lehrt, mit realistischen Szenarien und automatischer Lösungsüberprüfung.",
+    },
+    posts: {
+      title: "Beiträge",
+    },
+  },
+  ro: {
+    home: {
+      heading: "Housefly",
+      intro: "Web scraping-ul este o abilitate esențială pentru dezvoltatori, dar învățarea poate fi dificilă. De aceea am creat Housefly, un proiect hands-on conceput pentru a învăța web scraping prin exerciții interactive. Inspirat de Google Gruyere, Housefly oferă o serie de tutoriale mici cu site-uri web însoțitoare construite special pentru a fi scrapate. Obiectivul? Să îți ofer un mediu sigur și structurat pentru a-ți practica și perfecționa abilitățile de scraping.",
+      whyCreated: {
+        title: "De ce am făcut asta?",
+        content: "Am văzut nenumărate tutoriale care explică web scraping-ul în teorie, dar foarte puține oferă medii reale și controlate pentru experimente. Housefly rezolvă asta prin oferirea de provocări autonome unde poți scrapa site-uri web furnizate și să îți validezi soluțiile față de rezultatele așteptate. Este construit pentru învățătorii practici care vor să facă, nu doar să citească.",
+      },
+      getStarted: {
+        title: "Cum să încep",
+        content: "Instrucțiunile sunt în fișierul README.md din repository-ul GitHub. De acolo, poți urma pașii pentru a configura și rula proiectul.",
+      },
+    },
+    nav: {
+      home: "acasă",
+      posts: "articole",
+      howTo: "ghid",
+    },
+    howTo: {
+      title: "Cum să încep",
+      description: "Învață cum să începi cu Housefly",
+      content: {
+        heading: "Cum să încep",
+        cloneRepo: {
+          title: "Clonează repository-ul",
+          description: "Clonează repository-ul folosind următoarea comandă:",
+        },
+        chapter1: {
+          title: "Navighează la Capitolul 1",
+          description: "Fiecare capitol conține un site web simplu pentru scraping, alături de un fișier expected.txt care definește output-ul corect.",
+        },
+        writeScraper: {
+          title: "Scrie scraper-ul tău",
+          description: "Implementează soluția ta în directorul solution[number]/ corespunzător.",
+        },
+      },
+    },
+    metadata: {
+      title: "Housefly - Platformă de Învățare Web Scraping",
+      description: "Un proiect de învățare interactiv conceput pentru a învăța web scraping prin provocări structurate, cu scenarii realiste și verificare automată a soluțiilor.",
+    },
+    posts: {
+      title: "Articole",
+    },
   }
 };
 

@@ -1,0 +1,53 @@
+---
+title: 'Interacțiune avansată cu site-uri web și API-uri'
+publishedAt: '2025-04-14'
+summary: 'Învață să faci scraping pe site-uri conduse de API, să gestionezi formulare și login-uri, și să interacționezi cu endpoint-uri GraphQL.'
+---
+
+Bun venit la Secțiunea 4! Am acoperit scraping-ul conținutului static și redat de JavaScript, precum și navigarea site-urilor multi-pagină. Acum, ne adâncim în scenarii mai complexe care implică interacțiunea directă cu API-uri, trimiterea formularelor, autentificarea și API-uri specializate ca GraphQL. Aceste tehnici sunt cruciale pentru abordarea aplicațiilor web moderne.
+
+### 1. Site-uri conduse de API (Capitolul 7)
+
+Multe site-uri web moderne nu își încarcă toate datele cu HTML-ul inițial. În schimb, folosesc JavaScript pentru a prelua date de la API-uri backend (adesea folosind `fetch` sau `XMLHttpRequest`) după ce pagina se încarcă. Scraping-ul eficient al acestor site-uri înseamnă adesea ocolirea UI-ului și interacțiunea directă cu aceste API-uri.
+
+**Concepte cheie:**
+
+*   **Identificarea request-urilor API:** Folosește instrumentele de dezvoltare ale browser-ului (tab-ul Network) pentru a detecta request-uri (adesea XHR/Fetch) care returnează date, de obicei în format JSON.
+*   **Scraping direct al API-urilor:** Odată ce găsești un endpoint API, poți adesea face request-uri direct către el folosind biblioteci ca `axios` sau `fetch` încorporat în Node.js. Aceasta este de obicei mai rapidă și mai fiabilă decât automatizarea browser-ului.
+*   **Gestionarea paginării și parametrilor:** API-urile folosesc adesea parametri de query pentru paginare (`page`, `limit`), filtrare sau sortare. Va trebui să înțelegi și să replicați aceștia în script-ul tău de scraping.
+
+**Provocarea (Capitolul 7):** Vei face scraping pe un site e-commerce unde listările de produse sunt încărcate dinamic dintr-un API RESTful. Sarcina ta este să preiei toate produsele prin interacțiunea cu acest API, gestionând corect paginarea.
+
+*Găsește o soluție de referință care demonstrează scraping-ul direct al API-ului în directorul `_solved/chapter7/`.*
+
+### 2. Formulare și autentificare (Capitolul 8)
+
+Adesea, datele valoroase se află în spatele unui ecran de login sau necesită trimiterea de formulare complexe. De exemplu, platforma de rezervări de călătorie din Capitolul 8 necesită autentificare pentru a accesa funcționalitatea de bază. Pentru a căuta destinații (folosind autocompletare), a selecta date de călătorie (interacțiunea cu un widget de calendar), a aplica filtre și a vizualiza rezultate (inclusiv listări premium disponibile doar utilizatorilor logați), trebuie mai întâi să automatizezi procesul de login. Aceasta implică gestionarea formularelor, gestionarea cookie-urilor de sesiune (inclusiv timeout-uri potențiale care necesită re-autentificare și protecție CSRF), și în final controlarea browser-ului pentru a efectua acțiuni ca un utilizator real.
+
+**Concepte cheie:**
+
+*   **Automatizarea trimiterii formularelor:** Folosește instrumente ca Playwright sau Puppeteer pentru a completa câmpuri de input, a selecta opțiuni și a face clic pe butoane pentru a trimite formulare (ex. formulare de login, bare de căutare, controale de filtrare).
+*   **Gestionarea autentificării:**
+    *   **Bazată pe cookie-uri:** Loghează-te o dată, și contextul browser-ului (gestionat de Playwright/Puppeteer) gestionează adesea automat cookie-urile de sesiune pentru request-urile ulterioare.
+    *   **Bazată pe token-uri (ex. JWT):** Loghează-te, extrage token-ul (adesea din local storage sau un răspuns API), și include-l în header-e (ex. `Authorization: Bearer <token>`) pentru request-urile API ulterioare.
+*   **Gestionarea sesiunilor:** Menține starea de login prin diferite pagini sau acțiuni în scraper-ul tău.
+*   **Accesarea conținutului protejat:** Odată autentificat, poți naviga și face scraping pe pagini sau date disponibile doar utilizatorilor logați.
+
+**Provocarea (Capitolul 8):** Acest capitol implică un proces multi-pas: logarea pe un site, navigarea la o pagină de căutare, completarea unui formular complex multi-parte cu filtre, extragerea rezultatelor (inclusiv conținut premium vizibil doar când ești logat), și chiar salvarea căutării într-un dashboard utilizator.
+
+### 3. Lucrul cu API-uri GraphQL (Capitolul 9)
+
+GraphQL este o alternativă din ce în ce mai populară la API-urile REST. Permite clienților să ceară exact datele de care au nevoie folosind un limbaj de query specific.
+
+**Concepte cheie:**
+
+*   **Endpoint GraphQL:** De obicei, există un singur endpoint (ex. `/graphql` sau `/api/graphql`).
+*   **Limbajul de query:** Va trebui să construiești query-uri GraphQL pentru a specifica câmpurile și relațiile pe care vrei să le preiei. Instrumente ca Insomnia sau Postman pot ajuta la explorarea schemelor GraphQL.
+*   **Mutații:** Folosite pentru acțiuni care schimbă datele (ca logarea sau trimiterea datelor), similar cu POST/PUT/DELETE în REST.
+*   **Autentificare:** Implică adesea trimiterea unui header `Authorization`, similar cu API-urile REST, obținut de obicei după o mutație de login.
+
+**Provocarea (Capitolul 9):** Vei interacționa cu un site susținut de un API GraphQL. Sarcina este să te autentifici printr-o mutație de login și apoi să preiei date structurate specifice despre provocări și profiluri utilizator folosind query-uri GraphQL.
+
+Stăpânirea acestor tehnici avansate extinde semnificativ gama de site-uri și date pe care le poți face scraping eficient. Amintește-ți să faci întotdeauna scraping responsabil și să respecți termenii de serviciu ai site-urilor.
+
+Scraping fericit!

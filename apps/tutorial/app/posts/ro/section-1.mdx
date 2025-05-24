@@ -1,0 +1,177 @@
+---
+title: 'Extragerea de bază HTML: Primii pași'
+publishedAt: '2025-02-23'
+summary: 'Învață fundamentele web scraping-ului prin exerciții practice cu pagini HTML statice'
+---
+
+Web scraping-ul poate părea intimidant la început, dar ca orice abilitate, se învață cel mai bine prin practică hands-on. În aceste primele trei capitole, vom explora fundamentele extragerii de date din pagini HTML statice.
+
+## Capitolul 1: HTML Scraper Chad
+
+Călătoria noastră începe cu cel mai simplu scenariu posibil - extragerea textului dintr-o pagină HTML de bază. Acest capitol te introduce în conceptele centrale de:
+
+- Realizarea de cereri HTTP pentru a prelua pagini web
+- Încărcarea conținutului HTML într-un parser
+- Selecția DOM de bază folosind selectori CSS
+
+Deși exemplul poate părea trivial (e doar un "hello world" la urma urmei!), stabilește fundația pentru tot ce urmează.
+
+```html
+<!-- Exemplu structură HTML -->
+<div class="content">
+  <p>Un text pe care vrem să-l extragem</p>
+</div>
+```
+
+Iată o mostră a ceea cu ce lucrăm:
+
+```typescript
+// Concepte de bază (nu soluția!)
+import * as cheerio from 'cheerio';
+
+// Încărcarea conținutului HTML
+const $ = cheerio.load(htmlContent);
+
+// Folosirea selectorilor CSS
+const text = $('p').text();  // Selectează toate tag-urile <p>
+const specific = $('.content p').text();  // Selecție mai specifică
+```
+
+## Capitolul 2: Date structurate
+
+Lucrurile devin mai interesante pe măsură ce ne adâncim într-o pagină de produse e-commerce simulată. Aici, ne confruntăm cu multiple elemente cu structuri similare:
+
+```html
+<!-- Exemplu structură produs (simplificat) -->
+<div class="product">
+  <h2>Nume Produs</h2>
+  <span class="price">99,99 lei</span>
+  <div class="specs">
+    <ul>
+      <li>Mărime: M</li>
+      <li>Culoare: Albastru</li>
+    </ul>
+  </div>
+</div>
+```
+
+Când lucrezi cu date structurate ca acestea, vei vrea să te gândești la:
+
+```typescript
+// Abordare conceptuală (nu soluția!)
+$('.product').each((index, element) => {
+  // Pentru fiecare produs, am putea vrea să:
+  // 1. Extragem informațiile de bază
+  const name = $(element).find('h2').text();
+
+  // 2. Parsăm datele imbricate
+  const specs = $(element).find('.specs li');
+
+  // 3. Structurăm output-ul
+  const data = {
+    name,
+    specs: specs.map(/* ... */),
+  };
+});
+```
+
+Sfat profesional: Înainte să scrii orice cod, ia timp să analizezi structura HTML. Caută pattern-uri în modul în care datele sunt organizate - există nume de clase consistente? Cum se raportează elementele părinte și copil?
+
+
+## Capitolul 3: Scraping asistat de AI
+
+Acum lucrurile devin interesante! În timp ce provocările anterioare ne-au învățat tehnici tradiționale de scraping, Capitolul 3 introduce o abordare modernă: web scraping asistat de AI. Ne confruntăm cu un scenariu de coșmar - structuri HTML inconsistente, nume de clase obfuscate și multiple pattern-uri de framework-uri amestecate împreună.
+
+Să vedem ce face această provocare specială:
+
+```html
+<!-- Structură tradițională de produs -->
+<div data-testid="product-container-1" class="_3xj_item">
+  <h2 data-qa="name">Adidași roșii</h2>
+  <span data-price-current="5999">59,99 lei</span>
+</div>
+
+<!-- Componentă în stil React -->
+<div class="ProductCard-root-1a2b3c">
+  <div class="ProductCard-title-4d5e6f">Pantofi sport roz</div>
+  <div class="ProductCard-pricing-7g8h9i">84,99 lei</div>
+</div>
+
+<!-- Template în stil Vue -->
+<div data-v-abcdef class="product">
+  <h2 data-v-abcdef>Pantofi de bărcă navy</h2>
+  <span data-v-abcdef>79,99 lei</span>
+</div>
+```
+
+Abordările tradiționale de scraping ar lupta aici pentru că:
+- Numele claselor sunt randomizate sau specifice framework-ului
+- Structurile de date variază între produse
+- Framework-uri diferite folosesc pattern-uri diferite
+- Sensul semantic se pierde în markup
+
+Aici vine AI în ajutor. În loc să scriem selectori fragili, putem descrie ce vrem în limbaj natural și să lăsăm AI să se ocupe de potrivirea pattern-urilor. Conceptele cheie din acest capitol includ:
+
+- Ingineria prompt-urilor pentru web scraping
+- Folosirea AI pentru a înțelege sensul semantic
+- Gestionarea structurilor de date inconsistente
+- Tratarea markup-ului specific framework-urilor
+- Menținerea consistenței datelor prin pattern-uri diferite
+
+Deși AI nu este magie, excelează la sarcini care necesită recunoașterea pattern-urilor și adaptarea. Asta o face deosebit de valoroasă pentru scraping-ul aplicațiilor web moderne unde pattern-urile consistente de markup nu pot fi garantate.
+
+### O notă despre utilizarea AI
+
+Amintește-ți că asistența AI nu înseamnă soluții complet automatizate. Cele mai bune rezultate vin din combinarea:
+- Definirea clară a problemei
+- Prompt-uri bine structurate
+- Validarea datelor
+- Supravegherea umană
+
+Provocarea ta va fi să creezi prompt-uri care să ajute AI să înțeleagă atât structura, cât și intenția a ceea ce încerci să extragi.
+
+Gata să combini cunoștințele tradiționale de web scraping cu capabilitățile moderne AI? Să descoperim cum poate AI să ajute la abordarea chiar și celui mai haotic HTML!
+
+## Indicii
+
+1. Experimentează cu selectori CSS diferiți:
+```typescript
+// Moduri diferite de a selecta elemente
+$('.class')           // După clasă
+$('#id')             // După ID
+$('div > p')         // Copii direcți
+$('div p')           // Toți descendenții
+$('[data-type="x"]') // După atribut
+```
+
+2. Încearcă să modifici formatul output-ului
+3. Gândește-te la gestionarea erorilor și cazurile marginale
+4. Consideră cum ar putea soluția ta să se scaleze cu dataset-uri mai mari
+
+Tot codul de care ai nevoie pentru a începe este în repository-ul proiectului. Clonează-l, configurează-ți mediul și începe să faci scraping!
+
+```sh
+git clone https://github.com/jonaylor89/housefly.git
+cd hosuefly
+```
+
+Cauți indicii? HTML-ul sursă pentru fiecare provocare este disponibil în directorul `apps/chapter{n}/`. Și exemplele rezolvate funcționale sunt de asemenea disponibile în `_solved/chapter{n}/`. Studiază structura, planifică-ți abordarea și amintește-ți - fiecare expert a fost cândva începător.
+
+Amintește-ți să-ți gestionezi cererile responsabil:
+```typescript
+// Exemplu de gestionare de bază a erorilor
+async function fetchPage(url: string) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.text();
+  } catch (error) {
+    console.error('Failed to fetch page:', error);
+    throw error;
+  }
+}
+```
+
+Scraping fericit!
