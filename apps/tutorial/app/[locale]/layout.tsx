@@ -16,6 +16,17 @@ type Params = {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const dictionary = await getDictionaryForLocale(params.locale);
   
+  const getOpenGraphLocale = (locale: string) => {
+    const localeMap: Record<string, string> = {
+      'en': 'en_US',
+      'ru': 'ru_RU',
+      'es': 'es_ES',
+      'zh': 'zh_CN',
+      'ja': 'ja_JP',
+    };
+    return localeMap[locale] || 'en_US';
+  };
+  
   return {
     metadataBase: new URL(baseUrl),
     title: {
@@ -28,7 +39,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       description: dictionary.metadata.description,
       url: params.locale === 'en' ? baseUrl : `${baseUrl}/${params.locale}`,
       siteName: "Housefly",
-      locale: params.locale === 'en' ? 'en_US' : 'ru_RU',
+      locale: getOpenGraphLocale(params.locale),
       type: "website",
     },
     robots: {
@@ -46,6 +57,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       languages: {
         'en': baseUrl + '/en',
         'ru': baseUrl + '/ru',
+        'es': baseUrl + '/es',
+        'zh': baseUrl + '/zh',
+        'ja': baseUrl + '/ja',
       },
     },
   };
