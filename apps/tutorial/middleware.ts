@@ -48,6 +48,18 @@ export function middleware(request: NextRequest) {
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api/') ||
+    pathname.startsWith('/static') ||
+    pathname.startsWith('/favicon.ico') ||
+    pathname.startsWith('/robots.txt') ||
+    pathname.startsWith('/sitemap') ||
+    pathname.startsWith('/sw.js') ||
+    pathname.startsWith('/sw.js.map') ||
+    pathname.startsWith('/manifest.json') ||
+    pathname.startsWith('/apple-touch-icon') ||
+    pathname.startsWith('/browserconfig.xml') ||
+    pathname.startsWith('/images') ||
+    pathname.startsWith('/fonts') ||
+    pathname.startsWith('/styles') ||
     pathname.includes('.')
   ) {
     return;
