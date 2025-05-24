@@ -1,0 +1,205 @@
+---
+title: 'マルチページクローリング'
+publishedAt: '2025-03-25'
+summary: '相互接続されたウェブサイトのクローリング技術、サイトマップ管理、重複コンテンツの処理をマスターする'
+---
+
+静的コンテンツと動的コンテンツのスクレイピングの基礎を習得したところで、より包括的な課題に取り組む時が来ました：マルチページクローリング。このセクションでは、複数の相互接続されたページを持つウェブサイトから効率的にナビゲートしてデータを抽出することに焦点を当てます。
+
+マルチページウェブサイトをクローリングする主な方法は2つあります：
+
+1. リンクベースクローリング - ページ間のリンクをたどる
+2. サイトマップベースクローリング - sitemap.xmlファイルを使用する
+
+サイトマップクローリングでは、ほとんどのウェブサイトがすべての重要なURLをリストしたsitemap.xmlファイルを提供しています。この構造化されたXMLファイルには以下が含まれます：
+
+- ページURL
+- 最終更新日
+- 更新頻度
+- 優先度の値
+
+サイトマップを使用することは、以下の理由でリンククローリングよりも効率的です：
+
+- 事前にページの完全なリストを提供
+- ページの重要性と新しさに関するメタデータを含む
+- 不要なページのクローリングを回避
+- サーバー負荷を軽減
+
+しかし、この章では、Crawleeを使用してマルチページeコマースサイトのクローラーを構築するためのリンクベースクローリングに焦点を当てます。Crawleeは以下を含むウェブクローリングの複雑さの多くを処理してくれます：
+
+- 自動キュー管理とURL重複排除
+- 組み込みレート制限と再試行ロジック
+- 設定可能なリクエスト処理とルーティング
+- データストレージとエクスポート
+
+クローリングするサイト構造は次のようになります：
+
+```
+ホームページ
+├── カテゴリ: エレクトロニクス
+│   ├── 携帯電話
+│   ├── ノートパソコン
+│   └── アクセサリ
+├── カテゴリ: 衣料品
+│   ├── メンズ
+│   └── レディース
+└── 注目商品
+```
+
+各商品ページはカテゴリによって異なるレイアウトを持ちますが、一貫した情報を抽出する必要があります：
+
+```typescript
+// 構築したいデータ構造の例
+interface ProductData {
+  name: string;
+  price: number;
+  rating: { score: number, count: number };
+  features: string[];
+  status: string; // 在庫あり、在庫なし、など
+}
+
+interface ResultData {
+  categories: {
+    electronics: {
+      phones: ProductData[];
+      laptops: ProductData[];
+      accessories: ProductData[];
+    };
+    clothing: {
+      mens: {
+        shirts: ProductData[];
+        pants: ProductData[];
+      };
+      womens: {
+        dresses: ProductData[];
+        tops: ProductData[];
+      };
+    };
+  };
+  featured_products: FeaturedProduct[];
+}
+```
+
+### Crawleeでの主要なクローリング概念
+
+1. **リクエストキュー管理**
+
+Crawleeはキューを自動的に処理しますが、設定方法は次のとおりです：
+
+```typescript
+import { CheerioCrawler } from 'crawlee';
+
+const crawler = new CheerioCrawler({
+    // 各リクエストを処理
+    async requestHandler({ $, request, enqueueLinks }) {
+        // ページを処理
+        const data = extractPageData($);
+
+        // ページで見つかった新しいURLを自動的にキューに追加
+        await enqueueLinks({
+            selector: 'a',
+            baseUrl: request.loadedUrl,
+        });
+    },
+    // 同時リクエストを制限
+    maxConcurrency: 10,
+});
+```
+
+2. **URL処理**
+
+Crawleeは組み込みのURL処理と正規化を提供します：
+
+```typescript
+await crawler.run([startUrl]);
+
+// より多くの設定で：
+await crawler.addRequests([{
+    url: startUrl,
+    userData: {
+        label: 'start',
+    },
+}]);
+```
+
+3. **ルート処理**
+
+異なるURLを特定のハンドラーにルーティング：
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, request }) {
+        const { label } = request.userData;
+
+        switch (label) {
+            case 'category':
+                return handleCategory($);
+            case 'product':
+                return handleProduct($);
+            default:
+                return handleHomepage($);
+        }
+    },
+});
+```
+
+4. **データ収集**
+
+Crawleeは収集されたデータのための組み込みストレージを提供します：
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, pushData }) {
+        const productData = extractProduct($);
+        await pushData(productData);
+    },
+});
+```
+
+### ウェブクローリングのベストプラクティス
+
+Crawleeが多くの低レベルの懸念を処理しますが、以下も考慮すべきです：
+
+1. **設定**
+   - 適切なレート制限を設定
+   - 再試行戦略を設定
+   - 意味のあるユーザーエージェント文字列を設定
+
+2. **エラー処理**
+   - Crawleeの組み込みエラー処理を使用
+   - カスタムエラーコールバックを実装
+   - 意味のある診断情報をログ
+
+3. **データ組織**
+   - データを一貫して構造化
+   - ルーティングにリクエストラベルを使用
+   - Crawleeのデータセット機能を活用
+
+4. **リソース管理**
+   - maxConcurrencyを適切に設定
+   - 必要に応じてmaxRequestsPerCrawlを使用
+   - メモリ使用量を監視
+
+### チャレンジ
+
+あなたのタスクは、以下を行うCrawleeベースのクローラーを構築することです：
+
+1. ホームページから開始し、すべての商品カテゴリを発見
+2. 各カテゴリとサブカテゴリページを訪問
+3. 各リストから商品情報を抽出
+4. データを構造化された形式に整理
+5. 複数の場所に表示される商品（例：注目商品とカテゴリ）を処理
+
+サイトには異なるカテゴリにわたって約25-30の商品があり、さまざまなレイアウトと情報構造を持ちます。あなたのクローラーは、カテゴリと商品間の階層関係を維持する包括的なデータセットを生成すべきです。
+
+### ソリューションのテスト
+
+以下をテストしてください：
+- 完全性：すべての商品を見つけましたか？
+- 正確性：抽出されたデータは正しいですか？
+- 構造：データは適切に整理されていますか？
+- 効率性：どのくらいのリクエストを行いましたか？
+
+`_solved/chapter6/`の解決例は、Crawleeを使用したリファレンス実装を提供します。ライブラリの機能を効率的なマルチページクローリングとデータ組織に活用する方法を理解するために学習してください。
+
+ハッピークローリング！

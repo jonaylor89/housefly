@@ -1,0 +1,153 @@
+---
+title: 'Contenido Renderizado con JavaScript'
+publishedAt: '2025-03-08'
+summary: 'Sitio de una sola página donde el contenido se carga dinámicamente a través de JavaScript + desplazamiento infinito / carga perezosa'
+---
+
+Las aplicaciones web modernas rara vez sirven HTML completo; en su lugar, el contenido se carga y renderiza dinámicamente a través de JavaScript. Esto presenta desafíos únicos para el web scraping que abordaremos en estos dos capítulos.
+
+## Capítulo 4: Feed de Noticias Dinámico
+
+Nuestro primer desafío implica hacer scraping de un feed de noticias donde los artículos se cargan dinámicamente a través de JavaScript. Esto introduce varios conceptos clave:
+
+- Automatización de navegador con Playwright
+- Esperar a que se cargue el contenido dinámico
+- Manejar elementos DOM renderizados con JavaScript
+
+La estructura de la página se ve algo así:
+
+```html
+<div class="news-feed">
+  <article class="news-item">
+    <h2>Título de Última Hora</h2>
+    <p>Contenido del artículo...</p>
+    <div class="meta">
+      <span>Por Nombre del Autor</span>
+      <time datetime="2024-03-08T12:00:00Z">8 de marzo, 2024</time>
+    </div>
+  </article>
+  <!-- Más artículos se cargan dinámicamente -->
+</div>
+```
+Las diferencias clave con el scraping de HTML estático:
+
+```typescript
+// En lugar de cheerio.load(), usamos Playwright
+const browser = await chromium.launch();
+const page = await browser.newPage();
+
+// Esperar a que se renderice el contenido
+await page.waitForSelector('.news-item');
+
+// Extraer datos del DOM en vivo usando page.$$eval()
+// Esto ejecuta la función de callback en el contexto del navegador
+// para evaluar todos los elementos que coinciden con el selector a la vez
+const items = await page.$$eval('.news-item', elements => {
+  // Funciona como Array.map() en elementos coincidentes
+  // Devuelve objetos JavaScript serializables
+  // Perfecto para extraer datos de múltiples elementos
+});
+```
+
+## Capítulo 5: Galería de Desplazamiento Infinito
+
+Basándonos en nuestro conocimiento de contenido dinámico, abordamos un escenario aún más complejo: una galería de fotos con desplazamiento infinito. Esto introduce:
+
+- Manejo de contenido de carga perezosa
+- Detección y activación de eventos de desplazamiento
+- Gestión de estados de carga asíncrona
+- Extracción de datos de patrones UI complejos
+
+El desafío aquí es que el contenido se carga progresivamente a medida que el usuario se desplaza:
+
+```html
+<div class="photo-gallery">
+  <div class="photo-card">
+    <img src="..." alt="Título de la foto" />
+    <h2>Título de la Foto</h2>
+    <p>Por Nombre del Fotógrafo</p>
+    <div class="flex">
+      <span>❤️ 42</span>
+    </div>
+  </div>
+  <!-- Más fotos se cargan al desplazarse -->
+</div>
+```
+
+Conceptos clave para manejar el desplazamiento infinito:
+
+```typescript
+// Desplazarse hasta el fondo hasta que no se cargue nuevo contenido
+let previousHeight;
+while (true) {
+  previousHeight = await page.evaluate('document.body.scrollHeight');
+  await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
+  await page.waitForTimeout(1500); // Esperar el contenido
+
+  const newHeight = await page.evaluate('document.body.scrollHeight');
+  if (newHeight === previousHeight) {
+    break; // No hay más contenido para cargar
+  }
+}
+```
+
+### Consideraciones Importantes
+
+Cuando se trabaja con contenido renderizado por JavaScript:
+
+1. **Rendimiento**: El scraping de contenido dinámico es más lento que el HTML estático
+2. **Gestión de Recursos**: La automatización del navegador utiliza más recursos del sistema
+3. **Estabilidad**: Necesidad de manejar estados de carga y condiciones de red
+4. **Limitación de Tasa**: Considerar implementar retrasos entre acciones
+
+### Mejores Prácticas
+
+1. Usar estrategias de espera apropiadas:
+```typescript
+// Esperar elementos específicos
+await page.waitForSelector('.selector');
+
+// Esperar a que la red esté inactiva
+await page.waitForLoadState('networkidle');
+
+// Condiciones de espera personalizadas
+await page.waitForFunction(() => {
+  // Condición JavaScript personalizada
+});
+```
+
+2. Implementar manejo de errores robusto:
+```typescript
+try {
+  await page.goto(url);
+  // ... lógica de scraping
+} catch (error) {
+  console.error('Scraping falló:', error);
+} finally {
+  await browser.close(); // Siempre limpiar
+}
+```
+
+3. Considerar implementar mecanismos de reintento para fiabilidad
+4. Monitorear el uso de memoria cuando se trata con grandes conjuntos de datos
+5. Validar los datos extraídos para consistencia
+
+### Probando Tu Solución
+
+El entorno de prueba proporciona APIs simuladas que imitan condiciones del mundo real:
+- Tiempos de carga variables
+- Latencia de red
+- Mecánicas de paginación
+- Estados de error
+
+Prueba estas variaciones:
+1. Modificar el tiempo de desplazamiento
+2. Manejar diferentes tamaños de pantalla
+3. Probar con condiciones de red lenta
+4. Validar la integridad de los datos
+
+¿Listo para manejar contenido dinámico? El código del desafío y los entornos de prueba están en el repositorio.
+
+Consulta los ejemplos resueltos en `_solved/chapter4/` y `_solved/chapter5/` para implementaciones de referencia. Recuerda: el web scraping moderno consiste en entender tanto la estructura HTML como el comportamiento de la aplicación.
+
+¡Feliz scraping!

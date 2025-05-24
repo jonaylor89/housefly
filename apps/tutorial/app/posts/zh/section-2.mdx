@@ -1,0 +1,153 @@
+---
+title: 'JavaScript渲染内容'
+publishedAt: '2025-03-08'
+summary: '单页面站点，其中内容通过JavaScript动态加载 + 无限滚动/懒加载'
+---
+
+现代Web应用程序很少提供完整的HTML，相反，内容是通过JavaScript动态加载和渲染的。这为Web爬虫带来了独特的挑战，我们将在这两章中解决这些问题。
+
+## 第4章：动态新闻流
+
+我们的第一个挑战涉及爬取通过JavaScript动态加载文章的新闻流。这引入了几个关键概念：
+
+- 使用Playwright实现浏览器自动化
+- 等待动态内容加载
+- 处理JavaScript渲染的DOM元素
+
+页面结构看起来像这样：
+
+```html
+<div class="news-feed">
+  <article class="news-item">
+    <h2>爆点新闻标题</h2>
+    <p>文章内容...</p>
+    <div class="meta">
+      <span>作者：作者名称</span>
+      <time datetime="2024-03-08T12:00:00Z">2024年3月8日</time>
+    </div>
+  </article>
+  <!-- 更多文章动态加载 -->
+</div>
+```
+与静态HTML爬取的主要区别：
+
+```typescript
+// 不再cheerio.load()，而是使用Playwright
+const browser = await chromium.launch();
+const page = await browser.newPage();
+
+// 等待内容渲染
+await page.waitForSelector('.news-item');
+
+// 使用page.$$eval()从实时DOM中提取数据
+// 这在浏览器上下文中运行回调函数
+// 一次评估所有与选择器匹配的元素
+const items = await page.$$eval('.news-item', elements => {
+  // 类似Array.map()对匹配元素进行操作
+  // 返回可序列化的JavaScript对象
+  // 非常适合从多个元素中提取数据
+});
+```
+
+## 第5章：无限滚动图库
+
+基于我们的动态内容知识，我们解决了一个更复杂的场景 - 一个带有无限滚动的照片库。这引入了：
+
+- 处理懒加载内容
+- 检测和触发滚动事件
+- 管理异步加载状态
+- 从复杂UI模式中提取数据
+
+这里的挑战是内容会随着用户滚动而逐渐加载：
+
+```html
+<div class="photo-gallery">
+  <div class="photo-card">
+    <img src="..." alt="照片标题" />
+    <h2>照片标题</h2>
+    <p>摄影师：摄影师名称</p>
+    <div class="flex">
+      <span>❤️ 42</span>
+    </div>
+  </div>
+  <!-- 更多照片在滚动时加载 -->
+</div>
+```
+
+处理无限滚动的关键概念：
+
+```typescript
+// 滚动到底部直到没有新内容加载
+let previousHeight;
+while (true) {
+  previousHeight = await page.evaluate('document.body.scrollHeight');
+  await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
+  await page.waitForTimeout(1500); // 等待内容
+
+  const newHeight = await page.evaluate('document.body.scrollHeight');
+  if (newHeight === previousHeight) {
+    break; // 没有更多内容待加载
+  }
+}
+```
+
+### 重要考虑因素
+
+当处理JavaScript渲染内容时：
+
+1. **性能**：动态内容爬取比静态HTML慢
+2. **资源管理**：浏览器自动化使用更多系统资源
+3. **稳定性**：需要处理加载状态和网络条件
+4. **速率限制**：考虑在操作之间实现延迟
+
+### 最佳实践
+
+1. 使用适当的等待策略：
+```typescript
+// 等待特定元素
+await page.waitForSelector('.selector');
+
+// 等待网络空闲
+await page.waitForLoadState('networkidle');
+
+// 自定义等待条件
+await page.waitForFunction(() => {
+  // 自定义JavaScript条件
+});
+```
+
+2. 实现强大的错误处理：
+```typescript
+try {
+  await page.goto(url);
+  // ... 爬取逻辑
+} catch (error) {
+  console.error('爬取失败:', error);
+} finally {
+  await browser.close(); // 始终清理
+}
+```
+
+3. 考虑实现重试机制以提高可靠性
+4. 处理大数据集时监控内存使用
+5. 验证提取数据的一致性
+
+### 测试你的解决方案
+
+测试环境提供了模拟真实世界条件的模拟API：
+- 变化的加载时间
+- 网络延迟
+- 分页机制
+- 错误状态
+
+尝试这些变化：
+1. 修改滚动时间
+2. 处理不同屏幕尺寸
+3. 使用慢速网络条件测试
+4. 验证数据完整性
+
+准备好处理动态内容了吗？挑战代码和测试环境在仓库中。
+
+参考`_solved/chapter4/`和`_solved/chapter5/`中的已解决示例。记住，现代Web爬虫是了解HTML结构和应用程序行为。
+
+爬虫愉快！

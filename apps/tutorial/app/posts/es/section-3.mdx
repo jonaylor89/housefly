@@ -1,0 +1,204 @@
+---
+title: 'Rastreo de Múltiples Páginas'
+publishedAt: '2025-03-25'
+summary: 'Domina las técnicas para rastrear sitios web interconectados, gestionar sitemaps y manejar contenido duplicado'
+---
+
+Con los fundamentos del scraping de contenido tanto estático como dinámico bajo nuestro cinturón, es hora de abordar un desafío más completo: el rastreo de múltiples páginas. Esta sección se centra en navegar y extraer datos de manera eficiente de sitios web con múltiples páginas interconectadas.
+
+Hay dos enfoques principales para rastrear sitios web de múltiples páginas:
+
+1. Rastreo basado en enlaces - Siguiendo enlaces entre páginas
+2. Rastreo basado en sitemap - Usando el archivo sitemap.xml
+
+Para el rastreo de sitemap, la mayoría de los sitios web proporcionan un archivo sitemap.xml que enumera todas las URLs importantes. Este archivo XML estructurado incluye:
+
+- URLs de páginas
+- Fechas de última modificación
+- Frecuencia de cambio
+- Valores de prioridad
+
+Usar el sitemap puede ser más eficiente que el rastreo de enlaces ya que:
+- Proporciona una lista completa de páginas por adelantado
+- Incluye metadatos sobre la importancia y frescura de las páginas
+- Evita rastrear páginas innecesarias
+- Reduce la carga del servidor
+
+Pero para este capítulo, nos enfocaremos en el rastreo basado en enlaces usando Crawlee para construir un rastreador para un sitio de comercio electrónico de múltiples páginas. Crawlee maneja muchas de las complejidades del rastreo web por nosotros, incluyendo:
+
+- Gestión automática de colas y deduplicación de URLs
+- Limitación de velocidad incorporada y lógica de reintentos
+- Manejo y enrutamiento de solicitudes configurable
+- Almacenamiento y exportación de datos
+
+La estructura del sitio que estaremos rastreando se ve así:
+
+```
+Página de inicio
+├── Categoría: Electrónicos
+│   ├── Teléfonos
+│   ├── Laptops
+│   └── Accesorios
+├── Categoría: Ropa
+│   ├── Hombres
+│   └── Mujeres
+└── Productos Destacados
+```
+
+Cada página de producto tiene diferentes diseños dependiendo de la categoría, pero necesitamos extraer información consistente:
+
+```typescript
+// Ejemplo de estructura de datos que queremos construir
+interface ProductData {
+  name: string;
+  price: number;
+  rating: { score: number, count: number };
+  features: string[];
+  status: string; // En Stock, Agotado, etc.
+}
+
+interface ResultData {
+  categories: {
+    electronics: {
+      phones: ProductData[];
+      laptops: ProductData[];
+      accessories: ProductData[];
+    };
+    clothing: {
+      mens: {
+        shirts: ProductData[];
+        pants: ProductData[];
+      };
+      womens: {
+        dresses: ProductData[];
+        tops: ProductData[];
+      };
+    };
+  };
+  featured_products: FeaturedProduct[];
+}
+```
+
+### Conceptos Clave de Rastreo con Crawlee
+
+1. **Gestión de Cola de Solicitudes**
+
+Crawlee maneja la cola automáticamente, pero así es como la configuramos:
+
+```typescript
+import { CheerioCrawler } from 'crawlee';
+
+const crawler = new CheerioCrawler({
+    // Maneja cada solicitud
+    async requestHandler({ $, request, enqueueLinks }) {
+        // Procesar la página
+        const data = extractPageData($);
+
+        // Encolar automáticamente nuevas URLs encontradas en la página
+        await enqueueLinks({
+            selector: 'a',
+            baseUrl: request.loadedUrl,
+        });
+    },
+    // Limitar solicitudes concurrentes
+    maxConcurrency: 10,
+});
+```
+
+2. **Manejo de URLs**
+
+Crawlee proporciona manejo de URLs y normalización incorporados:
+
+```typescript
+await crawler.run([startUrl]);
+
+// O con más configuración:
+await crawler.addRequests([{
+    url: startUrl,
+    userData: {
+        label: 'start',
+    },
+}]);
+```
+
+3. **Manejo de Rutas**
+
+Enrutar diferentes URLs a manejadores específicos:
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, request }) {
+        const { label } = request.userData;
+
+        switch (label) {
+            case 'category':
+                return handleCategory($);
+            case 'product':
+                return handleProduct($);
+            default:
+                return handleHomepage($);
+        }
+    },
+});
+```
+
+4. **Recolección de Datos**
+
+Crawlee proporciona almacenamiento incorporado para datos recolectados:
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, pushData }) {
+        const productData = extractProduct($);
+        await pushData(productData);
+    },
+});
+```
+
+### Mejores Prácticas de Rastreo Web
+
+Aunque Crawlee maneja muchas preocupaciones de bajo nivel, aún debes considerar:
+
+1. **Configuración**
+   - Establecer límites de velocidad apropiados
+   - Configurar estrategias de reintentos
+   - Establecer cadenas de user-agent significativas
+
+2. **Manejo de Errores**
+   - Usar el manejo de errores incorporado de Crawlee
+   - Implementar callbacks de error personalizados
+   - Registrar información de diagnóstico significativa
+
+3. **Organización de Datos**
+   - Estructurar tus datos de manera consistente
+   - Usar etiquetas de solicitud para enrutamiento
+   - Aprovechar las características de dataset de Crawlee
+
+4. **Gestión de Recursos**
+   - Configurar maxConcurrency apropiadamente
+   - Usar maxRequestsPerCrawl cuando sea necesario
+   - Monitorear el uso de memoria
+
+### El Desafío
+
+Tu tarea es construir un rastreador basado en Crawlee que:
+
+1. Comience en la página de inicio y descubra todas las categorías de productos
+2. Visite cada página de categoría y subcategoría
+3. Extraiga información de productos de cada listado
+4. Organice los datos en un formato estructurado
+5. Maneje productos que aparecen en múltiples lugares (ej., destacados y categoría)
+
+El sitio contiene aproximadamente 25-30 productos a través de diferentes categorías, con diseños e estructuras de información variados. Tu rastreador debe producir un conjunto de datos completo que mantenga la relación jerárquica entre categorías y productos.
+
+### Probando Tu Solución
+
+Prueba para:
+- Completitud: ¿Encontraste todos los productos?
+- Precisión: ¿Son correctos los datos extraídos?
+- Estructura: ¿Están los datos organizados correctamente?
+- Eficiencia: ¿Cuántas solicitudes hiciste?
+
+El ejemplo resuelto en `_solved/chapter6/` proporciona una implementación de referencia usando Crawlee. Estúdialo para entender cómo aprovechar las características de la biblioteca para un rastreo eficiente de múltiples páginas y organización de datos.
+
+¡Feliz rastreo!
