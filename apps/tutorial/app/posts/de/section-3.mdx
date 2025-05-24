@@ -1,0 +1,204 @@
+---
+title: 'Mehrseitiges Crawling'
+publishedAt: '2025-03-25'
+summary: 'Beherrsche die Techniken zum Crawlen miteinander verbundener Websites, Verwaltung von Sitemaps und Umgang mit doppeltem Inhalt'
+---
+
+Mit den Grundlagen sowohl des statischen als auch des dynamischen Inhalt-Scrapings unter unserem Gürtel ist es Zeit, eine umfassendere Herausforderung anzugehen: mehrseitiges Crawling. Dieser Abschnitt konzentriert sich auf das effiziente Navigieren und Extrahieren von Daten von Websites mit mehreren miteinander verbundenen Seiten.
+
+Es gibt zwei Hauptansätze zum Crawlen mehrseitiger Websites:
+
+1. Link-basiertes Crawling - Verfolgung von Links zwischen Seiten
+2. Sitemap-basiertes Crawling - Verwendung der sitemap.xml-Datei
+
+Für Sitemap-Crawling bieten die meisten Websites eine sitemap.xml-Datei, die alle wichtigen URLs auflistet. Diese strukturierte XML-Datei enthält:
+
+- Seiten-URLs
+- Letzte Änderungsdaten
+- Änderungshäufigkeit
+- Prioritätswerte
+
+Die Verwendung der Sitemap kann effizienter sein als Link-Crawling, da sie:
+- Eine vollständige Liste der Seiten im Voraus bereitstellt
+- Metadaten über Seitenwichtigkeit und Aktualität enthält
+- Das Crawlen unnötiger Seiten vermeidet
+- Serverlast reduziert
+
+Aber für dieses Kapitel konzentrieren wir uns auf link-basiertes Crawling mit Crawlee, um einen Crawler für eine mehrseitige E-Commerce-Site zu erstellen. Crawlee übernimmt viele der Komplexitäten des Web-Crawlings für uns, einschließlich:
+
+- Automatisches Queue-Management und URL-Deduplizierung
+- Eingebaute Rate Limiting und Retry-Logik
+- Konfigurierbare Request-Behandlung und Routing
+- Datenspeicherung und -export
+
+Die Seitenstruktur, die wir crawlen werden, sieht folgendermaßen aus:
+
+```
+Homepage
+├── Kategorie: Elektronik
+│   ├── Handys
+│   ├── Laptops
+│   └── Zubehör
+├── Kategorie: Kleidung
+│   ├── Herren
+│   └── Damen
+└── Empfohlene Produkte
+```
+
+Jede Produktseite hat verschiedene Layouts je nach Kategorie, aber wir müssen konsistente Informationen extrahieren:
+
+```typescript
+// Beispiel Datenstruktur, die wir erstellen wollen
+interface ProductData {
+  name: string;
+  price: number;
+  rating: { score: number, count: number };
+  features: string[];
+  status: string; // Auf Lager, Nicht auf Lager, etc.
+}
+
+interface ResultData {
+  categories: {
+    electronics: {
+      phones: ProductData[];
+      laptops: ProductData[];
+      accessories: ProductData[];
+    };
+    clothing: {
+      mens: {
+        shirts: ProductData[];
+        pants: ProductData[];
+      };
+      womens: {
+        dresses: ProductData[];
+        tops: ProductData[];
+      };
+    };
+  };
+  featured_products: FeaturedProduct[];
+}
+```
+
+### Schlüssel-Crawling-Konzepte mit Crawlee
+
+1. **Request Queue Management**
+
+Crawlee übernimmt die Queue automatisch, aber hier ist, wie wir sie konfigurieren:
+
+```typescript
+import { CheerioCrawler } from 'crawlee';
+
+const crawler = new CheerioCrawler({
+    // Behandelt jeden Request
+    async requestHandler({ $, request, enqueueLinks }) {
+        // Seite verarbeiten
+        const data = extractPageData($);
+
+        // Automatisch neue URLs in die Queue einreihen, die auf der Seite gefunden wurden
+        await enqueueLinks({
+            selector: 'a',
+            baseUrl: request.loadedUrl,
+        });
+    },
+    // Concurrent Requests begrenzen
+    maxConcurrency: 10,
+});
+```
+
+2. **URL-Behandlung**
+
+Crawlee bietet eingebaute URL-Behandlung und -Normalisierung:
+
+```typescript
+await crawler.run([startUrl]);
+
+// Oder mit mehr Konfiguration:
+await crawler.addRequests([{
+    url: startUrl,
+    userData: {
+        label: 'start',
+    },
+}]);
+```
+
+3. **Route-Behandlung**
+
+Routen verschiedene URLs zu spezifischen Handlers:
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, request }) {
+        const { label } = request.userData;
+
+        switch (label) {
+            case 'category':
+                return handleCategory($);
+            case 'product':
+                return handleProduct($);
+            default:
+                return handleHomepage($);
+        }
+    },
+});
+```
+
+4. **Datensammlung**
+
+Crawlee bietet eingebaute Speicherung für gesammelte Daten:
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, pushData }) {
+        const productData = extractProduct($);
+        await pushData(productData);
+    },
+});
+```
+
+### Web-Crawling Best Practices
+
+Während Crawlee viele Low-Level-Belange übernimmt, solltest du dennoch Folgendes beachten:
+
+1. **Konfiguration**
+   - Setze angemessene Rate Limits
+   - Konfiguriere Retry-Strategien
+   - Setze aussagekräftige User-Agent-Strings
+
+2. **Fehlerbehandlung**
+   - Verwende Crawlees eingebaute Fehlerbehandlung
+   - Implementiere benutzerdefinierte Error-Callbacks
+   - Logge aussagekräftige Diagnoseinformationen
+
+3. **Datenorganisation**
+   - Strukturiere deine Daten konsistent
+   - Verwende Request-Labels für Routing
+   - Nutze Crawlees Dataset-Features
+
+4. **Ressourcenverwaltung**
+   - Konfiguriere maxConcurrency angemessen
+   - Verwende maxRequestsPerCrawl wenn nötig
+   - Überwache Speicherverbrauch
+
+### Die Herausforderung
+
+Deine Aufgabe ist es, einen Crawlee-basierten Crawler zu erstellen, der:
+
+1. Bei der Homepage startet und alle Produktkategorien entdeckt
+2. Jede Kategorie- und Unterkategorieseite besucht
+3. Produktinformationen aus jedem Listing extrahiert
+4. Daten in einem strukturierten Format organisiert
+5. Produkte behandelt, die an mehreren Stellen erscheinen (z.B. empfohlen und Kategorie)
+
+Die Site enthält etwa 25-30 Produkte über verschiedene Kategorien hinweg, mit variierenden Layouts und Informationsstrukturen. Dein Crawler sollte einen umfassenden Datensatz produzieren, der die hierarchische Beziehung zwischen Kategorien und Produkten aufrechterhält.
+
+### Deine Lösung testen
+
+Teste auf:
+- Vollständigkeit: Hast du alle Produkte gefunden?
+- Genauigkeit: Sind die extrahierten Daten korrekt?
+- Struktur: Sind die Daten richtig organisiert?
+- Effizienz: Wie viele Requests hast du gemacht?
+
+Das gelöste Beispiel in `_solved/chapter6/` bietet eine Referenzimplementierung mit Crawlee. Studiere es, um zu verstehen, wie man die Features der Bibliothek für effizientes mehrseitiges Crawling und Datenorganisation nutzt.
+
+Frohes Crawling!

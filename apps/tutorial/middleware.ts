@@ -1,7 +1,7 @@
+import { locales } from 'app/i18n/constants';
 import { NextRequest, NextResponse } from 'next/server';
 
 // List of supported locales
-export const locales = ['en', 'ru', 'es', 'zh', 'ja'];
 const defaultLocale = 'en';
 
 // Get the preferred locale from the request

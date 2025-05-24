@@ -1,0 +1,152 @@
+---
+title: 'Web crawling la scară mare + nestructurat'
+publishedAt: '2025-05-20'
+summary: 'Parsing asistat de AI pentru date haotice și nestructurate + crawlere de căutare'
+---
+
+Bun venit la secțiunea finală din seria noastră de tutoriale hands-on pentru web crawling. În loc de o lecție tradițională, adoptăm o abordare diferită. Pentru această secțiune, am construit Housefly Metascraper - un crawler în directorul `./apps/metascraper` care demonstrează cum se aplică tot ce am învățat într-un scenariu din lumea reală.
+
+Metascraper-ul demonstrează cum călătoria noastră pas cu pas - de la scraping-ul HTML static simplu, navigarea conținutului redat de JavaScript, până la interacțiunea cu API-uri și depășirea apărărilor crawling-ului - culminează într-un instrument care poate gestiona **web-ul nestructurat, divers și haotic la scară mare.**
+
+Vom explora cum să crawlăm pe o varietate largă de site-uri web - fără să știm în avans ce fel de structuri de date să ne așteptăm - și să introducem **parsing-ul asistat de AI**, **detectarea dinamică a schemei**, și tehnicile necesare pentru **scalarea la mii (sau milioane) de pagini** fără să se prăbușească.
+
+## Ce înseamnă cu adevărat "Nestructurat" și "La scară mare"?
+
+În secțiunile anterioare, știam adesea:
+- Ce site-uri țintim.
+- Ce date voiam (ex. tabele, liste, răspunsuri JSON).
+- Câte pagini trebuia să vizităm.
+
+Dar în crawling-ul nestructurat la scară mare:
+- Site-urile variază enorm: unele sunt structurate, altele sunt blog-uri cu formatare neregulată.
+- Căile și URL-urile sunt imprevizibile.
+- Schema este inconsistentă sau inexistentă.
+- Vrem să **crawlăm mii de pagini**, potențial pe **multiple domenii**.
+
+Gândește-te la:
+- Crawlere de cercetare care colectează date pe site-uri academice.
+- Asistenți AI care indexează blog-uri pentru cunoaștere specifică unui subiect.
+- Motoare de căutare care trebuie să generalizeze pe întreg internetul public.
+
+Acesta este boss-ul final al web crawling-ului.
+
+## Partea 1: Arhitectura pentru crawling la scară mare
+
+Să vorbim despre cum să-ți scalezi crawler-ul înainte să ne îngrijorăm de parsing.
+
+### Pattern-uri de design
+
+Pentru a construi un crawler la scară mare, arhitectura ta ar trebui să fie:
+- **Condusă de coadă:** Folosește o coadă de mesaje (ca Redis, RabbitMQ, sau Kafka) pentru a stoca URL-uri în așteptare.
+- **Bazată pe workeri:** Separă crawlerele în procese worker care trag din coadă și procesează job-urile independent.
+- **Deduplicată:** Menține un index cu amprente (ex. SHA1 al URL-ului sau conținutului HTML) pentru a evita procesarea aceleiași pagini de două ori.
+- **Resumabilă:** Persistă starea crawl-ului astfel încât să se poată recupera din crash-uri.
+
+Iată o diagramă de design minimală:
+
+## Partea 2: Tehnici de vârf pentru 2025
+
+### Proxy-uri rezidențiale
+
+Unul dintre cele mai semnificative progrese în scraping-ul la scară mare este folosirea **proxy-urilor rezidențiale**. Spre deosebire de IP-urile datacenter pe care site-urile le pot detecta și bloca cu ușurință, proxy-urile rezidențiale rutează request-urile tale prin adrese IP de consumatori reali, făcând scraper-ul tău să pară ca un utilizator legitim.
+
+### Agenți autonomi alimentați de AI
+
+Cel mai revoluționar progres din 2025 este **scraping-ul agentic**. În loc să codezi hard scraper-e pentru fiecare format de site:
+
+- LLM-urile cu capabilități de viziune pot înțelege și extrage date din layout-uri nevăzute anterior
+- Agenții AI pot naviga autonom site-uri complexe prin imitarea pattern-urilor de browsing umane
+- Parsing-ul adaptiv se ajustează automat la schimbările de layout fără a necesita actualizări de cod
+
+## Partea 3: Parsing asistat de AI
+
+Fine-tuning sau prompt-engineering al unui model pentru a produce JSON curat:
+
+```json
+{
+  "name": "Dr. Maria Lopez",
+  "title": "Climatolog",
+  "organization": "Stanford",
+  "topic": "Summitul climatic ONU 2023, AI în modelarea climatică"
+}
+```
+
+## Partea 4: Stocarea, indexarea și căutarea datelor
+
+Vei colecta **multe date eterogene**. Alege-ți stocarea bazată pe obiectivele tale și cât de structurate sunt datele.
+
+### Strategii de stocare
+
+- **PostgreSQL** sau **SQLite**: Cel mai bun pentru date tabulare structurate unde cunoști schema (ex. articole, prețuri, timestamp-uri). Poți folosi indexuri, chei străine și căutare full-text (FTS).
+- **MongoDB** sau **Elasticsearch**: Excelent pentru formate de date semi-structurate sau flexibile ca blob-urile JSON unde schema poate varia între înregistrări.
+- **S3 / IPFS / Sistem de fișiere**: Ideal pentru snapshot-uri HTML brute, imagini, PDF-uri și fișiere binare mari. Stochează metadatele într-o bază de date și leagă la locația fișierului.
+
+Folosește UUID-uri sau hash-uri URL ca chei primare astfel încât să poți deduplica și urmări elementele crawlate anterior.
+
+### Făcându-le căutabile
+
+Odată stocate, vei vrea să **explorezi și să interoghezi** conținutul.
+
+Opțiunile includ:
+
+- **PostgreSQL FTS (Full-Text Search):** Folosește `tsvector` și `tsquery` pentru a construi capabilități robuste de căutare cuvinte cheie cu ranking.
+- **Typesense** sau **Meilisearch:** Motoare de căutare full-text ușoare, flexibile din punct de vedere schema, perfecte pentru indexare rapidă și căutare fuzzy.
+- **Elasticsearch:** Cel mai bun pentru cazuri de utilizare de căutare mai complexe sau log-uri, cu filtrare și analiză puternică.
+
+Ar trebui să indexezi câmpuri ca:
+- Titlu
+- Autor
+- Data publicării
+- Cuvinte cheie sau tag-uri (dacă sunt extrase)
+- Conținutul principal
+- Domeniu / sursa
+
+### Căutarea semantică cu embedding-uri
+
+Pentru înțelegere și regăsire mai profundă (dincolo de cuvintele cheie), folosește **embedding-uri de text**:
+
+1. Folosește un model ca `text-embedding-3-small` de la OpenAI sau alternative open-source ca `bge-small-en`.
+2. Convertește conținutul tău crawlat în vectori embedding.
+3. Stochează-i într-o **bază de date vectorială** ca:
+   - **Qdrant**
+   - **Weaviate**
+   - **Pinecone**
+   - **FAISS** (pentru utilizare locală / în memorie)
+
+Acest lucru permite interogări semantice ca:
+> "Arată-mi articole unde cineva vorbește despre dezvoltarea urbană prietenoasă cu bicicletele în climate reci."
+
+Prin compararea embedding-ului interogării cu embedding-urile stocate, crawler-ul tău devine un motor de cunoaștere.
+
+### Metadate și îmbogățire
+
+În final, îmbogățește-ți datele cu metadate adiționale:
+
+- **Detectarea limbii** (ex. cu `langdetect` sau fastText).
+- **Clasificarea categoriei conținutului** folosind modele zero-shot sau clasificatori fine-tuned.
+- **Named Entity Recognition (NER)** pentru a extrage persoane, organizații și locuri.
+- **Geotagging** bazat pe conținut sau sursă.
+
+Stochează acestea alături de datele principale astfel încât să poți filtra și sorta după ele mai târziu.
+
+## Partea 5: Crawlere de descoperire conduse de căutare
+
+Cea mai avansată abordare pentru crawling-ul la scară mare nici măcar nu începe cu URL-uri - în schimb, începe cu **interogări de căutare**.
+
+Inspirat de instrumente ca SearchXNG și Perplexity, Metascraper-ul demonstrează o strategie search-first unde crawler-ul:
+
+1. Începe cu un **subiect sau întrebare** mai degrabă decât cu o listă de URL-uri seed
+2. Folosește API-uri de motoare de căutare pentru a descoperi pagini relevante în timp real
+3. Construiește dinamic coada sa de crawl bazată pe rezultatele căutării
+4. Urmărește inteligent citările și referințele pentru a extinde cunoașterea
+
+Această abordare oferă mai multe avantaje:
+
+- **Explorare țintită**: În loc de crawling exhaustiv, vizitezi doar pagini care probabil conțin informații relevante
+- **Rezultate actualizate**: Fiecare crawl începe proaspăt cu rezultate de căutare curente
+- **Domain-agnostic**: Nu este limitat la site-uri predefinite sau pattern-uri URL
+- **Condus de intenție**: Se aliniază cu modul în care oamenii cercetează de fapt subiecte
+
+Modul condus de căutare al Metascraper-ului demonstrează cum să combini API-uri de căutare, algoritmi de prioritizare și extragere context-aware pentru a construi grafuri de cunoaștere din conținut descoperit dinamic fără a ști în avans ce URL-uri vei vizita.
+
+Scraping fericit

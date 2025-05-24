@@ -1,0 +1,83 @@
+---
+title: 'Media + Scraping non-text'
+publishedAt: '2025-04-26'
+summary: 'Învață tehnici pentru scraping dincolo de text: extragerea imaginilor cu metadate, descărcarea și parsarea PDF-urilor, și capturarea informațiilor video.'
+---
+
+Bun venit la Secțiunea 5! Până acum, am acoperit scraping-ul conținutului HTML static și dinamic, navigarea site-urilor multi-pagină și interacțiunea cu API-uri și formulare. Acum ne mutăm dincolo de text pentru a explora extragerea conținutului media. Această secțiune se concentrează pe tehnici pentru gestionarea diferitelor tipuri de media întâlnite în timpul web scraping-ului.
+
+### 1. Extragerea imaginilor și metadatelor (Capitolul 10)
+
+Imaginile constituie o porțiune semnificativă a conținutului web, iar scraping-ul lor implică mai mult decât simpla descărcare a fișierelor. Contextul valoros este adesea stocat în metadatele asociate.
+
+**Concepte cheie:**
+
+* **Identificarea imaginilor:** Folosirea selectorilor pentru localizarea elementelor de imagine în HTML (tag-uri `<img>`, imagini de fundal, etc.)
+* **Extragerea metadatelor:** Colectarea informațiilor critice precum:
+  * Textul `alt` (esențial pentru accesibilitate și descrierea conținutului imaginii)
+  * Numele fișierelor (conțin adesea informații descriptive ca date sau subiecte)
+  * Legendele și textul înconjurător
+  * Atribute de date personalizate (ex. `data-photographer`, `data-location`)
+* **Descărcarea imaginilor:** Tehnici pentru salvarea eficientă a imaginilor menținând organizarea
+* **Date EXIF:** Pentru unele imagini, extragerea metadatelor tehnice înglobate (setări cameră, coordonate GPS, etc.)
+
+**Provocarea (Capitolul 10):** Vei face scraping pe un site de arhivă digitală conținând diverse imagini istorice. Sarcina ta este să extragi nu doar imaginile în sine, ci și toate metadatele asociate inclusiv textul alt, informațiile despre numele fișierului, legendele și atributele personalizate.
+
+### 2. Descărcarea și parsarea PDF-urilor
+
+Multe documente valoroase pe web sunt stocate ca PDF-uri, care necesită gestionare specială pentru a extrage conținutul lor.
+
+**Concepte cheie:**
+
+* **Detectarea PDF-urilor:** Găsirea link-urilor PDF pe paginile web
+* **Descărcarea:** Tehnici pentru preluarea fișierelor PDF
+* **Extragerea textului:** Folosirea bibliotecilor ca `pdf-parse` sau `pdf.js` pentru a extrage conținutul text
+* **Date structurate:** Gestionarea documentelor cu:
+  * Text de bază
+  * Tabele și coloane
+  * Formulare
+  * Imagini înglobate
+* **Accesul la metadate:** Extragerea proprietăților documentului (titlu, autor, data creării)
+
+**Provocarea (Capitolul 10):** Ca parte a exercițiului de scraping al arhivei digitale, vei descărca documente PDF cu structuri variate - de la documente simple bazate pe text la altele mai complexe conținând tabele și imagini înglobate. Soluția ta trebuie să extragă și să organizeze acest conținut corespunzător.
+
+### 3. Scraping-ul metadatelor video înglobate
+
+Videoclipurile sunt frecvent înglobate în paginile web prin iframe-uri sau playere specializate, cu metadatele lor accesibile prin tehnici diferite.
+
+**Concepte cheie:**
+
+* **Identificarea înglobării video:** Recunoașterea diferitelor metode de înglobare:
+  * Iframe-uri YouTube/Vimeo
+  * Elemente HTML5 `<video>`
+  * Playere video personalizate
+* **Extragerea metadatelor:** Colectarea:
+  * Titlurilor și descrierilor video
+  * Informațiilor despre platformă
+  * ID-urilor video sau URL-urilor directe
+  * Durata, uploader-ul și alte atribute disponibile
+* **Accesul la thumbnail-uri:** Preluarea imaginilor de previzualizare asociate cu videoclipurile
+
+**Provocarea (Capitolul 10):** Componenta finală a exercițiului de arhivă digitală necesită să extragi informații despre videoclipurile înglobate din multiple surse, inclusiv YouTube, Vimeo și elemente video HTML5 native.
+
+### Aplicații OSINT și criminalistică digitală
+
+Tehnicile acoperite în această secțiune au de asemenea aplicații în Open Source Intelligence (OSINT) și criminalistică digitală. Metadatele media pot dezvălui informații importante despre autenticitatea conținutului, inclusiv discrepanțe în datele de publicare, originile geografice și informațiile despre sursă.
+
+Aceste abilități sunt valoroase pentru cercetători și analiști care lucrează în domenii unde verificarea conținutului este crucială. Dacă ești interessat să afli mai multe despre aceste aplicații, verifică resurse ca [OSINT Framework](https://osintframework.com/) sau [Intel Techniques](https://inteltechniques.com/index.html).
+
+Deși nu ne vom concentra pe tehnici investigative în provocările noastre, înțelegerea modului în care metadatele pot fi extrase și analizate este o abilitate importantă pentru proiectele cuprinzătoare de web scraping.
+
+### Considerații practice
+
+Când faci scraping de conținut media, ține cont de acești factori importanți:
+
+1. **Cerințe de stocare:** Fișierele media pot fi mari - planifică corespunzător
+2. **Utilizarea lățimii de bandă:** Descărcarea numeroaselor fișiere media poate consuma lățime de bandă semnificativă
+3. **Rate Limiting:** Multe site-uri restricționează rata descărcărilor media
+4. **Considerații legale:** Fii conștient de restricțiile de drepturi de autor asupra conținutului media
+5. **Gestionarea erorilor:** Unele media pot fi inaccesibile sau corupte - soluția ta ar trebui să gestioneze aceste cazuri cu grație
+
+Stăpânirea acestor tehnici va extinde semnificativ capabilitățile tale de web scraping dincolo de conținutul bazat pe text, permițându-ți să capturezi și să utilizezi întregul spectru de media disponibil pe web.
+
+Scraping fericit!

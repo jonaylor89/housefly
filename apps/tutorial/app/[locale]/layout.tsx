@@ -23,6 +23,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       'es': 'es_ES',
       'zh': 'zh_CN',
       'ja': 'ja_JP',
+      'de': 'de_DE',
+      'ro': 'ro_RO',
     };
     return localeMap[locale] || 'en_US';
   };
@@ -60,6 +62,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
         'es': baseUrl + '/es',
         'zh': baseUrl + '/zh',
         'ja': baseUrl + '/ja',
+        'de': baseUrl + '/de',
+        'ro': baseUrl + '/ro',
       },
     },
   };

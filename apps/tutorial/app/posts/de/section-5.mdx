@@ -1,0 +1,83 @@
+---
+title: 'Medien + Nicht-Text-Scraping'
+publishedAt: '2025-04-26'
+summary: 'Lerne Techniken für das Scraping jenseits von Text: Bilder mit Metadaten extrahieren, herunterladen und PDFs parsen, sowie Video-Informationen erfassen.'
+---
+
+Willkommen zu Abschnitt 5! Bisher haben wir das Scraping statischer und dynamischer HTML-Inhalte, die Navigation mehrseitiger Sites und die Interaktion mit APIs und Formularen behandelt. Jetzt bewegen wir uns über Text hinaus, um die Extraktion von Medieninhalten zu erkunden. Dieser Abschnitt konzentriert sich auf Techniken für den Umgang mit verschiedenen Medientypen, die beim Web-Scraping auftreten.
+
+### 1. Bilder und Metadaten extrahieren (Kapitel 10)
+
+Bilder stellen einen bedeutenden Teil der Web-Inhalte dar, und ihr Scraping beinhaltet mehr als nur das Herunterladen der Dateien. Wertvoller Kontext ist oft in zugehörigen Metadaten gespeichert.
+
+**Schlüsselkonzepte:**
+
+* **Bilderkennung:** Verwendung von Selektoren zur Lokalisierung von Bildelementen in HTML (`<img>` Tags, Hintergrundbilder, etc.)
+* **Metadaten-Extraktion:** Sammlung kritischer Informationen wie:
+  * `alt` Text (wichtig für Barrierefreiheit und Beschreibung des Bildinhalts)
+  * Dateinamen (enthalten oft beschreibende Informationen wie Daten oder Motive)
+  * Bildunterschriften und umgebender Text
+  * Benutzerdefinierte Datenattribute (z.B. `data-photographer`, `data-location`)
+* **Bild-Download:** Techniken für effizientes Speichern von Bildern bei gleichzeitiger Aufrechterhaltung der Organisation
+* **EXIF-Daten:** Für einige Bilder, Extraktion eingebetteter technischer Metadaten (Kameraeinstellungen, GPS-Koordinaten, etc.)
+
+**Die Herausforderung (Kapitel 10):** Du wirst eine digitale Archiv-Website mit verschiedenen historischen Bildern scrapen. Deine Aufgabe ist es, nicht nur die Bilder selbst zu extrahieren, sondern auch alle zugehörigen Metadaten einschließlich Alt-Text, Dateinamen-Informationen, Bildunterschriften und benutzerdefinierte Attribute.
+
+### 2. PDFs herunterladen und parsen
+
+Viele wertvolle Dokumente im Web sind als PDFs gespeichert, die spezielle Behandlung zur Extraktion ihres Inhalts erfordern.
+
+**Schlüsselkonzepte:**
+
+* **PDF-Erkennung:** PDF-Links auf Webseiten finden
+* **Herunterladen:** Techniken zum Abrufen von PDF-Dateien
+* **Textextraktion:** Verwendung von Bibliotheken wie `pdf-parse` oder `pdf.js` zur Extraktion von Textinhalten
+* **Strukturierte Daten:** Umgang mit Dokumenten mit:
+  * Grundtext
+  * Tabellen und Spalten
+  * Formularen
+  * Eingebetteten Bildern
+* **Metadaten-Zugriff:** Extraktion von Dokumenteigenschaften (Titel, Autor, Erstellungsdatum)
+
+**Die Herausforderung (Kapitel 10):** Als Teil der digitalen Archiv-Scraping-Übung wirst du PDF-Dokumente mit verschiedenen Strukturen herunterladen - von einfachen textbasierten Dokumenten bis hin zu komplexeren mit Tabellen und eingebetteten Bildern. Deine Lösung muss diesen Inhalt angemessen extrahieren und organisieren.
+
+### 3. Eingebettete Video-Metadaten scrapen
+
+Videos sind häufig über iframes oder spezialisierte Player in Webseiten eingebettet, wobei ihre Metadaten über verschiedene Techniken zugänglich sind.
+
+**Schlüsselkonzepte:**
+
+* **Video-Embed-Identifikation:** Erkennung verschiedener Einbettungsmethoden:
+  * YouTube/Vimeo iframes
+  * HTML5 `<video>` Elemente
+  * Benutzerdefinierte Video-Player
+* **Metadaten-Extraktion:** Sammlung von:
+  * Video-Titeln und -Beschreibungen
+  * Plattform-Informationen
+  * Video-IDs oder direkten URLs
+  * Dauer, Uploader und andere verfügbare Attribute
+* **Thumbnail-Zugriff:** Abrufen von Vorschaubildern, die mit Videos verknüpft sind
+
+**Die Herausforderung (Kapitel 10):** Die abschließende Komponente der digitalen Archiv-Übung erfordert es, Informationen über eingebettete Videos aus mehreren Quellen zu extrahieren, einschließlich YouTube, Vimeo und nativen HTML5-Video-Elementen.
+
+### OSINT & Digitale Forensik-Anwendungen
+
+Die in diesem Abschnitt behandelten Techniken haben auch Anwendungen in Open Source Intelligence (OSINT) und digitaler Forensik. Medien-Metadaten können wichtige Informationen über Inhaltsauthentizität preisgeben, einschließlich Diskrepanzen in Veröffentlichungsdaten, geografischen Ursprüngen und Quellinformationen.
+
+Diese Fähigkeiten sind wertvoll für Forscher und Analysten, die in Bereichen arbeiten, wo Inhaltsverifikation entscheidend ist. Wenn du daran interessiert bist, mehr über diese Anwendungen zu lernen, schaue dir Ressourcen wie [OSINT Framework](https://osintframework.com/) oder [Intel Techniques](https://inteltechniques.com/index.html) an.
+
+Während wir uns in unseren Herausforderungen nicht auf investigative Techniken konzentrieren werden, ist das Verständnis, wie Metadaten extrahiert und analysiert werden können, eine wichtige Fähigkeit für umfassende Web-Scraping-Projekte.
+
+### Praktische Überlegungen
+
+Beim Scraping von Medieninhalten behalte diese wichtigen Faktoren im Auge:
+
+1. **Speicheranforderungen:** Mediendateien können groß sein - plane entsprechend
+2. **Bandbreitenverbrauch:** Das Herunterladen zahlreicher Mediendateien kann erhebliche Bandbreite verbrauchen
+3. **Rate Limiting:** Viele Sites beschränken die Rate von Medien-Downloads
+4. **Rechtliche Überlegungen:** Sei dir der Urheberrechtsbeschränkungen für Medieninhalte bewusst
+5. **Fehlerbehandlung:** Einige Medien können unzugänglich oder beschädigt sein - deine Lösung sollte diese Fälle elegant handhaben
+
+Die Beherrschung dieser Techniken wird deine Web-Scraping-Fähigkeiten erheblich über textbasierte Inhalte hinaus erweitern und dir ermöglichen, das gesamte Spektrum der im Web verfügbaren Medien zu erfassen und zu nutzen.
+
+Frohes Scraping!

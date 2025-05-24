@@ -1,0 +1,153 @@
+---
+title: 'Conținut redat de JavaScript'
+publishedAt: '2025-03-08'
+summary: 'Site cu o singură pagină unde conținutul se încarcă dinamic prin JavaScript + scroll infinit / lazy loading'
+---
+
+Aplicațiile web moderne rareori servesc HTML complet - în schimb, conținutul este încărcat și redat dinamic prin JavaScript. Acest lucru prezintă provocări unice pentru web scraping pe care le vom aborda în aceste două capitole.
+
+## Capitolul 4: Feed de știri dinamic
+
+Prima noastră provocare implică scraping-ul unui feed de știri unde articolele sunt încărcate dinamic prin JavaScript. Aceasta introduce câteva concepte cheie:
+
+- Automatizarea browser-ului cu Playwright
+- Așteptarea încărcării conținutului dinamic
+- Gestionarea elementelor DOM redate de JavaScript
+
+Structura paginii arată cam așa:
+
+```html
+<div class="news-feed">
+  <article class="news-item">
+    <h2>Titlu Breaking News</h2>
+    <p>Conținutul articolului...</p>
+    <div class="meta">
+      <span>De Numele Autorului</span>
+      <time datetime="2024-03-08T12:00:00Z">8 martie 2024</time>
+    </div>
+  </article>
+  <!-- Mai multe articole se încarcă dinamic -->
+</div>
+```
+Principalele diferențe față de scraping-ul HTML static:
+
+```typescript
+// În loc de cheerio.load(), folosim Playwright
+const browser = await chromium.launch();
+const page = await browser.newPage();
+
+// Așteptăm ca conținutul să se redea
+await page.waitForSelector('.news-item');
+
+// Extragem date din DOM-ul live folosind page.$$eval()
+// Aceasta rulează funcția callback în contextul browser-ului
+// pentru a evalua toate elementele care se potrivesc selectorului deodată
+const items = await page.$$eval('.news-item', elements => {
+  // Funcționează ca Array.map() pe elementele potrivite
+  // Returnează obiecte JavaScript serializabile
+  // Perfect pentru extragerea datelor din multiple elemente
+});
+```
+
+## Capitolul 5: Galerie cu scroll infinit
+
+Construind pe cunoștințele noastre despre conținutul dinamic, abordăm un scenariu și mai complex - o galerie foto cu scroll infinit. Aceasta introduce:
+
+- Gestionarea conținutului lazy-loaded
+- Detectarea și declanșarea evenimentelor de scroll
+- Gestionarea stărilor de încărcare asincronă
+- Extragerea datelor din pattern-uri UI complexe
+
+Provocarea aici este că conținutul se încarcă progresiv pe măsură ce utilizatorul scrollează:
+
+```html
+<div class="photo-gallery">
+  <div class="photo-card">
+    <img src="..." alt="Titlu foto" />
+    <h2>Titlu foto</h2>
+    <p>De Numele Fotografului</p>
+    <div class="flex">
+      <span>❤️ 42</span>
+    </div>
+  </div>
+  <!-- Mai multe poze se încarcă la scroll -->
+</div>
+```
+
+Concepte cheie pentru gestionarea scroll-ului infinit:
+
+```typescript
+// Scroll la sfârșitul paginii până nu se mai încarcă conținut nou
+let previousHeight;
+while (true) {
+  previousHeight = await page.evaluate('document.body.scrollHeight');
+  await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
+  await page.waitForTimeout(1500); // Așteptăm conținutul
+
+  const newHeight = await page.evaluate('document.body.scrollHeight');
+  if (newHeight === previousHeight) {
+    break; // Nu mai e conținut de încărcat
+  }
+}
+```
+
+### Considerații importante
+
+Când lucrezi cu conținut redat de JavaScript:
+
+1. **Performanță**: Scraping-ul conținutului dinamic este mai lent decât HTML static
+2. **Gestionarea resurselor**: Automatizarea browser-ului folosește mai multe resurse de sistem
+3. **Stabilitate**: Trebuie să gestionezi stările de încărcare și condițiile de rețea
+4. **Rate Limiting**: Consideră implementarea întârzierilor între acțiuni
+
+### Cele mai bune practici
+
+1. Folosește strategii de așteptare adecvate:
+```typescript
+// Așteaptă elemente specifice
+await page.waitForSelector('.selector');
+
+// Așteaptă network idle
+await page.waitForLoadState('networkidle');
+
+// Condiții de așteptare personalizate
+await page.waitForFunction(() => {
+  // Condiție JavaScript personalizată
+});
+```
+
+2. Implementează gestionarea robustă a erorilor:
+```typescript
+try {
+  await page.goto(url);
+  // ... logica de scraping
+} catch (error) {
+  console.error('Scraping failed:', error);
+} finally {
+  await browser.close(); // Întotdeauna curăță
+}
+```
+
+3. Consideră implementarea mecanismelor de retry pentru fiabilitate
+4. Monitorizează utilizarea memoriei când lucrezi cu dataset-uri mari
+5. Validează datele extrase pentru consistență
+
+### Testarea soluției tale
+
+Mediul de testare oferă API-uri mock care simulează condiții din lumea reală:
+- Timpi de încărcare variabili
+- Latența rețelei
+- Mecanici de paginare
+- Stări de eroare
+
+Încearcă aceste variații:
+1. Modifică timing-ul de scroll
+2. Gestionează dimensiuni diferite de ecran
+3. Testează cu condiții lente de rețea
+4. Validează integritatea datelor
+
+Gata să gestionezi conținut dinamic? Codul provocării și mediile de testare sunt în repository.
+
+Verifică exemplele rezolvate în `_solved/chapter4/` și `_solved/chapter5/` pentru implementări de referință. Amintește-ți - web scraping-ul modern înseamnă să înțelegi atât structura HTML, cât și comportamentul aplicației.
+
+Scraping fericit!

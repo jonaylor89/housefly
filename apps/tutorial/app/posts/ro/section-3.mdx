@@ -1,0 +1,204 @@
+---
+title: 'Crawling multi-pagină'
+publishedAt: '2025-03-25'
+summary: 'Stăpânește tehnicile pentru crawling-ul site-urilor interconectate, gestionarea sitemap-urilor și tratarea conținutului duplicat'
+---
+
+Cu fundamentele atât ale scraping-ului de conținut static, cât și dinamic sub centura noastră, este timpul să abordăm o provocare mai cuprinzătoare: crawling-ul multi-pagină. Această secțiune se concentrează pe navigarea eficientă și extragerea datelor din site-uri web cu multiple pagini interconectate.
+
+Există două abordări principale pentru crawling-ul site-urilor multi-pagină:
+
+1. Crawling bazat pe link-uri - Urmărirea link-urilor între pagini
+2. Crawling bazat pe sitemap - Folosirea fișierului sitemap.xml
+
+Pentru crawling-ul sitemap, majoritatea site-urilor oferă un fișier sitemap.xml care listează toate URL-urile importante. Acest fișier XML structurat include:
+
+- URL-uri de pagini
+- Date de ultimă modificare
+- Frecvența schimbărilor
+- Valori de prioritate
+
+Folosirea sitemap-ului poate fi mai eficientă decât crawling-ul pe link-uri pentru că:
+- Oferă o listă completă de pagini din start
+- Include metadate despre importanța și prospețimea paginilor
+- Evită crawling-ul paginilor inutile
+- Reduce încărcarea serverului
+
+Dar pentru acest capitol, ne vom concentra pe crawling-ul bazat pe link-uri folosind Crawlee pentru a construi un crawler pentru un site e-commerce multi-pagină. Crawlee gestionează multe dintre complexitățile web crawling-ului pentru noi, inclusiv:
+
+- Gestionarea automată a cozii și deduplicarea URL-urilor
+- Rate limiting încorporat și logica de retry
+- Gestionarea configurabilă a request-urilor și routing-ul
+- Stocarea și exportul datelor
+
+Structura site-ului pe care o vom crawla arată astfel:
+
+```
+Homepage
+├── Categorie: Electronică
+│   ├── Telefoane
+│   ├── Laptopuri
+│   └── Accesorii
+├── Categorie: Îmbrăcăminte
+│   ├── Bărbați
+│   └── Femei
+└── Produse recomandate
+```
+
+Fiecare pagină de produs are layout-uri diferite în funcție de categorie, dar trebuie să extragem informații consistente:
+
+```typescript
+// Exemplu structură de date pe care vrem să o construim
+interface ProductData {
+  name: string;
+  price: number;
+  rating: { score: number, count: number };
+  features: string[];
+  status: string; // În stoc, Epuizat, etc.
+}
+
+interface ResultData {
+  categories: {
+    electronics: {
+      phones: ProductData[];
+      laptops: ProductData[];
+      accessories: ProductData[];
+    };
+    clothing: {
+      mens: {
+        shirts: ProductData[];
+        pants: ProductData[];
+      };
+      womens: {
+        dresses: ProductData[];
+        tops: ProductData[];
+      };
+    };
+  };
+  featured_products: FeaturedProduct[];
+}
+```
+
+### Concepte cheie de crawling cu Crawlee
+
+1. **Gestionarea cozii de request-uri**
+
+Crawlee gestionează coada automat, dar iată cum o configurăm:
+
+```typescript
+import { CheerioCrawler } from 'crawlee';
+
+const crawler = new CheerioCrawler({
+    // Gestionează fiecare request
+    async requestHandler({ $, request, enqueueLinks }) {
+        // Procesează pagina
+        const data = extractPageData($);
+
+        // Adaugă automat în coadă URL-uri noi găsite pe pagină
+        await enqueueLinks({
+            selector: 'a',
+            baseUrl: request.loadedUrl,
+        });
+    },
+    // Limitează request-urile concurente
+    maxConcurrency: 10,
+});
+```
+
+2. **Gestionarea URL-urilor**
+
+Crawlee oferă gestionarea și normalizarea încorporată a URL-urilor:
+
+```typescript
+await crawler.run([startUrl]);
+
+// Sau cu mai multă configurare:
+await crawler.addRequests([{
+    url: startUrl,
+    userData: {
+        label: 'start',
+    },
+}]);
+```
+
+3. **Gestionarea rutelor**
+
+Direcționează URL-uri diferite către handler-e specifice:
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, request }) {
+        const { label } = request.userData;
+
+        switch (label) {
+            case 'category':
+                return handleCategory($);
+            case 'product':
+                return handleProduct($);
+            default:
+                return handleHomepage($);
+        }
+    },
+});
+```
+
+4. **Colectarea datelor**
+
+Crawlee oferă stocare încorporată pentru datele colectate:
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, pushData }) {
+        const productData = extractProduct($);
+        await pushData(productData);
+    },
+});
+```
+
+### Cele mai bune practici pentru web crawling
+
+În timp ce Crawlee gestionează multe preocupări de nivel scăzut, ar trebui să iei în considerare totuși:
+
+1. **Configurația**
+   - Setează rate limit-uri adecvate
+   - Configurează strategii de retry
+   - Setează string-uri de user-agent semnificative
+
+2. **Gestionarea erorilor**
+   - Folosește gestionarea erorilor încorporată a Crawlee
+   - Implementează callback-uri de eroare personalizate
+   - Loghează informații de diagnostic semnificative
+
+3. **Organizarea datelor**
+   - Structurează datele consistent
+   - Folosește etichete de request pentru routing
+   - Valorifică funcționalitățile de dataset ale Crawlee
+
+4. **Gestionarea resurselor**
+   - Configurează maxConcurrency adecvat
+   - Folosește maxRequestsPerCrawl când este necesar
+   - Monitorizează utilizarea memoriei
+
+### Provocarea
+
+Sarcina ta este să construiești un crawler bazat pe Crawlee care:
+
+1. Începe de pe homepage și descoperă toate categoriile de produse
+2. Vizitează fiecare pagină de categorie și subcategorie
+3. Extrage informații despre produse din fiecare listing
+4. Organizează datele într-un format structurat
+5. Gestionează produsele care apar în multiple locuri (ex. recomandate și categorie)
+
+Site-ul conține aproximativ 25-30 de produse în categorii diferite, cu layout-uri și structuri de informații variate. Crawler-ul tău ar trebui să producă un dataset cuprinzător care menține relația ierarhică între categorii și produse.
+
+### Testarea soluției tale
+
+Testează pentru:
+- Completitudine: Ai găsit toate produsele?
+- Acuratețe: Sunt datele extrase corecte?
+- Structură: Sunt datele organizate corespunzător?
+- Eficiență: Câte request-uri ai făcut?
+
+Exemplul rezolvat în `_solved/chapter6/` oferă o implementare de referință folosind Crawlee. Studiază-l pentru a înțelege cum să valorifici funcționalitățile bibliotecii pentru crawling multi-pagină eficient și organizarea datelor.
+
+Crawling fericit!

@@ -1,0 +1,153 @@
+---
+title: 'JavaScript-gerenderter Inhalt'
+publishedAt: '2025-03-08'
+summary: 'Single-Page-Site, bei der Inhalte dynamisch über JavaScript + unendliches Scrollen / Lazy Loading geladen werden'
+---
+
+Moderne Webanwendungen liefern selten vollständiges HTML - stattdessen wird Inhalt dynamisch über JavaScript geladen und gerendert. Das stellt einzigartige Herausforderungen für Web-Scraping dar, die wir in diesen zwei Kapiteln angehen werden.
+
+## Kapitel 4: Dynamischer News-Feed
+
+Unsere erste Herausforderung beinhaltet das Scraping eines News-Feeds, bei dem Artikel dynamisch über JavaScript geladen werden. Das führt mehrere Schlüsselkonzepte ein:
+
+- Browser-Automatisierung mit Playwright
+- Warten auf das Laden dynamischer Inhalte
+- Umgang mit JavaScript-gerenderten DOM-Elementen
+
+Die Seitenstruktur sieht etwa so aus:
+
+```html
+<div class="news-feed">
+  <article class="news-item">
+    <h2>Breaking News Titel</h2>
+    <p>Artikelinhalt...</p>
+    <div class="meta">
+      <span>Von Autorenname</span>
+      <time datetime="2024-03-08T12:00:00Z">8. März 2024</time>
+    </div>
+  </article>
+  <!-- Weitere Artikel laden dynamisch -->
+</div>
+```
+Die wichtigsten Unterschiede zum statischen HTML-Scraping:
+
+```typescript
+// Anstatt cheerio.load() verwenden wir Playwright
+const browser = await chromium.launch();
+const page = await browser.newPage();
+
+// Warten auf das Rendern von Inhalten
+await page.waitForSelector('.news-item');
+
+// Daten aus dem Live-DOM mit page.$$eval() extrahieren
+// Das führt die Callback-Funktion im Browser-Kontext aus
+// um alle Elemente, die dem Selektor entsprechen, auf einmal auszuwerten
+const items = await page.$$eval('.news-item', elements => {
+  // Funktioniert wie Array.map() auf passenden Elementen
+  // Gibt serialisierbare JavaScript-Objekte zurück
+  // Perfekt zum Extrahieren von Daten aus mehreren Elementen
+});
+```
+
+## Kapitel 5: Galerie mit unendlichem Scrollen
+
+Aufbauend auf unserem Wissen über dynamische Inhalte gehen wir ein noch komplexeres Szenario an - eine Fotogalerie mit unendlichem Scrollen. Das führt ein:
+
+- Umgang mit lazy-geladenem Inhalt
+- Erkennen und Auslösen von Scroll-Events
+- Verwaltung asynchroner Ladezustände
+- Datenextraktion aus komplexen UI-Mustern
+
+Die Herausforderung hier ist, dass Inhalt progressiv lädt, während der Nutzer scrollt:
+
+```html
+<div class="photo-gallery">
+  <div class="photo-card">
+    <img src="..." alt="Foto-Titel" />
+    <h2>Foto-Titel</h2>
+    <p>Von Fotografenname</p>
+    <div class="flex">
+      <span>❤️ 42</span>
+    </div>
+  </div>
+  <!-- Weitere Fotos laden beim Scrollen -->
+</div>
+```
+
+Schlüsselkonzepte für den Umgang mit unendlichem Scrollen:
+
+```typescript
+// Bis zum Ende scrollen, bis keine neuen Inhalte laden
+let previousHeight;
+while (true) {
+  previousHeight = await page.evaluate('document.body.scrollHeight');
+  await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
+  await page.waitForTimeout(1500); // Auf Inhalte warten
+
+  const newHeight = await page.evaluate('document.body.scrollHeight');
+  if (newHeight === previousHeight) {
+    break; // Keine weiteren Inhalte zu laden
+  }
+}
+```
+
+### Wichtige Überlegungen
+
+Beim Arbeiten mit JavaScript-gerenderten Inhalten:
+
+1. **Performance**: Dynamisches Inhalt-Scraping ist langsamer als statisches HTML
+2. **Ressourcenverwaltung**: Browser-Automatisierung verbraucht mehr Systemressourcen
+3. **Stabilität**: Muss Ladezustände und Netzwerkbedingungen handhaben
+4. **Rate Limiting**: Erwäge die Implementierung von Verzögerungen zwischen Aktionen
+
+### Best Practices
+
+1. Verwende angemessene Warte-Strategien:
+```typescript
+// Auf spezifische Elemente warten
+await page.waitForSelector('.selector');
+
+// Auf Netzwerk-Idle warten
+await page.waitForLoadState('networkidle');
+
+// Benutzerdefinierte Wartebedingungen
+await page.waitForFunction(() => {
+  // Benutzerdefinierte JavaScript-Bedingung
+});
+```
+
+2. Implementiere robuste Fehlerbehandlung:
+```typescript
+try {
+  await page.goto(url);
+  // ... Scraping-Logik
+} catch (error) {
+  console.error('Scraping failed:', error);
+} finally {
+  await browser.close(); // Immer aufräumen
+}
+```
+
+3. Erwäge die Implementierung von Wiederholungsmechanismen für Zuverlässigkeit
+4. Überwache Speicherverbrauch beim Umgang mit großen Datensätzen
+5. Validiere extrahierte Daten auf Konsistenz
+
+### Deine Lösung testen
+
+Die Testumgebung bietet Mock-APIs, die reale Bedingungen simulieren:
+- Variable Ladezeiten
+- Netzwerklatenz
+- Paginierungsmechanismen
+- Fehlerzustände
+
+Probiere diese Variationen:
+1. Modifiziere Scroll-Timing
+2. Handle verschiedene Bildschirmgrößen
+3. Teste mit langsamen Netzwerkbedingungen
+4. Validiere Datenintegrität
+
+Bereit, dynamische Inhalte zu handhaben? Der Challenge-Code und die Testumgebungen sind im Repository.
+
+Sieh dir die gelösten Beispiele in `_solved/chapter4/` und `_solved/chapter5/` für Referenzimplementierungen an. Denke daran - modernes Web-Scraping geht darum, sowohl HTML-Struktur als auch Anwendungsverhalten zu verstehen.
+
+Frohes Scraping!
