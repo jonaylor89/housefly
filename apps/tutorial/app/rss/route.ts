@@ -1,7 +1,19 @@
 import { baseUrl, getPosts } from "app/lib/utils";
+import { locales } from "app/i18n/constants";
 
 export async function GET() {
-  let allPosts = await getPosts();
+  // Get posts from all locales
+  const allPostsPromises = locales.map(async (locale) => {
+    const posts = await getPosts(locale);
+    return posts.map(post => ({
+      ...post,
+      locale,
+      link: `${baseUrl}/${locale}/posts/${post.slug}`
+    }));
+  });
+
+  const allPostsArrays = await Promise.all(allPostsPromises);
+  const allPosts = allPostsArrays.flat();
 
   console.log({ allPosts: allPosts.map((post) => post) });
 
@@ -15,8 +27,8 @@ export async function GET() {
     .map(
       (post) =>
         `<item>
-          <title>${post.title}</title>
-          <link>${baseUrl}/posts/${post.slug}</link>
+          <title>${post.title}${post.locale !== 'en' ? ` (${post.locale.toUpperCase()})` : ''}</title>
+          <link>${post.link}</link>
           <description>${post.summary || ""}</description>
           <pubDate>${new Date(
             post.publishedAt,
@@ -30,7 +42,7 @@ export async function GET() {
     <channel>
         <title>Housefly - Web Scraping Playground</title>
         <link>${baseUrl}</link>
-        <description>Housefly - Web Scraping Playground RSS feed</description>
+        <description>Housefly - Web Scraping Playground RSS feed - All languages</description>
         ${itemsXml}
     </channel>
   </rss>`;

@@ -1,0 +1,152 @@
+---
+title: 'பெரிய அளவிலான + கட்டமைக்கப்படாத வலை ஊர்வலம்'
+publishedAt: '2025-05-20'
+summary: 'குழப்பமான மற்றும் கட்டமைக்கப்படாத தரவு + தேடல் ஊர்வலிகளுக்கான AI-உதவி பார்ச்சிங்'
+---
+
+எங்கள் hands-on வலை ஊர்வல் tutorial series இன் இறுதி பிரிவிற்கு வரவேற்கிறோம். பாரம்பரிய பாடத்திற்கு பதிலாக, நாம் வெவ்வேறு அணுகुமுறையை எடுக்கிறோம். இந்த பிரிவிற்காக, நான் Housefly Metascraper ஐ கட்டமைத்துள்ளேன்—`./apps/metascraper` கோப்பகத்தில் ஒரு ஊர்வலி जो நாம் கற்றுக்கொண்ட அனைத்தையும் உண்மையான உலக சூழ்நிலையில் எவ்வாறு பயன்படுत்துவது என்பதைக் காட்டுகிறது.
+
+Metascraper எங்கள் step-by-step பயணம்—எளிய நிலையான HTML ஐ ஸ்கிராப் செய்வதிலிருந்து, JavaScript-rendered உள்ளடक்கத்தை navigate செய்வது, APIs உடன் தொடர்புகொள்வது மற்றும் crawling பாதுகாப்புகளை overcome செய்வது வரை—எவ்வாறு **கட்டமைக்கப்படாத, வேறுபட்ட, மற்றும் கலவரமான வலையை அளவில் கையாளக்கூடிய** கருவியில் முடிகிறது என்பதை காட்டுகிறது.
+
+நாம் ஆராய்வோம் எவ்வாறு பல்வேறு வகையான வலைத்தளங்களில் crawl செய்வது—என்ன வகையான தரவு கட்டமைப்புகளை எதிர்பார்க்க வேண்டும் என்பதை முன்பே அறியாமல்—மற்றும் **AI-உதவி பார்ச்சிங்**, **dynamic schema detection**, மற்றும் **ஆயிரக்கணக்கான (அல்லது மில்லியன்கணக்கான) பக்கங்களுக்கு scaling** செய்யத் தேவையான நுட்பங்களை அறிமுகப்படுத்துவோம்.
+
+## "கட்டமைக்கப்படாத" மற்றும் "பெரிய-அளவில்" என்பது உண்மையில் என்ன அர்த்தம்?
+
+முந்தைய பிரிவுகளில், நாம் பெரும்பாலும் அறிந்தோம்:
+- நாம் எந்த தளங்களை இலக்காகக் கொண்டோம்.
+- நமக்கு என்ன தரவு தேவைப்பட்டது (உ.மா. அட்டவணைகள், பட்டியல்கள், JSON பதில்கள்).
+- நாம் எத்தனை பக்கங்களைப் பார்வையிட வேண்டும்.
+
+ஆனால் பெரிய அளவிலான கட்டமைக்கப்படாத ஊர்வலத்தில்:
+- வலைத்தளங்கள் பெரும் மாறுபாடு காட்டுகின்றன: சில கட்டமைக்கப்பட்டவை, மற்றவை ஒழுங்கற்ற வடிவமைப்புடன் கூடிய வலைப்பதிவுகள்.
+- பாதைகள் மற்றும் URLs கணிக்க முடியாதவை.
+- Schema நிலையற்றது அல்லது இல்லாதது.
+- நாம் **ஆயிரக்கணக்கான பக்கங்களை crawl** செய்ய விரும்புகிறோம், சாத்தியமாக **பல domains** முழுவதும்.
+
+சிந்தியுங்கள்:
+- கல்வித் தளங்களில் தரவை சேகரிக்கும் ஆராய்ச்சி ஊர்வலிகள்.
+- தலைப்பு-குறிப்பிட்ட அறிவுக்காக வலைப்பதிவுகளை index செய்யும் AI உதவியாளர்கள்.
+- முழு பொது இணையத்திலும் generalize செய்ய வேண்டிய தேடல் engines.
+
+இது வலை ஊர்வலத்தின் இறுதி boss ஆகும்.
+
+## பகுதி 1: பெரிய அளவிலான ஊர்வலத்திற்கான கட்டமைப்பு
+
+பார்ச்சிங் பற்றி கவலைப்படுவதற்கு முன் உங்கள் ஊர்வலியை scale up செய்வது பற்றி பேசுவோம்.
+
+### வடிவமைப்பு வடிவங்கள்
+
+பெரிய அளவிலான ஊர்வலியை உருவாக்க, உங்கள் கட்டமைப்பு இவ்வாறு இருக்க வேண்டும்:
+- **Queue-driven:** நிலுவையில் உள்ள URLs ஐ சேமிக்க message queue (Redis, RabbitMQ, அல்லது Kafka போன்றவை) பயன்படுத்துதல்.
+- **Worker-based:** Queue லிருந்து pull செய்து jobs ஐ சுயாதீனமாக process செய்யும் worker processes களாக crawlers ஐ பிரித்தல்.
+- **Deduplicated:** அதே பக்கத்தை இரண்டு முறை process செய்வதைத் தவிர்க்க fingerprinted index (உ.மா. URL அல்லது HTML உள்ளடக்கத்தின் SHA1) பராமரித்தல்.
+- **Resumable:** Crashes லிருந்து recover ஆக முடியும்படி crawl state ஐ persist செய்தல்.
+
+இதோ ஒரு குறைந்தபட்ச வடிவமைப்பு வரைபடம்:
+
+## பகுதி 2: 2025 க்கான Cutting-Edge நுட்பங்கள்
+
+### Residential Proxies
+
+பெரிய அளவிலான scraping இல் மிகவும் குறிப்பிடத்தக்க முன்னேற்றங்களில் ஒன்று **residential proxies** இன் பயன்பாடு. வலைத்தளங்கள் எளிதில் கண்டறிந்து block செய்யக்கூடிய datacenter IPs க்கு மாறாக, residential proxies உங்கள் கோரிக்கைகளை உண்மையான நுகர்வோர் IP முகவரிகள் மூலம் route செய்கின்றன, உங்கள் scraper ஐ legitimate பயனராகத் தோன்ற வைக்கின்றன.
+
+### AI-Powered Autonomous Agents
+
+2025 இல் மிகவும் revolutionary முன்னேற்றம் **agentic scraping** ஆகும். ஒவ்வொரு தள வடிவத்திற்கும் scrapers ஐ hard-code செய்வதற்கு பதிலாக:
+
+- பார்வை திறன்களுடன் கூடிய LLMs முன்பு பார்க்காத layouts ஐ புரிந்துகொண்டு extract செய்ய முடியும்
+- AI agents மனித உலாவல் வடிவங்களைப் பிரதிபலிப்பதன் மூலம் சிக்கலான தளங்களை தன்னாட்சி முறையில் navigate செய்ய முடியும்
+- Adaptive parsing குறியீட்டு புதுப்பிப்புகளின் தேவையின்றி layout மாற்றங்களுக்கு தானாகவே சரிசெய்து கொள்கிறது
+
+## பகுதி 3: AI-உதவி பார்ச்சிங்
+
+சுத்தமான JSON வெளியீட்டுக்காக model ஐ fine-tune அல்லது prompt-engineer செய்யுங்கள்:
+
+```json
+{
+  "name": "Dr. Maria Lopez",
+  "title": "Climate Scientist",
+  "organization": "Stanford",
+  "topic": "2023 UN Climate Summit, AI in climate modeling"
+}
+```
+
+## பகுதி 4: தரவை Store, Index, மற்றும் Search செய்தல்
+
+நீங்கள் **நிறைய heterogeneous தரவு** சேகரிப்பீர்கள். உங்கள் இலக்குகள் மற்றும் தரவு எவ்வளவு கட்டமைக்கப்பட்டுள்ளது என்பதன் அடிப்படையில் உங்கள் சேமிப்பகத்தை தேர்வு செய்யுங்கள்.
+
+### சேமிப்பக உத்திகள்
+
+- **PostgreSQL** அல்லது **SQLite**: schema தெரிந்த கட்டமைக்கப்பட்ட tabular தரவுக்கு சிறந்தது (உ.மா. கட்டுரைகள், விலைகள், timestamps). நீங்கள் indexes, foreign keys மற்றும் full-text search (FTS) பயன்படுத்தலாம்.
+- **MongoDB** அல்லது **Elasticsearch**: semi-structured அல்லது நெகிழ்வான தரவு வடிவங்களான JSON blobs க்கு சிறந்தது, அங்கு schema records மூலம் வேறுபடலாம்.
+- **S3 / IPFS / File System**: Raw HTML snapshots, படங்கள், PDFs மற்றும் பெரிய binary கோப்புகளுக்கு சிறந்தது. Database இல் metadata ஐ store செய்து file location க்கு link செய்யுங்கள்.
+
+முன்பு crawl செய்யப்பட்ட items ஐ de-duplicate செய்து track செய்ய UUIDs அல்லது URL hashes ஐ primary keys ஆக பயன்படுத்துங்கள்.
+
+### இதை தேடக்கூடியதாக அமைத்தல்
+
+Store செய்யப்பட்ட பிறகு, நீங்கள் உள்ளடக்கத்தை **explore மற்றும் query** செய்ய விரும்புவீர்கள்.
+
+விकल्पোন्मां அடங்கும்:
+
+- **PostgreSQL FTS (Full-Text Search)**: ranking உடன் வலுவான keyword தेडல் capabilities உருवाक्कुवदु्कै `tsvector` मற्रும् `tsquery` পयন्पडुत्तल्.
+- **Typesense** अल्लतु **Meilisearch**: వेगडান indexing मற्रும् fuzzy তেडल্ केलिए சिर्फत् lightweight, schema-flexible full-text తेडল् engines.
+- **Elasticsearch**: मिकव्यম् जटिल তেडল् use cases अल्लदु logs केलिए सिर्फत्, शक्तिशाली filtering मற्रும् analytics के सাథ.
+
+நீங்கள் இந்த புলங्களை index செய்ய वेण्டुम्:
+- Title
+- Author
+- Date published
+- Keywords अल्लদু tags (यদि extracted)
+- Main content
+- Domain / source
+
+### Embeddings உடன் Semantic Search
+
+गभीর समझ मற्रும् retrieval (keywords से अपेक्ष) केলिए, **text embeddings** پयन्पडुत्तुं:
+
+1. OpenAI இन् `text-embedding-3-small` अल्लদு `bge-small-en` போන্ড open-source விকल्पস् போन্ড model পयन्पडুत्तुং.
+2. உং्গल् crawled उल्लडक्कम् को embedding vectors ইल् convert செய়्यুং.
+3. அवল् **vector database** ইল् store செय়्यুং जैसे:
+   - **Qdrant**
+   - **Weaviate**
+   - **Pinecone**
+   - **FAISS** (স্থানীয় / in-memory পयोग केलিए)
+
+इതു इथুपोड semantic वินवल्গळै enable करता है:
+> "ঠাণ্ডা জলবায়ুতে সাইকেল-বন্ধুত্বপূর্ণ শহুরে উন্নয়ন সম্পর্কে কেউ কথা বলে এমন নিবন্ধগুলি আমাকে দেখান।"
+
+Query embedding को stored embeddings के साথ compare করके, আপনার crawler একটি knowledge engine بन जाता है।
+
+### Metadata मற्रुম् Enrichment
+
+अन्तम्, अपনे डেटा को अতिरिक्त metadata के साथ enrich करें:
+
+- **भाषा শনাक्तকरण** (`langdetect` अল्লदु fastText কে साথ).
+- **Content श্রেणী विभाগकरण** zero-shot models अল्लदु fine-tuned classifiers পयোग करके.
+- **Named Entity Recognition (NER)** لोगो, संগठনों मற्রुम् स्থानों को निकालने केलিए.
+- **Geotagging** content अল्লदু source के आधार पर.
+
+इसे main डेटा के साथ store करें तাकि आप बाद میں इससे filter मற्रुम् sort कर सकें।
+
+## পার্ট 5: Search-Driven Discovery Crawlers
+
+পেরিয়া அளভিলান crawling ইর সবচাইতে advanced পদ্ধতি URLs থেকেও শুরু হয় না—বরং এটি **search queries** থেকে শুরু হয়।
+
+SearchXNG মற্রুম् Perplexity போন্ড tools থেকে প্রেরণা নিয়ে, Metascraper এটি search-first কৌশল প্রদর্শন করে যেখানে crawler:
+
+1. Seed URL তালিকার পরিবর্তে **বিষয় অথবা প্রশ্ন** দিয়ে শুরু হয়
+2. রিয়েল-টাইমে প্রাসঙ্গিক পৃষ্ঠাগুলি আবিষ্কার করতে search engine APIs ব্যবহার করে
+3. Search ফলাফলের উপর ভিত্তি করে গতিশীলভাবে তার crawl queue তৈরি করে
+4. জ্ঞান বিস্তারের জন্য বুদ্ধিমানের সাথে citations এবং references অনুসরণ করে
+
+এই পদ্ধতিটি বেশ কয়েকটি সুবিধা প্রদান করে:
+
+- **Targeted Exploration**: Exhaustive crawling এর পরিবর্তে, আপনি কেবল সেই পৃষ্ঠাগুলিতে visit করেন যেগুলিতে প্রাসঙ্গিক তথ্য থাকার সম্ভাবনা রয়েছে
+- **Up-to-date Results**: প্রতিটি crawl বর্তমান search ফলাফলের সাথে fresh start করে
+- **Domain-agnostic**: Pre-defined সাইট অথবা URL patterns এ সীমাবদ্ধ নয়
+- **Intention-driven**: Humans যেভাবে বিষয়ের উপর research করে সেইভাবে align করে
+
+Metascraper এর search-driven মোড দেখায় যে search APIs, prioritization algorithms, এবং context-aware extraction কে কিভাবে combine করে dynamically আবিষ্কৃত content থেকে knowledge graphs তৈরি করা যায় পূর্বে জানা ছাড়াই যে আপনি কোন URLs visit করবেন।
+
+মাগিজ্চিয়ান স্ক্রপিং

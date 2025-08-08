@@ -29,6 +29,8 @@ export function LanguageSwitcher() {
     ja: '日本語',
     de: 'Deutsch',
     ro: 'Română',
+    hi: 'हिन्दी',
+    ta: 'தமிழ்',
   };
 
   // Close dropdown when clicking outside
