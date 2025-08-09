@@ -43,6 +43,22 @@ export const postsDictionary: PostsDictionary = {
       title: 'મૂળભૂત HTML સ્ક્રેપિંગ: પ્રથમ પગલાં',
       summary: 'સ્ટેટિક HTML પેજો સાથે હાથ-પર-હાથ કવાયત દ્વારા વેબ સ્ક્રેપિંગના મૂળભૂત સિદ્ધાંતો શીખો',
     },
+    fa: {
+      title: 'اسکرپینگ پایه HTML: قدم‌های نخست',
+      summary: 'مبانی اسکرپینگ وب را از طریق تمرین‌های عملی با صفحات HTML استاتیک بیاموزید',
+    },
+    ur: {
+      title: 'بنیادی HTML اسکریپنگ: پہلے قدم',
+      summary: 'جامد HTML صفحات کے ساتھ عملی مشقوں کے ذریعے ویب اسکریپنگ کی بنیادی باتیں سیکھیں',
+    },
+    ar: {
+      title: 'كشط HTML الأساسي: الخطوات الأولى',
+      summary: 'تعلم أساسيات كشط الويب من خلال التمارين العملية مع صفحات HTML الثابتة',
+    },
+    tr: {
+      title: 'Temel HTML Kazıma: İlk Adımlar',
+      summary: 'Statik HTML sayfalarıyla uygulamalı egzersizler aracılığıyla web kazımanın temellerini öğrenin',
+    },
   },
   'section-2': {
     en: {
@@ -60,6 +76,22 @@ export const postsDictionary: PostsDictionary = {
     gu: {
       title: 'JavaScript-રેન્ડર્ડ કન્ટેન્ટ',
       summary: 'સિંગલ-પેજ સાઇટ જ્યાં કન્ટેન્ટ JavaScript + અનંત સ્ક્રોલ / લેઝી લોડિંગ દ્વારા ડાયનેમિક રીતે લોડ થાય છે',
+    },
+    fa: {
+      title: 'محتوای رندر شده با جاوااسکریپت',
+      summary: 'سایت تک صفحه‌ای که محتوا به صورت پویا از طریق جاوااسکریپت + اسکرول بی‌نهایت / بارگذاری تنبل',
+    },
+    ur: {
+      title: 'جاوا اسکرپٹ سے رینڈر کیا گیا مواد',
+      summary: 'واحد صفحہ سائٹ جہاں مواد جاوا اسکرپٹ کے ذریعے متحرک طور پر لوڈ ہوتا ہے + لامحدود سکرول / سست لوڈنگ',
+    },
+    ar: {
+      title: 'المحتوى المعروض بـ JavaScript',
+      summary: 'موقع صفحة واحدة حيث يتم تحميل المحتوى ديناميكياً عبر JavaScript + التمرير اللانهائي / التحميل البطيء',
+    },
+    tr: {
+      title: 'JavaScript ile Oluşturulan İçerik',
+      summary: 'İçeriğin JavaScript ile dinamik olarak yüklendiği tek sayfa sitesi + sonsuz kaydırma / tembel yükleme',
     },
   },
   'section-3': {
@@ -79,6 +111,22 @@ export const postsDictionary: PostsDictionary = {
       title: 'મલ્ટિ-પેજ ક્રોલિંગ',
       summary: 'પરસ્પર જોડાયેલી વેબસાઇટ્સને ક્રોલ કરવા, સાઇટમેપ્સ મેનેજ કરવા અને ડુપ્લિકેટ કન્ટેન્ટ હેન્ડલ કરવાની તકનીકોમાં માસ્ટરી મેળવો',
     },
+    fa: {
+      title: 'خزیدگی چند صفحه‌ای',
+      summary: 'تکنیک‌های خزیدگی وب‌سایت‌های مترابط، مدیریت نقشه‌های سایت، و مدیریت محتوای تکراری را فراگیرید',
+    },
+    ur: {
+      title: 'کثیر صفحاتی کرالنگ',
+      summary: 'باہم جڑے ہوئے ویب سائٹس کرال کرنے، سائٹ میپس کا انتظام، اور ڈپلیکیٹ مواد سنبھالنے کی تکنیکوں میں مہارت حاصل کریں',
+    },
+    ar: {
+      title: 'الزحف متعدد الصفحات',
+      summary: 'إتقان تقنيات زحف المواقع المترابطة وإدارة خرائط الموقع والتعامل مع المحتوى المكرر',
+    },
+    tr: {
+      title: 'Çok Sayfa Tarama',
+      summary: 'Birbirine bağlı web sitelerini tarama, site haritası yönetimi ve çokün içerik işleme tekniklerinde ustalaşın',
+    },
   },
   'section-4': {
     en: {
@@ -96,6 +144,22 @@ export const postsDictionary: PostsDictionary = {
     gu: {
       title: 'અદ્યતન વેબસાઇટ ઇન્ટરેક્શન અને APIs',
       summary: 'API-સંચાલિત સાઇટ્સ સ્ક્રેપ કરવાનું, ફોર્મ અને લૉગિન્સ હેન્ડલ કરવાનું, અને GraphQL એન્ડપોઇન્ટ્સ સાથે ઇન્ટરેક્ટ કરવાનું શીખો.',
+    },
+    fa: {
+      title: 'تعامل پیشرفته وب‌سایت و APIها',
+      summary: 'اسکرپینگ سایت‌های مبتنی بر API، مدیریت فرم‌ها و ورودی‌ها، و تعامل با نقاط پایانی GraphQL را بیاموزید.',
+    },
+    ur: {
+      title: 'اعلیٰ درجے کی ویب سائٹ انٹرایکشن اور APIs',
+      summary: 'API پر مبنی سائٹس کو اسکریپ کرنا، فارمز اور لاگ انز کو سنبھالنا، اور GraphQL endpoints کے ساتھ تعامل کرنا سیکھیں۔',
+    },
+    ar: {
+      title: 'التفاعل المتقدم مع المواقع وواجهات برمجة التطبيقات',
+      summary: 'تعلم كشط المواقع القائمة على API والتعامل مع النماذج وتسجيلات الدخول والتفاعل مع نقاط نهاية GraphQL.',
+    },
+    tr: {
+      title: 'İleri Düzey Web Sitesi Etkileşimi ve API\'ler',
+      summary: 'API tabanlı siteleri kazımayı, formları ve girişleri işlemeyi ve GraphQL uç noktalarıyla etkileşim kurmayı öğrenin.',
     },
   },
   'section-5': {
@@ -115,6 +179,22 @@ export const postsDictionary: PostsDictionary = {
       title: 'મીડિયા + બિન-ટેક્સ્ટ સ્ક્રેપિંગ',
       summary: 'ટેક્સ્ટથી આગળ સ્ક્રેપિંગની તકનીકો શીખો: મેટાડેટા સાથે છબીઓ એક્સ્ટ્રેક્ટ કરવી, ડાઉનલોડ કરવી, અને PDFs પાર્સ કરવી, અને વિડિયો માહિતી કેપ્ચર કરવી.',
     },
+    fa: {
+      title: 'رسانه + اسکرپینگ غیر متنی',
+      summary: 'تکنیک‌های اسکرپینگ فراتر از متن را بیاموزید: استخراج تصاویر با متادیتا، دانلود و تجزیه PDF، و گرفتن اطلاعات ویدیو.',
+    },
+    ur: {
+      title: 'میڈیا + غیر متنی اسکریپنگ',
+      summary: 'متن سے آگے اسکریپنگ کی تکنیکیں سیکھیں: metadata کے ساتھ تصاویر نکالنا، PDFs ڈاؤن لوڈ اور پارس کرنا، اور ویڈیو کی معلومات حاصل کرنا۔',
+    },
+    ar: {
+      title: 'الوسائط + الكشط غير النصي',
+      summary: 'تعلم تقنيات الكشط ما وراء النص: استخراج الصور مع البيانات الوصفية وتحميل وتحليل ملفات PDF وجمع معلومات الفيديو.',
+    },
+    tr: {
+      title: 'Medya + Metin Dışı Kazıma',
+      summary: 'Metinden öteye kazıma tekniklerini öğrenin: metadata ile resim çıkarma, PDF indirme ve ayrıştırma, video bilgilerini yakalama.',
+    },
   },
   'section-6': {
     en: {
@@ -133,6 +213,22 @@ export const postsDictionary: PostsDictionary = {
       title: 'વેબ ક્રોલિંગ સંરક્ષણોનું હેન્ડલિંગ',
       summary: 'નૈતિક સ્ક્રેપિંગ પ્રથાઓ જાળવીને એન્ટિ-સ્ક્રેપિંગ સંરક્ષણોની જટિલ દુનિયામાં નેવિગેટ કરવાનું શીખો',
     },
+    fa: {
+      title: 'مدیریت دفاع‌های خزیدگی وب',
+      summary: 'چگونگی ناوبری در دنیای پیچیده دفاع‌های ضد اسکرپینگ را بیاموزید در حالی که شیوه‌های اخلاقی اسکرپینگ را حفظ می‌کنید',
+    },
+    ur: {
+      title: 'ویب کرالنگ کے دفاعی نظاموں سے نمٹنا',
+      summary: 'اخلاقی اسکریپنگ کے طریقوں کو برقرار رکھتے ہوئے anti-scraping دفاعات کی پیچیدہ دنیا میں نیویگیٹ کرنا سیکھیں',
+    },
+    ar: {
+      title: 'معالجة دفاعات زحف الويب',
+      summary: 'تعلم كيفية التنقل في عالم دفاعات مكافحة الكشط المعقد مع الحفاظ على ممارسات الكشط الأخلاقية',
+    },
+    tr: {
+      title: 'Web Tarama Savunmalarıyla Başa Çıkma',
+      summary: 'Etik kazıma uygulamalarını korurken anti-kazıma savunmalarının karmaşık dünyasında nasıl gezineceğinizi öğrenin',
+    },
   },
   'section-7': {
     en: {
@@ -150,6 +246,22 @@ export const postsDictionary: PostsDictionary = {
     gu: {
       title: 'મોટા પાયે + અસંરચિત વેબ ક્રોલિંગ',
       summary: 'અવ્યવસ્થિત અને અસંરચિત ડેટા માટે AI-સહાયિત પાર્સિંગ + સર્ચ ક્રોલર્સ',
+    },
+    fa: {
+      title: 'خزیدگی وب مقیاس بزرگ + غیرساختاریافته',
+      summary: 'تجزیه با کمک هوش مصنوعی برای داده‌های آشفته و غیرساختاریافته + خزنده‌های جستجو',
+    },
+    ur: {
+      title: 'بڑے پیمانے + غیر منظم ویب کرالنگ',
+      summary: 'بکھرے ہوئے اور غیر منظم ڈیٹا کے لیے AI سے معاون تجزیہ + سرچ کرالرز',
+    },
+    ar: {
+      title: 'زحف الويب واسع النطاق + غير منظم',
+      summary: 'تحليل بمساعدة الذكاء الاصطناعي للبيانات المبعثرة وغير المنظمة + زواحف البحث',
+    },
+    tr: {
+      title: 'Büyük Ölçekli + Yapılandırılmamış Web Tarama',
+      summary: 'Dağınık ve yapılandırılmamış veriler için AI destekli ayrıştırma + arama tarayıcıları',
     },
   },
 };

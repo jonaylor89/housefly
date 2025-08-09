@@ -1,0 +1,177 @@
+---
+title: 'Temel HTML Kazıma: İlk Adımlar'
+publishedAt: '2025-02-23'
+summary: 'Statik HTML sayfalarıyla uygulamalı egzersizler aracılığıyla web kazımanın temellerini öğrenin'
+---
+
+Web kazıma ilk başta korkutucu görünebilir, ancak herhangi bir beceri gibi, uygulamalı pratik yaparak öğrenmek en iyisidir. Bu ilk üç bölümde, statik HTML sayfalarından veri çıkarmanın temellerini keşfedeceğiz.
+
+## Bölüm 1: HTML Kazıyıcı Çad
+
+Yolculuğumuz mümkün olan en basit senaryoyla başlar - temel bir HTML sayfasından metin çıkarmak. Bu bölüm sizi temel kavramlarla tanıştırır:
+
+- Web sayfalarını almak için HTTP istekleri göndermek
+- HTML içeriğini ayrıştırıcıya yüklemek
+- CSS seçicileri kullanarak temel DOM seçimi
+
+Örnek önemsiz görünse de (sonuçta bu sadece bir "merhaba dünya"!), takip eden her şeyin temelini oluşturur.
+
+```html
+<!-- Örnek HTML yapısı -->
+<div class="content">
+  <p>Çıkarmak istediğimiz bir miktar metin</p>
+</div>
+```
+
+İşte üzerinde çalıştığımız şeyin bir tadı:
+
+```typescript
+// Temel kavramlar (çözüm değil!)
+import * as cheerio from 'cheerio';
+
+// HTML içeriğini yükleme
+const $ = cheerio.load(htmlContent);
+
+// CSS seçicilerini kullanma
+const text = $('p').text();  // Tüm <p> etiketlerini seçer
+const specific = $('.content p').text();  // Daha spesifik seçim
+```
+
+## Bölüm 2: Yapılandırılmış Veri
+
+Sahte e-ticaret ürün sayfasına daldığımızda işler daha ilginç hale geliyor. Burada benzer yapılara sahip birden fazla öğeyle karşılaşıyoruz:
+
+```html
+<!-- Örnek ürün yapısı (basitleştirilmiş) -->
+<div class="product">
+  <h2>Ürün Adı</h2>
+  <span class="price">$99.99</span>
+  <div class="specs">
+    <ul>
+      <li>Boyut: M</li>
+      <li>Renk: Mavi</li>
+    </ul>
+  </div>
+</div>
+```
+
+Bu gibi yapılandırılmış verilerle çalışırken şunları düşünmek isteyeceksiniz:
+
+```typescript
+// Kavramsal yaklaşım (çözüm değil!)
+$('.product').each((index, element) => {
+  // Her ürün için şunları yapmak isteyebiliriz:
+  // 1. Temel bilgileri çıkarmak
+  const name = $(element).find('h2').text();
+
+  // 2. İç içe geçmiş verileri ayrıştırmak
+  const specs = $(element).find('.specs li');
+
+  // 3. Çıktıyı yapılandırmak
+  const data = {
+    name,
+    specs: specs.map(/* ... */),
+  };
+});
+```
+
+Profesyonel ipucu: Herhangi bir kod yazmadan önce, HTML yapısını analiz etmek için zaman ayırın. Verilerin nasıl organize edildiğindeki desenleri arayın - tutarlı sınıf adları var mı? Üst ve alt öğeler nasıl ilişkili?
+
+
+## Bölüm 3: AI Destekli Kazıma
+
+Şimdi işler ilginç oluyor! Önceki zorluklar bize geleneksel kazıma teknikleri öğretirken, Bölüm 3 modern bir yaklaşım tanıtıyor: AI destekli web kazıma. Kabus bir senaryoyla karşı karşıyayız - tutarsız HTML yapıları, karmaşıklaştırılmış sınıf adları ve hepsi birbirine karışmış çoklu çerçeve desenleri.
+
+Bu zorluğu özel kılan şeyin ne olduğuna bakalım:
+
+```html
+<!-- Geleneksel ürün yapısı -->
+<div data-testid="product-container-1" class="_3xj_item">
+  <h2 data-qa="name">Kırmızı Spor Ayakkabılar</h2>
+  <span data-price-current="5999">$59.99</span>
+</div>
+
+<!-- React tarzı bileşen -->
+<div class="ProductCard-root-1a2b3c">
+  <div class="ProductCard-title-4d5e6f">Pembe Yürüyüş Ayakkabıları</div>
+  <div class="ProductCard-pricing-7g8h9i">$84.99</div>
+</div>
+
+<!-- Vue tarzı şablon -->
+<div data-v-abcdef class="product">
+  <h2 data-v-abcdef>Lacivert Tekne Ayakkabıları</h2>
+  <span data-v-abcdef>$79.99</span>
+</div>
+```
+
+Geleneksel kazıma yaklaşımları burada zorlanır çünkü:
+- Sınıf adları rastgele veya çerçeveye özgüdür
+- Ürünler arasında veri yapıları değişir
+- Farklı çerçeveler farklı desenler kullanır
+- Semantik anlam işaretlemede kaybolur
+
+İşte AI kurtarmaya gelir. Kırılgan seçiciler yazmak yerine, doğal dilde ne istediğimizi tarif edebilir ve AI'nın desen eşleştirmeyi halletmesine izin verebiliriz. Bu bölümdeki temel kavramlar şunları içerir:
+
+- Web kazıma için prompt mühendisliği
+- Semantik anlamı anlamak için AI kullanma
+- Tutarsız veri yapılarını işleme
+- Çerçeveye özgü işaretlemeyle başa çıkma
+- Farklı desenler arasında veri tutarlılığını koruma
+
+AI sihir olmasa da, desen tanıma ve adaptasyon gerektiren görevlerde mükemmeldir. Bu da onu, tutarlı işaretleme desenlerinin garanti edilemediği modern web uygulamalarını kazımak için özellikle değerli kılar.
+
+### AI Kullanımı Hakkında Bir Not
+
+AI yardımının tamamen otomatik çözümler anlamına gelmediğini unutmayın. En iyi sonuçlar şunları birleştirmekten gelir:
+- Net problem tanımı
+- İyi yapılandırılmış promptlar
+- Veri doğrulama
+- İnsan gözetimi
+
+Zorluğunuz, AI'nın çıkarmaya çalıştığınız şeyin hem yapısını hem de amacını anlamasına yardımcı olacak promptlar oluşturmak olacak.
+
+Geleneksel web kazıma bilgisini modern AI yetenekleriyle birleştirmeye hazır mısınız? AI'nın en dağınık HTML'lerle bile nasıl başa çıkabileceğini öğrenelim!
+
+## İpuçları
+
+1. Farklı CSS seçicileri deneyin:
+```typescript
+// Öğeleri seçmenin farklı yolları
+$('.class')           // Sınıfla
+$('#id')             // ID ile
+$('div > p')         // Doğrudan çocuklar
+$('div p')           // Tüm torunlar
+$('[data-type="x"]') // Öznitelikle
+```
+
+2. Çıktı formatını değiştirmeyi deneyin
+3. Hata işleme ve kenar durumları hakkında düşünün
+4. Çözümünüzün daha büyük veri kümeleriyle nasıl ölçekleneceğini düşünün
+
+Başlamak için ihtiyacınız olan tüm kod proje deposunda mevcut. Klonlayın, ortamınızı kurun ve kazımaya başlayın!
+
+```sh
+git clone https://github.com/jonaylor89/housefly.git
+cd hosuefly
+```
+
+İpuçları arıyor musunuz? Her zorluk için kaynak HTML `apps/chapter{n}/` dizininde mevcuttur. Ve çalışan çözülmüş örnekler de `_solved/chapter{n}/` içinde mevcuttur. Yapıyı inceleyin, yaklaşımınızı planlayın ve unutmayın - her uzman bir zamanlar acemiydi.
+
+İsteklerinizi sorumlu bir şekilde yönetmeyi unutmayın:
+```typescript
+// Temel hata işleme örneği
+async function fetchPage(url: string) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP hatası! durum: ${response.status}`);
+    }
+    return await response.text();
+  } catch (error) {
+    console.error('Sayfa alma başarısız:', error);
+    throw error;
+  }
+}
+```
+
+Mutlu kazıma!
