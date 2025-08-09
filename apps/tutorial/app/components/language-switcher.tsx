@@ -31,6 +31,7 @@ export function LanguageSwitcher() {
     ro: 'Română',
     hi: 'हिन्दी',
     ta: 'தமிழ்',
+    gu: 'ગુજરાતી',
   };
 
   // Close dropdown when clicking outside
