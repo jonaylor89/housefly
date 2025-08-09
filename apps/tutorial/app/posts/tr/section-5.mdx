@@ -1,0 +1,42 @@
+---
+title: 'Medya + Metin Dışı Kazıma'
+publishedAt: '2025-04-26'
+summary: 'Metinden öteye kazıma tekniklerini öğrenin: metadata ile resim çıkarma, PDF indirme ve ayrıştırma, video bilgilerini yakalama.'
+---
+
+Bölüm 5'e hoş geldiniz! Şimdiye kadar statik ve dinamik HTML içeriğini kazımayı, çok sayfa sitelerde gezinmeyi ve API'ler ve formlarla etkileşim kurmayı ele aldık. Şimdi medya içeriği çıkarımını keşfetmek için metinden öteye geçiyoruz. Bu bölüm web kazımada karşılaştığımız çeşitli medya türlerini işleme tekniklerine odaklanır.
+
+### 1. Resim ve Metadata Çıkarma (Bölüm 10)
+
+Resimler web içeriğinin önemli bir bölümünü oluşturur ve onları kazımak sadece dosyaları indirmekten fazlasını içerir. Değerli bağlam genellikle ilişkili metadata'da saklanır.
+
+**Temel Kavramlar:**
+
+* **Resim Tanımlama:** HTML'de resim öğelerini bulmak için seçiciler kullanma (`<img>` etiketleri, arka plan resimleri, vb.)
+* **Metadata Çıkarma:** şunlar gibi kritik bilgileri toplama:
+  * `alt` metni (erişilebilirlik ve resim içeriğini açıklamak için gerekli)
+  * Dosya adları (genellikle tarihler veya konular gibi açıklayıcı bilgiler içerir)
+  * Başlıklar ve çevreleyen metin
+  * Özel veri öznitelikleri (örn. `data-photographer`, `data-location`)
+* **Resim İndirme:** Organizasyonu koruyarak resimleri verimli bir şekilde kaydetme teknikleri
+* **EXIF Verisi:** Bazı resimler için, gömülü teknik metadata çıkarma (kamera ayarları, GPS koordinatları, vb.)
+
+**Zorluk (Bölüm 10):** Çeşitli tarihi resimleri içeren dijital arşiv web sitesini kazıyacaksınız. Göreviniz sadece resimlerin kendilerini değil, aynı zamanda alt metin, dosya adı bilgisi, başlıklar ve özel öznitelikler dahil tüm ilişkili metadata'yı da çıkarmaktır.
+
+### 2. PDF'leri İndirme ve Ayrıştırma
+
+Web'deki çok sayıda değerli belge PDF olarak saklanır ve içeriklerini çıkarmak için özel işleme gerektirir.
+
+**Temel Kavramlar:**
+
+* **PDF Algılama:** Web sayfalarında PDF bağlantılarını bulma
+* **İndirme:** PDF dosyalarını alma teknikleri
+* **Metin Çıkarma:** Metinsel içeriği çıkarmak için `pdf-parse` veya `pdf.js` gibi kütüphaneler kullanma
+* **Yapılandırılmış Veri:** şunları içeren belgelerle başa çıkma:
+  * Temel metin
+  * Tablolar ve sütunlar
+  * Formlar
+  * Gömülü resimler
+* **Metadata Erişimi:** Belge özelliklerini çıkarma (başlık, yazar, oluşturma tarihi)
+
+Mutlu kazıma!

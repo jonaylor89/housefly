@@ -1,0 +1,66 @@
+---
+title: 'Web Tarama Savunmalarıyla Başa Çıkma'
+publishedAt: '2025-05-18'
+summary: 'Etik kazıma uygulamalarını korurken anti-kazıma savunmalarının karmaşık dünyasında nasıl gezineceğinizi öğrenin'
+---
+
+Web kazıma veri bilimciler ve geliştiriciler için temel bir beceri haline geldi, ancak web sitesi sahipleri de savunmalarını buna uygun olarak geliştirdiler. Bu bölüm web kazıma savunmalarının kedi-fare oyununu ve bunlarda etkili bir şekilde nasıl gezineceğinizi keşfediyor.
+
+## Bölüm 11: Düşman Hatlarının Arkasında
+
+Bu bölümde, "CryptoDefend Exchange" ile uğraşacaksınız - verilerine kolay erişilm istemeyen simüle edilmiş bir kripto para borsası platformu. Çok sayıda finansal site gibi, CryptoMoon fiyat verilerinin, işlem hacimlerinin ve piyasa eğilimlerinin otomatik toplanmasını önlemek için çeşitli savunma önlemleri uyguluyor.
+
+Zorluğumuz bu savunmaları kontrollü bir ortamda simüle ediyor ve size şunları sağlıyor:
+
+- Yüksek değerli hedefler tarafından kullanılan ortak anti-kazıma mekanizmalarını anlama
+- Başarılı veri çıkarma için pratik stratejiler geliştirme
+- Sebat ve teknik zorluklar arasında denge kurma
+
+## Gerçek Dünyada Çok Katmanlı Savunmalar
+
+Bugünün anti-kazıma cephaneliği birkaç sofistike teknik içeriyor:
+
+### Oran Sınırlama ve IP Engelleme
+
+En temel savunma istek sıklığını izleme ve eşikleri aşan IP'leri engelleme olarak kalıyor:
+
+```javascript
+// Basitleştirilmiş oran sınırlama kavramı
+const requestCounts = {};
+
+app.use((req, res, next) => {
+  const ip = req.ip;
+  requestCounts[ip] = (requestCounts[ip] || 0) + 1;
+  
+  if (requestCounts[ip] > THRESHOLD) {
+    return res.status(429).send('Çok Fazla İstek');
+  }
+  next();
+});
+```
+
+Oran sınırlamayı işlemek için, kazıyıcınızın şunlara ihtiyacı var:
+
+- İstekler arasında gecikme uygulamak
+- robots.txt yönergelerine saygı göstermek
+- Büyük ölçekli kazıma yaparken IP rotasyonunu düşünmek
+
+### CAPTCHA'lar ve Etkileşimli Zorluklar
+
+CAPTCHA'lar insanlar için kolay ama botlar için zor görevler sunar. reCAPTCHA v3 gibi modern CAPTCHA'lar hatta arka planda görünmez bir şekilde çalışıp kullanıcı davranışını analiz ediyor:
+
+```html
+<!-- Örnek CAPTCHA uygulanması -->
+<form>
+  <div class="g-recaptcha" data-sitekey="your-site-key"></div>
+  <button type="submit">Gönder</button>
+</form>
+```
+
+CAPTCHA'larda gezinmek şunları içerebilir:
+
+- CAPTCHA çözme hizmetleri (etik değerlendirmeler geçerli olsa da)
+- İnsan benze ri davranışı simüle etmek için tarayıcı otomasyonunu kullanma
+- Bazı içeriklerin erişilemez kalabileceğini kabul etme
+
+Mutlu kazıma!

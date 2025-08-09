@@ -1,0 +1,82 @@
+---
+title: 'Çok Sayfa Tarama'
+publishedAt: '2025-03-25'
+summary: 'Birbirine bağlı web sitelerini tarama, site haritası yönetimi ve çokün içerik işleme tekniklerinde ustalaşın'
+---
+
+Hem statik hem de dinamik içerik kazımanın temellerini elimizde tutarak, şimdi daha kapsamlı bir zorlukla uğraşmanın zamanı geldi: çok sayfa tarama. Bu bölüm, birden fazla birbirine bağlı sayfaya sahip web sitelerinden etkili bir şekilde gezinme ve veri çıkarma tekniklerine odaklanır.
+
+Çok sayfa web sitelerini taramak için iki ana yaklaşım vardır:
+
+1. Bağlantı tabanlı tarama - Sayfalar arasındaki bağlantıları takip etmek
+2. Site haritası tabanlı tarama - sitemap.xml dosyasını kullanmak
+
+Site haritası taraması için, çoğu web sitesi tüm önemli URL'leri listeleyen bir sitemap.xml dosyası sağlar. Bu yapılandırılmış XML dosyası şunları içerir:
+
+- Sayfa URL'leri
+- Son değişiklik tarihleri
+- Değişiklik sıklığı
+- Öncelik değerleri
+
+Site haritasını kullanmak bağlantı taramadan daha verimli olabilir çünkü:
+- Önceden sayfaların eksiksiz bir listesini sağlar
+- Sayfa önemi ve tazeliği hakkında metadata içerir
+- Gereksiz sayfaları taramaktan kaçınır
+- Sunucu yükünü azaltır
+
+Ancak bu bölüm için, çok sayfa e-ticaret sitesi için bir tarayıcı oluşturmak amacıyla Crawlee kullanarak bağlantı tabanlı taramaya odaklanacağız. Crawlee web tarama karmaşıklıklarının çoğunu bizim için halleder, bunlar arasında:
+
+- Otomatik kuyruk yönetimi ve URL tekilileştirme
+- Yerleşik oran sınırlama ve yeniden deneme mantığı
+- Yapılandırılabilir istek işleme ve yönlendirme
+- Veri depolama ve dışa aktarma
+
+Tarayacağımız site yapısı şöyle görünür:
+
+```
+Ana Sayfa
+├── Kategori: Elektronik
+│   ├── Telefonlar
+│   ├── Dizüstü Bilgisayarlar
+│   └── Aksesuarlar
+├── Kategori: Giyim
+│   ├── Erkek
+│   └── Kadın
+└── Öne Çıkan Ürünler
+```
+
+Her ürün sayfası kategoriye bağlı olarak farklı düzenlere sahip, ancak tutarlı bilgileri çıkarmamız gerekiyor:
+
+```typescript
+// Oluşturmak istediğimiz örnek veri yapısı
+interface ProductData {
+  name: string;
+  price: number;
+  rating: { score: number, count: number };
+  features: string[];
+  status: string; // Stokta, Stokta Değil, vb.
+}
+
+interface ResultData {
+  categories: {
+    electronics: {
+      phones: ProductData[];
+      laptops: ProductData[];
+      accessories: ProductData[];
+    };
+    clothing: {
+      mens: {
+        shirts: ProductData[];
+        pants: ProductData[];
+      };
+      womens: {
+        dresses: ProductData[];
+        tops: ProductData[];
+      };
+    };
+  };
+  featured_products: FeaturedProduct[];
+}
+```
+
+Mutlu tarama!

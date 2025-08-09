@@ -494,6 +494,186 @@ export const dictionaries: Record<string, Dictionary> = {
     posts: {
       title: "પોસ્ટ્સ",
     },
+  },
+  fa: {
+    home: {
+      heading: "Housefly",
+      intro: "وب اسکرپینگ مهارت ضروری برای برنامه‌نویسان است، اما یادگیری آن می‌تواند سخت باشد. به همین دلیل من Housefly را ساختم، یک پروژه عملی که برای آموزش وب اسکرپینگ از طریق تمرینات تعاملی طراحی شده است. با الهام از Google Gruyere، Housefly مجموعه‌ای از آموزش‌های کوچک با وب‌سایت‌های همراه اختصاصی ارائه می‌دهد که برای اسکرپ کردن ساخته شده‌اند. هدف؟ فراهم کردن محیطی امن و ساختاریافته برای تمرین و تقویت مهارت‌های اسکرپینگ شما.",
+      whyCreated: {
+        title: "چرا این را ساختم؟",
+        content: "آموزش‌های بی‌شماری دیده‌ام که وب اسکرپینگ را از نظر تئوری توضیح می‌دهند، اما تعداد بسیار کمی محیط واقعی و کنترل‌شده برای آزمایش ارائه می‌دهند. Housefly این مشکل را با ارائه چالش‌های خودکفا حل می‌کند که در آن می‌توانید وب‌سایت‌های ارائه شده را اسکرپ کنید و راه‌حل‌های خود را در برابر خروجی‌های مورد انتظار اعتبارسنجی کنید. این برای یادگیرندگان عملی که می‌خواهند کار کنند نه فقط بخوانند ساخته شده است.",
+      },
+      getStarted: {
+        title: "چگونه شروع کنیم",
+        content: "دستورالعمل‌ها در فایل README.md مخزن GitHub قرار دارد. از آنجا می‌توانید مراحل تنظیم و اجرای پروژه را دنبال کنید.",
+      },
+    },
+    nav: {
+      home: "خانه",
+      posts: "پست‌ها",
+      howTo: "نحوه انجام",
+    },
+    howTo: {
+      title: "چگونه شروع کنیم",
+      description: "یاد بگیرید چگونه با Housefly شروع کنید",
+      content: {
+        heading: "چگونه شروع کنیم",
+        cloneRepo: {
+          title: "کلون کردن مخزن",
+          description: "مخزن را با استفاده از دستور زیر کلون کنید:",
+        },
+        chapter1: {
+          title: "رفتن به فصل ۱",
+          description: "هر فصل حاوی یک وب‌سایت ساده برای اسکرپ کردن است، همراه با فایل expected.txt که خروجی صحیح را تعریف می‌کند.",
+        },
+        writeScraper: {
+          title: "اسکرپر خود را بنویسید",
+          description: "راه‌حل خود را در دایرکتوری solution[number]/ مربوطه پیاده‌سازی کنید.",
+        },
+      },
+    },
+    metadata: {
+      title: "Housefly - زمین بازی وب اسکرپینگ",
+      description: "پروژه یادگیری تعاملی طراحی شده برای آموزش وب اسکرپینگ از طریق چالش‌های ساختاریافته، با سناریوهای واقعی و بررسی خودکار راه‌حل.",
+    },
+    posts: {
+      title: "پست‌ها",
+    },
+  },
+  ur: {
+    home: {
+      heading: "Housefly",
+      intro: "ویب اسکریپنگ ڈویلپرز کے لیے ایک ضروری مہارت ہے، لیکن اسے سیکھنا مشکل ہو سکتا ہے۔ اسی لیے میں نے Housefly بنایا ہے، ایک عملی پروجیکٹ جو انٹریکٹو مشقوں کے ذریعے ویب اسکریپنگ سکھانے کے لیے ڈیزائن کیا گیا ہے۔ Google Gruyere سے متاثر ہو کر، Housefly چھوٹے ٹیوٹوریلز کی سیریز فراہم کرتا ہے جس میں اسکریپنگ کے لیے بنائی گئی مخصوص ساتھی ویب سائٹس ہیں۔ مقصد؟ آپ کی اسکریپنگ مہارتوں کی مشق اور بہتری کے لیے محفوظ، منظم ماحول فراہم کرنا۔",
+      whyCreated: {
+        title: "میں نے یہ کیوں بنایا؟",
+        content: "میں نے بے شمار ٹیوٹوریلز دیکھے ہیں جو ویب اسکریپنگ کو نظریاتی طور پر سمجھاتے ہیں، لیکن بہت کم تجربے کے لیے حقیقی، کنٹرولڈ ماحول فراہم کرتے ہیں۔ Housefly یہ خود کفیل چیلنجز فراہم کر کے حل کرتا ہے جہاں آپ فراہم کردہ ویب سائٹس کو اسکریپ کر سکتے ہیں اور متوقع آؤٹ پٹ کے مقابلے میں اپنے حل کی توثیق کر سکتے ہیں۔ یہ عملی سیکھنے والوں کے لیے بنایا گیا ہے جو صرف پڑھنے کے بجائے کرنا چاہتے ہیں۔",
+      },
+      getStarted: {
+        title: "کیسے شروع کریں",
+        content: "ہدایات GitHub repository کی README.md فائل میں ہیں۔ وہاں سے، آپ پروجیکٹ سیٹ اپ اور چلانے کے قدامات کی پیروی کر سکتے ہیں۔",
+      },
+    },
+    nav: {
+      home: "ہوم",
+      posts: "پوسٹس",
+      howTo: "کیسے کریں",
+    },
+    howTo: {
+      title: "کیسے شروع کریں",
+      description: "سیکھیں کہ Housefly کے ساتھ کیسے شروعات کریں",
+      content: {
+        heading: "کیسے شروع کریں",
+        cloneRepo: {
+          title: "repository کو clone کریں",
+          description: "مندرجہ ذیل کمانڈ استعمال کرتے ہوئے repository کو clone کریں:",
+        },
+        chapter1: {
+          title: "باب 1 پر جائیں",
+          description: "ہر باب میں اسکریپ کرنے کے لیے ایک سادہ ویب سائٹ ہے، ساتھ ہی expected.txt فائل جو صحیح آؤٹ پٹ کی تعین کرتی ہے۔",
+        },
+        writeScraper: {
+          title: "اپنا scraper لکھیں",
+          description: "متعلقہ solution[number]/ ڈائرکٹری میں اپنا حل نافذ کریں۔",
+        },
+      },
+    },
+    metadata: {
+      title: "Housefly - ویب اسکریپنگ کھیل کا میدان",
+      description: "منظم چیلنجز کے ذریعے ویب اسکریپنگ سکھانے کے لیے ڈیزائن کیا گیا انٹریکٹو سیکھنے کا پروجیکٹ، جس میں حقیقی منظرنامے اور خودکار حل کی جانچ شامل ہے۔",
+    },
+    posts: {
+      title: "پوسٹس",
+    },
+  },
+  ar: {
+    home: {
+      heading: "Housefly",
+      intro: "استخراج البيانات من الويب مهارة أساسية للمطورين، لكن تعلمها قد يكون صعباً. لهذا السبب أنشأت Housefly، مشروع عملي مصمم لتعليم استخراج البيانات من الويب من خلال تمارين تفاعلية. مستوحى من Google Gruyere، يوفر Housefly سلسلة من البرامج التعليمية الصغيرة مع مواقع ويب مرافقة مخصصة مبنية للاستخراج. الهدف؟ توفير بيئة آمنة ومنظمة لممارسة وتحسين مهارات الاستخراج لديك.",
+      whyCreated: {
+        title: "لماذا صنعت هذا؟",
+        content: "رأيت عددًا لا يحصى من البرامج التعليمية التي تشرح استخراج البيانات من الويب نظرياً، لكن القليل جداً منها يوفر بيئات حقيقية ومحكومة للتجربة. يحل Housefly هذا من خلال توفير تحديات مستقلة حيث يمكنك استخراج البيانات من المواقع المقدمة والتحقق من حلولك مقابل المخرجات المتوقعة. إنه مبني للمتعلمين العمليين الذين يريدون العمل بدلاً من القراءة فقط.",
+      },
+      getStarted: {
+        title: "كيفية البدء",
+        content: "التعليمات موجودة في ملف README.md في مستودع GitHub. من هناك، يمكنك اتباع الخطوات لإعداد وتشغيل المشروع.",
+      },
+    },
+    nav: {
+      home: "الرئيسية",
+      posts: "المنشورات",
+      howTo: "كيفية العمل",
+    },
+    howTo: {
+      title: "كيفية البدء",
+      description: "تعلم كيفية البدء مع Housefly",
+      content: {
+        heading: "كيفية البدء",
+        cloneRepo: {
+          title: "استنساخ المستودع",
+          description: "استنسخ المستودع باستخدام الأمر التالي:",
+        },
+        chapter1: {
+          title: "الانتقال إلى الفصل 1",
+          description: "كل فصل يحتوي على موقع ويب بسيط للاستخراج، مع ملف expected.txt الذي يحدد المخرجات الصحيحة.",
+        },
+        writeScraper: {
+          title: "اكتب مستخرج البيانات الخاص بك",
+          description: "قم بتنفيذ حلك في دليل solution[number]/ المقابل.",
+        },
+      },
+    },
+    metadata: {
+      title: "Housefly - ملعب استخراج البيانات من الويب",
+      description: "مشروع تعلم تفاعلي مصمم لتعليم استخراج البيانات من الويب من خلال تحديات منظمة، مع سيناريوهات واقعية وفحص تلقائي للحلول.",
+    },
+    posts: {
+      title: "المنشورات",
+    },
+  },
+  tr: {
+    home: {
+      heading: "Housefly",
+      intro: "Web scraping geliştiriciler için temel bir beceridir, ancak öğrenmesi zor olabilir. Bu yüzden Housefly'ı oluşturdum; etkileşimli alıştırmalar aracılığıyla web scraping öğretmek için tasarlanmış uygulamalı bir proje. Google Gruyere'den ilham alan Housefly, scraping için özel olarak inşa edilmiş yardımcı web siteleri ile birlikte küçük eğitim serileri sunar. Hedef? Scraping becerilerinizi pratik etmek ve geliştirmek için güvenli, yapılandırılmış bir ortam sağlamak.",
+      whyCreated: {
+        title: "Bunu neden yaptım?",
+        content: "Web scraping'i teorik olarak açıklayan sayısız eğitim gördüm, ancak çok azı deney için gerçek, kontrollü ortamlar sunar. Housefly bunu, sağlanan web sitelerini scraplayabileceğiniz ve çözümlerinizi beklenen çıktılara karşı doğrulayabileceğiniz bağımsız zorluklar sunarak çözer. Sadece okumak yerine yapmak isteyen praktik öğreniciler için inşa edilmiştir.",
+      },
+      getStarted: {
+        title: "Nasıl başlanır",
+        content: "Talimatlar GitHub deposundaki README.md dosyasında bulunmaktadır. Oradan projeyi kurma ve çalıştırma adımlarını takip edebilirsiniz.",
+      },
+    },
+    nav: {
+      home: "Ana sayfa",
+      posts: "Gönderiler",
+      howTo: "Nasıl yapılır",
+    },
+    howTo: {
+      title: "Nasıl başlanır",
+      description: "Housefly ile nasıl başlayacağınızı öğrenin",
+      content: {
+        heading: "Nasıl başlanır",
+        cloneRepo: {
+          title: "Depoyu klonlayın",
+          description: "Aşağıdaki komutu kullanarak depoyu klonlayın:",
+        },
+        chapter1: {
+          title: "Bölüm 1'e gidin",
+          description: "Her bölüm, doğru çıktıyı tanımlayan expected.txt dosyası ile birlikte scraplanacak basit bir web sitesi içerir.",
+        },
+        writeScraper: {
+          title: "Scraper'ınızı yazın",
+          description: "Çözümünüzu ilgili solution[number]/ dizininde uygulayın.",
+        },
+      },
+    },
+    metadata: {
+      title: "Housefly - Web Scraping Oyun Alanı",
+      description: "Yapılandırılmış zorluklar, gerçekçi senaryolar ve otomatik çözüm kontrolü ile web scraping öğretmek için tasarlanmış etkileşimli öğrenme projesi.",
+    },
+    posts: {
+      title: "Gönderiler",
+    },
   }
 };
 

@@ -1,0 +1,95 @@
+---
+title: 'JavaScript ile Oluşturulan İçerik'
+publishedAt: '2025-03-08'
+summary: 'İçeriğin JavaScript ile dinamik olarak yüklendiği tek sayfa sitesi + sonsuz kaydırma / tembel yükleme'
+---
+
+Modern web uygulamaları nadiren eksiksiz HTML sunar - bunun yerine, içerik dinamik olarak yüklenir ve JavaScript aracılığıyla oluşturulur. Bu, bu iki bölümde ele alacağımız web kazıma için benzersiz zorluklar sunar.
+
+## Bölüm 4: Dinamik Haber Akışı
+
+İlk zorluğumuz, makalelerin JavaScript aracılığıyla dinamik olarak yüklendiği bir haber akışını kazımayı içerir. Bu birkaç temel kavram tanıtır:
+
+- Playwright ile tarayıcı otomasyonu
+- Dinamik içeriğin yüklenmesini bekleme
+- JavaScript ile oluşturulan DOM öğelerini işleme
+
+Sayfa yapısı şöyle görünür:
+
+```html
+<div class="news-feed">
+  <article class="news-item">
+    <h2>Son Dakika Haberi Başlığı</h2>
+    <p>Makale içeriği...</p>
+    <div class="meta">
+      <span>Yazar: Yazar Adı</span>
+      <time datetime="2024-03-08T12:00:00Z">8 Mart 2024</time>
+    </div>
+  </article>
+  <!-- Daha fazla makale dinamik olarak yüklenir -->
+</div>
+```
+
+Statik HTML kazımadan temel farklar:
+
+```typescript
+// cheerio.load() yerine Playwright kullanıyoruz
+const browser = await chromium.launch();
+const page = await browser.newPage();
+
+// İçeriğin oluşturulmasını bekleyin
+await page.waitForSelector('.news-item');
+
+// page.$$eval() kullanarak canlı DOM'dan veri çıkarın
+// Bu, callback fonksiyonunu tarayıcı bağlamında çalıştırır
+// seçiciyle eşleşen tüm öğeleri bir kerede değerlendirmek için
+const items = await page.$$eval('.news-item', elements => {
+  // Eşleşen öğeler üzerinde Array.map() gibi çalışır
+  // Serileştirilebilir JavaScript nesneleri döndürür
+  // Birden fazla öğeden veri çıkarmak için mükemmel
+});
+```
+
+## Bölüm 5: Sonsuz Kaydırma Galerisi
+
+Dinamik içerik bilgisi üzerine inşa ederek, daha da karmaşık bir senaryoyla uğraşıyoruz - sonsuz kaydırmaya sahip fotoğraf galerisi. Bu şunları tanıtır:
+
+- Tembel yüklenmiş içeriği işleme
+- Kaydırma olaylarını algılama ve tetikleme
+- Asenkron yükleme durumlarını yönetme
+- Karmaşık UI desenlerinden veri çıkarma
+
+Buradaki zorluk, kullanıcı kaydırdıkça içeriğin kademeli olarak yüklenmesidir:
+
+```html
+<div class="photo-gallery">
+  <div class="photo-card">
+    <img src="..." alt="Fotoğraf Başlığı" />
+    <h2>Fotoğraf Başlığı</h2>
+    <p>Fotoğrafçı: Fotoğrafçı Adı</p>
+    <div class="flex">
+      <span>❤️ 42</span>
+    </div>
+  </div>
+  <!-- Kaydırmada daha fazla fotoğraf yüklenir -->
+</div>
+```
+
+Sonsuz kaydırmayı işlemek için temel kavramlar:
+
+```typescript
+// Yeni içerik yüklenene kadar aşağı kaydırın
+let previousHeight;
+while (true) {
+  previousHeight = await page.evaluate('document.body.scrollHeight');
+  await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
+  await page.waitForTimeout(1500); // İçerik bekleyin
+
+  const newHeight = await page.evaluate('document.body.scrollHeight');
+  if (newHeight === previousHeight) {
+    break; // Yüklenecek daha fazla içerik yok
+  }
+}
+```
+
+Mutlu kazıma!

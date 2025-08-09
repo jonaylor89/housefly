@@ -32,6 +32,10 @@ export function LanguageSwitcher() {
     hi: 'हिन्दी',
     ta: 'தமிழ்',
     gu: 'ગુજરાતી',
+    fa: 'فارسی',
+    ur: 'اردو',
+    ar: 'العربية',
+    tr: 'Türkçe',
   };
 
   // Close dropdown when clicking outside

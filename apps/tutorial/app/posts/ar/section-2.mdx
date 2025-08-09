@@ -1,0 +1,132 @@
+---
+title: 'المحتوى المعروض بـ JavaScript'
+publishedAt: '2025-03-08'
+summary: 'موقع صفحة واحدة حيث يتم تحميل المحتوى ديناميكياً عبر JavaScript + التمرير اللانهائي / التحميل البطيء'
+---
+
+نادراً ما توفر تطبيقات الويب الحديثة HTML كاملاً - بدلاً من ذلك، يتم تحميل المحتوى ديناميكياً وعرضه من خلال JavaScript. يقدم هذا تحديات فريدة لكشط الويب التي سنتعامل معها في هذين الفصلين.
+
+## الفصل 4: موجز الأخبار الديناميكي
+
+يتضمن تحدينا الأول كشط موجز أخبار حيث يتم تحميل المقالات ديناميكياً عبر JavaScript. يقدم هذا عدة مفاهيم أساسية:
+
+- أتمتة المتصفح مع Playwright
+- انتظار تحميل المحتوى الديناميكي
+- التعامل مع عناصر DOM المعروضة بـ JavaScript
+
+بنية الصفحة تبدو شيئاً مثل هذا:
+
+```html
+<div class="news-feed">
+  <article class="news-item">
+    <h2>عنوان الأخبار العاجلة</h2>
+    <p>محتوى المقال...</p>
+    <div class="meta">
+      <span>بقلم: اسم الكاتب</span>
+      <time datetime="2024-03-08T12:00:00Z">8 مارس 2024</time>
+    </div>
+  </article>
+  <!-- المزيد من المقالات تحمل ديناميكياً -->
+</div>
+```
+
+الاختلافات الأساسية عن كشط HTML الثابت:
+
+```typescript
+// بدلاً من cheerio.load()، نستخدم Playwright
+const browser = await chromium.launch();
+const page = await browser.newPage();
+
+// انتظار عرض المحتوى
+await page.waitForSelector('.news-item');
+
+// استخراج البيانات من DOM المباشر باستخدام page.$$eval()
+// هذا يشغل دالة callback في سياق المتصفح
+// لتقييم جميع العناصر المطابقة للمحدد مرة واحدة
+const items = await page.$$eval('.news-item', elements => {
+  // يعمل مثل Array.map() على العناصر المطابقة
+  // يرجع كائنات JavaScript قابلة للتسلسل
+  // مثالي لاستخراج البيانات من عناصر متعددة
+});
+```
+
+## الفصل 5: معرض التمرير اللانهائي
+
+بناءً على معرفة المحتوى الديناميكي، نتعامل مع سيناريو أكثر تعقيداً - معرض صور بتمرير لانهائي. يقدم هذا:
+
+- التعامل مع المحتوى المحمل بطريقة كسولة
+- اكتشاف وتحفيز أحداث التمرير
+- إدارة حالات التحميل غير المتزامن
+- استخراج البيانات من أنماط واجهة المستخدم المعقدة
+
+التحدي هنا أن المحتوى يحمل تدريجياً كما يتمرر المستخدم:
+
+```html
+<div class="photo-gallery">
+  <div class="photo-card">
+    <img src="..." alt="عنوان الصورة" />
+    <h2>عنوان الصورة</h2>
+    <p>بقلم: اسم المصور</p>
+    <div class="flex">
+      <span>❤️ 42</span>
+    </div>
+  </div>
+  <!-- المزيد من الصور تحمل عند التمرير -->
+</div>
+```
+
+المفاهيم الأساسية للتعامل مع التمرير اللانهائي:
+
+```typescript
+// تمرير إلى الأسفل حتى لا يحمل محتوى جديد
+let previousHeight;
+while (true) {
+  previousHeight = await page.evaluate('document.body.scrollHeight');
+  await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
+  await page.waitForTimeout(1500); // انتظار المحتوى
+
+  const newHeight = await page.evaluate('document.body.scrollHeight');
+  if (newHeight === previousHeight) {
+    break; // لا يوجد محتوى أكثر للتحميل
+  }
+}
+```
+
+### اعتبارات مهمة
+
+عند العمل مع المحتوى المعروض بـ JavaScript:
+
+1. **الأداء**: كشط المحتوى الديناميكي أبطأ من HTML الثابت
+2. **إدارة الموارد**: أتمتة المتصفح تستخدم موارد نظام أكثر
+3. **الاستقرار**: تحتاج للتعامل مع حالات التحميل وظروف الشبكة
+4. **تحديد المعدل**: فكر في تطبيق تأخيرات بين الإجراءات
+
+### أفضل الممارسات
+
+1. استخدم استراتيجيات انتظار مناسبة:
+```typescript
+// انتظار عناصر محددة
+await page.waitForSelector('.selector');
+
+// انتظار خمول الشبكة
+await page.waitForLoadState('networkidle');
+
+// شروط انتظار مخصصة
+await page.waitForFunction(() => {
+  // شرط JavaScript مخصص
+});
+```
+
+2. نفذ معالجة أخطاء قوية:
+```typescript
+try {
+  await page.goto(url);
+  // ... منطق الكشط
+} catch (error) {
+  console.error('فشل الكشط:', error);
+} finally {
+  await browser.close(); // دائماً نظف
+}
+```
+
+كشط سعيد!

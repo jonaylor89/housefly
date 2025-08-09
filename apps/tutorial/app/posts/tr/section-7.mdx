@@ -1,0 +1,61 @@
+---
+title: 'Büyük Ölçekli + Yapılandırılmamış Web Tarama'
+publishedAt: '2025-05-20'
+summary: 'Dağınık ve yapılandırılmamış veriler için AI destekli ayrıştırma + arama tarayıcıları'
+---
+
+Uygulamalı web tarama eğitim serimizin son bölümüne hoş geldiniz. Geleneksel bir ders yerine, farklı bir yaklaşım benimsiyoruz. Bu bölüm için, `./apps/metascraper` dizinindeki Housefly Metascraper'ı oluşturdum - öğrendiğimiz her şeyi gerçek dünya senaryosunda nasıl uygulayacağımızı gösteren bir tarayıcı.
+
+Metascraper, adım adım yolculuğumuzun - basit statik HTML kazımadan, JavaScript ile oluşturulan içerikte gezinmeden, API'lerle etkileşim kurma ve tarama savunmalarını aşmaya kadar - **yapılandırılmamış, çeşitli ve kaotik web'i ölçekte** idare edebilen bir araçta nasıl doruk noktasına ulaştığını gösterir.
+
+Önceden ne tür veri yapıları bekleyeceğimizi bilmeden - geniş bir web sitesi yelpazesinde nasıl tarama yapacağımızı keşedeceğiz ve **AI destekli ayrıştırma**, **dinamik şema algılama** ve çöküntiye uğramadan **binlerce (veya milyonlarca) sayfaya ölçekleme** için gereken teknikleri tanıtacağız.
+
+## "Yapılandırılmamış" ve "Büyük Ölçekli" Gerçekten Ne Anlama Geliyor?
+
+Önceki bölümlerde, genellikle biliyorduk:
+- Hangi siteleri hedefleyeceğimizi.
+- Hangi verileri istediğimizi (tablolar, listeler, JSON yanıtları gibi).
+- Kaç sayfa ziyaret etmemiz gerektiğini.
+
+Ancak büyük ölçekli yapılandırılmamış taramada:
+- Web siteleri çok çeşitli: bazıları yapılandırılmış, diğerleri düzensiz biçimlendirmeli bloglar.
+- Yollar ve URL'ler öngörülemez.
+- Şema tutarsız veya mevcut değil.
+- **Binlerce sayfayı** taramak istiyoruz, potansiyel olarak **birden fazla etki alanı** genelinde.
+
+Düşünün:
+- Akademik web siteleri genelinde veri toplayan araştırma tarayıcıları.
+- Konuya özgü bilgi için blogları dizinleyen AI asistanları.
+- Tüm kamu internet'ini genellemek zorunda olan arama motorları.
+
+Bu web tarama'nın son patronu.
+
+## Bölüm 1: Büyük Ölçekli Tarama için Mimari
+
+Ayrıştırma konusunda endişelenmeden önce tarayıcınızı nasıl ölçekleyeceğiniz hakkında konuşalalım.
+
+### Tasarım Desenleri
+
+Büyük ölçekli tarayıcı oluşturmak için, mimarinizin şöyle olması gerekir:
+- **Kuyruk güdümlü:** Bekleyen URL'leri saklamak için mesaj kuyruğu (Redis, RabbitMQ veya Kafka gibi) kullanın.
+- **İşçi tabanlı:** Tarayıcıları kuyruktan çeken ve işleri bağımsız olarak işleyen işçi süreçlere ayırın.
+- **Tekilileştirilmiş:** Aynı sayfayı iki kez işlemekten kaçınmak için parmak izi dizini (URL veya HTML içeriğinin SHA1'i gibi) koruyun.
+- **Devam ettirilebilir:** Çökmelerden kurtulabilmesi için tarama durumunu saklayın.
+
+Burada minimal tasarım diyagramı:
+
+## Bölüm 2: 2025 için Keskin Kenar Teknikler
+
+### Konut Vekil Sunucuları
+
+Büyük ölçekli kazımadaki en önemli gelişmelerden biri **konut vekil sunucularının** kullanımıdır. Web sitelerinin kolaylıkla tespit edip engelleyebileceği veri merkezi IP'lerinin aksine, konut vekil sunucuları isteklerinizi gerçek tüketici IP adresleri üzerinden yönlendirerek kazıyıcınızı meşru bir kullanıcı gibi gösterir.
+
+### AI Gücünü Kullanan Otonom Ajanlar
+
+2025'teki en devrimci gelişme **ajantik kazıma**dır. Her site formatı için kazıyıcıları sabit kodlamak yerine:
+
+- Görün yetenekleri olan LLM'ler daha önce görülmemiş düzenlerdeki verileri anlayabilir ve çıkarabilir
+- AI ajanları insan tarama desenlerini taklit ederek karmaşık sitelerde özerk olarak gezinebilir
+- Uyarlanabilir ayrıştırma, kod güncellemeleri gerektirmeden düzen değişiklikleriyle otomatik olarak uyum sağlar
+
+Mutlu kazıma
