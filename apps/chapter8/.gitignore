@@ -40,4 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-!prisma/generated/client/!prisma/generated/client/
+# prisma generated client (auto-generated via predev script)
+src/generated/

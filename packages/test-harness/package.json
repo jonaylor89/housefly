@@ -1,0 +1,16 @@
+{
+  "name": "@housefly/test-harness",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "mod.ts",
+  "exports": {
+    ".": "./mod.ts",
+    "./execute": "./src/execute.ts",
+    "./compare": "./src/compare.ts",
+    "./validate": "./src/validate.ts"
+  },
+  "dependencies": {
+    "tsx": "^4.0.0"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "@housefly/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "housefly": "./src/main.ts"
+  },
+  "dependencies": {
+    "@housefly/test-harness": "*",
+    "tsx": "^4.0.0"
+  },
+  "license": "MIT"
+}

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "node ../../node_modules/.deno/next@15.2.1/node_modules/next/dist/bin/next dev --port 3005",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

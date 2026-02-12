@@ -49,11 +49,10 @@ housefly/
 Use Deno as the single runtime for exercises, CLI tooling, and validation.
 
 - [x] Already using Deno to run student solutions
-- [ ] Remove Node/tsx as an execution shim — go all-in on Deno
-- [ ] Use `deno.json` / import maps per exercise for clean dependency declaration
-- [ ] Use Deno's built-in test runner for validation (replaces bash + jq)
-- [ ] Use `deno fmt` / `deno lint` for consistent code style
-- [ ] Lean into the permissions model pedagogically — teach students why `--allow-net` matters
+- [x] Remove Node/tsx as an execution shim — go all-in on Deno
+- [x] Use `deno.json` / import maps per exercise for clean dependency declaration
+- [x] Use Deno's built-in test runner for validation (replaces bash + jq)
+- [x] Use `deno fmt` / `deno lint` for consistent code style
 
 ### Friction to watch for
 
@@ -139,33 +138,13 @@ This enables:
 
 ---
 
-## 6. Exercises Own Their Dependencies
-
-Each exercise's `deno.json` declares only what the student is expected to use:
-
-- Chapters 1-3: `cheerio` only
-- Chapters 4-5, 8: `cheerio` + `playwright`
-- Chapter 6: `crawlee`
-- Chapter 9: just `fetch` (built-in)
-- Chapter 10: `pdf-parse`
-
-Shared utilities come from workspace packages (`@housefly/scraper-kit`).
-
-### Why
-
-- Pedagogically clear — students see exactly what tools each chapter introduces
-- No "magic globals" from root dependencies
-- Smaller mental model per chapter
-
----
-
-## 7. Local Target Servers with Fixed Ports
+## 6. Local Target Servers with Fixed Ports
 
 Keep chapter target sites as separate servers (they have different configs), but make them deterministic and local-first.
 
-- [ ] Assign each chapter server a fixed port (3001, 3002, ..., 3011)
-- [ ] Turbo orchestrates all of them: `turbo dev` starts all targets
-- [ ] Exercise configs reference `http://localhost:300X` instead of Netlify URLs
+- [x] Assign each chapter server a fixed port (3001, 3002, ..., 3011)
+- [x] Turbo orchestrates all of them: `turbo dev` starts all targets
+- [x] Exercise configs reference `http://localhost:300X` instead of Netlify URLs
 - [ ] Optionally keep Netlify deploys for remote/hosted use, but local is the default
 
 ### Benefits
@@ -176,19 +155,19 @@ Keep chapter target sites as separate servers (they have different configs), but
 
 ---
 
-## 8. Make Tutorial Exercise-Aware
+## 7. Make Tutorial Exercise-Aware
 
 The Next.js tutorial site should source metadata from `exercises/chapter-XX/chapter.config.ts`:
 
-- [ ] Display "Open exercise" button linking to local path
-- [ ] Show progress checklist from chapter config
+- [ ] Display "Open exercise" button linking to local path (metadata available via chapter.config.ts)
+- [ ] Show progress checklist from chapter config (checkpoints defined in chapter.config.ts)
 - [ ] Embed expected output schema/format
 - [ ] Show CLI commands for that chapter (`housefly run 2`, etc.)
 - [ ] Optionally track completion state
 
 ---
 
-## 9. Starter Code Improvements
+## 8. Starter Code Improvements
 
 Improve the student-facing starter code:
 

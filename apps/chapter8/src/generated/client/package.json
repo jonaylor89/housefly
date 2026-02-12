@@ -1,8 +1,8 @@
 {
-  "name": "prisma-client-fdfc41119cd283738e8a7cba404f4f9b21a1622ab8f1e8bc20fd85cb27d5cf8e",
+  "name": "prisma-client-3f0528b82dcec4038a9a9b7a6c5d76e1e5c3380a9b45bf2d620379491ddccaef",
   "main": "index.js",
   "types": "index.d.ts",
-  "browser": "index-browser.js",
+  "browser": "default.js",
   "exports": {
     "./client": {
       "require": {
@@ -81,6 +81,10 @@
     },
     "./runtime/client": {
       "types": "./runtime/client.d.ts",
+      "node": {
+        "require": "./runtime/client.js",
+        "default": "./runtime/client.js"
+      },
       "require": "./runtime/client.js",
       "import": "./runtime/client.mjs",
       "default": "./runtime/client.mjs"
@@ -97,11 +101,17 @@
       "import": "./runtime/binary.mjs",
       "default": "./runtime/binary.mjs"
     },
-    "./runtime/wasm": {
-      "types": "./runtime/wasm.d.ts",
-      "require": "./runtime/wasm.js",
-      "import": "./runtime/wasm.mjs",
-      "default": "./runtime/wasm.mjs"
+    "./runtime/wasm-engine-edge": {
+      "types": "./runtime/wasm-engine-edge.d.ts",
+      "require": "./runtime/wasm-engine-edge.js",
+      "import": "./runtime/wasm-engine-edge.mjs",
+      "default": "./runtime/wasm-engine-edge.mjs"
+    },
+    "./runtime/wasm-compiler-edge": {
+      "types": "./runtime/wasm-compiler-edge.d.ts",
+      "require": "./runtime/wasm-compiler-edge.js",
+      "import": "./runtime/wasm-compiler-edge.mjs",
+      "default": "./runtime/wasm-compiler-edge.mjs"
     },
     "./runtime/edge": {
       "types": "./runtime/edge.d.ts",
@@ -114,6 +124,12 @@
       "require": "./runtime/react-native.js",
       "import": "./runtime/react-native.js",
       "default": "./runtime/react-native.js"
+    },
+    "./runtime/index-browser": {
+      "types": "./runtime/index-browser.d.ts",
+      "require": "./runtime/index-browser.js",
+      "import": "./runtime/index-browser.mjs",
+      "default": "./runtime/index-browser.mjs"
     },
     "./generator-build": {
       "require": "./generator-build/index.js",
@@ -135,6 +151,33 @@
     },
     "./*": "./*"
   },
-  "version": "6.6.0",
-  "sideEffects": false
+  "version": "6.19.2",
+  "sideEffects": false,
+  "imports": {
+    "#wasm-engine-loader": {
+      "edge-light": "./wasm-edge-light-loader.mjs",
+      "workerd": "./wasm-worker-loader.mjs",
+      "worker": "./wasm-worker-loader.mjs",
+      "default": "./wasm-worker-loader.mjs"
+    },
+    "#main-entry-point": {
+      "require": {
+        "node": "./index.js",
+        "edge-light": "./wasm.js",
+        "workerd": "./wasm.js",
+        "worker": "./wasm.js",
+        "browser": "./index-browser.js",
+        "default": "./index.js"
+      },
+      "import": {
+        "node": "./index.js",
+        "edge-light": "./wasm.js",
+        "workerd": "./wasm.js",
+        "worker": "./wasm.js",
+        "browser": "./index-browser.js",
+        "default": "./index.js"
+      },
+      "default": "./index.js"
+    }
+  }
 }

@@ -1,0 +1,15 @@
+{
+  "name": "@housefly/scraper-kit",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "mod.ts",
+  "exports": {
+    ".": "./mod.ts",
+    "./http": "./src/http.ts",
+    "./parse": "./src/parse.ts",
+    "./output": "./src/output.ts",
+    "./browser": "./src/browser.ts",
+    "./logging": "./src/logging.ts"
+  },
+  "license": "MIT"
+}

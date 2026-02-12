@@ -1,0 +1,17 @@
+{
+  "name": "chapter10-starter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "description": "",
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "pdf-parse": "^1.1.1"
+  }
+}

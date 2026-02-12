@@ -152,10 +152,23 @@ All the code you need to get started is in the project repository. Clone it, set
 
 ```sh
 git clone https://github.com/jonaylor89/housefly.git
-cd hosuefly
+cd housefly
+npm install
 ```
 
-Looking for hints? The source HTML for each challenge is available in the `apps/chapter{n}/` directory. And the working solved examples are also available in `_solved/chapter{n}/`. Study the structure, plan your approach, and remember - every expert was once a beginner.
+Start the chapter servers locally — each chapter runs on its own port (3001–3011):
+
+```sh
+turbo dev
+```
+
+Then edit your scraper in `exercises/chapter-NN/starter/src/index.ts` and validate it:
+
+```sh
+npm run validate -- <chapter>
+```
+
+Looking for hints? Run `npm run hint -- <chapter>` for progressive guidance. The source HTML for each challenge is available in the `apps/chapter{n}/` directory, and reference solutions are in `exercises/chapter-NN/solution/src/`. Study the structure, plan your approach, and remember - every expert was once a beginner.
 
 Remember to handle your requests responsibly:
 ```typescript

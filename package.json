@@ -7,9 +7,12 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,mdx}\"",
     "check-types": "turbo run check-types",
-    "_check_solved": "./scripts/check_answers.sh -s",
-    "check-answers": "./scripts/check_answers.sh",
-    "ca": "npm run check-answers",
+    "validate": "npx tsx packages/cli/src/main.ts validate",
+    "ca": "npm run validate --",
+    "run-exercise": "npx tsx packages/cli/src/main.ts run",
+    "watch": "npx tsx packages/cli/src/main.ts watch",
+    "hint": "npx tsx packages/cli/src/main.ts hint",
+    "reset": "npx tsx packages/cli/src/main.ts reset",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -17,7 +20,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^15.5.1",
     "prettier": "^3.5.0",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.0.0",
     "turbo": "^2.5.0",
     "typescript": "5.7.3"
   },
@@ -27,7 +30,8 @@
   "packageManager": "npm@10.9.0",
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "exercises/*"
   ],
   "dependencies": {
     "crawlee": "^3.13.0",
