@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getDictionaryForLocale, locales } from "../../i18n/index";
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
+const dictionary = getDictionaryForLocale(locale);
+const { content } = dictionary.howTo;
+---
+
+<BaseLayout
+  title={dictionary.howTo.title + " | Housefly"}
+  description={dictionary.howTo.description}
+  locale={locale}
+>
+  <section>
+    <article class="prose">
+      <h1>{content.heading}</h1>
+
+      <h2>{content.cloneRepo.title}</h2>
+      <p>{content.cloneRepo.description}</p>
+      <pre><code class="language-sh">git clone https://github.com/jonaylor89/housefly.git
+cd housefly</code></pre>
+
+      <h2>{content.chapter1.title}</h2>
+      <p>{content.chapter1.description}</p>
+
+      <h2>{content.writeScraper.title}</h2>
+      <p>{content.writeScraper.description}</p>
+    </article>
+  </section>
+</BaseLayout>

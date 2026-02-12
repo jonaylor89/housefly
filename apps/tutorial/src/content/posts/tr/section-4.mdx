@@ -1,0 +1,25 @@
+---
+title: "İleri Düzey Web Sitesi Etkileşimi ve API'ler"
+publishedAt: '2025-04-14'
+summary: 'API tabanlı siteleri kazımayı, formları ve girişleri işlemeyi ve GraphQL uç noktalarıyla etkileşim kurmayı öğrenin.'
+---
+
+Bölüm 4'e hoş geldiniz! Statik ve JavaScript ile oluşturulan içeriği kazımayı ve çok sayfa sitelerde gezinmeyi ele aldık. Şimdi, doğrudan API etkileşimi, form gönderimi, kimlik doğrulama ve GraphQL gibi özel API'leri içeren daha karmaşık senaryolara dalıyoruz. Bu teknikler modern web uygulamalarıyla başa çıkmak için önemlidir.
+
+### 1. API Tabanlı Web Siteleri (Bölüm 7)
+
+Çoğu modern web sitesi tüm verilerini ilk HTML ile yüklemez. Bunun yerine, sayfa yüklendikten sonra arka uç API'lerden veri almak için JavaScript kullanırlar (genellikle `fetch` veya `XMLHttpRequest` kullanarak). Bu siteleri verimli bir şekilde kazımak çoğu zaman UI'yi atlayarak doğrudan bu API'lerle etkileşim kurmak anlamına gelir.
+
+**Temel Kavramlar:**
+
+*   **API İsteklerini Tanımlama:** Veri döndüren istekleri (genellikle XHR/Fetch) bulmak için tarayıcınızın geliştirici araçlarını (Ağ sekmesi) kullanın, genellikle JSON formatında.
+*   **API'leri Doğrudan Kazıma:** Bir API uç noktası bulduğunuzda, genellikle `axios` gibi kütüphaneler veya Node.js'teki yerleşik `fetch` kullanarak doğrudan istekler gönderebilirsiniz. Bu genellikle tarayıcı otomasyonundan daha hızlı ve güvenilirdir.
+*   **Sayfalama ve Parametreleri İşleme:** API'ler genellikle sayfalama (`page`, `limit`), filtreleme veya sıralama için sorgu parametreleri kullanır. Bunları kazıma script'inizde anlayıp çoğaltmanız gerekecek.
+
+**Zorluk (Bölüm 7):** Ürün listelerinin RESTful API'den dinamik olarak yüklendiği bir e-ticaret sitesini kazıyacaksınız. Göreviniz bu API ile etkileşim kurarak, sayfalamayı doğru bir şekilde işleyerek tüm ürünleri almaktır.
+
+### 2. Formlar ve Kimlik Doğrulama (Bölüm 8)
+
+Çoğu zaman, değerli veriler giriş ekranının arkasında veya karmaşık formların gönderilmesini gerektirir. Örneğin, Bölüm 8'deki seyahat rezervasyon platformu temel işlevselliğe erişim için kimlik doğrulama gerektirir.
+
+Mutlu kazıma!

@@ -1,0 +1,54 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import { formatDate } from "../lib/posts";
+import { baseUrl } from "../lib/utils";
+
+interface Props {
+  title: string;
+  publishedAt: string;
+  summary: string;
+  locale: string;
+  slug: string;
+  image?: string;
+}
+
+const { title, publishedAt, summary, locale, slug, image } = Astro.props;
+const ogImage = image || baseUrl + "/og?title=" + encodeURIComponent(title);
+---
+
+<BaseLayout
+  title={title + " | Housefly"}
+  description={summary}
+  locale={locale}
+  ogImage={ogImage}
+>
+  <section>
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: title,
+        datePublished: publishedAt,
+        dateModified: publishedAt,
+        description: summary,
+        image: ogImage,
+        url: baseUrl + "/" + locale + "/posts/" + slug,
+        author: {
+          "@type": "Person",
+          name: "Housefly",
+        },
+      })}
+    />
+    <h1 class="title font-semibold text-2xl tracking-tighter">{title}</h1>
+    <div class="flex justify-between items-center mt-2 mb-8 text-sm">
+      <p class="text-sm text-neutral-600 dark:text-neutral-400">
+        {formatDate(publishedAt, false, locale)}
+      </p>
+    </div>
+    <article class="prose">
+      <slot />
+    </article>
+  </section>
+</BaseLayout>

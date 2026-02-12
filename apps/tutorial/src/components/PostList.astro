@@ -1,0 +1,46 @@
+---
+import { formatDate } from "../lib/posts";
+
+interface Post {
+  slug: string;
+  data: {
+    title: string;
+    publishedAt: string;
+    summary: string;
+  };
+}
+
+interface Props {
+  posts: Post[];
+  locale: string;
+}
+
+const { posts, locale } = Astro.props;
+
+const sortedPosts = [...posts].sort((a, b) => {
+  return (
+    new Date(a.data.publishedAt).getTime() -
+    new Date(b.data.publishedAt).getTime()
+  );
+});
+---
+
+<div>
+  {
+    sortedPosts.map((post) => (
+      <a
+        href={"/" + locale + "/posts/" + post.slug}
+        class="flex flex-col space-y-1 mb-4"
+      >
+        <div class="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
+          <p class="text-neutral-600 dark:text-neutral-400 w-[125px] tabular-nums">
+            {formatDate(post.data.publishedAt, false, locale)}
+          </p>
+          <p class="text-neutral-900 dark:text-neutral-100 tracking-tight">
+            {post.data.title}
+          </p>
+        </div>
+      </a>
+    ))
+  }
+</div>

@@ -1,0 +1,104 @@
+---
+import { locales } from "../i18n/constants";
+
+interface Props {
+  locale: string;
+}
+
+const { locale: currentLocale } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const languageNames: Record<string, string> = {
+  en: "English",
+  ru: "Русский",
+  es: "Español",
+  zh: "中文",
+  ja: "日本語",
+  de: "Deutsch",
+  ro: "Română",
+  hi: "हिन्दी",
+  ta: "தமிழ்",
+  gu: "ગુજરાતી",
+  fa: "فارسی",
+  ur: "اردو",
+  ar: "العربية",
+  tr: "Türkçe",
+};
+
+// Compute the path without locale prefix
+const pathnameWithoutLocale = currentPath
+  .replace(new RegExp("^\\/" + currentLocale + "($|\\/)"), "/")
+  .replace(/^\/$/, "");
+---
+
+<div class="language-switcher relative" data-lang-switcher>
+  <button
+    class="flex items-center gap-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-100 rounded-md transition-colors"
+    aria-expanded="false"
+    aria-haspopup="true"
+    data-lang-toggle
+  >
+    <span>{languageNames[currentLocale] || "English"}</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-4 w-4 transition-transform"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      data-lang-chevron
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+
+  <div
+    class="absolute right-0 mt-1 w-max min-w-full z-50 bg-white dark:bg-gray-800 rounded-md shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hidden"
+    data-lang-dropdown
+  >
+    {
+      locales.map((loc) => (
+        <a
+          href={"/" + loc + pathnameWithoutLocale}
+          class:list={[
+            "block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700",
+            loc === currentLocale && "bg-gray-100 dark:bg-gray-700 font-medium",
+          ]}
+        >
+          {languageNames[loc] || loc}
+        </a>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const switchers = document.querySelectorAll("[data-lang-switcher]");
+    switchers.forEach((switcher) => {
+      const toggle = switcher.querySelector("[data-lang-toggle]");
+      const dropdown = switcher.querySelector("[data-lang-dropdown]");
+      const chevron = switcher.querySelector("[data-lang-chevron]");
+
+      if (!toggle || !dropdown) return;
+
+      toggle.addEventListener("click", () => {
+        const isOpen = !dropdown.classList.contains("hidden");
+        dropdown.classList.toggle("hidden");
+        toggle.setAttribute("aria-expanded", String(!isOpen));
+        if (chevron) chevron.classList.toggle("rotate-180");
+      });
+
+      document.addEventListener("mousedown", (e) => {
+        if (!switcher.contains(e.target as Node)) {
+          dropdown.classList.add("hidden");
+          toggle.setAttribute("aria-expanded", "false");
+          if (chevron) chevron.classList.remove("rotate-180");
+        }
+      });
+    });
+  });
+</script>

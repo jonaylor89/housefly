@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PostList from "../../../components/PostList.astro";
+import { getPostsByLocale } from "../../../lib/posts";
+import { getDictionaryForLocale, locales } from "../../../i18n/index";
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
+const posts = await getPostsByLocale(locale);
+const dictionary = getDictionaryForLocale(locale);
+---
+
+<BaseLayout
+  title={dictionary.posts.title + " | Housefly"}
+  description={dictionary.metadata.description}
+  locale={locale}
+>
+  <section>
+    <h1 class="mb-8 text-2xl font-semibold tracking-tighter">
+      {dictionary.posts.title}
+    </h1>
+    <PostList posts={posts} locale={locale} />
+  </section>
+</BaseLayout>

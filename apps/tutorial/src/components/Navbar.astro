@@ -1,0 +1,47 @@
+---
+import { getDictionaryForLocale } from "../i18n/index";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+const dictionary = getDictionaryForLocale(locale);
+
+const navItems = [
+  { href: "/" + locale, name: dictionary.nav.home },
+  { href: "/" + locale + "/posts", name: dictionary.nav.posts },
+  { href: "/" + locale + "/how-to", name: dictionary.nav.howTo },
+];
+---
+
+<aside class="-ml-[8px] mb-16 tracking-tight">
+  <div class="lg:sticky lg:top-20">
+    <nav
+      class="flex flex-row justify-center items-center px-0 pb-0 fade"
+      id="nav"
+    >
+      <div class="flex flex-row justify-between md:px-10 w-full">
+        <div class="flex flex-row items-center">
+          <a href={"/" + locale} class="hidden md:inline-block">
+            <img src="/housefly-logo.png" alt="Logo" width="36" height="36" />
+          </a>
+          {
+            navItems.map((item) => (
+              <a
+                href={item.href}
+                class="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative py-1 px-2 m-1"
+              >
+                {item.name}
+              </a>
+            ))
+          }
+        </div>
+        <div>
+          <LanguageSwitcher locale={locale} />
+        </div>
+      </div>
+    </nav>
+  </div>
+</aside>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostList from "../../components/PostList.astro";
+import { getPostsByLocale } from "../../lib/posts";
+import { getDictionaryForLocale, locales } from "../../i18n/index";
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
+const posts = await getPostsByLocale(locale);
+const dictionary = getDictionaryForLocale(locale);
+---
+
+<BaseLayout
+  title={dictionary.metadata.title}
+  description={dictionary.metadata.description}
+  locale={locale}
+>
+  <section>
+    <h1 class="mb-8 text-2xl font-semibold tracking-tighter">
+      {dictionary.home.heading}
+    </h1>
+    <p class="mb-4">{dictionary.home.intro}</p>
+    <h2 class="text-2xl font-semibold mt-6 mb-2">
+      {dictionary.home.whyCreated.title}
+    </h2>
+    <p class="mb-4">{dictionary.home.whyCreated.content}</p>
+    <h2 class="text-2xl font-semibold mt-6 mb-2">
+      {dictionary.home.getStarted.title}
+    </h2>
+    <p class="mb-4">
+      {dictionary.home.getStarted.content.split("README.md")[0]}
+      <a href="https://github.com/jonaylor89/housefly">README.md</a>
+      {dictionary.home.getStarted.content.split("README.md")[1]}
+    </p>
+    <div class="my-8">
+      <PostList posts={posts} locale={locale} />
+    </div>
+  </section>
+</BaseLayout>
