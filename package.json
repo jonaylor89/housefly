@@ -7,12 +7,12 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,mdx}\"",
     "check-types": "turbo run check-types",
-    "validate": "npx tsx packages/cli/src/main.ts validate",
-    "ca": "npm run validate --",
-    "run-exercise": "npx tsx packages/cli/src/main.ts run",
-    "watch": "npx tsx packages/cli/src/main.ts watch",
-    "hint": "npx tsx packages/cli/src/main.ts hint",
-    "reset": "npx tsx packages/cli/src/main.ts reset",
+    "validate": "tsx packages/cli/src/main.ts validate",
+    "ca": "pnpm run validate --",
+    "run-exercise": "tsx packages/cli/src/main.ts run",
+    "watch": "tsx packages/cli/src/main.ts watch",
+    "hint": "tsx packages/cli/src/main.ts hint",
+    "reset": "tsx packages/cli/src/main.ts reset",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -27,12 +27,7 @@
   "engines": {
     "node": ">=22"
   },
-  "packageManager": "npm@10.9.0",
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "exercises/*"
-  ],
+  "packageManager": "pnpm@9.15.4",
   "dependencies": {
     "crawlee": "^3.13.0",
     "pdf-parse": "^1.1.1",

@@ -11,7 +11,7 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate",
     "db:seed": "prisma db seed",
-    "setup": "npm run db:generate && npm run db:push && npm run db:seed"
+    "setup": "pnpm run db:generate && pnpm run db:push && pnpm run db:seed"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

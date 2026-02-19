@@ -6,7 +6,7 @@
     "housefly": "./src/main.ts"
   },
   "dependencies": {
-    "@housefly/test-harness": "*",
+    "@housefly/test-harness": "workspace:*",
     "tsx": "^4.0.0"
   },
   "license": "MIT"

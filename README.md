@@ -27,7 +27,7 @@ cd housefly
 2. Install Dependencies
 
 ```sh
-npm install
+pnpm install
 ```
 
 3. Start the Chapter Servers
@@ -49,26 +49,26 @@ Edit the starter code in `exercises/chapter-NN/starter/src/index.ts`.
 6. Validate Your Answer
 
 ```sh
-# Using npm scripts
-npm run validate -- <chapter>
+# Using pnpm scripts
+pnpm run validate -- <chapter>
 
-# Or directly with npx
-npx tsx packages/cli/src/main.ts validate <chapter>
+# Or directly
+pnpm tsx packages/cli/src/main.ts validate <chapter>
 
 # Short alias
-npm run ca <chapter>
+pnpm run ca <chapter>
 ```
 
 7. Get Hints
 
 ```sh
-npm run hint -- <chapter>
+pnpm run hint -- <chapter>
 ```
 
 8. Watch Mode (auto-revalidate on save)
 
 ```sh
-npm run watch -- <chapter>
+pnpm run watch -- <chapter>
 ```
 
 ## Project Structure
