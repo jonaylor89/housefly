@@ -1,3 +1,29 @@
 ---
-return Astro.redirect("/en/");
+const locales = ["en", "ru", "es", "zh", "ja", "de", "ro", "hi", "ta", "gu", "fa", "ur", "ar", "tr"];
+const defaultLocale = "en";
 ---
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting…</title>
+    <script is:inline define:vars={{ locales, defaultLocale }}>
+      (function () {
+        var langs = (navigator.languages || [navigator.language || "en"]);
+        var locale = defaultLocale;
+        for (var i = 0; i < langs.length; i++) {
+          var code = langs[i].substring(0, 2).toLowerCase();
+          if (locales.indexOf(code) !== -1) {
+            locale = code;
+            break;
+          }
+        }
+        window.location.replace("/" + locale + "/");
+      })();
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0;url=/en/" />
+    </noscript>
+  </head>
+  <body></body>
+</html>

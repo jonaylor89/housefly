@@ -76,7 +76,7 @@ const pathnameWithoutLocale = currentPath
 </div>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
+  document.addEventListener("DOMContentLoaded", () => {
     const switchers = document.querySelectorAll("[data-lang-switcher]");
     switchers.forEach((switcher) => {
       const toggle = switcher.querySelector("[data-lang-toggle]");

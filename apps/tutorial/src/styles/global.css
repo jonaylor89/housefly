@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+@theme {
+  --font-sans: 'Space Grotesk', sans-serif;
+}
+
 ::selection {
   background-color: #47a3f3;
   color: #fefefe;
