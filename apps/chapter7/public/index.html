@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Catalog — API Pagination</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #f5f5f5; color: #333; }
+    header { background: #1a1a2e; color: #fff; padding: 1.5rem 2rem; }
+    header h1 { font-size: 1.5rem; }
+    .controls { display: flex; gap: 1rem; flex-wrap: wrap; padding: 1rem 2rem; background: #fff; border-bottom: 1px solid #ddd; align-items: center; }
+    .controls label { font-size: 0.875rem; font-weight: 600; }
+    .controls select { padding: 0.4rem 0.6rem; border: 1px solid #ccc; border-radius: 4px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; padding: 2rem; }
+    .card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.15s; }
+    .card:hover { transform: translateY(-2px); }
+    .card img { width: 100%; height: 200px; object-fit: cover; }
+    .card-body { padding: 1rem; }
+    .card-body h3 { font-size: 1rem; margin-bottom: 0.25rem; }
+    .card-body .price { color: #16a34a; font-weight: 700; }
+    .card-body .category { font-size: 0.75rem; color: #888; margin-top: 0.25rem; }
+    .card-body .rating { font-size: 0.8rem; color: #f59e0b; margin-top: 0.25rem; }
+    .card-body a { text-decoration: none; color: inherit; }
+    .pagination { display: flex; justify-content: center; gap: 0.5rem; padding: 1.5rem; }
+    .pagination button { padding: 0.5rem 1rem; border: 1px solid #ccc; border-radius: 4px; background: #fff; cursor: pointer; }
+    .pagination button.active { background: #1a1a2e; color: #fff; border-color: #1a1a2e; }
+    .pagination button:disabled { opacity: 0.4; cursor: default; }
+    .loading { text-align: center; padding: 3rem; font-size: 1.1rem; color: #888; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛒 Product Catalog</h1>
+  </header>
+
+  <div class="controls">
+    <div>
+      <label for="category">Category:</label>
+      <select id="category">
+        <option value="">All</option>
+        <option>Apparel</option>
+        <option>Electronics</option>
+        <option>Home Goods</option>
+        <option>Sports</option>
+        <option>Accessories</option>
+      </select>
+    </div>
+    <div>
+      <label for="sortBy">Sort by:</label>
+      <select id="sortBy">
+        <option value="id">ID</option>
+        <option value="price">Price</option>
+        <option value="rating">Rating</option>
+      </select>
+    </div>
+    <div>
+      <label for="sortOrder">Order:</label>
+      <select id="sortOrder">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="products" class="grid"></div>
+  <div id="pagination" class="pagination"></div>
+
+  <script>
+    let currentPage = 1;
+    const limit = 10;
+
+    async function fetchProducts() {
+      const container = document.getElementById('products');
+      container.innerHTML = '<div class="loading">Loading…</div>';
+
+      const category = document.getElementById('category').value;
+      const sortBy = document.getElementById('sortBy').value;
+      const sortOrder = document.getElementById('sortOrder').value;
+
+      const params = new URLSearchParams({ page: currentPage, limit, sortBy, sortOrder });
+      if (category) params.set('category', category);
+
+      const res = await fetch('/api/products?' + params);
+      const data = await res.json();
+
+      container.innerHTML = data.products.map(p => `
+        <div class="card">
+          <a href="/products/${p.id}">
+            <img src="${p.image}" alt="${p.name}" loading="lazy">
+          </a>
+          <div class="card-body">
+            <a href="/products/${p.id}"><h3>${p.name}</h3></a>
+            <div class="price">$${p.price.toFixed(2)}</div>
+            <div class="category">${p.category}</div>
+            <div class="rating">⭐ ${p.rating.rate} (${p.rating.count})</div>
+          </div>
+        </div>
+      `).join('');
+
+      renderPagination(data.currentPage, data.totalPages);
+    }
+
+    function renderPagination(current, total) {
+      const container = document.getElementById('pagination');
+      let html = '';
+      html += `<button ${current <= 1 ? 'disabled' : ''} onclick="goTo(${current - 1})">← Prev</button>`;
+      for (let i = 1; i <= total; i++) {
+        html += `<button class="${i === current ? 'active' : ''}" onclick="goTo(${i})">${i}</button>`;
+      }
+      html += `<button ${current >= total ? 'disabled' : ''} onclick="goTo(${current + 1})">Next →</button>`;
+      container.innerHTML = html;
+    }
+
+    function goTo(page) {
+      currentPage = page;
+      fetchProducts();
+    }
+
+    document.getElementById('category').addEventListener('change', () => { currentPage = 1; fetchProducts(); });
+    document.getElementById('sortBy').addEventListener('change', () => { currentPage = 1; fetchProducts(); });
+    document.getElementById('sortOrder').addEventListener('change', () => { currentPage = 1; fetchProducts(); });
+
+    fetchProducts();
+  </script>
+</body>
+</html>
