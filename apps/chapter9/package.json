@@ -1,32 +1,17 @@
 {
-  "name": "graphql-developer-hub",
+  "name": "chapter9",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node ../../node_modules/.deno/next@15.2.5/node_modules/next/dist/bin/next dev --port 3009",
-    "build": "NODE_OPTIONS='--max-old-space-size=4096' next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "tsx server.ts",
+    "start": "tsx server.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.12.0",
-    "@as-integrations/next": "^3.2.0",
+    "@as-integrations/express4": "^1.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
     "graphql": "^16.10.0",
-    "graphql-tag": "^2.12.6",
-    "next": "15.2.5",
-    "next-auth": "^4.24.11",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "autoprefixer": "^10.0.1",
-    "eslint": "^9",
-    "eslint-config-next": "15.2.5",
-    "postcss": "^8",
-    "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "graphql-tag": "^2.12.6"
   }
 }
