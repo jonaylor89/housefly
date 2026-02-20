@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TravelSearch - Find Your Perfect Stay</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/" class="text-xl font-bold text-blue-600">TravelSearch</a>
+      <nav id="auth-nav" class="flex items-center space-x-4">
+        <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+        <a href="/search" class="text-gray-700 hover:text-blue-600">Search</a>
+        <a href="/login" class="text-gray-700 hover:text-blue-600" id="login-link">Login</a>
+        <a href="/login" class="text-gray-700 hover:text-blue-600" id="register-link">Register</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-12">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Find Your Perfect Stay</h1>
+      <p class="text-lg text-gray-600 mb-8">Search and compare hotels, resorts, and vacation rentals worldwide.</p>
+      <a href="/search" class="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 inline-block">Start Searching</a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <img src="/images/beach.jpg" alt="Beach" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <h3 class="text-lg font-semibold mb-2">Beach Getaways</h3>
+          <p class="text-gray-600">Relax on pristine beaches around the world.</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <img src="/images/mountain.jpg" alt="Mountain" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <h3 class="text-lg font-semibold mb-2">Mountain Retreats</h3>
+          <p class="text-gray-600">Escape to serene mountain destinations.</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <img src="/images/city.jpg" alt="City" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <h3 class="text-lg font-semibold mb-2">City Breaks</h3>
+          <p class="text-gray-600">Explore vibrant cities and their culture.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (async () => {
+      try {
+        const res = await fetch('/api/auth/status');
+        const data = await res.json();
+        const nav = document.getElementById('auth-nav');
+        if (data.authenticated) {
+          document.getElementById('login-link').remove();
+          document.getElementById('register-link').remove();
+          const dashLink = document.createElement('a');
+          dashLink.href = '/dashboard';
+          dashLink.className = 'text-gray-700 hover:text-blue-600';
+          dashLink.textContent = 'Dashboard';
+          const logoutBtn = document.createElement('button');
+          logoutBtn.className = 'text-gray-700 hover:text-blue-600';
+          logoutBtn.textContent = 'Logout';
+          logoutBtn.onclick = async () => {
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.href = '/';
+          };
+          nav.appendChild(dashLink);
+          nav.appendChild(logoutBtn);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
