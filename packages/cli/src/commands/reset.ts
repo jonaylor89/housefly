@@ -42,9 +42,7 @@ export async function resetChapter(chapter: string): Promise<void> {
       console.error(color.red("✘ git checkout failed:"));
       console.error(color.dim(error.stderr.toString().trim()));
     } else {
-      console.error(
-        color.red(`✘ Could not run git: ${error.message}`),
-      );
+      console.error(color.red(`✘ Could not run git: ${error.message}`));
     }
     printFallbackHelp(resetTarget, root);
   }
@@ -86,12 +84,6 @@ function resolveResetTarget(chapter: number, root: string): string {
 function printFallbackHelp(target: string, root: string): void {
   console.log();
   console.log(color.yellow("Manual reset options:"));
-  console.log(
-    color.dim(`  git checkout -- ${target}`),
-  );
-  console.log(
-    color.dim(
-      `  Or copy the original starter from the repository.`,
-    ),
-  );
+  console.log(color.dim(`  git checkout -- ${target}`));
+  console.log(color.dim(`  Or copy the original starter from the repository.`));
 }

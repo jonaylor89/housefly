@@ -49,7 +49,9 @@ export async function openChapter(chapter: string): Promise<void> {
     child.on("close", (code) => {
       if (code !== 0) {
         const stderr = Buffer.concat(stderrChunks).toString("utf-8").trim();
-        console.error(color.yellow(`Warning: ${openCmd} exited with an error.`));
+        console.error(
+          color.yellow(`Warning: ${openCmd} exited with an error.`),
+        );
         if (stderr) console.error(color.dim(stderr));
       }
     });
@@ -57,9 +59,7 @@ export async function openChapter(chapter: string): Promise<void> {
     child.unref();
   } catch (err) {
     console.error(
-      color.yellow(
-        `Could not run "${openCmd}": ${(err as Error).message}`,
-      ),
+      color.yellow(`Could not run "${openCmd}": ${(err as Error).message}`),
     );
     console.log(color.dim(`Manually open: ${exerciseDir}`));
   }

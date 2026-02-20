@@ -11,8 +11,6 @@ async function main() {
     await page.goto(URI);
 
     // TODO: Implement the scraper logic here
-  } catch (error) {
-    throw error;
   } finally {
     await browser.close();
   }

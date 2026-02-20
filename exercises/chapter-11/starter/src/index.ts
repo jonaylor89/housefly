@@ -69,10 +69,7 @@ async function fetchAndSolveCaptcha(): Promise<boolean> {
 /**
  * Login to the exchange
  */
-async function login(
-  username: string,
-  password: string,
-): Promise<boolean> {
+async function login(username: string, password: string): Promise<boolean> {
   // TODO: Implement login functionality
   return false;
 }

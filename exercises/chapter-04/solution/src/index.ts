@@ -45,8 +45,6 @@ async function main() {
     });
 
     return newsItems;
-  } catch (error) {
-    throw error;
   } finally {
     // Clean up
     await browser.close();

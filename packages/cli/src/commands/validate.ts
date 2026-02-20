@@ -101,9 +101,7 @@ export async function validateAllChapters(
 
   for (const r of results) {
     const icon = r.passed ? color.green("✔") : color.red("✘");
-    const status = r.passed
-      ? color.green("PASS")
-      : color.red("FAIL");
+    const status = r.passed ? color.green("PASS") : color.red("FAIL");
     console.log(`  ${icon} Chapter ${String(r.chapter).padStart(2)} ${status}`);
   }
 
@@ -323,7 +321,9 @@ function discoverChapters(): number[] {
 
   // Try new layout
   try {
-    for (const entry of readdirSync(path.join(root, "exercises"), { withFileTypes: true })) {
+    for (const entry of readdirSync(path.join(root, "exercises"), {
+      withFileTypes: true,
+    })) {
       if (entry.isDirectory() && entry.name.startsWith("chapter-")) {
         const n = parseInt(entry.name.replace("chapter-", ""), 10);
         if (!Number.isNaN(n)) chapters.push(n);
@@ -336,7 +336,9 @@ function discoverChapters(): number[] {
   // Legacy layout
   if (chapters.length === 0) {
     try {
-      for (const entry of readdirSync(path.join(root, "apps"), { withFileTypes: true })) {
+      for (const entry of readdirSync(path.join(root, "apps"), {
+        withFileTypes: true,
+      })) {
         if (entry.isDirectory() && entry.name.startsWith("solution")) {
           const n = parseInt(entry.name.replace("solution", ""), 10);
           if (!Number.isNaN(n)) chapters.push(n);

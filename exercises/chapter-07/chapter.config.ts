@@ -9,9 +9,22 @@ export default {
     "Implement a `while` loop that fetches each page and accumulates products into an array.",
   ],
   checkpoints: [
-    { id: "fetch-first-page", description: "Successfully fetch the first page of products from the API" },
-    { id: "discover-total-pages", description: "Extract totalPages from the first response to determine pagination bounds" },
-    { id: "paginate-all", description: "Loop through all pages and collect every product" },
-    { id: "output-csv", description: "Output all products as properly formatted CSV to stdout" },
+    {
+      id: "fetch-first-page",
+      description: "Successfully fetch the first page of products from the API",
+    },
+    {
+      id: "discover-total-pages",
+      description:
+        "Extract totalPages from the first response to determine pagination bounds",
+    },
+    {
+      id: "paginate-all",
+      description: "Loop through all pages and collect every product",
+    },
+    {
+      id: "output-csv",
+      description: "Output all products as properly formatted CSV to stdout",
+    },
   ],
 } as const;

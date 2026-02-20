@@ -73,7 +73,7 @@ const createFetchClient = (): FetchClient => {
       }
 
       if (!response.ok && retries > 0) {
-        const delay = Math.pow(2, 5 - retries) * 1000;
+        const delay = 2 ** (5 - retries) * 1000;
         console.error(
           `Request failed with status ${response.status}. Retrying in ${delay / 1000} seconds...`,
         );
@@ -84,7 +84,7 @@ const createFetchClient = (): FetchClient => {
       return response;
     } catch (error) {
       if (retries > 0) {
-        const delay = Math.pow(2, 5 - retries) * 1000;
+        const delay = 2 ** (5 - retries) * 1000;
         console.error(`Network error. Retrying in ${delay / 1000} seconds...`);
         await new Promise((resolve) => setTimeout(resolve, delay));
         return fetchWithRetry(url, options, retries - 1);
@@ -293,7 +293,7 @@ async function login(
       password,
     });
 
-    if (response && response.success) {
+    if (response?.success) {
       console.error("Login successful");
       // Session cookie should be automatically handled by fetch
       return true;
@@ -337,9 +337,9 @@ async function fetchPublicOrderBook(
     );
     console.error(`Received response for /orderbook/public for ${symbol}`);
     // Filter out bids and asks, keep only timestamp
-    if (response && response.timestamp) {
+    if (response?.timestamp) {
       return {
-        timestamp: response.timestamp
+        timestamp: response.timestamp,
       };
     }
     return null;
@@ -385,9 +385,9 @@ async function fetchRestrictedOrderBook(
 
     console.error(`Successfully fetched restricted order book for ${symbol}`);
     // Filter out bids and asks, keep only timestamp
-    if (response && response.timestamp) {
+    if (response?.timestamp) {
       return {
-        timestamp: response.timestamp
+        timestamp: response.timestamp,
       };
     }
     return null;

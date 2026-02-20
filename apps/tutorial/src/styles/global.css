@@ -1,7 +1,7 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
-  --font-sans: 'Space Grotesk', sans-serif;
+  --font-sans: "Space Grotesk", sans-serif;
 }
 
 ::selection {
@@ -57,7 +57,7 @@ html {
 
 .prose .anchor:after {
   @apply text-neutral-300 dark:text-neutral-700;
-  content: '#';
+  content: "#";
 }
 
 .prose *:hover > .anchor {
@@ -121,8 +121,8 @@ html {
 
 .prose > :first-child {
   /* Override removing top margin, causing layout shift */
-  margin-top: 1.25em !important;
-  margin-bottom: 1.25em !important;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
 }
 
 pre::-webkit-scrollbar {
@@ -135,8 +135,8 @@ pre {
 }
 
 /* Remove Safari input shadow on mobile */
-input[type='text'],
-input[type='email'] {
+input[type="text"],
+input[type="email"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;

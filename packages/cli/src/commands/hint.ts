@@ -7,11 +7,7 @@
 
 import * as path from "node:path";
 import { readFile, writeFile } from "node:fs/promises";
-import {
-  color,
-  resolveExerciseDir,
-  loadChapterConfig,
-} from "../utils.js";
+import { color, resolveExerciseDir, loadChapterConfig } from "../utils.js";
 
 const PROGRESS_FILE = ".housefly-progress";
 
@@ -27,9 +23,7 @@ export async function showHint(chapter: string): Promise<void> {
   const hints: string[] = (config?.hints as string[]) ?? [];
 
   if (hints.length === 0) {
-    console.log(
-      color.yellow(`No hints available for chapter ${chapter}.`),
-    );
+    console.log(color.yellow(`No hints available for chapter ${chapter}.`));
     console.log(
       color.dim("This chapter does not have a chapter.config.ts with hints."),
     );
@@ -48,9 +42,7 @@ export async function showHint(chapter: string): Promise<void> {
       ),
     );
     console.log(
-      color.dim(
-        'Run "housefly reset <chapter>" to also reset hint progress.',
-      ),
+      color.dim('Run "housefly reset <chapter>" to also reset hint progress.'),
     );
     return;
   }
@@ -98,7 +90,11 @@ async function saveProgress(
 ): Promise<void> {
   const filePath = path.join(exerciseDir, PROGRESS_FILE);
   try {
-    await writeFile(filePath, JSON.stringify(progress, null, 2) + "\n", "utf-8");
+    await writeFile(
+      filePath,
+      JSON.stringify(progress, null, 2) + "\n",
+      "utf-8",
+    );
   } catch (err) {
     // Non-fatal — the exercise dir may not exist yet
     console.error(

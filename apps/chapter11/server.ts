@@ -8,7 +8,10 @@ import {
   encryptCaptchaSolution,
   verifyCaptchaSolution,
 } from "./src/lib/captcha";
-import { generateMarketData, generateOrderBook } from "./src/lib/data-generator";
+import {
+  generateMarketData,
+  generateOrderBook,
+} from "./src/lib/data-generator";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -29,9 +32,16 @@ const HONEYPOT_PATHS = [
 
 const HONEYPOT_PARAMS = ["debug", "access_token", "admin", "robot", "spider"];
 
-const USERS: Record<string, { password: string; name: string; accessLevel: "basic" | "premium" }> = {
+const USERS: Record<
+  string,
+  { password: string; name: string; accessLevel: "basic" | "premium" }
+> = {
   demo: { password: "password123", name: "Demo User", accessLevel: "basic" },
-  premium: { password: "premium123", name: "Premium User", accessLevel: "premium" },
+  premium: {
+    password: "premium123",
+    name: "Premium User",
+    accessLevel: "premium",
+  },
 };
 
 const MIME_TYPES: Record<string, string> = {
@@ -66,7 +76,10 @@ interface RateLimitResult {
   retryAfter: number;
 }
 
-const rateLimitConfigs: Record<string, { limit: number; windowSizeInSeconds: number }> = {
+const rateLimitConfigs: Record<
+  string,
+  { limit: number; windowSizeInSeconds: number }
+> = {
   market: { limit: 20, windowSizeInSeconds: 60 },
   orderbook: { limit: 10, windowSizeInSeconds: 60 },
   premium: { limit: 5, windowSizeInSeconds: 60 },
@@ -87,7 +100,11 @@ setInterval(() => {
   }
 }, 60000);
 
-function checkRateLimit(req: IncomingMessage, type: string = "default", customLimit?: number): RateLimitResult {
+function checkRateLimit(
+  req: IncomingMessage,
+  type: string = "default",
+  customLimit?: number,
+): RateLimitResult {
   const ip = req.socket.remoteAddress ?? "127.0.0.1";
   const userAgent = req.headers["user-agent"] ?? "";
   const key = `${ip}:${type}:${userAgent.substring(0, 50)}`;
@@ -96,7 +113,10 @@ function checkRateLimit(req: IncomingMessage, type: string = "default", customLi
   const now = Date.now();
 
   if (!ipRequestStore[key] || ipRequestStore[key].resetAt < now) {
-    ipRequestStore[key] = { count: 0, resetAt: now + config.windowSizeInSeconds * 1000 };
+    ipRequestStore[key] = {
+      count: 0,
+      resetAt: now + config.windowSizeInSeconds * 1000,
+    };
   }
 
   ipRequestStore[key].count++;
@@ -104,12 +124,21 @@ function checkRateLimit(req: IncomingMessage, type: string = "default", customLi
   const limited = ipRequestStore[key].count > limit;
   const remaining = Math.max(0, limit - ipRequestStore[key].count);
 
-  return { limited, limit, remaining, resetAt: ipRequestStore[key].resetAt, retryAfter: limited ? timeUntilReset : 0 };
+  return {
+    limited,
+    limit,
+    remaining,
+    resetAt: ipRequestStore[key].resetAt,
+    retryAfter: limited ? timeUntilReset : 0,
+  };
 }
 
 // ─── Honeypot ────────────────────────────────────────────────────────────────
 
-function checkHoneypot(pathname: string, searchParams: URLSearchParams): { isBot: boolean; reason?: string } {
+function checkHoneypot(
+  pathname: string,
+  searchParams: URLSearchParams,
+): { isBot: boolean; reason?: string } {
   if (HONEYPOT_PATHS.some((hp) => pathname.includes(hp))) {
     return { isBot: true, reason: "Accessing honeypot path" };
   }
@@ -123,7 +152,11 @@ function checkHoneypot(pathname: string, searchParams: URLSearchParams): { isBot
 
 // ─── Browser Fingerprint ─────────────────────────────────────────────────────
 
-function checkBrowserFingerprint(req: IncomingMessage): { isPassing: boolean; score: number; reason?: string } {
+function checkBrowserFingerprint(req: IncomingMessage): {
+  isPassing: boolean;
+  score: number;
+  reason?: string;
+} {
   let score = 0;
   const reasons: string[] = [];
   const headers = req.headers;
@@ -146,12 +179,18 @@ function checkBrowserFingerprint(req: IncomingMessage): { isPassing: boolean; sc
     reasons.push("Missing User-Agent header");
   } else if (
     userAgent.includes("Mozilla") &&
-    (userAgent.includes("Chrome") || userAgent.includes("Firefox") || userAgent.includes("Safari") || userAgent.includes("Edge"))
+    (userAgent.includes("Chrome") ||
+      userAgent.includes("Firefox") ||
+      userAgent.includes("Safari") ||
+      userAgent.includes("Edge"))
   ) {
     score += 3;
   }
 
-  const url = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
+  const url = new URL(
+    req.url || "/",
+    `http://${req.headers.host || "localhost"}`,
+  );
   const path = url.pathname;
   const hasReferer = req.headers["referer"] !== undefined;
   if (path !== "/" && !hasReferer) {
@@ -166,7 +205,11 @@ function checkBrowserFingerprint(req: IncomingMessage): { isPassing: boolean; sc
   }
 
   const isPassing = score >= 6;
-  return { isPassing, score, reason: reasons.length > 0 ? reasons.join(", ") : undefined };
+  return {
+    isPassing,
+    score,
+    reason: reasons.length > 0 ? reasons.join(", ") : undefined,
+  };
 }
 
 // ─── Known Bot ───────────────────────────────────────────────────────────────
@@ -174,11 +217,32 @@ function checkBrowserFingerprint(req: IncomingMessage): { isPassing: boolean; sc
 function isKnownBot(req: IncomingMessage): boolean {
   const userAgent = (req.headers["user-agent"] || "").toLowerCase();
   const botSignatures = [
-    "googlebot", "bingbot", "yandexbot", "duckduckbot", "slurp", "baiduspider",
-    "bytespider", "twitterbot", "applebot", "semrushbot", "ahrefsbot", "mj12bot",
-    "bot", "crawler", "spider", "scraper", "python-requests", "python",
-    "go-http-client", "curl/", "wget/", "httpx", "selenium", "puppeteer",
-    "phantom", "headless",
+    "googlebot",
+    "bingbot",
+    "yandexbot",
+    "duckduckbot",
+    "slurp",
+    "baiduspider",
+    "bytespider",
+    "twitterbot",
+    "applebot",
+    "semrushbot",
+    "ahrefsbot",
+    "mj12bot",
+    "bot",
+    "crawler",
+    "spider",
+    "scraper",
+    "python-requests",
+    "python",
+    "go-http-client",
+    "curl/",
+    "wget/",
+    "httpx",
+    "selenium",
+    "puppeteer",
+    "phantom",
+    "headless",
   ];
   return botSignatures.some((sig) => userAgent.includes(sig));
 }
@@ -210,7 +274,12 @@ function parseCookies(req: IncomingMessage): Record<string, string> {
   return cookies;
 }
 
-function jsonResponse(res: ServerResponse, status: number, body: unknown, extraHeaders?: Record<string, string>) {
+function jsonResponse(
+  res: ServerResponse,
+  status: number,
+  body: unknown,
+  extraHeaders?: Record<string, string>,
+) {
   const json = JSON.stringify(body);
   res.writeHead(status, {
     "Content-Type": "application/json",
@@ -232,7 +301,10 @@ function setSessionCookie(res: ServerResponse, token: string) {
 }
 
 function clearSessionCookie(res: ServerResponse) {
-  res.setHeader("Set-Cookie", `${SESSION_COOKIE_NAME}=; HttpOnly; SameSite=Strict; Max-Age=0; Path=/`);
+  res.setHeader(
+    "Set-Cookie",
+    `${SESSION_COOKIE_NAME}=; HttpOnly; SameSite=Strict; Max-Age=0; Path=/`,
+  );
 }
 
 async function getSession(req: IncomingMessage): Promise<SessionData | null> {
@@ -264,22 +336,31 @@ function addRateLimitHeaders(res: ServerResponse, rl: RateLimitResult) {
 
 // ─── Route Handlers ──────────────────────────────────────────────────────────
 
-async function handleCaptchaGenerate(_req: IncomingMessage, res: ServerResponse) {
+async function handleCaptchaGenerate(
+  _req: IncomingMessage,
+  res: ServerResponse,
+) {
   const { problem, solution } = generateMathProblem();
   const token = encryptCaptchaSolution(solution);
   jsonResponse(res, 200, {
     problem,
     token,
-    instructions: "Solve this math problem to continue. Enter the answer as a number.",
+    instructions:
+      "Solve this math problem to continue. Enter the answer as a number.",
   });
 }
 
 async function handleCaptchaVerify(req: IncomingMessage, res: ServerResponse) {
   const rl = checkRateLimit(req, "captcha", 10);
   if (rl.limited) {
-    return jsonResponse(res, 429, { error: "Too many attempts" }, {
-      "Retry-After": rl.retryAfter.toString(),
-    });
+    return jsonResponse(
+      res,
+      429,
+      { error: "Too many attempts" },
+      {
+        "Retry-After": rl.retryAfter.toString(),
+      },
+    );
   }
 
   let body: any;
@@ -315,20 +396,30 @@ async function handleCaptchaVerify(req: IncomingMessage, res: ServerResponse) {
 async function handleMarketPublic(req: IncomingMessage, res: ServerResponse) {
   const rl = checkRateLimit(req, "market");
   if (rl.limited) {
-    return jsonResponse(res, 429, { error: "Rate limit exceeded" }, {
-      "Retry-After": rl.retryAfter.toString(),
-      "X-RateLimit-Limit": rl.limit.toString(),
-      "X-RateLimit-Remaining": rl.remaining.toString(),
-      "X-RateLimit-Reset": Math.floor(rl.resetAt / 1000).toString(),
-    });
+    return jsonResponse(
+      res,
+      429,
+      { error: "Rate limit exceeded" },
+      {
+        "Retry-After": rl.retryAfter.toString(),
+        "X-RateLimit-Limit": rl.limit.toString(),
+        "X-RateLimit-Remaining": rl.remaining.toString(),
+        "X-RateLimit-Reset": Math.floor(rl.resetAt / 1000).toString(),
+      },
+    );
   }
 
   if (isKnownBot(req)) {
     const botRl = checkRateLimit(req, "market", 5);
     if (botRl.limited) {
-      return jsonResponse(res, 429, { error: "Bot rate limit exceeded" }, {
-        "Retry-After": botRl.retryAfter.toString(),
-      });
+      return jsonResponse(
+        res,
+        429,
+        { error: "Bot rate limit exceeded" },
+        {
+          "Retry-After": botRl.retryAfter.toString(),
+        },
+      );
     }
   }
 
@@ -336,7 +427,10 @@ async function handleMarketPublic(req: IncomingMessage, res: ServerResponse) {
   const marketData = generateMarketData();
 
   if (!fp.isPassing) {
-    res.setHeader("X-Fingerprint-Warning", fp.reason || "Suspicious request pattern");
+    res.setHeader(
+      "X-Fingerprint-Warning",
+      fp.reason || "Suspicious request pattern",
+    );
   }
   addRateLimitHeaders(res, rl);
   jsonResponse(res, 200, marketData);
@@ -345,22 +439,32 @@ async function handleMarketPublic(req: IncomingMessage, res: ServerResponse) {
 async function handleMarketPremium(req: IncomingMessage, res: ServerResponse) {
   const rl = checkRateLimit(req, "premium");
   if (rl.limited) {
-    return jsonResponse(res, 429, { error: "Rate limit exceeded" }, {
-      "Retry-After": rl.retryAfter.toString(),
-      "X-RateLimit-Limit": rl.limit.toString(),
-      "X-RateLimit-Remaining": rl.remaining.toString(),
-      "X-RateLimit-Reset": Math.floor(rl.resetAt / 1000).toString(),
-    });
+    return jsonResponse(
+      res,
+      429,
+      { error: "Rate limit exceeded" },
+      {
+        "Retry-After": rl.retryAfter.toString(),
+        "X-RateLimit-Limit": rl.limit.toString(),
+        "X-RateLimit-Remaining": rl.remaining.toString(),
+        "X-RateLimit-Reset": Math.floor(rl.resetAt / 1000).toString(),
+      },
+    );
   }
 
   const fp = checkBrowserFingerprint(req);
   if (!fp.isPassing) {
-    return jsonResponse(res, 403, { error: "Access denied. Browser verification failed." });
+    return jsonResponse(res, 403, {
+      error: "Access denied. Browser verification failed.",
+    });
   }
 
   const session = await getSession(req);
   if (!session || !session.isLoggedIn) {
-    return jsonResponse(res, 401, { error: "Authentication required", authRequired: true });
+    return jsonResponse(res, 401, {
+      error: "Authentication required",
+      authRequired: true,
+    });
   }
   if (session.accessLevel !== "premium") {
     return jsonResponse(res, 403, { error: "Premium subscription required" });
@@ -368,7 +472,9 @@ async function handleMarketPremium(req: IncomingMessage, res: ServerResponse) {
 
   const marketData = generateMarketData();
   const premiumData = marketData.map((item) => {
-    const symbolCode = item.symbol.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const symbolCode = item.symbol
+      .split("")
+      .reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const priceValue = parseFloat(item.price);
     const marketCapMultiplier = (symbolCode % 10) * 100 + 500;
     const circulatingSupplyBase = symbolCode * 1000000 + 50000000;
@@ -383,7 +489,10 @@ async function handleMarketPremium(req: IncomingMessage, res: ServerResponse) {
         max_supply: maxSupplyBase,
         all_time_high: (priceValue * allTimeHighMultiplier).toFixed(3),
         all_time_high_date: `2022-${(symbolCode % 12) + 1}-${(symbolCode % 28) + 1}T12:00:00Z`,
-        price_prediction_24h: (priceValue * (1 + ((symbolCode % 20) - 10) / 100)).toFixed(2),
+        price_prediction_24h: (
+          priceValue *
+          (1 + ((symbolCode % 20) - 10) / 100)
+        ).toFixed(2),
       },
     };
   });
@@ -392,18 +501,29 @@ async function handleMarketPremium(req: IncomingMessage, res: ServerResponse) {
   jsonResponse(res, 200, premiumData);
 }
 
-async function handleOrderbookPublic(req: IncomingMessage, res: ServerResponse) {
+async function handleOrderbookPublic(
+  req: IncomingMessage,
+  res: ServerResponse,
+) {
   const rl = checkRateLimit(req, "orderbook");
   if (rl.limited) {
-    return jsonResponse(res, 429, { error: "Rate limit exceeded" }, {
-      "Retry-After": rl.retryAfter.toString(),
-      "X-RateLimit-Limit": rl.limit.toString(),
-      "X-RateLimit-Remaining": rl.remaining.toString(),
-      "X-RateLimit-Reset": Math.floor(rl.resetAt / 1000).toString(),
-    });
+    return jsonResponse(
+      res,
+      429,
+      { error: "Rate limit exceeded" },
+      {
+        "Retry-After": rl.retryAfter.toString(),
+        "X-RateLimit-Limit": rl.limit.toString(),
+        "X-RateLimit-Remaining": rl.remaining.toString(),
+        "X-RateLimit-Reset": Math.floor(rl.resetAt / 1000).toString(),
+      },
+    );
   }
 
-  const url = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
+  const url = new URL(
+    req.url || "/",
+    `http://${req.headers.host || "localhost"}`,
+  );
   const symbol = url.searchParams.get("symbol") || "BTC/USD";
   const orderBookData = generateOrderBook(symbol);
 
@@ -411,15 +531,23 @@ async function handleOrderbookPublic(req: IncomingMessage, res: ServerResponse) 
   jsonResponse(res, 200, orderBookData);
 }
 
-async function handleOrderbookRestricted(req: IncomingMessage, res: ServerResponse) {
+async function handleOrderbookRestricted(
+  req: IncomingMessage,
+  res: ServerResponse,
+) {
   const rl = checkRateLimit(req, "orderbook");
   if (rl.limited) {
-    return jsonResponse(res, 429, { error: "Rate limit exceeded" }, {
-      "Retry-After": rl.retryAfter.toString(),
-      "X-RateLimit-Limit": rl.limit.toString(),
-      "X-RateLimit-Remaining": rl.remaining.toString(),
-      "X-RateLimit-Reset": Math.floor(rl.resetAt / 1000).toString(),
-    });
+    return jsonResponse(
+      res,
+      429,
+      { error: "Rate limit exceeded" },
+      {
+        "Retry-After": rl.retryAfter.toString(),
+        "X-RateLimit-Limit": rl.limit.toString(),
+        "X-RateLimit-Remaining": rl.remaining.toString(),
+        "X-RateLimit-Reset": Math.floor(rl.resetAt / 1000).toString(),
+      },
+    );
   }
 
   const userAgent = req.headers["user-agent"] || "";
@@ -431,10 +559,16 @@ async function handleOrderbookRestricted(req: IncomingMessage, res: ServerRespon
 
   const session = await getSession(req);
   if (!robotsTxtCheck && (!session || !session.isLoggedIn)) {
-    return jsonResponse(res, 401, { error: "Authentication required", authRequired: true });
+    return jsonResponse(res, 401, {
+      error: "Authentication required",
+      authRequired: true,
+    });
   }
 
-  const url = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
+  const url = new URL(
+    req.url || "/",
+    `http://${req.headers.host || "localhost"}`,
+  );
   const symbol = url.searchParams.get("symbol") || "BTC/USD";
   const depth = parseInt(url.searchParams.get("depth") || "10", 10);
   const orderBookData = generateOrderBook(symbol);
@@ -461,9 +595,14 @@ async function handleOrderbookRestricted(req: IncomingMessage, res: ServerRespon
 async function handleAuthLogin(req: IncomingMessage, res: ServerResponse) {
   const rl = checkRateLimit(req, "auth", 5);
   if (rl.limited) {
-    return jsonResponse(res, 429, { error: "Too many login attempts" }, {
-      "Retry-After": rl.retryAfter.toString(),
-    });
+    return jsonResponse(
+      res,
+      429,
+      { error: "Too many login attempts" },
+      {
+        "Retry-After": rl.retryAfter.toString(),
+      },
+    );
   }
 
   const fp = checkBrowserFingerprint(req);
@@ -478,7 +617,10 @@ async function handleAuthLogin(req: IncomingMessage, res: ServerResponse) {
     return jsonResponse(res, 400, { error: "Invalid request body" });
   }
 
-  const { username, password } = body as { username?: string; password?: string };
+  const { username, password } = body as {
+    username?: string;
+    password?: string;
+  };
   if (!username || !password) {
     return jsonResponse(res, 400, { error: "Missing username or password" });
   }
@@ -489,7 +631,9 @@ async function handleAuthLogin(req: IncomingMessage, res: ServerResponse) {
 
   const user = USERS[username];
   if (!user || user.password !== password) {
-    await new Promise((resolve) => setTimeout(resolve, 500 + Math.random() * 500));
+    await new Promise((resolve) =>
+      setTimeout(resolve, 500 + Math.random() * 500),
+    );
     return jsonResponse(res, 401, { error: "Invalid credentials" });
   }
 
@@ -519,7 +663,10 @@ async function handleAuthLogout(_req: IncomingMessage, res: ServerResponse) {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-async function serveStaticFile(filePath: string, res: ServerResponse): Promise<boolean> {
+async function serveStaticFile(
+  filePath: string,
+  res: ServerResponse,
+): Promise<boolean> {
   try {
     const fullPath = join(__dirname, "public", filePath);
     const data = await readFile(fullPath);
@@ -535,89 +682,99 @@ async function serveStaticFile(filePath: string, res: ServerResponse): Promise<b
 
 // ─── Server ──────────────────────────────────────────────────────────────────
 
-const server = createServer(async (req: IncomingMessage, res: ServerResponse) => {
-  const url = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
-  const pathname = url.pathname;
-  const method = req.method || "GET";
+const server = createServer(
+  async (req: IncomingMessage, res: ServerResponse) => {
+    const url = new URL(
+      req.url || "/",
+      `http://${req.headers.host || "localhost"}`,
+    );
+    const pathname = url.pathname;
+    const method = req.method || "GET";
 
-  // ── Honeypot check ──
-  const honeypotResult = checkHoneypot(pathname, url.searchParams);
-  if (honeypotResult.isBot) {
-    return jsonResponse(res, 403, {
-      error: "Access denied",
-      reason: "Bot trap triggered",
-      detail: honeypotResult.reason,
-    });
-  }
-
-  // ── Global rate limit (API paths only, matching original middleware behavior) ──
-  if (pathname.startsWith("/api/")) {
-    const globalRl = checkRateLimit(req, "global", 60);
-    if (globalRl.limited) {
-      return jsonResponse(res, 429, {
-        error: "Too many requests",
-        retryAfter: globalRl.retryAfter,
-      }, {
-        "Retry-After": globalRl.retryAfter.toString(),
-        "X-RateLimit-Limit": globalRl.limit.toString(),
-        "X-RateLimit-Remaining": globalRl.remaining.toString(),
-        "X-RateLimit-Reset": Math.floor(globalRl.resetAt / 1000).toString(),
+    // ── Honeypot check ──
+    const honeypotResult = checkHoneypot(pathname, url.searchParams);
+    if (honeypotResult.isBot) {
+      return jsonResponse(res, 403, {
+        error: "Access denied",
+        reason: "Bot trap triggered",
+        detail: honeypotResult.reason,
       });
     }
-  }
 
-  // ── CAPTCHA middleware for /api/orderbook/restricted ──
-  if (pathname === "/api/orderbook/restricted") {
-    const robotsTxtCheck = req.headers["x-robots-check"] === "GoodBot";
-    if (!robotsTxtCheck) {
-      const session = await getSession(req);
-      if (!session?.captchaPassed) {
-        return jsonResponse(res, 403, {
-          error: "CAPTCHA verification required",
-          captchaRequired: true,
-        });
+    // ── Global rate limit (API paths only, matching original middleware behavior) ──
+    if (pathname.startsWith("/api/")) {
+      const globalRl = checkRateLimit(req, "global", 60);
+      if (globalRl.limited) {
+        return jsonResponse(
+          res,
+          429,
+          {
+            error: "Too many requests",
+            retryAfter: globalRl.retryAfter,
+          },
+          {
+            "Retry-After": globalRl.retryAfter.toString(),
+            "X-RateLimit-Limit": globalRl.limit.toString(),
+            "X-RateLimit-Remaining": globalRl.remaining.toString(),
+            "X-RateLimit-Reset": Math.floor(globalRl.resetAt / 1000).toString(),
+          },
+        );
       }
     }
-  }
 
-  // ── API Routes ──
-  if (pathname === "/api/captcha/generate" && method === "GET") {
-    return handleCaptchaGenerate(req, res);
-  }
-  if (pathname === "/api/captcha/verify" && method === "POST") {
-    return handleCaptchaVerify(req, res);
-  }
-  if (pathname === "/api/market/public" && method === "GET") {
-    return handleMarketPublic(req, res);
-  }
-  if (pathname === "/api/market/premium" && method === "GET") {
-    return handleMarketPremium(req, res);
-  }
-  if (pathname === "/api/orderbook/public" && method === "GET") {
-    return handleOrderbookPublic(req, res);
-  }
-  if (pathname === "/api/orderbook/restricted" && method === "GET") {
-    return handleOrderbookRestricted(req, res);
-  }
-  if (pathname === "/api/auth/login" && method === "POST") {
-    return handleAuthLogin(req, res);
-  }
-  if (pathname === "/api/auth/logout" && method === "POST") {
-    return handleAuthLogout(req, res);
-  }
+    // ── CAPTCHA middleware for /api/orderbook/restricted ──
+    if (pathname === "/api/orderbook/restricted") {
+      const robotsTxtCheck = req.headers["x-robots-check"] === "GoodBot";
+      if (!robotsTxtCheck) {
+        const session = await getSession(req);
+        if (!session?.captchaPassed) {
+          return jsonResponse(res, 403, {
+            error: "CAPTCHA verification required",
+            captchaRequired: true,
+          });
+        }
+      }
+    }
 
-  // ── Static files ──
-  if (pathname === "/") {
-    const served = await serveStaticFile("index.html", res);
-    if (served) return;
-  } else {
-    const served = await serveStaticFile(pathname.slice(1), res);
-    if (served) return;
-  }
+    // ── API Routes ──
+    if (pathname === "/api/captcha/generate" && method === "GET") {
+      return handleCaptchaGenerate(req, res);
+    }
+    if (pathname === "/api/captcha/verify" && method === "POST") {
+      return handleCaptchaVerify(req, res);
+    }
+    if (pathname === "/api/market/public" && method === "GET") {
+      return handleMarketPublic(req, res);
+    }
+    if (pathname === "/api/market/premium" && method === "GET") {
+      return handleMarketPremium(req, res);
+    }
+    if (pathname === "/api/orderbook/public" && method === "GET") {
+      return handleOrderbookPublic(req, res);
+    }
+    if (pathname === "/api/orderbook/restricted" && method === "GET") {
+      return handleOrderbookRestricted(req, res);
+    }
+    if (pathname === "/api/auth/login" && method === "POST") {
+      return handleAuthLogin(req, res);
+    }
+    if (pathname === "/api/auth/logout" && method === "POST") {
+      return handleAuthLogout(req, res);
+    }
 
-  // ── 404 ──
-  jsonResponse(res, 404, { error: "Not found" });
-});
+    // ── Static files ──
+    if (pathname === "/") {
+      const served = await serveStaticFile("index.html", res);
+      if (served) return;
+    } else {
+      const served = await serveStaticFile(pathname.slice(1), res);
+      if (served) return;
+    }
+
+    // ── 404 ──
+    jsonResponse(res, 404, { error: "Not found" });
+  },
+);
 
 server.listen(PORT, () => {
   console.log(`Chapter 11 server running on http://localhost:${PORT}`);

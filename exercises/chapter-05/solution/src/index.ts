@@ -4,7 +4,9 @@ const URI = "http://localhost:3005";
 
 async function main() {
   const browser = await chromium.launch();
-  const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+  const page = await browser.newPage({
+    viewport: { width: 1280, height: 720 },
+  });
 
   try {
     // Navigate to the page
@@ -66,8 +68,6 @@ async function main() {
     });
 
     return photos;
-  } catch (error) {
-    throw error;
   } finally {
     await browser.close();
   }

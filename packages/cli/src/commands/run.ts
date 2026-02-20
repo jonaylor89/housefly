@@ -21,8 +21,7 @@ export async function runChapter(chapter: string): Promise<void> {
   }
 
   console.log(
-    color.cyan(`▶ Running chapter ${chapter}`) +
-      color.gray(` (${entry})`),
+    color.cyan(`▶ Running chapter ${chapter}`) + color.gray(` (${entry})`),
   );
   console.log(color.dim("─".repeat(60)));
 
@@ -50,9 +49,7 @@ export async function runChapter(chapter: string): Promise<void> {
   if (code === 0) {
     console.log(color.green("✔ Process exited successfully."));
   } else {
-    console.error(
-      color.red(`✘ Process exited with code ${code}.`),
-    );
+    console.error(color.red(`✘ Process exited with code ${code}.`));
     process.exit(code);
   }
 }

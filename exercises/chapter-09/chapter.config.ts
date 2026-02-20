@@ -9,9 +9,22 @@ export default {
     "Query both `challenges` and `me` fields, then transform the response to match the expected output format.",
   ],
   checkpoints: [
-    { id: "graphql-helper", description: "Create a helper function to send GraphQL POST requests" },
-    { id: "authenticate", description: "Log in via a GraphQL mutation and obtain an auth token" },
-    { id: "fetch-data", description: "Query challenges and user data using the auth token" },
-    { id: "transform-output", description: "Transform the GraphQL response to match the expected JSON structure" },
+    {
+      id: "graphql-helper",
+      description: "Create a helper function to send GraphQL POST requests",
+    },
+    {
+      id: "authenticate",
+      description: "Log in via a GraphQL mutation and obtain an auth token",
+    },
+    {
+      id: "fetch-data",
+      description: "Query challenges and user data using the auth token",
+    },
+    {
+      id: "transform-output",
+      description:
+        "Transform the GraphQL response to match the expected JSON structure",
+    },
   ],
 } as const;

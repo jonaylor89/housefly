@@ -12,8 +12,6 @@ async function main() {
     await page.goto(URI);
 
     // TODO: Implement the solution
-  } catch (error) {
-    throw error;
   } finally {
     // Clean up
     await browser.close();

@@ -18,7 +18,13 @@
  * ```
  */
 export function printJson(data: unknown): void {
-  console.log(JSON.stringify(data, Object.keys(data as Record<string, unknown>).sort(), 2));
+  console.log(
+    JSON.stringify(
+      data,
+      Object.keys(data as Record<string, unknown>).sort(),
+      2,
+    ),
+  );
 }
 
 /**

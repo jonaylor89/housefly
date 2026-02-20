@@ -1,15 +1,15 @@
-import { 
-  // BaseHttpClient, 
-  // HttpRequest, 
-  // HttpResponse, 
-  PlaywrightCrawler, 
-  // RedirectHandler, 
-  // ResponseTypes, 
+import {
+  // BaseHttpClient,
+  // HttpRequest,
+  // HttpResponse,
+  PlaywrightCrawler,
+  // RedirectHandler,
+  // ResponseTypes,
   // StreamingHttpResponse,
-} from 'crawlee';
-import * as cheerio from 'cheerio';
-import * as fs from 'node:fs/promises';
-import OpenAI from 'openai';
+} from "crawlee";
+import * as cheerio from "cheerio";
+import * as fs from "node:fs/promises";
+import OpenAI from "openai";
 // import { Readable } from 'node:stream';
 // import { Buffer } from "node:buffer";
 
@@ -18,17 +18,17 @@ const openai = new OpenAI();
 
 // Define the chapters to crawl
 const chapters = [
-  'https://housefly-chapter1.netlify.app',
-  'https://chapter2.housefly.cc',
-  'https://chapter3.housefly.cc',
-  'https://chapter4.housefly.cc',
-  'https://chapter5.housefly.cc',
-  'https://chapter6.housefly.cc',
-  'https://chapter7.housefly.cc',
-  'https://chapter8.housefly.cc',
-  'https://chapter9.housefly.cc',
-  'http://chapter10.housefly.cc',
-  'https://chapter11.housefly.cc',
+  "https://housefly-chapter1.netlify.app",
+  "https://chapter2.housefly.cc",
+  "https://chapter3.housefly.cc",
+  "https://chapter4.housefly.cc",
+  "https://chapter5.housefly.cc",
+  "https://chapter6.housefly.cc",
+  "https://chapter7.housefly.cc",
+  "https://chapter8.housefly.cc",
+  "https://chapter9.housefly.cc",
+  "http://chapter10.housefly.cc",
+  "https://chapter11.housefly.cc",
 ];
 
 interface IndexEntry {
@@ -123,46 +123,50 @@ const searchIndex: IndexEntry[] = [];
 // }
 
 // Function to extract structured data from unstructured content using OpenAI
-async function extractStructuredData(title: string, content: string): Promise<any> {
+async function extractStructuredData(
+  title: string,
+  content: string,
+): Promise<any> {
   try {
     // Prepare the request to OpenAI
     const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: "gpt-3.5-turbo",
       max_tokens: 1000,
       messages: [
         {
-          role: 'system',
-          content: 'You extract structured data from webpages and return it as JSON.'
+          role: "system",
+          content:
+            "You extract structured data from webpages and return it as JSON.",
         },
         {
-          role: 'user',
+          role: "user",
           content: `Extract structured data from this webpage content. Return a JSON object with the key information.
 
 Title: ${title}
-Content: ${content.substring(0, 4000)}` // Limit content length
-        }
+Content: ${content.substring(0, 4000)}`, // Limit content length
+        },
       ],
-      response_format: { type: 'json_object' },
+      response_format: { type: "json_object" },
     });
 
     // Extract the response content
-    const responseText = response.choices[0]?.message?.content || '{}';
+    const responseText = response.choices[0]?.message?.content || "{}";
 
     // Parse the JSON response
     try {
       return JSON.parse(responseText);
     } catch (parseError) {
-      console.error('Failed to parse JSON response:', parseError);
+      console.error("Failed to parse JSON response:", parseError);
       return {};
     }
   } catch (error) {
-    console.error('Error using OpenAI:', error);
+    console.error("Error using OpenAI:", error);
     return {};
   }
 }
 
 async function runCrawler() {
-  await fs.mkdir('./data', { recursive: true });
+  await fs.mkdir("./data", { recursive: true });
 
   const crawler = new PlaywrightCrawler({
     // httpClient: new CustomHttpClient(),
@@ -189,13 +193,17 @@ async function runCrawler() {
 
       try {
         // Wait briefly before navigation to avoid overwhelming servers
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
 
         // Wait for the content to load with a more robust strategy
-        await page.waitForLoadState('domcontentloaded');
-        await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {
-          log.warning(`Network didn't reach idle state for ${url}, continuing anyway`);
-        });
+        await page.waitForLoadState("domcontentloaded");
+        await page
+          .waitForLoadState("networkidle", { timeout: 30000 })
+          .catch(() => {
+            log.warning(
+              `Network didn't reach idle state for ${url}, continuing anyway`,
+            );
+          });
 
         // Get page content
         const title = await page.title();
@@ -203,13 +211,13 @@ async function runCrawler() {
 
         // Use Cheerio to parse content and extract text
         const $ = cheerio.load(content);
-        const bodyText = $('body').text().replace(/\s+/g, ' ').trim();
+        const bodyText = $("body").text().replace(/\s+/g, " ").trim();
 
         // Basic keyword extraction
         const keywords = bodyText
           .toLowerCase()
           .split(/\W+/)
-          .filter(word => word.length > 3)
+          .filter((word) => word.length > 3)
           .filter((word, i, arr) => arr.indexOf(word) === i)
           .slice(0, 20);
 
@@ -231,7 +239,7 @@ async function runCrawler() {
         if (chapterNumber > 0) {
           // Find all links on the page
           await enqueueLinks({
-            strategy: 'same-hostname',
+            strategy: "same-hostname",
           });
         }
       } catch (error) {
@@ -251,7 +259,8 @@ async function runCrawler() {
     // Handle errors
     async failedRequestHandler({ request, log, error }) {
       const url = request.url;
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
       log.error(`Request failed: ${url}. Error: ${errorMessage}`);
 
       // Try to extract chapter number from the URL
@@ -275,50 +284,55 @@ async function runCrawler() {
 
   // Save the search index to disk
   await fs.writeFile(
-    './data/search_index.json',
-    JSON.stringify(searchIndex, null, 2)
+    "./data/search_index.json",
+    JSON.stringify(searchIndex, null, 2),
   );
 
   // Generate stats
   const stats = {
     totalPages: searchIndex.length,
     pagesPerChapter: {} as Record<number, number>,
-    totalKeywords: searchIndex.reduce((sum, entry) => sum + entry.keywords.length, 0),
+    totalKeywords: searchIndex.reduce(
+      (sum, entry) => sum + entry.keywords.length,
+      0,
+    ),
     dataCaptured: new Date().toISOString(),
   };
 
   // Count pages per chapter
-  searchIndex.forEach(entry => {
+  searchIndex.forEach((entry) => {
     if (!stats.pagesPerChapter[entry.chapterNumber]) {
       stats.pagesPerChapter[entry.chapterNumber] = 0;
     }
     stats.pagesPerChapter[entry.chapterNumber]++;
   });
 
-  await fs.writeFile(
-    './data/stats.json',
-    JSON.stringify(stats, null, 2)
-  );
+  await fs.writeFile("./data/stats.json", JSON.stringify(stats, null, 2));
 
-  console.log('Crawling complete!');
-  console.log(`Processed ${searchIndex.length} pages across the Housefly chapters.`);
-  console.log('Search index saved to ./data/search_index.json');
-  console.log('Stats saved to ./data/stats.json');
+  console.log("Crawling complete!");
+  console.log(
+    `Processed ${searchIndex.length} pages across the Housefly chapters.`,
+  );
+  console.log("Search index saved to ./data/search_index.json");
+  console.log("Stats saved to ./data/stats.json");
 }
 
 // Simple search function to query the index
 async function searchFunction(query: string, limit = 5) {
   try {
     // Load the search index
-    const indexData = await fs.readFile('./data/search_index.json', 'utf-8');
+    const indexData = await fs.readFile("./data/search_index.json", "utf-8");
     const index: IndexEntry[] = JSON.parse(indexData);
 
     // Split query into terms
-    const terms = query.toLowerCase().split(/\W+/).filter(term => term.length > 2);
+    const terms = query
+      .toLowerCase()
+      .split(/\W+/)
+      .filter((term) => term.length > 2);
 
     // Score each document based on term frequency
     const results = index
-      .map(entry => {
+      .map((entry) => {
         const score = terms.reduce((sum, term) => {
           // Check title (high weight)
           if (entry.title.toLowerCase().includes(term)) sum += 5;
@@ -334,19 +348,19 @@ async function searchFunction(query: string, limit = 5) {
 
         return { entry, score };
       })
-      .filter(item => item.score > 0)
+      .filter((item) => item.score > 0)
       .sort((a, b) => b.score - a.score)
       .slice(0, limit);
 
-    return results.map(item => ({
+    return results.map((item) => ({
       url: item.entry.url,
       title: item.entry.title,
-      preview: item.entry.content.substring(0, 150) + '...',
+      preview: item.entry.content.substring(0, 150) + "...",
       score: item.score,
       chapterNumber: item.entry.chapterNumber,
     }));
   } catch (error) {
-    console.error('Search error:', error);
+    console.error("Search error:", error);
     return [];
   }
 }
@@ -356,13 +370,13 @@ async function main() {
   const args = process.argv.slice(2);
   const command = args[0];
 
-  if (command === 'crawl') {
-    console.log('Starting crawler...');
+  if (command === "crawl") {
+    console.log("Starting crawler...");
     await runCrawler();
-  } else if (command === 'search') {
-    const query = args.slice(1).join(' ');
+  } else if (command === "search") {
+    const query = args.slice(1).join(" ");
     if (!query) {
-      console.log('Please provide a search query.');
+      console.log("Please provide a search query.");
       return;
     }
 
@@ -370,11 +384,13 @@ async function main() {
     const results = await searchFunction(query);
 
     if (results.length === 0) {
-      console.log('No results found.');
+      console.log("No results found.");
     } else {
       console.log(`Found ${results.length} results:\n`);
       results.forEach((result, i) => {
-        console.log(`${i + 1}. ${result.title} (Chapter ${result.chapterNumber})`);
+        console.log(
+          `${i + 1}. ${result.title} (Chapter ${result.chapterNumber})`,
+        );
         console.log(`   URL: ${result.url}`);
         console.log(`   ${result.preview}`);
         console.log();
@@ -384,9 +400,13 @@ async function main() {
     console.log(`
 Housefly MetaScraper - Chapter 7: Large-Scale & Unstructured Web Crawling
 `);
-    console.log('Usage:');
-    console.log('  npm start -- crawl      # Crawl all chapter websites and build search index');
-    console.log('  npm start -- search <query>  # Search the index for specific terms');
+    console.log("Usage:");
+    console.log(
+      "  npm start -- crawl      # Crawl all chapter websites and build search index",
+    );
+    console.log(
+      "  npm start -- search <query>  # Search the index for specific terms",
+    );
   }
 }
 

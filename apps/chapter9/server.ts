@@ -73,7 +73,10 @@ async function main() {
     try {
       const data = await readFile(fullPath);
       const ext = extname(fullPath).toLowerCase();
-      res.setHeader("Content-Type", MIME_TYPES[ext] ?? "application/octet-stream");
+      res.setHeader(
+        "Content-Type",
+        MIME_TYPES[ext] ?? "application/octet-stream",
+      );
       res.send(data);
     } catch {
       res.status(404).send("Not found");

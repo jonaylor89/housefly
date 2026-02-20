@@ -41,9 +41,7 @@ async function fileExists(path: string): Promise<boolean> {
  * Find the expected.* file in a solution directory.
  * Looks for expected.txt, expected.json, expected.csv, etc.
  */
-async function findExpectedFile(
-  solutionDir: string,
-): Promise<string | null> {
+async function findExpectedFile(solutionDir: string): Promise<string | null> {
   const extensions = ["txt", "json", "csv", "yaml", "xml"];
 
   for (const ext of extensions) {
@@ -233,7 +231,8 @@ export async function validateExercise(
       passed: false,
       duration,
       output: execResult.stdout,
-      error: execResult.stderr || `Process exited with code ${execResult.exitCode}`,
+      error:
+        execResult.stderr || `Process exited with code ${execResult.exitCode}`,
       format: "unknown",
     };
     printResult(result);
@@ -275,9 +274,7 @@ export async function validateExercise(
  */
 function printResult(result: ValidationResult): void {
   const icon = result.passed ? green("✅") : red("❌");
-  const status = result.passed
-    ? green("PASS")
-    : red("FAIL");
+  const status = result.passed ? green("PASS") : red("FAIL");
   const durationStr = dim(`(${result.duration}ms)`);
 
   console.error(`${icon} ${bold(result.chapter)} ${status} ${durationStr}`);
@@ -333,9 +330,7 @@ export async function validateAll(
     return [];
   }
 
-  console.error(
-    bold(`\nRunning ${exerciseDirs.length} exercise(s)...\n`),
-  );
+  console.error(bold(`\nRunning ${exerciseDirs.length} exercise(s)...\n`));
 
   const results: ValidationResult[] = [];
 

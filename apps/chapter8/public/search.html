@@ -56,8 +56,8 @@
       background-color: #dbeafe;
     }
     .react-datepicker__day--selected {
-      background-color: #2563eb !important;
-      color: white !important;
+      background-color: #2563eb;
+      color: white;
     }
     .react-datepicker__day--in-range {
       background-color: #bfdbfe;
@@ -316,7 +316,7 @@
           }
         } else {
           const el = document.getElementById('step-' + i);
-          if (el && el.parentNode) {
+          if (el?.parentNode) {
             // Detach from DOM entirely
             detachedSteps[i] = el;
             el.parentNode.removeChild(el);

@@ -9,9 +9,23 @@ export default {
     "Download PDFs and use `pdf-parse` to extract the page count for document entries.",
   ],
   checkpoints: [
-    { id: "extract-images", description: "Extract image data including src, alt, filename, caption, and metadata" },
-    { id: "extract-documents", description: "Extract document info and parse PDFs for page counts" },
-    { id: "extract-videos", description: "Extract video data from YouTube iframes, Vimeo iframes, and local video elements" },
-    { id: "combine-output", description: "Combine all media types into a single JSON output" },
+    {
+      id: "extract-images",
+      description:
+        "Extract image data including src, alt, filename, caption, and metadata",
+    },
+    {
+      id: "extract-documents",
+      description: "Extract document info and parse PDFs for page counts",
+    },
+    {
+      id: "extract-videos",
+      description:
+        "Extract video data from YouTube iframes, Vimeo iframes, and local video elements",
+    },
+    {
+      id: "combine-output",
+      description: "Combine all media types into a single JSON output",
+    },
   ],
 } as const;

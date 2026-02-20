@@ -9,9 +9,22 @@ export default {
     "Extract search results from the DOM, including premium listings only visible to logged-in users.",
   ],
   checkpoints: [
-    { id: "login", description: "Successfully log in with the provided credentials" },
-    { id: "multi-step-form", description: "Complete the multi-step search form (destination, dates, filters)" },
-    { id: "extract-results", description: "Extract search results including premium listings" },
-    { id: "save-search", description: "Save the search and verify it appears in the dashboard" },
+    {
+      id: "login",
+      description: "Successfully log in with the provided credentials",
+    },
+    {
+      id: "multi-step-form",
+      description:
+        "Complete the multi-step search form (destination, dates, filters)",
+    },
+    {
+      id: "extract-results",
+      description: "Extract search results including premium listings",
+    },
+    {
+      id: "save-search",
+      description: "Save the search and verify it appears in the dashboard",
+    },
   ],
 } as const;

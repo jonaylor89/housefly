@@ -25,9 +25,7 @@ export async function watchChapter(chapter: string): Promise<void> {
   try {
     statSync(watchDir);
   } catch {
-    console.error(
-      color.red(`Watch directory not found: ${watchDir}`),
-    );
+    console.error(color.red(`Watch directory not found: ${watchDir}`));
     process.exit(1);
   }
 

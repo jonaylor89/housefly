@@ -156,11 +156,18 @@ const server = http.createServer(async (req, res) => {
         password = json.password || "";
       }
 
-      if (email === demoUser.email && (await bcrypt.compare(password, demoUser.passwordHash))) {
+      if (
+        email === demoUser.email &&
+        (await bcrypt.compare(password, demoUser.passwordHash))
+      ) {
         const token = crypto.randomUUID();
         const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
         sessions.set(token, { userId: demoUser.id, expires });
-        redirect(res, "/dashboard", `session_token=${token}; Path=/; HttpOnly; Expires=${expires.toUTCString()}`);
+        redirect(
+          res,
+          "/dashboard",
+          `session_token=${token}; Path=/; HttpOnly; Expires=${expires.toUTCString()}`,
+        );
       } else {
         redirect(res, "/login?error=invalid");
       }
@@ -221,7 +228,9 @@ const server = http.createServer(async (req, res) => {
         sendJSON(res, 401, { error: "Unauthorized" });
         return;
       }
-      const searches = Array.from(savedSearches.values()).filter((s) => s.userId === user.id);
+      const searches = Array.from(savedSearches.values()).filter(
+        (s) => s.userId === user.id,
+      );
       sendJSON(res, 200, { searches });
       return;
     }

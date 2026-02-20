@@ -1,0 +1,98 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.3/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "attributePosition": "auto"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noImplicitAnyLet": "off",
+        "noGlobalIsNan": "off",
+        "noArrayIndexKey": "off",
+        "noRedeclare": "off",
+        "noUnknownAtRules": "off"
+      },
+      "correctness": {
+        "noUnusedVariables": "off",
+        "useExhaustiveDependencies": "off",
+        "noUnusedImports": "off",
+        "noInnerDeclarations": "off",
+        "useParseIntRadix": "off",
+        "noUnknownProperty": "off",
+        "noUnusedFunctionParameters": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off",
+        "useNodejsImportProtocol": "off",
+        "useImportType": "off",
+        "useNamingConvention": "off",
+        "useTemplate": "off",
+        "useConst": "off"
+      },
+      "complexity": {
+        "noBannedTypes": "off",
+        "useArrowFunction": "off",
+        "noUselessSwitchCase": "off",
+        "noUselessUndefinedInitialization": "off",
+        "useLiteralKeys": "off",
+        "noUselessEscapeInRegex": "off"
+      },
+      "a11y": {
+        "useHtmlLang": "off",
+        "useMediaCaption": "off",
+        "noSvgWithoutTitle": "off",
+        "useButtonType": "off",
+        "noLabelWithoutControl": "off",
+        "noStaticElementInteractions": "off",
+        "useKeyWithClickEvents": "off"
+      }
+    }
+  },
+  "html": {
+    "parser": {
+      "interpolation": true
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "jsxQuoteStyle": "double",
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "arrowParentheses": "always"
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    },
+    "formatter": {
+      "enabled": true
+    }
+  },
+  "assist": {
+    "enabled": false,
+    "actions": {
+      "source": {
+        "organizeImports": "off"
+      }
+    }
+  }
+}

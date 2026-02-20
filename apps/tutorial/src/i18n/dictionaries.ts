@@ -429,8 +429,7 @@ export const dictionaries: Record<string, Dictionary> = {
         heading: "कैसे शुरू करें",
         cloneRepo: {
           title: "रिपॉजिटरी क्लोन करें",
-          description:
-            "निम्नलिखित कमांड का उपयोग करके रिपॉजिटरी को क्लोन करें:",
+          description: "निम्नलिखित कमांड का उपयोग करके रिपॉजिटरी को क्लोन करें:",
         },
         chapter1: {
           title: "अध्याय 1 पर जाएं",
@@ -476,14 +475,12 @@ export const dictionaries: Record<string, Dictionary> = {
     },
     howTo: {
       title: "எப்படி தொடங்குவது",
-      description:
-        "Housefly உடன் எப்படி தொடங்குவது என்பதைக் கற்றுக்கொள்ளுங்கள்",
+      description: "Housefly உடன் எப்படி தொடங்குவது என்பதைக் கற்றுக்கொள்ளுங்கள்",
       content: {
         heading: "எப்படி தொடங்குவது",
         cloneRepo: {
           title: "களஞ்சியத்தை குளோன் செய்யுங்கள்",
-          description:
-            "பின்வரும் கட்டளையைப் பயன்படுத்தி களஞ்சியத்தை குளோன் செய்யுங்கள்:",
+          description: "பின்வரும் கட்டளையைப் பயன்படுத்தி களஞ்சியத்தை குளோன் செய்யுங்கள்:",
         },
         chapter1: {
           title: "அத்தியாயம் 1 க்கு செல்லுங்கள்",
@@ -543,8 +540,7 @@ export const dictionaries: Record<string, Dictionary> = {
         },
         writeScraper: {
           title: "તમારું સ્ક્રેપર લખો",
-          description:
-            "અનુરૂપ solution[number]/ ડિરેક્ટરીમાં તમારો ઉકેલ લાગુ કરો.",
+          description: "અનુરૂપ solution[number]/ ડિરેક્ટરીમાં તમારો ઉકેલ લાગુ કરો.",
         },
       },
     },
