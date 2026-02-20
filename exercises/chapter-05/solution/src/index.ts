@@ -44,11 +44,7 @@ async function main() {
           item.querySelector(".flex span")?.textContent?.replace("❤️ ", "") ||
             "0",
         );
-        const encodedUrl = item.querySelector("img")?.getAttribute("src") || "";
-        const match = encodedUrl.match(/url=(.*?)&/);
-        const url = match
-          ? decodeURIComponent(decodeURIComponent(match[1]))
-          : "";
+        const url = item.querySelector("img")?.getAttribute("src") || "";
 
         return {
           title,

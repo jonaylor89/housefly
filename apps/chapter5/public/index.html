@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinite Photo Gallery</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #f5f5f5; color: #333; }
+    main { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    h1 { font-size: 1.875rem; margin-bottom: 2rem; }
+    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    @media (min-width: 768px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
+    .photo-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden; }
+    .photo-card img { width: 100%; height: 12rem; object-fit: cover; display: block; }
+    .p-4 { padding: 1rem; }
+    .p-4 h2 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+    .p-4 p { color: #666; margin-bottom: 0.25rem; }
+    .flex { display: flex; align-items: center; }
+    .loader { margin-top: 2rem; text-align: center; padding: 1rem; color: #666; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Infinite Photo Gallery</h1>
+    <div class="gallery" id="gallery"></div>
+    <div class="loader" id="loader">Loading more photos...</div>
+  </main>
+
+  <script>
+    const gallery = document.getElementById("gallery");
+    const loader = document.getElementById("loader");
+    let page = 0;
+    let loading = false;
+
+    function generatePhotos(page) {
+      return Array.from({length: 10}, (_, i) => {
+        const id = (page - 1) * 10 + i;
+        return {
+          id: id,
+          title: "Photo " + id,
+          url: "https://picsum.photos/seed/" + id + "/400/300",
+          photographer: "Photographer " + id,
+          likes: (id * 7) % 1000
+        };
+      });
+    }
+
+    function appendPhotos(photos) {
+      photos.forEach(function(photo) {
+        const card = document.createElement("div");
+        card.className = "photo-card";
+        card.innerHTML =
+          '<img src="' + photo.url + '" alt="' + photo.title + '" width="300" height="400" loading="lazy">' +
+          '<div class="p-4">' +
+            '<h2>' + photo.title + '</h2>' +
+            '<p>By ' + photo.photographer + '</p>' +
+            '<div class="flex"><span>❤️ ' + photo.likes + '</span></div>' +
+          '</div>';
+        gallery.appendChild(card);
+      });
+    }
+
+    function loadMore() {
+      if (loading || page >= 10) return;
+      loading = true;
+      page++;
+      loader.textContent = "Loading more photos...";
+
+      setTimeout(function() {
+        appendPhotos(generatePhotos(page));
+        loading = false;
+        if (page >= 10) {
+          loader.textContent = "No more photos";
+        } else {
+          loader.textContent = "Scroll for more";
+        }
+      }, 1500);
+    }
+
+    const observer = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && !loading && page < 10) {
+        loadMore();
+      }
+    }, { threshold: 1.0 });
+
+    observer.observe(loader);
+
+    // Load first page immediately
+    loadMore();
+  </script>
+</body>
+</html>
