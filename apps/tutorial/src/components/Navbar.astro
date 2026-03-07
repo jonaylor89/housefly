@@ -25,7 +25,8 @@ const navItems = [
       <div class="flex flex-row justify-between md:px-10 w-full">
         <div class="flex flex-row items-center">
           <a href={"/" + locale} class="hidden md:inline-block">
-            <img src="/housefly-logo.png" alt="Logo" width="36" height="36" />
+            <img src="/housefly-logo.png" alt="Logo" width="36" height="36" class="block dark:hidden" />
+            <img src="/dark-mode-housefly-logo.png" alt="Logo" width="36" height="36" class="hidden dark:block" />
           </a>
           {
             navItems.map((item) => (
