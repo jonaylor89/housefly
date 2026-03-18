@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",
+    "deploy": "wrangler deploy",
     "preview": "astro preview"
   },
   "dependencies": {

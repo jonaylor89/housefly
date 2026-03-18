@@ -4,6 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "deploy": "turbo run deploy",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format --write .",
@@ -24,7 +25,8 @@
     "lint-staged": "^15.5.1",
     "tsx": "^4.0.0",
     "turbo": "^2.8.17",
-    "typescript": "5.7.3"
+    "typescript": "5.7.3",
+    "wrangler": "^4.75.0"
   },
   "engines": {
     "node": ">=22"

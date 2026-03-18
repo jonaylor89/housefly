@@ -1,0 +1,22 @@
+name = "housefly"
+compatibility_date = "2025-03-15"
+workers_dev = true
+preview_urls = true
+
+[assets]
+directory = "./dist"
+
+[[routes]]
+pattern = "housefly.cc"
+custom_domain = true
+
+
+[[routes]]
+pattern = "www.housefly.cc"
+custom_domain = true
+
+
+[[routes]]
+pattern = "housefly.jonaylor.com"
+custom_domain = true
+
