@@ -1,37 +1,20 @@
-# Portfolio Blog Starter
+# Housefly tutorial site
 
-This is a porfolio site template complete with a blog. Includes:
+This Astro site publishes the Housefly web-scraping tutorial in multiple languages.
 
-- MDX and Markdown support
-- Optimized for SEO (sitemap, robots, JSON-LD schema)
-- RSS Feed
-- Dynamic OG images
-- Syntax highlighting
-- Tailwind v4
+## Development
 
+From the repository root:
 
-## How to Use
-
-You can choose from one of the following two methods to use this repository:
-
-### One-Click Deploy
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/solutions/blog&project-name=blog&repository-name=blog)
-
-### Clone and Deploy
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [pnpm](https://pnpm.io/installation) to bootstrap the example:
-
-```bash
-pnpm create next-app --example https://github.com/vercel/examples/tree/main/solutions/blog blog
+```sh
+pnpm install
+pnpm --filter tutorial dev
 ```
 
-Then, run Next.js in development mode:
+Build and type-check the site with:
 
-```bash
-pnpm dev
+```sh
+pnpm --filter tutorial build
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/templates) ([Documentation](https://nextjs.org/docs/app/building-your-application/deploying)).
+Tutorial posts live in `src/content/posts/<locale>/`. Keep a locale's seven sections aligned with the exercises in `exercises/`, and keep code examples consistent with the commands in the root `README.md`.
