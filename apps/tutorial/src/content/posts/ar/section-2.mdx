@@ -1,132 +1,153 @@
 ---
-title: 'المحتوى المعروض بـ JavaScript'
+title: 'المحتوى المُعرَض باستخدام JavaScript'
 publishedAt: '2025-03-08'
-summary: 'موقع صفحة واحدة حيث يتم تحميل المحتوى ديناميكياً عبر JavaScript + التمرير اللانهائي / التحميل البطيء'
+summary: 'موقع أحادي الصفحة حيث يُحمَّل المحتوى ديناميكيًا عبر JavaScript مع التمرير اللانهائي / التحميل الكسول'
 ---
 
-نادراً ما توفر تطبيقات الويب الحديثة HTML كاملاً - بدلاً من ذلك، يتم تحميل المحتوى ديناميكياً وعرضه من خلال JavaScript. يقدم هذا تحديات فريدة لكشط الويب التي سنتعامل معها في هذين الفصلين.
+نادرًا ما تُرسِل تطبيقات الويب الحديثة HTML كاملًا؛ وبدلًا من ذلك، يُحمَّل المحتوى ويُعرَض ديناميكيًا عبر JavaScript. وهذا يطرح تحديات خاصة في كشط الويب سنتعامل معها في هذين الفصلين.
 
-## الفصل 4: موجز الأخبار الديناميكي
+## الفصل 4: موجز أخبار ديناميكي
 
-يتضمن تحدينا الأول كشط موجز أخبار حيث يتم تحميل المقالات ديناميكياً عبر JavaScript. يقدم هذا عدة مفاهيم أساسية:
+يتضمن أول تحدٍّ لدينا كشط موجز أخبار حيث تُحمَّل المقالات ديناميكيًا عبر JavaScript. ويُقدِّم هذا عدة مفاهيم أساسية:
 
-- أتمتة المتصفح مع Playwright
+- أتمتة المتصفح باستخدام Playwright
 - انتظار تحميل المحتوى الديناميكي
-- التعامل مع عناصر DOM المعروضة بـ JavaScript
+- التعامل مع عناصر DOM التي تُعرَض عبر JavaScript
 
-بنية الصفحة تبدو شيئاً مثل هذا:
+تبدو بنية الصفحة على نحوٍ مماثل لما يلي:
 
 ```html
 <div class="news-feed">
   <article class="news-item">
-    <h2>عنوان الأخبار العاجلة</h2>
-    <p>محتوى المقال...</p>
+    <h2>Breaking News Title</h2>
+    <p>Article content...</p>
     <div class="meta">
-      <span>بقلم: اسم الكاتب</span>
-      <time datetime="2024-03-08T12:00:00Z">8 مارس 2024</time>
+      <span>By Author Name</span>
+      <time datetime="2024-03-08T12:00:00Z">March 8, 2024</time>
     </div>
   </article>
-  <!-- المزيد من المقالات تحمل ديناميكياً -->
+  <!-- More articles load dynamically -->
 </div>
 ```
-
-الاختلافات الأساسية عن كشط HTML الثابت:
+الاختلافات الأساسية مقارنةً بكشط HTML الثابت:
 
 ```typescript
-// بدلاً من cheerio.load()، نستخدم Playwright
+// Instead of cheerio.load(), we use Playwright
 const browser = await chromium.launch();
 const page = await browser.newPage();
 
-// انتظار عرض المحتوى
+// Wait for content to render
 await page.waitForSelector('.news-item');
 
-// استخراج البيانات من DOM المباشر باستخدام page.$$eval()
-// هذا يشغل دالة callback في سياق المتصفح
-// لتقييم جميع العناصر المطابقة للمحدد مرة واحدة
+// Extract data from the live DOM using page.$$eval()
+// This runs the callback function in the browser context
+// to evaluate all elements matching the selector at once
 const items = await page.$$eval('.news-item', elements => {
-  // يعمل مثل Array.map() على العناصر المطابقة
-  // يرجع كائنات JavaScript قابلة للتسلسل
-  // مثالي لاستخراج البيانات من عناصر متعددة
+  // Works like Array.map() on matching elements
+  // Returns serializable JavaScript objects
+  // Perfect for extracting data from multiple elements
 });
 ```
 
-## الفصل 5: معرض التمرير اللانهائي
+## الفصل 5: معرض صور بتمرير لا نهائي
 
-بناءً على معرفة المحتوى الديناميكي، نتعامل مع سيناريو أكثر تعقيداً - معرض صور بتمرير لانهائي. يقدم هذا:
+استنادًا إلى ما تعلمناه عن المحتوى الديناميكي، ننتقل إلى سيناريو أكثر تعقيدًا: معرض صور بتمرير لا نهائي. ويُقدِّم هذا ما يلي:
 
-- التعامل مع المحتوى المحمل بطريقة كسولة
-- اكتشاف وتحفيز أحداث التمرير
+- التعامل مع المحتوى الذي يُحمَّل بطريقة lazy-loaded
+- اكتشاف أحداث التمرير وتحفيزها
 - إدارة حالات التحميل غير المتزامن
-- استخراج البيانات من أنماط واجهة المستخدم المعقدة
+- استخراج البيانات من أنماط واجهة مستخدم معقدة
 
-التحدي هنا أن المحتوى يحمل تدريجياً كما يتمرر المستخدم:
+يكمن التحدي هنا في أن المحتوى يُحمَّل تدريجيًا مع تمرير المستخدم:
 
 ```html
 <div class="photo-gallery">
   <div class="photo-card">
-    <img src="..." alt="عنوان الصورة" />
-    <h2>عنوان الصورة</h2>
-    <p>بقلم: اسم المصور</p>
+    <img src="..." alt="Photo title" />
+    <h2>Photo Title</h2>
+    <p>By Photographer Name</p>
     <div class="flex">
       <span>❤️ 42</span>
     </div>
   </div>
-  <!-- المزيد من الصور تحمل عند التمرير -->
+  <!-- More photos load on scroll -->
 </div>
 ```
 
 المفاهيم الأساسية للتعامل مع التمرير اللانهائي:
 
 ```typescript
-// تمرير إلى الأسفل حتى لا يحمل محتوى جديد
+// Scroll to bottom until no new content loads
 let previousHeight;
 while (true) {
   previousHeight = await page.evaluate('document.body.scrollHeight');
   await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
-  await page.waitForTimeout(1500); // انتظار المحتوى
+  await page.waitForTimeout(1500); // Wait for content
 
   const newHeight = await page.evaluate('document.body.scrollHeight');
   if (newHeight === previousHeight) {
-    break; // لا يوجد محتوى أكثر للتحميل
+    break; // No more content to load
   }
 }
 ```
 
 ### اعتبارات مهمة
 
-عند العمل مع المحتوى المعروض بـ JavaScript:
+عند العمل مع المحتوى المعروض عبر JavaScript:
 
-1. **الأداء**: كشط المحتوى الديناميكي أبطأ من HTML الثابت
-2. **إدارة الموارد**: أتمتة المتصفح تستخدم موارد نظام أكثر
-3. **الاستقرار**: تحتاج للتعامل مع حالات التحميل وظروف الشبكة
-4. **تحديد المعدل**: فكر في تطبيق تأخيرات بين الإجراءات
+1. **الأداء**: يكون كشط المحتوى الديناميكي أبطأ من HTML الثابت
+2. **إدارة الموارد**: تستهلك أتمتة المتصفح موارد نظام أكثر
+3. **الاستقرار**: تحتاج إلى التعامل مع حالات التحميل وظروف الشبكة
+4. **تحديد المعدل**: فكّر في تطبيق فواصل زمنية بين الإجراءات
 
 ### أفضل الممارسات
 
 1. استخدم استراتيجيات انتظار مناسبة:
 ```typescript
-// انتظار عناصر محددة
+// Wait for specific elements
 await page.waitForSelector('.selector');
 
-// انتظار خمول الشبكة
+// Wait for network idle
 await page.waitForLoadState('networkidle');
 
-// شروط انتظار مخصصة
+// Custom wait conditions
 await page.waitForFunction(() => {
-  // شرط JavaScript مخصص
+  // Custom JavaScript condition
 });
 ```
 
-2. نفذ معالجة أخطاء قوية:
+2. نفّذ معالجة قوية للأخطاء:
 ```typescript
 try {
   await page.goto(url);
-  // ... منطق الكشط
+  // ... scraping logic
 } catch (error) {
-  console.error('فشل الكشط:', error);
+  console.error('Scraping failed:', error);
 } finally {
-  await browser.close(); // دائماً نظف
+  await browser.close(); // Always clean up
 }
 ```
 
-كشط سعيد!
+3. فكّر في تنفيذ آليات إعادة المحاولة لتحسين الاعتمادية
+4. راقب استخدام الذاكرة عند التعامل مع مجموعات بيانات كبيرة
+5. تحقّق من صحة البيانات المستخرجة لضمان الاتساق
+
+### اختبار الحل الخاص بك
+
+توفّر بيئة الاختبار واجهات API وهمية تحاكي ظروف العالم الحقيقي:
+- أزمنة تحميل متغيرة
+- كمون الشبكة
+- آليات الترقيم إلى صفحات
+- حالات الخطأ
+
+جرّب هذه التنويعات:
+1. عدّل توقيت التمرير
+2. تعامل مع أحجام شاشات مختلفة
+3. اختبر في ظل ظروف شبكة بطيئة
+4. تحقّق من سلامة البيانات
+
+هل أنت مستعد للتعامل مع المحتوى الديناميكي؟ ستجد كود التحدي وبيئات الاختبار في المستودع.
+
+اطّلع على الحلول المرجعية في `exercises/chapter-04/solution/src/` و `exercises/chapter-05/solution/src/` للاطلاع على تطبيقات عاملة. وتذكّر: إن كشط الويب الحديث يتمحور حول فهم كلٍّ من بنية HTML وسلوك التطبيق.
+
+كشطًا موفقًا!

@@ -18,11 +18,11 @@ Muchos sitios web modernos no cargan todos sus datos con el HTML inicial. En su 
 
 **El Desafío (Capítulo 7):** Harás scraping de un sitio de comercio electrónico donde los listados de productos se cargan dinámicamente desde una API RESTful. Tu tarea es obtener todos los productos interactuando con esta API, manejando la paginación correctamente.
 
-*Encuentra una solución de referencia demostrando el scraping directo de API en el directorio `_solved/chapter7/`.*
+*Encuentra una solución de referencia demostrando el scraping directo de API en el directorio `exercises/chapter-07/solution/src/`.*
 
 ### 2. Formularios y Autenticación (Capítulo 8)
 
-A menudo, los datos valiosos están detrás de una pantalla de inicio de sesión o requieren enviar formularios complejos. Por ejemplo, la plataforma de reservas de viajes en el Capítulo 8 exige autenticación para acceder a la funcionalidad principal. Para buscar destinos (usando autocompletar), seleccionar fechas de viaje (interactuando con un widget de calendario), aplicar filtros y ver resultados (incluyendo listados premium solo disponibles para usuarios conectados), primero necesitas automatizar el proceso de inicio de sesión. Esto involucra manejar formularios, gestionar cookies de sesión (incluyendo posibles timeouts que requieren re-autenticación y protección CSRF), y finalmente controlar el navegador para realizar acciones como un usuario real.
+A menudo, los datos valiosos están detrás de una pantalla de inicio de sesión o requieren enviar formularios complejos. Por ejemplo, la plataforma de reservas de viajes en el Capítulo 8 exige autenticación para acceder a la funcionalidad principal. Para buscar destinos (usando autocompletar), seleccionar fechas de viaje (interactuando con un widget de calendario), aplicar filtros y ver resultados (incluyendo listados premium solo disponibles para usuarios que hayan iniciado sesión), primero necesitas automatizar el proceso de inicio de sesión. Esto involucra manejar formularios, gestionar cookies de sesión (incluyendo posibles timeouts que requieren re-autenticación y protección CSRF), y finalmente controlar el navegador para realizar acciones como un usuario real.
 
 **Conceptos Clave:**
 
@@ -31,9 +31,9 @@ A menudo, los datos valiosos están detrás de una pantalla de inicio de sesión
     *   **Basada en Cookies:** Inicia sesión una vez, y el contexto del navegador (gestionado por Playwright/Puppeteer) a menudo maneja las cookies de sesión automáticamente para solicitudes posteriores.
     *   **Basada en Tokens (ej., JWT):** Inicia sesión, extrae el token (a menudo del almacenamiento local o una respuesta de API), e inclúyelo en las cabeceras (ej., `Authorization: Bearer <token>`) para solicitudes de API posteriores.
 *   **Manejo de Sesiones:** Mantén el estado de inicio de sesión a través de diferentes páginas o acciones dentro de tu scraper.
-*   **Acceso a Contenido Protegido:** Una vez autenticado, puedes navegar y hacer scraping de páginas o datos solo disponibles para usuarios conectados.
+*   **Acceso a Contenido Protegido:** Una vez autenticado, puedes navegar y hacer scraping de páginas o datos solo disponibles para usuarios que hayan iniciado sesión.
 
-**El Desafío (Capítulo 8):** Este capítulo involucra un proceso de múltiples pasos: iniciar sesión en un sitio, navegar a una página de búsqueda, llenar un formulario complejo de múltiples partes con filtros, extraer los resultados (incluyendo contenido premium solo visible cuando está conectado), e incluso guardar la búsqueda en un dashboard de usuario.
+**El Desafío (Capítulo 8):** Este capítulo involucra un proceso de múltiples pasos: iniciar sesión en un sitio, navegar a una página de búsqueda, llenar un formulario complejo de múltiples partes con filtros, extraer los resultados (incluyendo contenido premium solo visible cuando se ha iniciado sesión), e incluso guardar la búsqueda en un dashboard de usuario.
 
 ### 3. Trabajando con APIs GraphQL (Capítulo 9)
 

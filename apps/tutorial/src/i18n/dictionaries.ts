@@ -129,12 +129,12 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "Перейти к Главе 1",
           description:
-            "Каждая глава содержит простой веб-сайт для скрапинга, а также файл expected.txt, определяющий правильный вывод.",
+            "Каждая глава содержит учебный сайт и каталог `expected/` с ожидаемым результатом.",
         },
         writeScraper: {
           title: "Напишите свой скрапер",
           description:
-            "Реализуйте свое решение в соответствующем каталоге solution[number]/.",
+            "Реализуйте свое решение в соответствующем каталоге exercises/chapter-NN/starter/src/.",
         },
       },
     },
@@ -180,12 +180,12 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "Navegar al Capítulo 1",
           description:
-            "Cada capítulo contiene un sitio web simple para scrapear, junto con un archivo expected.txt que define la salida correcta.",
+            "Cada capítulo incluye un sitio de práctica y un directorio `expected/` con el resultado esperado.",
         },
         writeScraper: {
           title: "Escribe tu scraper",
           description:
-            "Implementa tu solución dentro del directorio solution[number]/ correspondiente.",
+            "Implementa tu solución dentro del directorio exercises/chapter-NN/starter/src/ correspondiente.",
         },
       },
     },
@@ -231,11 +231,11 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "进入第1章",
           description:
-            "每一章都包含一个简单的网站供爬取，以及一个定义正确输出的expected.txt文件。",
+            "每一章都包含一个练习网站，以及存放预期输出的 `expected/` 目录。",
         },
         writeScraper: {
           title: "编写你的爬虫",
-          description: "在相应的solution[number]/目录中实现你的解决方案。",
+          description: "在相应的exercises/chapter-NN/starter/src/目录中实现你的解决方案。",
         },
       },
     },
@@ -281,12 +281,12 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "第1章に移動する",
           description:
-            "各章にはスクレイピング用のシンプルなウェブサイトと、正しい出力を定義するexpected.txtファイルが含まれています。",
+            "各章には練習用サイトと、正しい出力を収めた `expected/` ディレクトリが含まれています。",
         },
         writeScraper: {
           title: "スクレイパーを書く",
           description:
-            "対応するsolution[number]/ディレクトリ内にソリューションを実装します。",
+            "対応するexercises/chapter-NN/starter/src/ディレクトリ内にソリューションを実装します。",
         },
       },
     },
@@ -332,12 +332,12 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "Zu Kapitel 1 navigieren",
           description:
-            "Jedes Kapitel enthält eine einfache Website zum Scrapen sowie eine expected.txt-Datei, die die korrekte Ausgabe definiert.",
+            "Jedes Kapitel enthält eine Übungswebsite und ein `expected/`-Verzeichnis mit der erwarteten Ausgabe.",
         },
         writeScraper: {
           title: "Schreibe deinen Scraper",
           description:
-            "Implementiere deine Lösung im entsprechenden solution[number]/ Verzeichnis.",
+            "Implementiere deine Lösung im entsprechenden exercises/chapter-NN/starter/src/ Verzeichnis.",
         },
       },
     },
@@ -383,12 +383,12 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "Navighează la Capitolul 1",
           description:
-            "Fiecare capitol conține un site web simplu pentru scraping, alături de un fișier expected.txt care definește output-ul corect.",
+            "Fiecare capitol include un site de exercițiu și un director `expected/` cu rezultatul așteptat.",
         },
         writeScraper: {
           title: "Scrie scraper-ul tău",
           description:
-            "Implementează soluția ta în directorul solution[number]/ corespunzător.",
+            "Implementează soluția ta în directorul exercises/chapter-NN/starter/src/ corespunzător.",
         },
       },
     },
@@ -434,12 +434,12 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "अध्याय 1 पर जाएं",
           description:
-            "प्रत्येक अध्याय में स्क्रैप करने के लिए एक सरल वेबसाइट है, साथ ही सही आउटपुट को परिभाषित करने वाली expected.txt फ़ाइल है।",
+            "हर अध्याय में अभ्यास के लिए एक वेबसाइट और अपेक्षित आउटपुट वाला `expected/` डायरेक्टरी होता है।",
         },
         writeScraper: {
           title: "अपना स्क्रैपर लिखें",
           description:
-            "संबंधित solution[number]/ डायरेक्टरी के अंदर अपना समाधान लागू करें।",
+            "संबंधित exercises/chapter-NN/starter/src/ डायरेक्टरी के अंदर अपना समाधान लागू करें।",
         },
       },
     },
@@ -485,12 +485,12 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "அத்தியாயம் 1 க்கு செல்லுங்கள்",
           description:
-            "ஒவ்வொரு அத்தியாயத்திலும் ஸ்கிராப் செய்வதற்கான ஒரு எளிய வலைத்தளம் உள்ளது, அதோடு சரியான வெளியீட்டை வரையறுக்கும் expected.txt கோப்பும் உள்ளது.",
+            "ஒவ்வொரு அத்தியாயத்திலும் பயிற்சிக்கான வலைத்தளமும் எதிர்பார்க்கப்படும் வெளியீட்டைக் கொண்ட `expected/` கோப்பகமும் உள்ளன.",
         },
         writeScraper: {
           title: "உங்கள் ஸ்கிராப்பரை எழுதுங்கள்",
           description:
-            "தொடர்புடைய solution[number]/ கோப்பகத்தில் உங்கள் தீர்வை செயல்படுத்துங்கள்.",
+            "தொடர்புடைய exercises/chapter-NN/starter/src/ கோப்பகத்தில் உங்கள் தீர்வை செயல்படுத்துங்கள்.",
         },
       },
     },
@@ -536,11 +536,11 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "અધ્યાય 1 પર જાઓ",
           description:
-            "દરેક અધ્યાયમાં સ્ક્રેપ કરવા માટે એક સરળ વેબસાઇટ છે, સાથે સાચું આઉટપુટ વ્યાખ્યાયિત કરતી expected.txt ફાઇલ છે.",
+            "દરેક અધ્યાયમાં અભ્યાસ માટે વેબસાઇટ અને અપેક્ષિત આઉટપુટ ધરાવતી `expected/` ડિરેક્ટરી છે.",
         },
         writeScraper: {
           title: "તમારું સ્ક્રેપર લખો",
-          description: "અનુરૂપ solution[number]/ ડિરેક્ટરીમાં તમારો ઉકેલ લાગુ કરો.",
+          description: "અનુરૂપ exercises/chapter-NN/starter/src/ ડિરેક્ટરીમાં તમારો ઉકેલ લાગુ કરો.",
         },
       },
     },
@@ -586,12 +586,12 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "رفتن به فصل ۱",
           description:
-            "هر فصل حاوی یک وب‌سایت ساده برای اسکرپ کردن است، همراه با فایل expected.txt که خروجی صحیح را تعریف می‌کند.",
+            "هر فصل یک وب‌سایت تمرینی و پوشهٔ `expected/` حاوی خروجی مورد انتظار دارد.",
         },
         writeScraper: {
           title: "اسکرپر خود را بنویسید",
           description:
-            "راه‌حل خود را در دایرکتوری solution[number]/ مربوطه پیاده‌سازی کنید.",
+            "راه‌حل خود را در دایرکتوری exercises/chapter-NN/starter/src/ مربوطه پیاده‌سازی کنید.",
         },
       },
     },
@@ -617,7 +617,7 @@ export const dictionaries: Record<string, Dictionary> = {
       getStarted: {
         title: "کیسے شروع کریں",
         content:
-          "ہدایات GitHub repository کی README.md فائل میں ہیں۔ وہاں سے، آپ پروجیکٹ سیٹ اپ اور چلانے کے قدامات کی پیروی کر سکتے ہیں۔",
+          "ہدایات GitHub repository کی README.md فائل میں ہیں۔ وہاں سے، آپ پروجیکٹ سیٹ اپ اور چلانے کے اقدامات کی پیروی کر سکتے ہیں۔",
       },
     },
     nav: {
@@ -638,12 +638,12 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "باب 1 پر جائیں",
           description:
-            "ہر باب میں اسکریپ کرنے کے لیے ایک سادہ ویب سائٹ ہے، ساتھ ہی expected.txt فائل جو صحیح آؤٹ پٹ کی تعین کرتی ہے۔",
+            "ہر باب میں مشق کے لیے ایک ویب سائٹ اور متوقع آؤٹ پٹ والی `expected/` ڈائرکٹری شامل ہے۔",
         },
         writeScraper: {
           title: "اپنا scraper لکھیں",
           description:
-            "متعلقہ solution[number]/ ڈائرکٹری میں اپنا حل نافذ کریں۔",
+            "متعلقہ exercises/chapter-NN/starter/src/ ڈائرکٹری میں اپنا حل نافذ کریں۔",
         },
       },
     },
@@ -689,11 +689,11 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "الانتقال إلى الفصل 1",
           description:
-            "كل فصل يحتوي على موقع ويب بسيط للاستخراج، مع ملف expected.txt الذي يحدد المخرجات الصحيحة.",
+            "يحتوي كل فصل على موقع للتدريب ودليل `expected/` يتضمن المخرجات المتوقعة.",
         },
         writeScraper: {
           title: "اكتب مستخرج البيانات الخاص بك",
-          description: "قم بتنفيذ حلك في دليل solution[number]/ المقابل.",
+          description: "قم بتنفيذ حلك في دليل exercises/chapter-NN/starter/src/ المقابل.",
         },
       },
     },
@@ -714,7 +714,7 @@ export const dictionaries: Record<string, Dictionary> = {
       whyCreated: {
         title: "Bunu neden yaptım?",
         content:
-          "Web scraping'i teorik olarak açıklayan sayısız eğitim gördüm, ancak çok azı deney için gerçek, kontrollü ortamlar sunar. Housefly bunu, sağlanan web sitelerini scraplayabileceğiniz ve çözümlerinizi beklenen çıktılara karşı doğrulayabileceğiniz bağımsız zorluklar sunarak çözer. Sadece okumak yerine yapmak isteyen praktik öğreniciler için inşa edilmiştir.",
+          "Web scraping'i teorik olarak açıklayan sayısız eğitim gördüm, ancak çok azı deney için gerçek, kontrollü ortamlar sunar. Housefly bunu, sağlanan web sitelerini scraplayabileceğiniz ve çözümlerinizi beklenen çıktılara karşı doğrulayabileceğiniz bağımsız zorluklar sunarak çözer. Sadece okumak yerine yapmak isteyen pratik öğrenenler için tasarlanmıştır.",
       },
       getStarted: {
         title: "Nasıl başlanır",
@@ -739,12 +739,12 @@ export const dictionaries: Record<string, Dictionary> = {
         chapter1: {
           title: "Bölüm 1'e gidin",
           description:
-            "Her bölüm, doğru çıktıyı tanımlayan expected.txt dosyası ile birlikte scraplanacak basit bir web sitesi içerir.",
+            "Her bölüm, alıştırma sitesi ve beklenen çıktıyı içeren bir `expected/` dizini içerir.",
         },
         writeScraper: {
           title: "Scraper'ınızı yazın",
           description:
-            "Çözümünüzu ilgili solution[number]/ dizininde uygulayın.",
+            "Çözümünüzü ilgili exercises/chapter-NN/starter/src/ dizininde uygulayın.",
         },
       },
     },

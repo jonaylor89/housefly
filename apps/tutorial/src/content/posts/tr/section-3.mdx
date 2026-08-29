@@ -1,60 +1,60 @@
 ---
-title: 'Çok Sayfa Tarama'
+title: 'Çok Sayfalı Tarama'
 publishedAt: '2025-03-25'
-summary: 'Birbirine bağlı web sitelerini tarama, site haritası yönetimi ve çokün içerik işleme tekniklerinde ustalaşın'
+summary: 'Birbiriyle bağlantılı web sitelerini tarama, sitemap yönetimi ve yinelenen içerikle başa çıkma tekniklerinde ustalaşın'
 ---
 
-Hem statik hem de dinamik içerik kazımanın temellerini elimizde tutarak, şimdi daha kapsamlı bir zorlukla uğraşmanın zamanı geldi: çok sayfa tarama. Bu bölüm, birden fazla birbirine bağlı sayfaya sahip web sitelerinden etkili bir şekilde gezinme ve veri çıkarma tekniklerine odaklanır.
+Statik ve dinamik içerik scraping’inin temellerini öğrendiğimize göre, şimdi daha kapsamlı bir meydan okumaya geçme zamanı: çok sayfalı tarama. Bu bölüm, birbiriyle bağlantılı birden fazla sayfaya sahip web sitelerinde verimli şekilde gezinmeye ve veri çıkarmaya odaklanır.
 
-Çok sayfa web sitelerini taramak için iki ana yaklaşım vardır:
+Çok sayfalı web sitelerini taramak için iki ana yaklaşım vardır:
 
-1. Bağlantı tabanlı tarama - Sayfalar arasındaki bağlantıları takip etmek
-2. Site haritası tabanlı tarama - sitemap.xml dosyasını kullanmak
+1. Link tabanlı tarama - Sayfalar arasındaki linkleri takip etme
+2. Sitemap tabanlı tarama - `sitemap.xml` dosyasını kullanma
 
-Site haritası taraması için, çoğu web sitesi tüm önemli URL'leri listeleyen bir sitemap.xml dosyası sağlar. Bu yapılandırılmış XML dosyası şunları içerir:
+Sitemap taraması için çoğu web sitesi, tüm önemli URL’leri listeleyen bir `sitemap.xml` dosyası sağlar. Bu yapılandırılmış XML dosyası şunları içerir:
 
-- Sayfa URL'leri
-- Son değişiklik tarihleri
-- Değişiklik sıklığı
-- Öncelik değerleri
+- Sayfa URL’leri
+- Son değiştirilme tarihleri
+- Değişim sıklığı
+- Öncelik değerleri
 
-Site haritasını kullanmak bağlantı taramadan daha verimli olabilir çünkü:
-- Önceden sayfaların eksiksiz bir listesini sağlar
-- Sayfa önemi ve tazeliği hakkında metadata içerir
-- Gereksiz sayfaları taramaktan kaçınır
+Sitemap kullanmak, link taramasına göre daha verimli olabilir çünkü:
+- Baştan tüm sayfaların tam bir listesini sunar
+- Sayfa önemi ve güncelliği hakkında metadata içerir
+- Gereksiz sayfaların taranmasını önler
 - Sunucu yükünü azaltır
 
-Ancak bu bölüm için, çok sayfa e-ticaret sitesi için bir tarayıcı oluşturmak amacıyla Crawlee kullanarak bağlantı tabanlı taramaya odaklanacağız. Crawlee web tarama karmaşıklıklarının çoğunu bizim için halleder, bunlar arasında:
+Ama bu bölümde, çok sayfalı bir e-ticaret sitesi için Crawlee kullanarak bir crawler oluşturmak amacıyla link tabanlı taramaya odaklanacağız. Crawlee, web taramanın birçok karmaşıklığını bizim yerimize ele alır; bunlar arasında şunlar vardır:
 
-- Otomatik kuyruk yönetimi ve URL tekilileştirme
-- Yerleşik oran sınırlama ve yeniden deneme mantığı
-- Yapılandırılabilir istek işleme ve yönlendirme
+- Otomatik kuyruk yönetimi ve URL tekilleştirme
+- Yerleşik rate limiting ve retry mantığı
+- Yapılandırılabilir request işleme ve routing
 - Veri depolama ve dışa aktarma
 
-Tarayacağımız site yapısı şöyle görünür:
+Tarayacağımız site yapısı şu şekilde görünüyor:
 
 ```
-Ana Sayfa
-├── Kategori: Elektronik
-│   ├── Telefonlar
-│   ├── Dizüstü Bilgisayarlar
-│   └── Aksesuarlar
-├── Kategori: Giyim
-│   ├── Erkek
-│   └── Kadın
-└── Öne Çıkan Ürünler
+Homepage
+├── Category: Electronics
+│   ├── Phones
+│   ├── Laptops
+│   └── Accessories
+├── Category: Clothing
+│   ├── Men's
+│   └── Women's
+└── Featured Products
 ```
 
-Her ürün sayfası kategoriye bağlı olarak farklı düzenlere sahip, ancak tutarlı bilgileri çıkarmamız gerekiyor:
+Her ürün sayfası kategoriye bağlı olarak farklı layout’lara sahip, ancak bizim tutarlı bilgiler çıkarmamız gerekiyor:
 
 ```typescript
-// Oluşturmak istediğimiz örnek veri yapısı
+// Example data structure we want to build
 interface ProductData {
   name: string;
   price: number;
   rating: { score: number, count: number };
   features: string[];
-  status: string; // Stokta, Stokta Değil, vb.
+  status: string; // In Stock, Out of Stock, etc.
 }
 
 interface ResultData {
@@ -79,4 +79,126 @@ interface ResultData {
 }
 ```
 
-Mutlu tarama!
+### Crawlee ile Temel Tarama Kavramları
+
+1. **Request Queue Yönetimi**
+
+Crawlee kuyruğu otomatik olarak yönetir, ancak bunu şu şekilde yapılandırıyoruz:
+
+```typescript
+import { CheerioCrawler } from 'crawlee';
+
+const crawler = new CheerioCrawler({
+    // Handles each request
+    async requestHandler({ $, request, enqueueLinks }) {
+        // Process the page
+        const data = extractPageData($);
+
+        // Automatically queue new URLs found on the page
+        await enqueueLinks({
+            selector: 'a',
+            baseUrl: request.loadedUrl,
+        });
+    },
+    // Limit concurrent requests
+    maxConcurrency: 10,
+});
+```
+
+2. **URL İşleme**
+
+Crawlee, yerleşik URL işleme ve normalizasyon sağlar:
+
+```typescript
+await crawler.run([startUrl]);
+
+// Or with more configuration:
+await crawler.addRequests([{
+    url: startUrl,
+    userData: {
+        label: 'start',
+    },
+}]);
+```
+
+3. **Route İşleme**
+
+Farklı URL’leri belirli handler’lara yönlendirin:
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, request }) {
+        const { label } = request.userData;
+
+        switch (label) {
+            case 'category':
+                return handleCategory($);
+            case 'product':
+                return handleProduct($);
+            default:
+                return handleHomepage($);
+        }
+    },
+});
+```
+
+4. **Veri Toplama**
+
+Crawlee, toplanan veriler için yerleşik depolama sağlar:
+
+```typescript
+const crawler = new CheerioCrawler({
+    async requestHandler({ $, pushData }) {
+        const productData = extractProduct($);
+        await pushData(productData);
+    },
+});
+```
+
+### Web Tarama için En İyi Uygulamalar
+
+Crawlee birçok düşük seviyeli konuyu ele alsa da, yine de şunları göz önünde bulundurmalısınız:
+
+1. **Yapılandırma**
+   - Uygun rate limit değerleri belirleyin
+   - Retry stratejilerini yapılandırın
+   - Anlamlı user-agent string’leri ayarlayın
+
+2. **Hata Yönetimi**
+   - Crawlee’nin yerleşik hata yönetimini kullanın
+   - Özel hata callback’leri uygulayın
+   - Anlamlı tanılama bilgilerini loglayın
+
+3. **Veri Organizasyonu**
+   - Verilerinizi tutarlı bir şekilde yapılandırın
+   - Routing için request label’larını kullanın
+   - Crawlee’nin dataset özelliklerinden yararlanın
+
+4. **Kaynak Yönetimi**
+   - `maxConcurrency` değerini uygun şekilde yapılandırın
+   - Gerektiğinde `maxRequestsPerCrawl` kullanın
+   - Bellek kullanımını izleyin
+
+### Meydan Okuma
+
+Göreviniz, Crawlee tabanlı bir crawler oluşturmak:
+
+1. Ana sayfadan başlayıp tüm ürün kategorilerini keşfetsin
+2. Her kategori ve alt kategori sayfasını ziyaret etsin
+3. Her listeden ürün bilgilerini çıkarsın
+4. Verileri yapılandırılmış bir formatta düzenlesin
+5. Birden fazla yerde görünen ürünleri yönetsin (ör. featured ve kategori)
+
+Site, farklı kategorilere dağılmış ve farklı layout’lar ile bilgi yapıları içeren yaklaşık 25-30 ürün barındırıyor. Crawler’ınız, kategoriler ile ürünler arasındaki hiyerarşik ilişkiyi koruyan kapsamlı bir dataset üretmelidir.
+
+### Çözümünüzü Test Etme
+
+Şunları test edin:
+- Tamlık: Tüm ürünleri buldunuz mu?
+- Doğruluk: Çıkarılan veriler doğru mu?
+- Yapı: Veriler düzgün şekilde organize edildi mi?
+- Verimlilik: Kaç request yaptınız?
+
+`exercises/chapter-06/solution/src/` içindeki referans çözüm, Crawlee kullanan çalışan bir implementasyon sunar. Çok sayfalı verimli tarama ve veri organizasyonu için kütüphanenin özelliklerinden nasıl yararlanılacağını anlamak üzere onu inceleyin.
+
+İyi taramalar!

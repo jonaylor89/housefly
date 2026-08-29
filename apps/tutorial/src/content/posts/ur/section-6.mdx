@@ -1,31 +1,31 @@
 ---
-title: 'ویب کرالنگ کے دفاعی نظاموں سے نمٹنا'
+title: 'ویب کرالنگ کے دفاعی اقدامات سے نمٹنا'
 publishedAt: '2025-05-18'
-summary: 'اخلاقی اسکریپنگ کے طریقوں کو برقرار رکھتے ہوئے anti-scraping دفاعات کی پیچیدہ دنیا میں نیویگیٹ کرنا سیکھیں'
+summary: 'جانیں کہ اینٹی اسکریپنگ دفاعی نظاموں کی پیچیدہ دنیا میں رہنمائی کیسے کی جائے، جبکہ اخلاقی اسکریپنگ کے طریقوں کو برقرار رکھا جائے'
 ---
 
-ویب اسکریپنگ ڈیٹا سائنسدانوں اور ڈویلپرز کے لیے ایک ضروری مہارت بن گئی ہے، لیکن ویب سائٹ مالکان نے اسی انداز میں اپنے دفاعی نظام تیار کیے ہیں۔ یہ باب ویب اسکریپنگ دفاعات کے بلی اور چوہے کے کھیل اور ان میں مؤثر طریقے سے نیویگیٹ کرنے کا طریقہ دریافت کرتا ہے۔
+Web scraping ڈیٹا سائنس دانوں اور ڈویلپرز کے لیے ایک لازمی مہارت بن چکی ہے، لیکن اس کے مقابلے میں ویب سائٹ مالکان نے بھی اپنے دفاعی طریقے ترقی دے لیے ہیں۔ یہ باب Web scraping کے دفاعی ہتھکنڈوں کی اس بلی اور چوہے کی دوڑ کا جائزہ لیتا ہے اور یہ بتاتا ہے کہ ان سے مؤثر طور پر کیسے نمٹا جائے۔
 
-## باب 11: دشمن کی لائنوں کے پیچھے
+## باب 11: دشمن کی صفوں کے پیچھے
 
-اس باب میں، آپ "CryptoDefend Exchange" سے نمٹیں گے - ایک نقلی کرپٹو کرنسی ایکسچینج پلیٹ فارم جو اپنے ڈیٹا تک آسان رسائی نہیں چاہتا۔ بہت سی مالی سائٹس کی طرح، CryptoMoon قیمتوں کے ڈیٹا، تجارتی حجم، اور بازاری رجحانات کے خودکار جمع کو روکنے کے لیے مختلف دفاعی اقدامات نافذ کرتا ہے۔
+اس باب میں آپ "CryptoDefend Exchange" سے نمٹیں گے — ایک فرضی cryptocurrency exchange پلیٹ فارم جو نہیں چاہتا کہ اس کا ڈیٹا آسانی سے حاصل کیا جائے۔ بہت سی مالیاتی سائٹس کی طرح، CryptoDefend قیمتوں کے ڈیٹا، trading volumes، اور market trends کی خودکار جمع آوری کو روکنے کے لیے مختلف دفاعی اقدامات نافذ کرتا ہے۔
 
-ہمارا چیلنج ان دفاعات کو کنٹرولڈ ماحول میں نقل کرتا ہے، آپ کو اجازت دیتا ہے:
+ہمارا چیلنج ان دفاعی تدابیر کو ایک قابو میں رکھے گئے ماحول میں نقل کرتا ہے، تاکہ آپ یہ کر سکیں:
 
-- اعلیٰ قدر کے اہداف کے ذریعے استعمال ہونے والی عام anti-scraping mechanisms کو سمجھنا
-- کامیاب ڈیٹا نکالنے کے لیے عملی حکمت عملیاں تیار کرنا
-- مثابرت اور تکنیکی چیلنجز کے درمیان توازن برقرار رکھنا
+- اُن عام اینٹی اسکریپنگ طریقہ کار کو سمجھنا جو زیادہ قدر رکھنے والے اہداف استعمال کرتے ہیں
+- کامیاب ڈیٹا اخذ کرنے کے لیے عملی حکمت عملیاں تیار کرنا
+- ثابت قدمی اور تکنیکی چیلنجوں کے درمیان توازن قائم کرنا
 
-## حقیقی دنیا میں کثیر پرتی دفاع
+## حقیقی دنیا میں کثیر سطحی دفاع
 
-آج کے anti-scraping arsenal میں کئی پیچیدہ تکنیکیں شامل ہیں:
+آج کے اینٹی اسکریپنگ ہتھیاروں میں کئی جدید تکنیکیں شامل ہیں:
 
 ### Rate Limiting اور IP Blocking
 
-سب سے بنیادی دفاع درخواستوں کی frequency کو monitor کرنا اور threshold سے زیادہ IPs کو block کرنا ہے:
+سب سے بنیادی دفاع اب بھی درخواستوں کی تعداد پر نظر رکھنا اور حد سے تجاوز کرنے والے IPs کو بلاک کرنا ہے:
 
 ```javascript
-// سادہ rate limiting کا تصور
+// Simplified rate limiting concept
 const requestCounts = {};
 
 app.use((req, res, next) => {
@@ -33,111 +33,111 @@ app.use((req, res, next) => {
   requestCounts[ip] = (requestCounts[ip] || 0) + 1;
   
   if (requestCounts[ip] > THRESHOLD) {
-    return res.status(429).send('بہت زیادہ درخواستیں');
+    return res.status(429).send('Too Many Requests');
   }
   next();
 });
 ```
 
-Rate limiting کو سنبھالنے کے لیے، آپ کے scraper کو ضرورت ہے:
+Rate limiting سے نمٹنے کے لیے، آپ کے scraper کو یہ کرنا ہوگا:
 
-- درخواستوں کے درمیان تاخیر لاگو کرنا
+- درخواستوں کے درمیان وقفے نافذ کرنا
 - robots.txt کی ہدایات کا احترام کرنا
-- پیمانے پر اسکریپنگ کرتے وقت IP rotation پر غور کرنا
+- بڑے پیمانے پر scraping کرتے وقت IPs کی rotation پر غور کرنا
 
-### CAPTCHAs اور Interactive Challenges
+### CAPTCHAs اور تعاملی چیلنجز
 
-CAPTCHAs ایسے کام پیش کرتے ہیں جو انسانوں کے لیے آسان لیکن bots کے لیے مشکل ہیں۔ reCAPTCHA v3 جیسے جدید CAPTCHAs پس منظر میں غیر مرئی طور پر کام کرتے ہوئے صارف کی behavior کا تجزیہ کرتے ہیں:
+CAPTCHAs ایسے کام پیش کرتے ہیں جو انسانوں کے لیے آسان مگر bots کے لیے مشکل ہوتے ہیں۔ جدید CAPTCHAs جیسے reCAPTCHA v3 پس منظر میں غیر مرئی انداز سے بھی کام کرتے ہیں اور صارف کے رویّے کا تجزیہ کرتے ہیں:
 
 ```html
-<!-- CAPTCHA implementation کی مثال -->
+<!-- Example CAPTCHA implementation -->
 <form>
   <div class="g-recaptcha" data-sitekey="your-site-key"></div>
-  <button type="submit">جمع کریں</button>
+  <button type="submit">Submit</button>
 </form>
 ```
 
-CAPTCHAs میں نیویگیٹ کرنے میں شامل ہو سکتا ہے:
+CAPTCHAs سے گزرنے کے لیے یہ طریقے شامل ہو سکتے ہیں:
 
-- CAPTCHA solving services (اگرچہ اخلاقی اعتبارات لاگو ہوتے ہیں)
-- انسان نما behavior کو نقل کرنے کے لیے browser automation کا استعمال
-- یہ قبول کرنا کہ کچھ content ناقابل رسائی رہ سکتا ہے
+- CAPTCHA solving services کا استعمال (اگرچہ اس میں اخلاقی پہلو شامل ہیں)
+- انسانی انداز کے مشابہ رویّے کی نقالی کے لیے browser automation سے فائدہ اٹھانا
+- یہ تسلیم کرنا کہ کچھ مواد شاید ناقابلِ رسائی ہی رہے
 
 ### Behavioral Analysis اور Fingerprinting
 
-پیشرفتہ دفاعات mouse movements، scrolling patterns، اور device characteristics کو track کرتے ہیں bots کی شناخت کے لیے:
+جدید دفاعی نظام bots کی شناخت کے لیے mouse movements، scrolling patterns، اور device characteristics کو ٹریک کرتے ہیں:
 
 ```javascript
-// سادہ fingerprinting کا تصور
+// Simplified fingerprinting concept
 function collectFingerprint() {
   return {
     userAgent: navigator.userAgent,
     screenResolution: `${screen.width}x${screen.height}`,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     language: navigator.language,
-    // production systems میں بہت سے اور signals
+    // Many more signals in production systems
   };
 }
 ```
 
-ان techniques کا مقابلہ کرنے کے لیے ضرورت ہے:
+ان تکنیکوں کا مقابلہ کرنے کے لیے درکار ہے:
 
-- Headless browsers جو انسان نما behavior کو نقل کر سکیں
-- تعامل کے patterns کو random بنانا
-- cookies اور session data کو مطابقت سے manage کرنا
+- Headless browsers جو انسانی طرز کے مشابہ رویّے کی نقالی کر سکیں
+- interaction patterns میں بے قاعدہ تغیر پیدا کرنا
+- cookies اور session data کو مستقل انداز میں سنبھالنا
 
 ### Dynamic Content اور HTML Obfuscation
 
-بہت سی sites JavaScript کے ذریعے content render کرتی ہیں یا element IDs اور class names کو random بناتی ہیں:
+بہت سی سائٹس JavaScript کے ذریعے مواد render کرتی ہیں یا element IDs اور class names کو بے ترتیب بنا دیتی ہیں:
 
 ```html
-<!-- کل کا HTML -->
+<!-- Yesterday's HTML -->
 <div class="product-price">$99.99</div>
 
-<!-- obfuscation کے بعد آج کا HTML -->
+<!-- Today's HTML after obfuscation -->
 <div class="_a7b92f3e">$99.99</div>
 ```
 
-اس کے لیے آپ کے scraper کو ضرورت ہے:
+اس کے لیے آپ کے scraper کو یہ کرنا ہوگا:
 
-- Playwright یا Puppeteer جیسے full browser environments کا استعمال
-- exact selectors کے بجائے content patterns پر توجہ
-- زیادہ resilient parsing strategies کا implementation
+- Playwright یا Puppeteer جیسے مکمل browser environments استعمال کرنا
+- عین selectors کے بجائے مواد کے pattern پر توجہ دینا
+- parsing کی زیادہ مضبوط حکمت عملیاں نافذ کرنا
 
-## اخلاقی اور قانونی اعتبارات
+## اخلاقی اور قانونی پہلو
 
-جبکہ یہ باب defenses میں navigate کرنے کی techniques متعارف کراتا ہے، یہ یاد رکھنا اہم ہے کہ:
+اگرچہ یہ باب دفاعی نظاموں سے نمٹنے کی تکنیکیں متعارف کراتا ہے، لیکن یہ نوٹ کرنا ضروری ہے کہ:
 
-- زیادہ اسکریپنگ website performance کو نقصان پہنچا سکتی ہے
-- Terms of Service اکثر scraping کو صراحت سے منع کرتے ہیں
-- کچھ jurisdictions میں unauthorized access کے متعلق قوانین ہیں
+- ضرورت سے زیادہ scraping ویب سائٹ کی کارکردگی کو نقصان پہنچا سکتی ہے
+- Terms of Service اکثر واضح طور پر scraping کو منع کرتی ہیں
+- بعض دائرہ ہائے اختیار میں غیر مجاز رسائی سے متعلق قوانین موجود ہیں
 
-تعلیمی مقاصد کے لیے، ہم تجویز کرتے ہیں:
+تعلیمی مقاصد کے لیے، ہم یہ تجویز کرتے ہیں:
 
-- production sites کو اسکریپ کرنے سے پہلے robots.txt چیک کرنا
-- درخواستوں کے درمیان معقول تاخیر implement کرنا
-- جب efficiency اہم ہو تو API options پر غور کرنا
-- مناسب وقت پر identifiable user agent استعمال کرنا
+- production sites پر scraping سے پہلے robots.txt چیک کرنا
+- درخواستوں کے درمیان معقول وقفے نافذ کرنا
+- جب کارکردگی اہم ہو تو API کے اختیارات پر غور کرنا
+- مناسب مواقع پر قابلِ شناخت user agent استعمال کرنا
 
-## Challenge کا Approach
+## چیلنج کی حکمت عملی
 
-باب 11 میں ہمارا CryptoMoon exchange حقیقی challenges پیش کرتا ہے جن سے آپ financial data جمع کرتے وقت encounter کر سکتے ہیں۔ آپ کو navigate کرنا ہوگا:
+باب 11 میں ہمارا CryptoDefend exchange ایسے حقیقت پسندانہ چیلنجز پیش کرتا ہے جن کا سامنا آپ کو مالیاتی ڈیٹا جمع کرتے وقت ہو سکتا ہے۔ آپ کو ان چیزوں سے نمٹنا ہوگا:
 
-- Price API endpoints پر rate limiting
-- Trading data تک رسائی کے لیے سادہ verification puzzles
-- Market charts جو صرف JavaScript کے ذریعے render ہوتے ہیں
-- Randomized selectors جو visits کے درمیان بدلتے رہتے ہیں
+- price API endpoints پر Rate limiting
+- trading data تک رسائی کے لیے سادہ verification puzzles
+- market charts جو صرف JavaScript کے ذریعے render ہوتے ہیں
+- بے ترتیب selectors جو ہر وزٹ کے درمیان بدل جاتے ہیں
 
-مقصد ان mechanisms کو سمجھنا اور آپ کے data collection toolkit کے لیے practical techniques تیار کرنا ہے۔
+مقصد یہ ہے کہ ان طریقہ کار کو سمجھا جائے اور اپنے ڈیٹا جمع کرنے کے toolkit کے لیے عملی تکنیکیں تیار کی جائیں۔
 
 ```typescript
-// تاخیر کے ساتھ polite scraping کی مثال
+// Example of polite scraping with delays
 async function politeScraper(urls: string[]) {
   for (const url of urls) {
-    // پہلے robots.txt چیک کریں
+    // Check robots.txt first
     if (await isAllowedByRobotsTxt(url)) {
       const content = await fetchWithDelay(url, 2000); // 2-second delay
-      // Content process کریں...
+      // Process content...
     }
   }
 }
@@ -145,32 +145,32 @@ async function politeScraper(urls: string[]) {
 
 ## اشارے
 
-1. اسکریپ کرنے کی کوشش سے پہلے site کی behavior کا تجزیہ کریں
-2. قابل قبول request rates تلاش کرنے کے لیے incremental delays implement کریں
-3. API calls سمجھنے کے لیے Playwright کے network inspector جیسے tools استعمال کریں
-4. غور کریں کہ حقیقی users کیسے site کے ساتھ interact کرتے ہیں اور اس behavior کی نقل کریں
+1. scraping کی کوشش سے پہلے سائٹ کے رویّے کا تجزیہ کرنا شروع کریں
+2. قابلِ قبول request rates معلوم کرنے کے لیے بتدریج بڑھتے ہوئے delays نافذ کریں
+3. API calls کو سمجھنے کے لیے Playwright کے network inspector جیسے tools استعمال کریں
+4. غور کریں کہ حقیقی صارفین سائٹ کے ساتھ کیسے تعامل کرتے ہیں اور اسی رویّے کی نقالی کریں
 
-Professional applications کے لیے، سب سے پائیدار scraping approach وہ ہے جو technical requirements کو site limitations کے ساتھ balance کرے۔ حتمی مقصد یہ ہے کہ آپ کو جو data چاہیے اسے efficiently جمع کریں جبکہ غیر ضروری obstacles سے بچیں۔
+پیشہ ورانہ استعمالات کے لیے، سب سے پائیدار scraping طریقہ وہ ہے جو تکنیکی تقاضوں اور سائٹ کی حدود کے درمیان توازن قائم کرے۔ آخری مقصد یہ ہے کہ آپ مطلوبہ ڈیٹا مؤثر انداز میں جمع کریں، جبکہ غیر ضروری رکاوٹوں سے بچتے رہیں۔
 
 ```typescript
-// مضبوط scraper implementation میں error handling شامل ہے
+// A robust scraper implementation includes error handling
 async function scrapeCryptoData(url: string) {
   try {
-    // Rate limits کو retry logic کے ساتھ handle کریں
-    // ضرورت کے وقت dynamic delays implement کریں
-    // مناسب request headers configure کریں
+    // Handle rate limits with retry logic
+    // Implement dynamic delays when needed
+    // Configure appropriate request headers
     const browser = await playwright.chromium.launch();
     const page = await browser.newPage();
     await page.setExtraHTTPHeaders({
       'User-Agent': 'YourProject/1.0 (educational-purposes)'
     });
     
-    // Data extraction logic کے ساتھ جاری رکھیں...
+    // Continue with data extraction logic...
   } catch (error) {
-    // Smart retry logic implement کریں
+    // Implement smart retry logic
     console.error('Extraction error:', error);
   }
 }
 ```
 
-خوش اسکریپنگ!
+خوشگوار scraping!

@@ -4,70 +4,70 @@ publishedAt: '2025-02-23'
 summary: 'جامد HTML صفحات کے ساتھ عملی مشقوں کے ذریعے ویب اسکریپنگ کی بنیادی باتیں سیکھیں'
 ---
 
-ویب اسکریپنگ شروع میں ڈراؤنی لگ سکتی ہے، لیکن کسی بھی مہارت کی طرح، اسے عملی مشق کے ذریعے سیکھنا بہتر ہے۔ ان پہلے تین ابواب میں، ہم جامد HTML صفحات سے ڈیٹا نکالنے کی بنیادی باتیں دریافت کریں گے۔
+ویب اسکریپنگ شروع میں خوف زدہ کر دینے والی لگ سکتی ہے، لیکن ہر مہارت کی طرح اسے سیکھنے کا بہترین طریقہ عملی مشق ہے۔ ان ابتدائی تین ابواب میں ہم جامد HTML صفحات سے data نکالنے کی بنیادیات کا جائزہ لیں گے۔
 
-## باب 1: HTML اسکریپر چاڈ
+## باب 1: HTML Scraper Chad
 
-ہمارا سفر آسان ترین ممکنہ منظرنامے سے شروع ہوتا ہے - بنیادی HTML صفحے سے ٹیکسٹ نکالنا۔ یہ باب آپ کو بنیادی تصورات سے متعارف کراتا ہے:
+ہمارا سفر ممکنہ طور پر سب سے سادہ منظرنامے سے شروع ہوتا ہے — ایک بنیادی HTML صفحے سے متن نکالنا۔ یہ باب آپ کو ان بنیادی تصورات سے روشناس کراتا ہے:
 
-- ویب صفحات حاصل کرنے کے لیے HTTP درخواستیں بھیجنا
-- HTML مواد کو پارسر میں لوڈ کرنا
-- CSS سلیکٹرز استعمال کرتے ہوئے بنیادی DOM انتخاب
+- ویب صفحات حاصل کرنے کے لیے HTTP requests بھیجنا
+- HTML content کو parser میں load کرنا
+- CSS selectors کے ذریعے بنیادی DOM selection
 
-جبکہ مثال تافت لگ سکتی ہے (یہ صرف "ہیلو ورلڈ" ہے!)، یہ ہر اس چیز کی بنیاد قائم کرتا ہے جو اس کے بعد آتی ہے۔
+اگرچہ مثال بظاہر معمولی لگ سکتی ہے (آخرکار یہ صرف ایک "hello world" ہی ہے!)، لیکن یہی آنے والی ہر چیز کی بنیاد رکھتی ہے۔
 
 ```html
-<!-- مثال HTML ڈھانچہ -->
+<!-- Example HTML structure -->
 <div class="content">
-  <p>کچھ ٹیکسٹ جو ہم نکالنا چاہتے ہیں</p>
+  <p>Some text we want to extract</p>
 </div>
 ```
 
-یہاں اس چیز کا مزہ ہے جس کے ساتھ ہم کام کر رہے ہیں:
+یہ اس کام کی ایک جھلک ہے جس پر ہم کام کر رہے ہیں:
 
 ```typescript
-// بنیادی تصورات (حل نہیں!)
+// Basic concepts (not the solution!)
 import * as cheerio from 'cheerio';
 
-// HTML مواد لوڈ کرنا
+// Loading HTML content
 const $ = cheerio.load(htmlContent);
 
-// CSS سلیکٹرز کا استعمال
-const text = $('p').text();  // تمام <p> ٹیگز کو منتخب کرتا ہے
-const specific = $('.content p').text();  // زیادہ مخصوص انتخاب
+// Using CSS selectors
+const text = $('p').text();  // Selects all <p> tags
+const specific = $('.content p').text();  // More specific selection
 ```
 
-## باب 2: منظم ڈیٹا
+## باب 2: منظم data
 
-جب ہم نقلی ای کامرس پروڈکٹ صفحے میں غوطہ لگاتے ہیں تو چیزیں زیادہ دلچسپ ہو جاتی ہیں۔ یہاں، ہمیں ملتے جلتے ڈھانچوں والے متعدد عناصر کا سامنا ہے:
+چیزیں مزید دلچسپ ہو جاتی ہیں جب ہم ایک فرضی e-commerce product page میں اترتے ہیں۔ یہاں ہمیں ایک جیسے ڈھانچوں والے متعدد elements کا سامنا ہوتا ہے:
 
 ```html
-<!-- مثال پروڈکٹ ڈھانچہ (آسان بنایا گیا) -->
+<!-- Example product structure (simplified) -->
 <div class="product">
-  <h2>پروڈکٹ کا نام</h2>
+  <h2>Product Name</h2>
   <span class="price">$99.99</span>
   <div class="specs">
     <ul>
-      <li>سائز: M</li>
-      <li>رنگ: نیلا</li>
+      <li>Size: M</li>
+      <li>Color: Blue</li>
     </ul>
   </div>
 </div>
 ```
 
-اس طرح کے منظم ڈیٹا کے ساتھ کام کرتے وقت، آپ کو ان باتوں کے بارے میں سوچنا ہوگا:
+اس طرح کے منظم data کے ساتھ کام کرتے وقت، آپ کو ان باتوں پر غور کرنا چاہیے:
 
 ```typescript
-// تصوراتی نقطہ نظر (حل نہیں!)
+// Conceptual approach (not the solution!)
 $('.product').each((index, element) => {
-  // ہر پروڈکٹ کے لیے، ہم چاہتے ہوں گے:
-  // 1. بنیادی معلومات نکالنا
+  // For each product, we might want to:
+  // 1. Extract the basic info
   const name = $(element).find('h2').text();
 
-  // 2. نیسٹڈ ڈیٹا پارس کرنا
+  // 2. Parse nested data
   const specs = $(element).find('.specs li');
 
-  // 3. آؤٹ پٹ کو منظم کرنا
+  // 3. Structure the output
   const data = {
     name,
     specs: specs.map(/* ... */),
@@ -75,103 +75,116 @@ $('.product').each((index, element) => {
 });
 ```
 
-پرو ٹپ: کوئی کوڈ لکھنے سے پہلے، HTML ڈھانچے کا تجزیہ کرنے کے لیے وقت نکالیں۔ ڈیٹا کیسے منظم ہے اس میں پیٹرن تلاش کریں - کیا مستقل کلاس نام ہیں؟ والدین اور بچے عنصر کیسے متعلق ہیں؟
+پیشہ ورانہ مشورہ: کوئی بھی code لکھنے سے پہلے HTML ساخت کا بغور تجزیہ کرنے کے لیے وقت نکالیں۔ دیکھیں کہ data کس طرح منظم ہے اور اس میں کیا patterns ہیں — کیا class names یکساں ہیں؟ parent اور child elements کے درمیان کیا تعلق ہے؟
 
 
-## باب 3: AI سے مدد حاصل کرنے والا اسکریپنگ
+## باب 3: AI کی مدد سے اسکریپنگ
 
-اب چیزیں دلچسپ ہو جاتی ہیں! جبکہ پچھلے چیلنجز نے ہمیں روایتی اسکریپنگ تکنیکیں سکھائیں، باب 3 ایک جدید نقطہ نظر متعارف کراتا ہے: AI سے مدد حاصل کرنے والا ویب اسکریپنگ۔ ہم ایک ڈراؤنے منظرنامے کا سامنا کرتے ہیں - غیر متناسق HTML ڈھانچے، مبہم کلاس نام، اور متعدد فریم ورک پیٹرن سب ملے جلے۔
+اب معاملہ واقعی دلچسپ ہو جاتا ہے! پچھلے challenges نے ہمیں روایتی scraping techniques سکھائی تھیں، لیکن باب 3 ایک جدید طریقہ متعارف کراتا ہے: AI-assisted web scraping۔ یہاں ہمیں ایک ڈراؤنے منظرنامے کا سامنا ہے — غیر یکساں HTML structures، مبہم class names، اور مختلف frameworks کے patterns سب ایک ساتھ ملے ہوئے ہیں۔
 
-آئیے دیکھتے ہیں کہ اس چیلنج کو کیا خاص بناتا ہے:
+آئیے دیکھتے ہیں کہ یہ challenge خاص کیوں ہے:
 
 ```html
-<!-- روایتی پروڈکٹ ڈھانچہ -->
+<!-- Traditional product structure -->
 <div data-testid="product-container-1" class="_3xj_item">
-  <h2 data-qa="name">سرخ جوتے</h2>
+  <h2 data-qa="name">Red Sneakers</h2>
   <span data-price-current="5999">$59.99</span>
 </div>
 
-<!-- React طرز کمپوننٹ -->
+<!-- React-style component -->
 <div class="ProductCard-root-1a2b3c">
-  <div class="ProductCard-title-4d5e6f">گلابی واکنگ شوز</div>
+  <div class="ProductCard-title-4d5e6f">Pink Walking Shoes</div>
   <div class="ProductCard-pricing-7g8h9i">$84.99</div>
 </div>
 
-<!-- Vue طرز ٹیمپلیٹ -->
+<!-- Vue-style template -->
 <div data-v-abcdef class="product">
-  <h2 data-v-abcdef>نیوی بوٹ شوز</h2>
+  <h2 data-v-abcdef>Navy Boat Shoes</h2>
   <span data-v-abcdef>$79.99</span>
 </div>
 ```
 
-روایتی اسکریپنگ طریقے یہاں مشکل میں پڑتے ہیں کیونکہ:
-- کلاس نام بے ترتیب یا فریم ورک مخصوص ہیں
-- پروڈکٹس کے درمیان ڈیٹا ڈھانچے مختلف ہیں
-- مختلف فریم ورک مختلف پیٹرن استعمال کرتے ہیں
-- مارک اپ میں معنوی معنی ضائع ہو جاتا ہے
+روایتی scraping approaches کو یہاں مشکل پیش آئے گی کیونکہ:
+- class names بے ترتیب یا framework-specific ہیں
+- data structures products کے درمیان مختلف ہیں
+- مختلف frameworks مختلف patterns استعمال کرتے ہیں
+- markup میں معنوی مفہوم کھو جاتا ہے
 
-یہیں پر AI بچاؤ کے لیے آتا ہے۔ کمزور سلیکٹرز لکھنے کے بجائے، ہم قدرتی زبان میں بیان کر سکتے ہیں کہ ہم کیا چاہتے ہیں اور AI کو پیٹرن میچنگ سنبھالنے دے سکتے ہیں۔ اس باب میں اہم تصورات شامل ہیں:
+یہ وہ مقام ہے جہاں AI مدد کو آتا ہے۔ نازک selectors لکھنے کے بجائے، ہم فطری زبان میں بتا سکتے ہیں کہ ہمیں کیا چاہیے اور pattern matching AI پر چھوڑ سکتے ہیں۔ اس باب کے اہم تصورات میں شامل ہیں:
 
-- ویب اسکریپنگ کے لیے پرامپٹ انجینئرنگ
-- معنوی معنی سمجھنے کے لیے AI کا استعمال
-- غیر متناسق ڈیٹا ڈھانچوں کا سنبھالنا
-- فریم ورک مخصوص مارک اپ سے نمٹنا
-- مختلف پیٹرن میں ڈیٹا کی مطابقت برقرار رکھنا
+- web scraping کے لیے prompt engineering
+- semantic meaning سمجھنے کے لیے AI کا استعمال
+- غیر یکساں data structures کو سنبھالنا
+- framework-specific markup سے نمٹنا
+- مختلف patterns میں data کی یکسانیت برقرار رکھنا
 
-جبکہ AI جادو نہیں ہے، یہ پیٹرن پہچان اور موافقت کی ضرورت والے کاموں میں بہترین ہے۔ یہ اسے جدید ویب ایپلیکیشنز کے اسکریپنگ کے لیے خاص طور پر قیمتی بناتا ہے جہاں مستقل مارک اپ پیٹرن کی ضمانت نہیں دی جا سکتی۔
+اگرچہ AI کوئی جادو نہیں، لیکن یہ ایسے کاموں میں بہترین ہے جن میں pattern recognition اور مطابقت پیدا کرنا درکار ہو۔ یہی وجہ ہے کہ جدید web applications کی scraping میں یہ خاص طور پر مفید ہے، جہاں یکساں markup patterns کی ضمانت نہیں دی جا سکتی۔
 
-### AI کے استعمال پر ایک نوٹ
+### AI کے استعمال کے بارے میں ایک نوٹ
 
-یاد رکھیں کہ AI کی مدد کا مطلب مکمل طور پر خودکار حل نہیں ہے۔ بہترین نتائج ان کو ملانے سے آتے ہیں:
-- واضح مسئلے کی تعریف
-- اچھی طرح سے منظم پرامپٹس
-- ڈیٹا کی توثیق
+یاد رکھیں کہ AI assistance کا مطلب مکمل طور پر خودکار solutions نہیں ہوتا۔ بہترین نتائج ان چیزوں کے امتزاج سے حاصل ہوتے ہیں:
+- مسئلے کی واضح تعریف
+- اچھی ساخت والے prompts
+- data validation
 - انسانی نگرانی
 
-آپ کا چیلنج ایسے پرامپٹس تیار کرنا ہوگا جو AI کو اس چیز کی ڈھانچہ اور مقصد دونوں کو سمجھنے میں مدد کریں جو آپ نکالنے کی کوشش کر رہے ہیں۔
+آپ کا challenge ایسے prompts تیار کرنا ہوگا جو AI کو اس چیز کی structure اور intent دونوں سمجھنے میں مدد دیں جسے آپ extract کرنا چاہتے ہیں۔
 
-روایتی ویب اسکریپنگ علم کو جدید AI صلاحیات کے ساتھ ملانے کے لیے تیار ہیں؟ آئیے دیکھتے ہیں کہ AI سب سے گندے HTML سے بھی نمٹنے میں کیسے مدد کر سکتا ہے!
+کیا آپ روایتی web scraping کے علم کو جدید AI capabilities کے ساتھ جوڑنے کے لیے تیار ہیں؟ آئیے معلوم کریں کہ AI کس طرح سب سے زیادہ بے ترتیب HTML سے بھی نمٹنے میں مدد دے سکتا ہے!
 
 ## اشارے
 
-1. مختلف CSS سلیکٹرز کے ساتھ تجربہ کریں:
+1. مختلف CSS selectors کے ساتھ تجربہ کریں:
 ```typescript
-// عناصر منتخب کرنے کے مختلف طریقے
-$('.class')           // کلاس کے ذریعے
-$('#id')             // ID کے ذریعے
-$('div > p')         // براہ راست بچے
-$('div p')           // تمام نسل
-$('[data-type="x"]') // خصوصیت کے ذریعے
+// Different ways to select elements
+$('.class')           // By class
+$('#id')             // By ID
+$('div > p')         // Direct children
+$('div p')           // All descendants
+$('[data-type="x"]') // By attribute
 ```
 
-2. آؤٹ پٹ فارمیٹ میں تبدیلی کرنے کی کوشش کریں
-3. ایرر ہینڈلنگ اور کنارے کے مسائل کے بارے میں سوچیں
-4. غور کریں کہ آپ کا حل بڑے ڈیٹا سیٹس کے ساتھ کیسے پیمانہ بندی کرے گا
+2. output format میں تبدیلی کرنے کی کوشش کریں
+3. error handling اور edge cases کے بارے میں سوچیں
+4. غور کریں کہ بڑی datasets کے ساتھ آپ کا solution کس طرح scale کر سکتا ہے
 
-شروع کرنے کے لیے ضروری تمام کوڈ پروجیکٹ ریپازٹری میں ہے۔ اسے کلون کریں، اپنا ماحول سیٹ اپ کریں، اور اسکریپنگ شروع کریں!
+شروع کرنے کے لیے درکار تمام code project repository میں موجود ہے۔ اسے clone کریں، اپنا environment set up کریں، اور scraping شروع کریں!
 
 ```sh
 git clone https://github.com/jonaylor89/housefly.git
-cd hosuefly
+cd housefly
+npm install
 ```
 
-اشاروں کی تلاش میں؟ ہر چیلنج کے لیے سورس HTML `apps/chapter{n}/` ڈائرکٹری میں دستیاب ہے۔ اور کام کرنے والی حل شدہ مثالیں بھی `_solved/chapter{n}/` میں دستیاب ہیں۔ ڈھانچے کا مطالعہ کریں، اپنے نقطہ نظر کی منصوبہ بندی کریں، اور یاد رکھیں - ہر ماہر کبھی ابتدائی تھا۔
+chapter servers کو locally چلائیں — ہر chapter اپنی الگ port (3001–3011) پر چلتا ہے:
 
-اپنی درخواستوں کو ذمہ داری سے سنبھالنا یاد رکھیں:
+```sh
+turbo dev
+```
+
+اس کے بعد `exercises/chapter-NN/starter/src/index.ts` میں اپنا scraper edit کریں اور اسے validate کریں:
+
+```sh
+npm run validate -- <chapter>
+```
+
+اشارے چاہیے؟ مرحلہ وار رہنمائی کے لیے `npm run hint -- <chapter>` چلائیں۔ ہر challenge کا source HTML `apps/chapter{n}/` directory میں دستیاب ہے، اور reference solutions `exercises/chapter-NN/solution/src/` میں موجود ہیں۔ ساخت کا مطالعہ کریں، اپنا طریقۂ کار طے کریں، اور یاد رکھیں — ہر ماہر کبھی نوآموز تھا۔
+
+اپنی requests کو ذمہ داری کے ساتھ handle کرنا یاد رکھیں:
 ```typescript
-// بنیادی ایرر ہینڈلنگ مثال
+// Basic error handling example
 async function fetchPage(url: string) {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`HTTP ایرر! اسٹیٹس: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
     return await response.text();
   } catch (error) {
-    console.error('صفحہ حاصل کرنے میں ناکام:', error);
+    console.error('Failed to fetch page:', error);
     throw error;
   }
 }
 ```
 
-خوش اسکریپنگ!
+اسکریپنگ مبارک!

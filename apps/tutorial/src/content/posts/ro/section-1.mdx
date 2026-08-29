@@ -1,73 +1,73 @@
 ---
-title: 'Extragerea de bază HTML: Primii pași'
+title: 'Scraping HTML de bază: Primii pași'
 publishedAt: '2025-02-23'
 summary: 'Învață fundamentele web scraping-ului prin exerciții practice cu pagini HTML statice'
 ---
 
-Web scraping-ul poate părea intimidant la început, dar ca orice abilitate, se învață cel mai bine prin practică hands-on. În aceste primele trei capitole, vom explora fundamentele extragerii de date din pagini HTML statice.
+Web scraping-ul poate părea intimidant la început, dar, ca orice abilitate, se învață cel mai bine prin practică directă. În aceste prime trei capitole, vom explora fundamentele extragerii de date din pagini HTML statice.
 
-## Capitolul 1: HTML Scraper Chad
+## Capitolul 1: Chad-ul scraping-ului HTML
 
-Călătoria noastră începe cu cel mai simplu scenariu posibil - extragerea textului dintr-o pagină HTML de bază. Acest capitol te introduce în conceptele centrale de:
+Călătoria noastră începe cu cel mai simplu scenariu posibil - extragerea textului dintr-o pagină HTML de bază. Acest capitol te introduce în conceptele de bază ale:
 
-- Realizarea de cereri HTTP pentru a prelua pagini web
-- Încărcarea conținutului HTML într-un parser
-- Selecția DOM de bază folosind selectori CSS
+- Efectuării de request-uri HTTP pentru a prelua pagini web
+- Încărcării conținutului HTML într-un parser
+- Selecției DOM de bază folosind selectori CSS
 
-Deși exemplul poate părea trivial (e doar un "hello world" la urma urmei!), stabilește fundația pentru tot ce urmează.
+Deși exemplul poate părea trivial (până la urmă e doar un „hello world”!), el stabilește fundația pentru tot ce urmează.
 
 ```html
-<!-- Exemplu structură HTML -->
+<!-- Example HTML structure -->
 <div class="content">
-  <p>Un text pe care vrem să-l extragem</p>
+  <p>Some text we want to extract</p>
 </div>
 ```
 
-Iată o mostră a ceea cu ce lucrăm:
+Iată o mostră din ce avem de lucru:
 
 ```typescript
-// Concepte de bază (nu soluția!)
+// Basic concepts (not the solution!)
 import * as cheerio from 'cheerio';
 
-// Încărcarea conținutului HTML
+// Loading HTML content
 const $ = cheerio.load(htmlContent);
 
-// Folosirea selectorilor CSS
-const text = $('p').text();  // Selectează toate tag-urile <p>
-const specific = $('.content p').text();  // Selecție mai specifică
+// Using CSS selectors
+const text = $('p').text();  // Selects all <p> tags
+const specific = $('.content p').text();  // More specific selection
 ```
 
 ## Capitolul 2: Date structurate
 
-Lucrurile devin mai interesante pe măsură ce ne adâncim într-o pagină de produse e-commerce simulată. Aici, ne confruntăm cu multiple elemente cu structuri similare:
+Lucrurile devin mai interesante când intrăm într-o pagină de produs mock de e-commerce. Aici ne confruntăm cu mai multe elemente cu structuri similare:
 
 ```html
-<!-- Exemplu structură produs (simplificat) -->
+<!-- Example product structure (simplified) -->
 <div class="product">
-  <h2>Nume Produs</h2>
-  <span class="price">99,99 lei</span>
+  <h2>Product Name</h2>
+  <span class="price">$99.99</span>
   <div class="specs">
     <ul>
-      <li>Mărime: M</li>
-      <li>Culoare: Albastru</li>
+      <li>Size: M</li>
+      <li>Color: Blue</li>
     </ul>
   </div>
 </div>
 ```
 
-Când lucrezi cu date structurate ca acestea, vei vrea să te gândești la:
+Când lucrezi cu date structurate de acest tip, e bine să te gândești la:
 
 ```typescript
-// Abordare conceptuală (nu soluția!)
+// Conceptual approach (not the solution!)
 $('.product').each((index, element) => {
-  // Pentru fiecare produs, am putea vrea să:
-  // 1. Extragem informațiile de bază
+  // For each product, we might want to:
+  // 1. Extract the basic info
   const name = $(element).find('h2').text();
 
-  // 2. Parsăm datele imbricate
+  // 2. Parse nested data
   const specs = $(element).find('.specs li');
 
-  // 3. Structurăm output-ul
+  // 3. Structure the output
   const data = {
     name,
     specs: specs.map(/* ... */),
@@ -75,91 +75,104 @@ $('.product').each((index, element) => {
 });
 ```
 
-Sfat profesional: Înainte să scrii orice cod, ia timp să analizezi structura HTML. Caută pattern-uri în modul în care datele sunt organizate - există nume de clase consistente? Cum se raportează elementele părinte și copil?
+Sfat util: Înainte să scrii orice cod, ia-ți timp să analizezi structura HTML. Caută tipare în modul în care sunt organizate datele - există nume de clase consecvente? Cum sunt relaționate elementele părinte și copil?
 
 
 ## Capitolul 3: Scraping asistat de AI
 
-Acum lucrurile devin interesante! În timp ce provocările anterioare ne-au învățat tehnici tradiționale de scraping, Capitolul 3 introduce o abordare modernă: web scraping asistat de AI. Ne confruntăm cu un scenariu de coșmar - structuri HTML inconsistente, nume de clase obfuscate și multiple pattern-uri de framework-uri amestecate împreună.
+Acum lucrurile devin interesante! Dacă provocările anterioare ne-au învățat tehnici tradiționale de scraping, Capitolul 3 introduce o abordare modernă: web scraping asistat de AI. Ne confruntăm cu un scenariu de coșmar - structuri HTML inconsistente, nume de clase ofuscate și mai multe tipare de framework amestecate laolaltă.
 
-Să vedem ce face această provocare specială:
+Hai să vedem ce face această provocare specială:
 
 ```html
-<!-- Structură tradițională de produs -->
+<!-- Traditional product structure -->
 <div data-testid="product-container-1" class="_3xj_item">
-  <h2 data-qa="name">Adidași roșii</h2>
-  <span data-price-current="5999">59,99 lei</span>
+  <h2 data-qa="name">Red Sneakers</h2>
+  <span data-price-current="5999">$59.99</span>
 </div>
 
-<!-- Componentă în stil React -->
+<!-- React-style component -->
 <div class="ProductCard-root-1a2b3c">
-  <div class="ProductCard-title-4d5e6f">Pantofi sport roz</div>
-  <div class="ProductCard-pricing-7g8h9i">84,99 lei</div>
+  <div class="ProductCard-title-4d5e6f">Pink Walking Shoes</div>
+  <div class="ProductCard-pricing-7g8h9i">$84.99</div>
 </div>
 
-<!-- Template în stil Vue -->
+<!-- Vue-style template -->
 <div data-v-abcdef class="product">
-  <h2 data-v-abcdef>Pantofi de bărcă navy</h2>
-  <span data-v-abcdef>79,99 lei</span>
+  <h2 data-v-abcdef>Navy Boat Shoes</h2>
+  <span data-v-abcdef>$79.99</span>
 </div>
 ```
 
-Abordările tradiționale de scraping ar lupta aici pentru că:
+Abordările tradiționale de scraping s-ar chinui aici pentru că:
 - Numele claselor sunt randomizate sau specifice framework-ului
 - Structurile de date variază între produse
-- Framework-uri diferite folosesc pattern-uri diferite
+- Framework-uri diferite folosesc tipare diferite
 - Sensul semantic se pierde în markup
 
-Aici vine AI în ajutor. În loc să scriem selectori fragili, putem descrie ce vrem în limbaj natural și să lăsăm AI să se ocupe de potrivirea pattern-urilor. Conceptele cheie din acest capitol includ:
+Aici intervine AI-ul. În loc să scriem selectori fragili, putem descrie în limbaj natural ce ne dorim și să lăsăm AI-ul să se ocupe de recunoașterea tiparelor. Conceptele-cheie din acest capitol includ:
 
-- Ingineria prompt-urilor pentru web scraping
-- Folosirea AI pentru a înțelege sensul semantic
+- Prompt engineering pentru web scraping
+- Folosirea AI-ului pentru a înțelege sensul semantic
 - Gestionarea structurilor de date inconsistente
-- Tratarea markup-ului specific framework-urilor
-- Menținerea consistenței datelor prin pattern-uri diferite
+- Lucrul cu markup specific diferitelor framework-uri
+- Menținerea consistenței datelor între tipare diferite
 
-Deși AI nu este magie, excelează la sarcini care necesită recunoașterea pattern-urilor și adaptarea. Asta o face deosebit de valoroasă pentru scraping-ul aplicațiilor web moderne unde pattern-urile consistente de markup nu pot fi garantate.
+Deși AI-ul nu este magie, excelează la sarcini care cer recunoaștere de tipare și adaptare. Asta îl face deosebit de valoros pentru scraping-ul aplicațiilor web moderne, unde tiparele de markup consecvente nu pot fi garantate.
 
 ### O notă despre utilizarea AI
 
-Amintește-ți că asistența AI nu înseamnă soluții complet automatizate. Cele mai bune rezultate vin din combinarea:
+Ține minte că asistența AI nu înseamnă soluții complet automatizate. Cele mai bune rezultate vin din combinarea dintre:
 - Definirea clară a problemei
 - Prompt-uri bine structurate
 - Validarea datelor
-- Supravegherea umană
+- Supraveghere umană
 
-Provocarea ta va fi să creezi prompt-uri care să ajute AI să înțeleagă atât structura, cât și intenția a ceea ce încerci să extragi.
+Provocarea ta va fi să construiești prompt-uri care ajută AI-ul să înțeleagă atât structura, cât și intenția a ceea ce încerci să extragi.
 
-Gata să combini cunoștințele tradiționale de web scraping cu capabilitățile moderne AI? Să descoperim cum poate AI să ajute la abordarea chiar și celui mai haotic HTML!
+Ești gata să combini cunoștințele tradiționale de web scraping cu capabilități moderne de AI? Hai să vedem cum poate AI-ul să ajute la abordarea chiar și a celui mai haotic HTML!
 
 ## Indicii
 
-1. Experimentează cu selectori CSS diferiți:
+1. Experimentează cu diferiți selectori CSS:
 ```typescript
-// Moduri diferite de a selecta elemente
-$('.class')           // După clasă
-$('#id')             // După ID
-$('div > p')         // Copii direcți
-$('div p')           // Toți descendenții
-$('[data-type="x"]') // După atribut
+// Different ways to select elements
+$('.class')           // By class
+$('#id')             // By ID
+$('div > p')         // Direct children
+$('div p')           // All descendants
+$('[data-type="x"]') // By attribute
 ```
 
 2. Încearcă să modifici formatul output-ului
-3. Gândește-te la gestionarea erorilor și cazurile marginale
-4. Consideră cum ar putea soluția ta să se scaleze cu dataset-uri mai mari
+3. Gândește-te la tratarea erorilor și la cazurile-limită
+4. Ia în calcul cum s-ar putea scala soluția ta pentru seturi de date mai mari
 
-Tot codul de care ai nevoie pentru a începe este în repository-ul proiectului. Clonează-l, configurează-ți mediul și începe să faci scraping!
+Tot codul de care ai nevoie ca să începi se află în repository-ul proiectului. Clonează-l, configurează-ți mediul și începe să faci scraping!
 
 ```sh
 git clone https://github.com/jonaylor89/housefly.git
-cd hosuefly
+cd housefly
+npm install
 ```
 
-Cauți indicii? HTML-ul sursă pentru fiecare provocare este disponibil în directorul `apps/chapter{n}/`. Și exemplele rezolvate funcționale sunt de asemenea disponibile în `_solved/chapter{n}/`. Studiază structura, planifică-ți abordarea și amintește-ți - fiecare expert a fost cândva începător.
+Pornește local serverele capitolelor — fiecare capitol rulează pe propriul port (3001–3011):
 
-Amintește-ți să-ți gestionezi cererile responsabil:
+```sh
+turbo dev
+```
+
+Apoi editează scraper-ul tău în `exercises/chapter-NN/starter/src/index.ts` și validează-l:
+
+```sh
+npm run validate -- <chapter>
+```
+
+Cauți indicii? Rulează `npm run hint -- <chapter>` pentru ghidare progresivă. HTML-ul sursă pentru fiecare provocare este disponibil în directorul `apps/chapter{n}/`, iar soluțiile de referință sunt în `exercises/chapter-NN/solution/src/`. Studiază structura, planifică-ți abordarea și ține minte - orice expert a fost cândva începător.
+
+Nu uita să tratezi request-urile în mod responsabil:
 ```typescript
-// Exemplu de gestionare de bază a erorilor
+// Basic error handling example
 async function fetchPage(url: string) {
   try {
     const response = await fetch(url);
@@ -174,4 +187,4 @@ async function fetchPage(url: string) {
 }
 ```
 
-Scraping fericit!
+Spor la scraping!

@@ -14,11 +14,11 @@ Multe site-uri web moderne nu își încarcă toate datele cu HTML-ul inițial. 
 
 *   **Identificarea request-urilor API:** Folosește instrumentele de dezvoltare ale browser-ului (tab-ul Network) pentru a detecta request-uri (adesea XHR/Fetch) care returnează date, de obicei în format JSON.
 *   **Scraping direct al API-urilor:** Odată ce găsești un endpoint API, poți adesea face request-uri direct către el folosind biblioteci ca `axios` sau `fetch` încorporat în Node.js. Aceasta este de obicei mai rapidă și mai fiabilă decât automatizarea browser-ului.
-*   **Gestionarea paginării și parametrilor:** API-urile folosesc adesea parametri de query pentru paginare (`page`, `limit`), filtrare sau sortare. Va trebui să înțelegi și să replicați aceștia în script-ul tău de scraping.
+*   **Gestionarea paginării și parametrilor:** API-urile folosesc adesea parametri de query pentru paginare (`page`, `limit`), filtrare sau sortare. Va trebui să înțelegi și să replici acești parametri în scriptul tău de scraping.
 
 **Provocarea (Capitolul 7):** Vei face scraping pe un site e-commerce unde listările de produse sunt încărcate dinamic dintr-un API RESTful. Sarcina ta este să preiei toate produsele prin interacțiunea cu acest API, gestionând corect paginarea.
 
-*Găsește o soluție de referință care demonstrează scraping-ul direct al API-ului în directorul `_solved/chapter7/`.*
+*Găsește o soluție de referință care demonstrează scraping-ul direct al API-ului în directorul `exercises/chapter-07/solution/src/`.*
 
 ### 2. Formulare și autentificare (Capitolul 8)
 

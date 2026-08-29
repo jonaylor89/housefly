@@ -1,66 +1,66 @@
 ---
-title: 'बड़े पैमाने पर + असंरचित वेब क्रॉलिंग'
+title: 'बड़े पैमाने पर + असंरचित Web Crawling'
 publishedAt: '2025-05-20'
-summary: 'गंदे और असंरचित डेटा + search crawlers के लिए AI-सहायक parsing'
+summary: 'अव्यवस्थित और असंरचित डेटा + search crawlers के लिए AI-सहायता प्राप्त parsing'
 ---
 
-हमारी hands-on वेब क्रॉलिंग tutorial series के अंतिम section में आपका स्वागत है। पारंपरिक lesson के बजाय, हम एक अलग approach ले रहे हैं। इस section के लिए, मैंने Housefly Metascraper बनाया है—`./apps/metascraper` directory में एक crawler जो दिखाता है कि हमने जो कुछ भी सीखा है उसे real-world scenario में कैसे apply करें।
+हमारी hands-on web crawling tutorial श्रृंखला के अंतिम भाग में आपका स्वागत है। पारंपरिक पाठ के बजाय, हम एक अलग तरीका अपना रहे हैं। इस भाग के लिए, मैंने `./apps/metascraper` directory में Housefly Metascraper बनाया है—एक crawler जो दिखाता है कि हमने जो कुछ सीखा है, उसे वास्तविक परिस्थितियों में कैसे लागू किया जाए।
 
-Metascraper दिखाता है कि हमारी step-by-step journey—simple static HTML को scrape करने से लेकर, JavaScript-rendered content को navigate करने, APIs के साथ interact करने और crawling defenses को overcome करने तक—कैसे एक ऐसे tool में culminate होती है जो **unstructured, diverse, और chaotic web को scale पर handle** कर सकता है।
+Metascraper यह दिखाता है कि हमारी चरण-दर-चरण यात्रा—सरल static HTML को scrape करने से लेकर, JavaScript-rendered content में navigate करने, APIs के साथ interaction करने, और crawling defenses को पार करने तक—आख़िरकार ऐसे tool में बदलती है जो **बड़े पैमाने पर असंरचित, विविध, और अराजक web** को संभाल सकता है।
 
-हम explore करेंगे कि विभिन्न प्रकार की websites में कैसे crawl करें—पहले से जाने बिना कि किस प्रकार की data structures expect करनी हैं—और **AI-assisted parsing**, **dynamic schema detection**, और **हजारों (या लाखों) pages पर scaling** के लिए आवश्यक techniques का परिचय देंगे बिना टूटे।
+हम यह समझेंगे कि तरह-तरह की websites पर कैसे crawl किया जाए—बिना पहले से यह जाने कि किस प्रकार की data structures मिलने वाली हैं—और **AI-assisted parsing**, **dynamic schema detection**, तथा **हज़ारों (या लाखों) pages तक scale करने** के लिए आवश्यक तकनीकों का परिचय देंगे, वह भी बिना प्रणाली को बिखरने दिए।
 
 ## "Unstructured" और "Large-Scale" का वास्तव में क्या मतलब है?
 
-पिछले sections में, हम अक्सर जानते थे:
-- हम किन sites को target कर रहे थे।
-- हमें क्या डेटा चाहिए था (जैसे tables, lists, JSON responses)।
-- हमें कितने pages visit करने थे।
+पिछले भागों में हमें अक्सर यह पता होता था:
+- हम किन sites को लक्ष्य बना रहे थे।
+- हमें कौन-सा डेटा चाहिए था (जैसे tables, lists, JSON responses)।
+- हमें कितने pages पर जाना था।
 
-लेकिन large-scale unstructured crawling में:
-- Websites wildly vary करती हैं: कुछ structured हैं, अन्य irregular formatting वाले blogs हैं।
-- Paths और URLs unpredictable होते हैं।
-- Schema inconsistent या non-existent होता है।
-- हम **हजारों pages को crawl** करना चाहते हैं, संभावित रूप से **कई domains** में।
+लेकिन बड़े पैमाने पर असंरचित crawling में:
+- websites बहुत अलग-अलग होती हैं: कुछ सुव्यवस्थित होती हैं, तो कुछ अनियमित formatting वाले blogs होते हैं।
+- paths और URLs का अनुमान लगाना कठिन होता है।
+- schema असंगत होता है या मौजूद ही नहीं होता।
+- हम **हज़ारों pages crawl करना** चाहते हैं, संभवतः **कई domains** में फैले हुए।
 
-सोचें:
-- Academic websites में data gather करने वाले research crawlers।
-- Topic-specific knowledge के लिए blogs index करने वाले AI assistants।
-- Search engines जिन्हें पूरे public internet में generalize करना चाहिए।
+सोचिए:
+- academic websites से डेटा एकत्र करने वाले research crawlers।
+- विषय-विशेष ज्ञान के लिए blogs को index करने वाले AI assistants।
+- search engines जिन्हें पूरे public internet पर सामान्यीकृत होकर काम करना पड़ता है।
 
-यह वेब क्रॉलिंग का अंतिम boss है।
+यही web crawling का अंतिम boss है।
 
-## भाग 1: Large-Scale Crawling के लिए Architecture
+## Part 1: Large-Scale Crawling के लिए Architecture तैयार करना
 
-आइए parsing की चिंता करने से पहले अपने crawler को scale up करने के बारे में बात करते हैं।
+Parsing की चिंता करने से पहले, आइए बात करें कि अपने crawler को बड़े पैमाने पर कैसे ले जाया जाए।
 
 ### Design Patterns
 
-Large-scale crawler बनाने के लिए, आपकी architecture होनी चाहिए:
-- **Queue-driven:** Pending URLs को store करने के लिए message queue (जैसे Redis, RabbitMQ, या Kafka) का उपयोग।
-- **Worker-based:** Crawlers को worker processes में अलग करना जो queue से pull करते हैं और jobs को independently process करते हैं।
-- **Deduplicated:** Same page को दो बार process करने से बचने के लिए fingerprinted index (जैसे URL या HTML content का SHA1) maintain करना।
-- **Resumable:** Crashes से recover कर सके इसलिए crawl state को persist करना।
+बड़े पैमाने का crawler बनाने के लिए आपकी architecture ऐसी होनी चाहिए:
+- **Queue-driven:** लंबित URLs को रखने के लिए message queue (जैसे Redis, RabbitMQ, या Kafka) का उपयोग करें।
+- **Worker-based:** crawlers को अलग worker processes में बाँटें, जो queue से काम लें और jobs को स्वतंत्र रूप से process करें।
+- **Deduplicated:** एक fingerprinted index (जैसे URL या HTML content का SHA1) बनाए रखें ताकि एक ही page को दोबारा process न करना पड़े।
+- **Resumable:** crawl state को persist करें ताकि crash होने पर पुनर्प्राप्ति हो सके।
 
-यहाँ minimal design diagram है:
+यहाँ एक न्यूनतम design diagram है:
 
-## भाग 2: 2025 के लिए Cutting-Edge Techniques
+## Part 2: 2025 की उन्नत तकनीकें
 
 ### Residential Proxies
 
-Large-scale scraping में सबसे महत्वपूर्ण advances में से एक **residential proxies** का उपयोग है। Datacenter IPs के विपरीत जिन्हें websites आसानी से detect और block कर सकती हैं, residential proxies आपके requests को real consumer IP addresses के माध्यम से route करते हैं, जिससे आपका scraper legitimate user की तरह दिखता है।
+बड़े पैमाने की scraping में सबसे महत्वपूर्ण प्रगतियों में से एक है **residential proxies** का उपयोग। datacenter IPs के विपरीत, जिन्हें websites आसानी से पहचानकर block कर सकती हैं, residential proxies आपके requests को वास्तविक उपभोक्ता IP addresses के माध्यम से route करते हैं, जिससे आपका scraper एक वैध user जैसा दिखाई देता है।
 
 ### AI-Powered Autonomous Agents
 
-2025 में सबसे revolutionary advancement **agentic scraping** है। हर site format के लिए scrapers को hard-code करने के बजाय:
+2025 की सबसे क्रांतिकारी प्रगति है **agentic scraping**। हर site format के लिए scrapers को hard-code करने के बजाय:
 
-- Vision capabilities वाले LLMs पहले न देखे गए layouts को समझ और extract कर सकते हैं
-- AI agents human browsing patterns की नकल करके complex sites को autonomously navigate कर सकते हैं
-- Adaptive parsing code updates की आवश्यकता के बिना layout changes के लिए automatically adjust हो जाता है
+- vision capabilities वाले LLMs पहले कभी न देखे गए layouts को समझकर उनसे डेटा निकाल सकते हैं
+- AI agents मानव browsing patterns की नकल करते हुए जटिल sites पर स्वायत्त रूप से navigate कर सकते हैं
+- adaptive parsing, code updates की आवश्यकता के बिना, layout changes के अनुसार अपने-आप समायोजित हो जाती है
 
-## भाग 3: AI-Assisted Parsing
+## Part 3: AI-Assisted Parsing
 
-Clean JSON output के लिए model को fine-tune या prompt-engineer करें:
+किसी model को fine-tune करें या prompt-engineer करें ताकि वह साफ-सुथरा JSON output दे:
 
 ```json
 {
@@ -71,82 +71,82 @@ Clean JSON output के लिए model को fine-tune या prompt-engineer
 }
 ```
 
-## भाग 4: डेटा को Store, Index, और Search करना
+## Part 4: डेटा का संग्रह, indexing, और search
 
-आप **बहुत सारा heterogeneous data** collect करेंगे। अपने goals और data की structured-ness के आधार पर अपना storage choose करें।
+आप **बहुत सारा विषम प्रकार का डेटा** इकट्ठा करेंगे। अपने उद्देश्यों और डेटा कितना संरचित है, इसके आधार पर storage चुनें।
 
 ### Storage Strategies
 
-- **PostgreSQL** या **SQLite**: Structured tabular data के लिए best जहाँ आप schema जानते हैं (जैसे articles, prices, timestamps)। आप indexes, foreign keys, और full-text search (FTS) का उपयोग कर सकते हैं।
-- **MongoDB** या **Elasticsearch**: Semi-structured या flexible data formats जैसे JSON blobs के लिए great जहाँ schema records में vary हो सकता है।
-- **S3 / IPFS / File System**: Raw HTML snapshots, images, PDFs, और large binary files के लिए ideal। Database में metadata store करें और file location को link करें।
+- **PostgreSQL** या **SQLite**: संरचित tabular data के लिए सर्वोत्तम, जहाँ आपको schema पता हो (जैसे articles, prices, timestamps)। आप indexes, foreign keys, और full-text search (FTS) का उपयोग कर सकते हैं।
+- **MongoDB** या **Elasticsearch**: semi-structured या लचीले data formats जैसे JSON blobs के लिए बेहतरीन, जहाँ schema records के बीच बदल सकता है।
+- **S3 / IPFS / File System**: raw HTML snapshots, images, PDFs, और बड़े binary files के लिए आदर्श। metadata को database में रखें और file location से link करें।
 
-Previously crawled items को de-duplicate और track करने के लिए UUIDs या URL hashes को primary keys के रूप में उपयोग करें।
+primary keys के रूप में UUIDs या URL hashes का उपयोग करें ताकि आप de-duplicate कर सकें और पहले crawl की जा चुकी items को track कर सकें।
 
 ### इसे Searchable बनाना
 
-Store होने के बाद, आप content को **explore और query** करना चाहेंगे।
+डेटा store हो जाने के बाद, आप content को **खोजना और query करना** चाहेंगे।
 
 विकल्पों में शामिल हैं:
 
-- **PostgreSQL FTS (Full-Text Search)**: Ranking के साथ robust keyword search capabilities बनाने के लिए `tsvector` और `tsquery` का उपयोग।
-- **Typesense** या **Meilisearch**: Fast indexing और fuzzy search के लिए perfect lightweight, schema-flexible full-text search engines।
-- **Elasticsearch**: अधिक complex search use cases या logs के लिए best, powerful filtering और analytics के साथ।
+- **PostgreSQL FTS (Full-Text Search)**: मजबूत keyword search capabilities को ranking के साथ बनाने के लिए `tsvector` और `tsquery` का उपयोग करें।
+- **Typesense** या **Meilisearch**: हल्के, schema-flexible full-text search engines, जो तेज indexing और fuzzy search के लिए उपयुक्त हैं।
+- **Elasticsearch**: अधिक जटिल search उपयोग-मामलों या logs के लिए सर्वोत्तम, जिसमें शक्तिशाली filtering और analytics मिलती है।
 
-आपको इन fields को index करना चाहिए:
+आपको निम्न fields को index करना चाहिए:
 - Title
 - Author
 - Date published
-- Keywords या tags (यदि extracted)
+- Keywords या tags (यदि निकाले गए हों)
 - Main content
 - Domain / source
 
 ### Embeddings के साथ Semantic Search
 
-Deeper understanding और retrieval (keywords से परे) के लिए, **text embeddings** का उपयोग करें:
+अधिक गहरी समझ और retrieval के लिए (सिर्फ keywords से आगे), **text embeddings** का उपयोग करें:
 
-1. OpenAI के `text-embedding-3-small` या `bge-small-en` जैसे open-source alternatives जैसे model का उपयोग करें।
-2. अपनी crawled content को embedding vectors में convert करें।
-3. उन्हें **vector database** में store करें जैसे:
+1. OpenAI के `text-embedding-3-small` जैसे model या `bge-small-en` जैसे open-source alternatives का उपयोग करें।
+2. अपने crawled content को embedding vectors में बदलें।
+3. इन्हें किसी **vector database** में store करें, जैसे:
    - **Qdrant**
    - **Weaviate**
    - **Pinecone**
-   - **FAISS** (local / in-memory use के लिए)
+   - **FAISS** (local / in-memory उपयोग के लिए)
 
-यह इस तरह के semantic queries को enable करता है:
-> "मुझे ऐसे articles दिखाएं जहाँ कोई cold climates में bike-friendly urban development के बारे में बात करता है।"
+इससे ऐसे semantic queries संभव होते हैं:
+> "मुझे ऐसे articles दिखाइए जहाँ कोई व्यक्ति ठंडे मौसम वाले क्षेत्रों में साइकिल-अनुकूल शहरी विकास की बात करता हो।"
 
-Query embedding को stored embeddings के साथ compare करके, आपका crawler एक knowledge engine बन जाता है।
+query embedding की stored embeddings से तुलना करके, आपका crawler एक knowledge engine बन जाता है।
 
 ### Metadata और Enrichment
 
-अंत में, अपने data को additional metadata के साथ enrich करें:
+अंत में, अपने डेटा को अतिरिक्त metadata से समृद्ध करें:
 
 - **Language detection** (जैसे `langdetect` या fastText के साथ)।
-- **Content category classification** zero-shot models या fine-tuned classifiers का उपयोग करके।
-- **Named Entity Recognition (NER)** people, organizations, और places निकालने के लिए।
-- **Geotagging** content या source के आधार पर।
+- zero-shot models या fine-tuned classifiers का उपयोग करके **content category classification**।
+- लोगों, organizations, और places को निकालने के लिए **Named Entity Recognition (NER)**।
+- content या source के आधार पर **Geotagging**।
 
-इसे main data के साथ store करें ताकि आप बाद में इससे filter और sort कर सकें।
+इसे मुख्य डेटा के साथ store करें ताकि बाद में आप इसके आधार पर filter और sort कर सकें।
 
-## भाग 5: Search-Driven Discovery Crawlers
+## Part 5: Search-Driven Discovery Crawlers
 
-Large-scale crawling का सबसे advanced approach URLs से भी शुरू नहीं होता—बल्कि यह **search queries** से शुरू होता है।
+बड़े पैमाने की crawling के लिए सबसे उन्नत तरीका URLs से शुरू ही नहीं होता—इसके बजाय, यह **search queries** से शुरू होता है।
 
-SearchXNG और Perplexity जैसे tools से प्रेरित, Metascraper एक search-first strategy को demonstrate करता है जहाँ crawler:
+SearchXNG और Perplexity जैसे tools से प्रेरित, Metascraper एक search-first strategy दिखाता है, जिसमें crawler:
 
-1. Seed URL list के बजाय **topic या question** से शुरू होता है
-2. Real-time में relevant pages discover करने के लिए search engine APIs का उपयोग करता है
-3. Search results के आधार पर dynamically अपना crawl queue build करता है
-4. Knowledge expand करने के लिए intelligently citations और references को follow करता है
+1. seed URL list के बजाय किसी **topic या question** से शुरुआत करता है
+2. प्रासंगिक pages को real-time में खोजने के लिए search engine APIs का उपयोग करता है
+3. search results के आधार पर अपनी crawl queue को dynamic रूप से बनाता है
+4. ज्ञान-विस्तार के लिए citations और references का बुद्धिमानी से अनुसरण करता है
 
-यह approach कई advantages प्रदान करता है:
+यह तरीका कई लाभ देता है:
 
-- **Targeted Exploration**: Exhaustive crawling के बजाय, आप केवल उन pages पर visit करते हैं जिनमें relevant information होने की संभावना है
-- **Up-to-date Results**: हर crawl current search results के साथ fresh start करता है
-- **Domain-agnostic**: Pre-defined sites या URL patterns तक सीमित नहीं
-- **Intention-driven**: Humans के research topics के तरीके के साथ align करता है
+- **Targeted Exploration**: exhaustive crawling के बजाय, आप केवल उन्हीं pages पर जाते हैं जिनमें प्रासंगिक जानकारी होने की संभावना है
+- **Up-to-date Results**: हर crawl वर्तमान search results के साथ नए सिरे से शुरू होता है
+- **Domain-agnostic**: पहले से परिभाषित sites या URL patterns तक सीमित नहीं
+- **Intention-driven**: यह उस तरीके के अनुरूप है जिससे मनुष्य वास्तव में विषयों पर शोध करते हैं
 
-Metascraper का search-driven mode demonstrate करता है कि search APIs, prioritization algorithms, और context-aware extraction को कैसे combine करके dynamically discovered content से knowledge graphs build करें पहले से जाने बिना कि आप कौन से URLs visit करेंगे।
+Metascraper का search-driven mode यह दिखाता है कि search APIs, prioritization algorithms, और context-aware extraction को मिलाकर dynamically discovered content से knowledge graphs कैसे बनाए जाएँ, वह भी बिना पहले से यह जाने कि आप किन URLs पर जाएँगे।
 
-खुश स्क्रैपिंग
+शुभ scraping

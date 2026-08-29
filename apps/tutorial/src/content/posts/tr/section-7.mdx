@@ -1,61 +1,152 @@
 ---
-title: 'Büyük Ölçekli + Yapılandırılmamış Web Tarama'
+title: 'Büyük Ölçekli + Yapılandırılmamış Web Crawling'
 publishedAt: '2025-05-20'
-summary: 'Dağınık ve yapılandırılmamış veriler için AI destekli ayrıştırma + arama tarayıcıları'
+summary: 'Dağınık ve yapılandırılmamış veriler + arama crawler’ları için AI destekli ayrıştırma'
 ---
 
-Uygulamalı web tarama eğitim serimizin son bölümüne hoş geldiniz. Geleneksel bir ders yerine, farklı bir yaklaşım benimsiyoruz. Bu bölüm için, `./apps/metascraper` dizinindeki Housefly Metascraper'ı oluşturdum - öğrendiğimiz her şeyi gerçek dünya senaryosunda nasıl uygulayacağımızı gösteren bir tarayıcı.
+Uygulamalı web crawling eğitim serimizin son bölümüne hoş geldiniz. Geleneksel bir ders yerine bu kez farklı bir yaklaşım benimsiyoruz. Bu bölüm için `./apps/metascraper` dizininde Housefly Metascraper’ı oluşturdum — gerçek bir senaryoda şimdiye kadar öğrendiğimiz her şeyi nasıl uygulayabileceğimizi gösteren bir crawler.
 
-Metascraper, adım adım yolculuğumuzun - basit statik HTML kazımadan, JavaScript ile oluşturulan içerikte gezinmeden, API'lerle etkileşim kurma ve tarama savunmalarını aşmaya kadar - **yapılandırılmamış, çeşitli ve kaotik web'i ölçekte** idare edebilen bir araçta nasıl doruk noktasına ulaştığını gösterir.
+Metascraper, basit statik HTML’i scrape etmekten JavaScript ile render edilen içerikte gezinmeye, API’lerle etkileşime girmekten crawling savunmalarını aşmaya kadar adım adım ilerleyen yolculuğumuzun, **ölçekli biçimde yapılandırılmamış, çeşitli ve kaotik web’i** yönetebilen bir araçta nasıl birleştiğini gösteriyor.
 
-Önceden ne tür veri yapıları bekleyeceğimizi bilmeden - geniş bir web sitesi yelpazesinde nasıl tarama yapacağımızı keşedeceğiz ve **AI destekli ayrıştırma**, **dinamik şema algılama** ve çöküntiye uğramadan **binlerce (veya milyonlarca) sayfaya ölçekleme** için gereken teknikleri tanıtacağız.
+Ne tür veri yapılarıyla karşılaşacağımızı önceden bilmeden, çok farklı türde web sitelerinde nasıl crawl yapılacağını inceleyeceğiz ve **AI destekli ayrıştırma**, **dinamik şema tespiti** ile **binlerce (hatta milyonlarca) sayfaya ölçeklenmek** için gereken teknikleri ele alacağız.
 
-## "Yapılandırılmamış" ve "Büyük Ölçekli" Gerçekten Ne Anlama Geliyor?
+## "Yapılandırılmamış" ve "Büyük Ölçekli" Gerçekte Ne Anlama Geliyor?
 
-Önceki bölümlerde, genellikle biliyorduk:
-- Hangi siteleri hedefleyeceğimizi.
-- Hangi verileri istediğimizi (tablolar, listeler, JSON yanıtları gibi).
-- Kaç sayfa ziyaret etmemiz gerektiğini.
+Önceki bölümlerde çoğu zaman şunları biliyorduk:
+- Hangi siteleri hedeflediğimizi.
+- Hangi veriyi istediğimizi (ör. tablolar, listeler, JSON yanıtları).
+- Kaç sayfayı ziyaret etmemiz gerektiğini.
 
-Ancak büyük ölçekli yapılandırılmamış taramada:
-- Web siteleri çok çeşitli: bazıları yapılandırılmış, diğerleri düzensiz biçimlendirmeli bloglar.
-- Yollar ve URL'ler öngörülemez.
-- Şema tutarsız veya mevcut değil.
-- **Binlerce sayfayı** taramak istiyoruz, potansiyel olarak **birden fazla etki alanı** genelinde.
+Ama büyük ölçekli yapılandırılmamış crawling’de:
+- Web siteleri çok büyük farklılıklar gösterir: bazıları yapılandırılmıştır, bazılarıysa düzensiz biçimlendirmeye sahip bloglardır.
+- Path’ler ve URL’ler öngörülemez.
+- Şema tutarsızdır ya da hiç yoktur.
+- **Binlerce sayfayı crawl etmek** isteriz; bu da potansiyel olarak **birden fazla domain** anlamına gelir.
 
-Düşünün:
-- Akademik web siteleri genelinde veri toplayan araştırma tarayıcıları.
-- Konuya özgü bilgi için blogları dizinleyen AI asistanları.
-- Tüm kamu internet'ini genellemek zorunda olan arama motorları.
+Şöyle düşünün:
+- Akademik web siteleri genelinde veri toplayan araştırma crawler’ları.
+- Konuya özgü bilgi için blogları indeksleyen AI asistanları.
+- Tüm herkese açık internet genelinde genelleme yapmak zorunda olan arama motorları.
 
-Bu web tarama'nın son patronu.
+Web crawling’in final boss’u budur.
 
-## Bölüm 1: Büyük Ölçekli Tarama için Mimari
+## Part 1: Büyük Ölçekli Crawling için Mimarinin Kurulması
 
-Ayrıştırma konusunda endişelenmeden önce tarayıcınızı nasıl ölçekleyeceğiniz hakkında konuşalalım.
+Ayrıştırmayı düşünmeden önce crawler’ınızı nasıl ölçekleyeceğinizden bahsedelim.
 
-### Tasarım Desenleri
+### Tasarım Kalıpları
 
-Büyük ölçekli tarayıcı oluşturmak için, mimarinizin şöyle olması gerekir:
-- **Kuyruk güdümlü:** Bekleyen URL'leri saklamak için mesaj kuyruğu (Redis, RabbitMQ veya Kafka gibi) kullanın.
-- **İşçi tabanlı:** Tarayıcıları kuyruktan çeken ve işleri bağımsız olarak işleyen işçi süreçlere ayırın.
-- **Tekilileştirilmiş:** Aynı sayfayı iki kez işlemekten kaçınmak için parmak izi dizini (URL veya HTML içeriğinin SHA1'i gibi) koruyun.
-- **Devam ettirilebilir:** Çökmelerden kurtulabilmesi için tarama durumunu saklayın.
+Büyük ölçekli bir crawler oluşturmak için mimariniz şu özelliklere sahip olmalıdır:
+- **Queue-driven:** Bekleyen URL’leri saklamak için bir message queue (Redis, RabbitMQ veya Kafka gibi) kullanın.
+- **Worker-based:** Crawler’ları, queue’dan iş çeken ve görevleri bağımsız biçimde işleyen worker process’lere ayırın.
+- **Deduplicated:** Aynı sayfayı iki kez işlememek için bir fingerprint index’i (ör. URL’nin veya HTML içeriğinin SHA1 değeri) tutun.
+- **Resumable:** Çökme durumlarından kurtulabilmesi için crawl durumunu kalıcı olarak saklayın.
 
-Burada minimal tasarım diyagramı:
+İşte minimal bir tasarım diyagramı:
 
-## Bölüm 2: 2025 için Keskin Kenar Teknikler
+## Part 2: 2025 için Son Teknoloji Teknikler
 
-### Konut Vekil Sunucuları
+### Residential Proxy’ler
 
-Büyük ölçekli kazımadaki en önemli gelişmelerden biri **konut vekil sunucularının** kullanımıdır. Web sitelerinin kolaylıkla tespit edip engelleyebileceği veri merkezi IP'lerinin aksine, konut vekil sunucuları isteklerinizi gerçek tüketici IP adresleri üzerinden yönlendirerek kazıyıcınızı meşru bir kullanıcı gibi gösterir.
+Büyük ölçekli scraping’de en önemli ilerlemelerden biri **residential proxy** kullanımıdır. Web sitelerinin kolayca tespit edip engelleyebildiği datacenter IP’lerinin aksine, residential proxy’ler isteklerinizi gerçek kullanıcı IP adresleri üzerinden yönlendirir; böylece scraper’ınız meşru bir kullanıcı gibi görünür.
 
-### AI Gücünü Kullanan Otonom Ajanlar
+### AI Destekli Otonom Ajanlar
 
-2025'teki en devrimci gelişme **ajantik kazıma**dır. Her site formatı için kazıyıcıları sabit kodlamak yerine:
+2025’teki en devrim niteliğindeki gelişme **agentic scraping**’dir. Her site formatı için scraper’ları elle kodlamak yerine:
 
-- Görün yetenekleri olan LLM'ler daha önce görülmemiş düzenlerdeki verileri anlayabilir ve çıkarabilir
-- AI ajanları insan tarama desenlerini taklit ederek karmaşık sitelerde özerk olarak gezinebilir
-- Uyarlanabilir ayrıştırma, kod güncellemeleri gerektirmeden düzen değişiklikleriyle otomatik olarak uyum sağlar
+- Vision yeteneklerine sahip LLM’ler daha önce görülmemiş düzenleri anlayıp içlerinden veri çıkarabilir
+- AI ajanları, insan tarama kalıplarını taklit ederek karmaşık sitelerde otonom biçimde gezinebilir
+- Adaptive parsing, kod güncellemesi gerektirmeden düzen değişikliklerine otomatik olarak uyum sağlar
 
-Mutlu kazıma
+## Part 3: AI Destekli Ayrıştırma
+
+Temiz JSON çıktısı üretmesi için bir modeli fine-tune edin ya da prompt-engineering uygulayın:
+
+```json
+{
+  "name": "Dr. Maria Lopez",
+  "title": "Climate Scientist",
+  "organization": "Stanford",
+  "topic": "2023 UN Climate Summit, AI in climate modeling"
+}
+```
+
+## Part 4: Veriyi Saklama, İndeksleme ve Arama
+
+**Çok miktarda heterojen veri** toplayacaksınız. Saklama çözümünüzü, hedeflerinize ve verinin ne kadar yapılandırılmış olduğuna göre seçin.
+
+### Saklama Stratejileri
+
+- **PostgreSQL** veya **SQLite**: Şemasını bildiğiniz yapılandırılmış tablo verileri için en iyisidir (ör. makaleler, fiyatlar, timestamp’ler). Index’leri, foreign key’leri ve full-text search (FTS) kullanabilirsiniz.
+- **MongoDB** veya **Elasticsearch**: Şemanın kayıtlar arasında değişebildiği JSON blob’ları gibi yarı yapılandırılmış veya esnek veri formatları için idealdir.
+- **S3 / IPFS / File System**: Ham HTML snapshot’ları, görseller, PDF’ler ve büyük binary dosyalar için idealdir. Metadata’yı bir veritabanında saklayın ve dosya konumuna bağlantı verin.
+
+Primary key olarak UUID’ler veya URL hash’leri kullanın; böylece duplicate kayıtları önleyebilir ve daha önce crawl edilmiş öğeleri takip edebilirsiniz.
+
+### Aranabilir Hale Getirmek
+
+Veri saklandıktan sonra içerik üzerinde **keşif yapmak ve sorgulamak** isteyeceksiniz.
+
+Seçenekler şunlardır:
+
+- **PostgreSQL FTS (Full-Text Search)**: Sıralamalı güçlü anahtar kelime arama yetenekleri oluşturmak için `tsvector` ve `tsquery` kullanın.
+- **Typesense** veya **Meilisearch**: Hızlı indeksleme ve fuzzy search için mükemmel, hafif ve şema esnekliğine sahip full-text search motorları.
+- **Elasticsearch**: Güçlü filtreleme ve analitik özellikleriyle, daha karmaşık arama senaryoları veya log’lar için en iyi seçenektir.
+
+Şu alanları indekslemelisiniz:
+- Başlık
+- Yazar
+- Yayın tarihi
+- Anahtar kelimeler veya etiketler (çıkarıldıysa)
+- Ana içerik
+- Domain / kaynak
+
+### Embedding’lerle Semantik Arama
+
+Daha derin anlama ve retrieval için (anahtar kelimelerin ötesinde) **text embedding** kullanın:
+
+1. OpenAI’ın `text-embedding-3-small` modeli veya `bge-small-en` gibi açık kaynak alternatiflerden birini kullanın.
+2. Crawl ettiğiniz içeriği embedding vektörlerine dönüştürün.
+3. Bunları şu tür bir **vector database** içinde saklayın:
+   - **Qdrant**
+   - **Weaviate**
+   - **Pinecone**
+   - **FAISS** (local / in-memory kullanım için)
+
+Bu, şu tür semantik sorguları mümkün kılar:
+> "Bana birinin soğuk iklimlerde bisiklet dostu kentsel gelişimden bahsettiği makaleleri göster."
+
+Sorgu embedding’ini kayıtlı embedding’lerle karşılaştırarak crawler’ınız bir bilgi motoruna dönüşür.
+
+### Metadata ve Zenginleştirme
+
+Son olarak, verinizi ek metadata ile zenginleştirin:
+
+- **Language detection** (ör. `langdetect` veya fastText ile).
+- Zero-shot modeller ya da fine-tune edilmiş sınıflandırıcılar kullanarak **içerik kategori sınıflandırması**.
+- Kişileri, kuruluşları ve yerleri çıkarmak için **Named Entity Recognition (NER)**.
+- İçeriğe veya kaynağa dayalı **geotagging**.
+
+Bunları ana verinin yanında saklayın; böylece daha sonra bunlara göre filtreleme ve sıralama yapabilirsiniz.
+
+## Part 5: Arama Odaklı Keşif Crawler’ları
+
+Büyük ölçekli crawling’e yönelik en gelişmiş yaklaşım URL’lerle bile başlamaz — bunun yerine **arama sorgularıyla** başlar.
+
+SearchXNG ve Perplexity gibi araçlardan ilham alan Metascraper, crawler’ın şu şekilde çalıştığı search-first bir strateji gösterir:
+
+1. Bir seed URL listesi yerine bir **konu veya soruyla** başlar
+2. İlgili sayfaları gerçek zamanlı olarak keşfetmek için arama motoru API’lerini kullanır
+3. Search result’lara göre crawl queue’sunu dinamik olarak oluşturur
+4. Bilgiyi genişletmek için citation ve referansları akıllıca takip eder
+
+Bu yaklaşım çeşitli avantajlar sunar:
+
+- **Hedefe Yönelik Keşif**: Kapsamlı crawling yerine yalnızca ilgili bilgi içerme olasılığı yüksek sayfaları ziyaret edersiniz
+- **Güncel Sonuçlar**: Her crawl, güncel search result’larla sıfırdan başlar
+- **Domain-agnostic**: Önceden tanımlanmış siteler veya URL kalıplarıyla sınırlı değildir
+- **Niyet odaklı**: İnsanların konuları gerçekte nasıl araştırdığıyla uyumludur
+
+Metascraper’ın arama odaklı modu; search API’lerini, önceliklendirme algoritmalarını ve bağlam farkında extraction tekniklerini birleştirerek, hangi URL’leri ziyaret edeceğinizi önceden bilmeden dinamik olarak keşfedilen içerikten bilgi grafikleri oluşturmayı gösterir.
+
+İyi scraping’ler

@@ -1,42 +1,83 @@
 ---
-title: 'Medya + Metin Dışı Kazıma'
+title: 'Medya + Metin Dışı Scraping'
 publishedAt: '2025-04-26'
-summary: 'Metinden öteye kazıma tekniklerini öğrenin: metadata ile resim çıkarma, PDF indirme ve ayrıştırma, video bilgilerini yakalama.'
+summary: 'Metnin ötesine geçen scraping tekniklerini öğrenin: metadata ile birlikte görsel çıkarma, PDF indirme ve ayrıştırma ve video bilgilerini yakalama.'
 ---
 
-Bölüm 5'e hoş geldiniz! Şimdiye kadar statik ve dinamik HTML içeriğini kazımayı, çok sayfa sitelerde gezinmeyi ve API'ler ve formlarla etkileşim kurmayı ele aldık. Şimdi medya içeriği çıkarımını keşfetmek için metinden öteye geçiyoruz. Bu bölüm web kazımada karşılaştığımız çeşitli medya türlerini işleme tekniklerine odaklanır.
+5. Bölüme hoş geldiniz! Şimdiye kadar statik ve dinamik HTML içeriğinin scrape edilmesini, çok sayfalı sitelerde gezinmeyi ve API'ler ile formlarla etkileşimi ele aldık. Şimdi metnin ötesine geçerek medya içeriği çıkarmayı inceleyeceğiz. Bu bölüm, web scraping sırasında karşılaşılan çeşitli medya türlerini işleme tekniklerine odaklanıyor.
 
-### 1. Resim ve Metadata Çıkarma (Bölüm 10)
+### 1. Görselleri ve Metadata'yı Çıkarma (Bölüm 10)
 
-Resimler web içeriğinin önemli bir bölümünü oluşturur ve onları kazımak sadece dosyaları indirmekten fazlasını içerir. Değerli bağlam genellikle ilişkili metadata'da saklanır.
+Görseller, web içeriğinin önemli bir bölümünü oluşturur ve bunları scrape etmek yalnızca dosyaları indirmekten ibaret değildir. Değerli bağlam bilgisi çoğu zaman ilişkili metadata içinde tutulur.
 
 **Temel Kavramlar:**
 
-* **Resim Tanımlama:** HTML'de resim öğelerini bulmak için seçiciler kullanma (`<img>` etiketleri, arka plan resimleri, vb.)
-* **Metadata Çıkarma:** şunlar gibi kritik bilgileri toplama:
-  * `alt` metni (erişilebilirlik ve resim içeriğini açıklamak için gerekli)
-  * Dosya adları (genellikle tarihler veya konular gibi açıklayıcı bilgiler içerir)
+* **Görsel Tespiti:** HTML içindeki görsel öğelerini bulmak için selector kullanımı (`<img>` etiketleri, background görselleri vb.)
+* **Metadata Çıkarma:** Şu gibi kritik bilgilerin toplanması:
+  * `alt` metni (erişilebilirlik ve görsel içeriğini açıklamak için kritik öneme sahiptir)
+  * Dosya adları (çoğu zaman tarihler veya konular gibi açıklayıcı bilgiler içerir)
   * Başlıklar ve çevreleyen metin
-  * Özel veri öznitelikleri (örn. `data-photographer`, `data-location`)
-* **Resim İndirme:** Organizasyonu koruyarak resimleri verimli bir şekilde kaydetme teknikleri
-* **EXIF Verisi:** Bazı resimler için, gömülü teknik metadata çıkarma (kamera ayarları, GPS koordinatları, vb.)
+  * Özel veri nitelikleri (ör. `data-photographer`, `data-location`)
+* **Görsel İndirme:** Düzeni koruyarak görselleri verimli biçimde kaydetme teknikleri
+* **EXIF Verisi:** Bazı görseller için gömülü teknik metadata'nın çıkarılması (kamera ayarları, GPS koordinatları vb.)
 
-**Zorluk (Bölüm 10):** Çeşitli tarihi resimleri içeren dijital arşiv web sitesini kazıyacaksınız. Göreviniz sadece resimlerin kendilerini değil, aynı zamanda alt metin, dosya adı bilgisi, başlıklar ve özel öznitelikler dahil tüm ilişkili metadata'yı da çıkarmaktır.
+**Meydan Okuma (Bölüm 10):** Çeşitli tarihî görseller içeren bir dijital arşiv web sitesini scrape edeceksiniz. Göreviniz yalnızca görsellerin kendisini değil, aynı zamanda alt metin, dosya adı bilgileri, başlıklar ve özel nitelikler dâhil ilişkili tüm metadata'yı da çıkarmak.
 
-### 2. PDF'leri İndirme ve Ayrıştırma
+### 2. PDF İndirme ve Ayrıştırma
 
-Web'deki çok sayıda değerli belge PDF olarak saklanır ve içeriklerini çıkarmak için özel işleme gerektirir.
+Web üzerindeki pek çok değerli belge PDF olarak saklanır ve içeriklerini çıkarmak için özel işlem gerektirir.
 
 **Temel Kavramlar:**
 
-* **PDF Algılama:** Web sayfalarında PDF bağlantılarını bulma
+* **PDF Tespiti:** Web sayfalarındaki PDF bağlantılarını bulma
 * **İndirme:** PDF dosyalarını alma teknikleri
-* **Metin Çıkarma:** Metinsel içeriği çıkarmak için `pdf-parse` veya `pdf.js` gibi kütüphaneler kullanma
-* **Yapılandırılmış Veri:** şunları içeren belgelerle başa çıkma:
+* **Metin Çıkarma:** Metin içeriğini çıkarmak için `pdf-parse` veya `pdf.js` gibi kütüphaneleri kullanma
+* **Yapılandırılmış Veri:** Şunları içeren belgeleri işleme:
   * Temel metin
   * Tablolar ve sütunlar
   * Formlar
-  * Gömülü resimler
-* **Metadata Erişimi:** Belge özelliklerini çıkarma (başlık, yazar, oluşturma tarihi)
+  * Gömülü görseller
+* **Metadata Erişimi:** Belge özelliklerini çıkarma (başlık, yazar, oluşturulma tarihi)
 
-Mutlu kazıma!
+**Meydan Okuma (Bölüm 10):** Dijital arşiv scraping alıştırmasının bir parçası olarak, yapıları farklı olan PDF belgelerini indireceksiniz—basit metin tabanlı belgelerden tablolar ve gömülü görseller içeren daha karmaşık belgelere kadar. Çözümünüzün bu içeriği uygun şekilde çıkarması ve düzenlemesi gerekir.
+
+### 3. Gömülü Video Metadata'sını Scrape Etme
+
+Videolar genellikle web sayfalarına iframe'ler veya özel oynatıcılar aracılığıyla gömülür ve metadata'larına farklı tekniklerle erişilebilir.
+
+**Temel Kavramlar:**
+
+* **Video Gömme Tespiti:** Farklı gömme yöntemlerini tanıma:
+  * YouTube/Vimeo iframe'leri
+  * HTML5 `<video>` öğeleri
+  * Özel video oynatıcılar
+* **Metadata Çıkarma:** Şunları toplama:
+  * Video başlıkları ve açıklamaları
+  * Platform bilgisi
+  * Video kimlikleri veya doğrudan URL'ler
+  * Süre, yükleyen kişi ve mevcut diğer nitelikler
+* **Küçük Resim Erişimi:** Videolarla ilişkili önizleme görsellerini alma
+
+**Meydan Okuma (Bölüm 10):** Dijital arşiv alıştırmasının son bileşeni, YouTube, Vimeo ve yerel HTML5 video öğeleri dâhil olmak üzere birden fazla kaynaktan gömülü videolar hakkında bilgi çıkarmanızı gerektirir.
+
+### OSINT ve Dijital Adli Bilişim Uygulamaları
+
+Bu bölümde ele alınan tekniklerin Open Source Intelligence (OSINT) ve dijital adli bilişim alanlarında da uygulamaları vardır. Medya metadata'sı, yayımlanma tarihleri, coğrafi kökenler ve kaynak bilgileri arasındaki tutarsızlıklar dâhil olmak üzere içerik özgünlüğü hakkında önemli bilgiler ortaya çıkarabilir.
+
+Bu beceriler, içerik doğrulamasının kritik olduğu alanlarda çalışan araştırmacılar ve analistler için değerlidir. Bu uygulamalar hakkında daha fazla bilgi edinmek istiyorsanız, [OSINT Framework](https://osintframework.com/) veya [Intel Techniques](https://inteltechniques.com/index.html) gibi kaynaklara göz atın.
+
+Meydan okumalarımızda soruşturma tekniklerine odaklanmayacak olsak da, metadata'nın nasıl çıkarılıp analiz edilebileceğini anlamak, kapsamlı web scraping projeleri için önemli bir beceridir.
+
+### Pratik Hususlar
+
+Medya içeriğini scrape ederken şu önemli etkenleri aklınızda bulundurun:
+
+1. **Depolama Gereksinimleri:** Medya dosyaları büyük olabilir—buna göre plan yapın
+2. **Bant Genişliği Kullanımı:** Çok sayıda medya dosyasını indirmek ciddi miktarda bant genişliği tüketebilir
+3. **Rate Limiting:** Pek çok site medya indirme hızını sınırlar
+4. **Hukuki Hususlar:** Medya içeriği üzerindeki telif hakkı kısıtlamalarının farkında olun
+5. **Hata Yönetimi:** Bazı medya öğelerine erişilemeyebilir veya bozuk olabilir—çözümünüz bu durumları zarif biçimde ele almalıdır
+
+Bu tekniklerde ustalaşmak, web scraping yeteneklerinizi metin tabanlı içeriğin ötesine önemli ölçüde taşıyacak ve web'de bulunan medyanın tüm yelpazesini yakalayıp kullanmanıza olanak sağlayacaktır.
+
+İyi scraping'ler!

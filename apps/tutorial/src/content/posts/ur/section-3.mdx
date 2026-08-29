@@ -1,60 +1,60 @@
 ---
-title: 'کثیر صفحاتی کرالنگ'
+title: 'کئی صفحات پر مشتمل Crawling'
 publishedAt: '2025-03-25'
-summary: 'باہم جڑے ہوئے ویب سائٹس کرال کرنے، سائٹ میپس کا انتظام، اور ڈپلیکیٹ مواد سنبھالنے کی تکنیکوں میں مہارت حاصل کریں'
+summary: 'آپس میں منسلک ویب سائٹس کی crawling، sitemaps کے انتظام، اور دہرائے گئے مواد سے نمٹنے کی تکنیکوں میں مہارت حاصل کریں'
 ---
 
-جامد اور متحرک مواد اسکریپنگ دونوں کی بنیادی باتیں ہمارے پاس ہونے کے ساتھ، اب وقت آیا ہے کہ ایک زیادہ جامع چیلنج سے نمٹا جائے: کثیر صفحاتی کرالنگ۔ یہ سیکشن متعدد باہم جڑے صفحات والی ویب سائٹس سے مؤثر طریقے سے نیویگیٹ کرنے اور ڈیٹا نکالنے کی تکنیکوں پر توجہ مرکوز کرتا ہے۔
+اب جبکہ static اور dynamic دونوں طرح کے مواد کی scraping کی بنیادی باتیں ہم سیکھ چکے ہیں، تو اب وقت آ گیا ہے کہ ایک زیادہ جامع چیلنج کا سامنا کیا جائے: multi-page crawling۔ یہ حصہ ان ویب سائٹس میں، جن کے متعدد صفحات آپس میں جڑے ہوتے ہیں، مؤثر انداز میں رہنمائی کرنے اور ان سے data نکالنے پر مرکوز ہے۔
 
-کثیر صفحاتی ویب سائٹس کرال کرنے کے دو اہم طریقے ہیں:
+کئی صفحات والی ویب سائٹس کی crawling کے دو بنیادی طریقے ہیں:
 
-1. لنک پر مبنی کرالنگ - صفحات کے درمیان لنکس کا پیروی کرنا
-2. سائٹ میپ پر مبنی کرالنگ - sitemap.xml فائل کا استعمال
+1. Link-based crawling - صفحات کے درمیان links کی پیروی کرنا
+2. Sitemap-based crawling - sitemap.xml فائل استعمال کرنا
 
-سائٹ میپ کرالنگ کے لیے، زیادہ تر ویب سائٹس sitemap.xml فائل فراہم کرتی ہیں جو تمام اہم URLs کی فہرست بناتی ہے۔ یہ منظم XML فائل شامل کرتی ہے:
+sitemap crawling کے لیے، زیادہ تر ویب سائٹس ایک sitemap.xml فائل فراہم کرتی ہیں جو تمام اہم URLs کی فہرست دیتی ہے۔ اس منظم XML فائل میں یہ شامل ہوتا ہے:
 
-- صفحے کے URLs
-- آخری تبدیلی کی تاریخیں
-- تبدیلی کی تعدد
-- ترجیحی قیمتیں
+- صفحہ URLs
+- آخری ترمیم کی تاریخیں
+- تبدیلی کی تکرار
+- ترجیحی قدریں
 
-سائٹ میپ کا استعمال لنک کرالنگ سے زیادہ موثر ہو سکتا ہے کیونکہ یہ:
-- پیش از وقت صفحات کی مکمل فہرست فراہم کرتا ہے
-- صفحے کی اہمیت اور تازگی کے بارے میں میٹاڈیٹا شامل کرتا ہے
-- غیر ضروری صفحات کرال کرنے سے بچاتا ہے
-- سرور لوڈ کو کم کرتا ہے
+sitemap کا استعمال link crawling کے مقابلے میں زیادہ مؤثر ہو سکتا ہے کیونکہ یہ:
+- ابتدا ہی میں صفحات کی مکمل فہرست فراہم کرتا ہے
+- صفحات کی اہمیت اور تازگی سے متعلق metadata شامل کرتا ہے
+- غیر ضروری صفحات کی crawling سے بچاتا ہے
+- server پر بوجھ کم کرتا ہے
 
-لیکن اس باب کے لیے، ہم کثیر صفحاتی ای کامرس سائٹ کے لیے کرالر بنانے کے لیے Crawlee استعمال کرتے ہوئے لنک پر مبنی کرالنگ پر توجہ مرکوز کریں گے۔ Crawlee ہمارے لیے ویب کرالنگ کی بہت سی پیچیدگیاں سنبھالتا ہے، بشمول:
+لیکن اس باب میں، ہم Crawlee استعمال کرتے ہوئے link-based crawling پر توجہ دیں گے تاکہ ایک multi-page e-commerce site کے لیے crawler تیار کیا جا سکے۔ Crawlee web crawling کی کئی پیچیدگیوں کو ہمارے لیے سنبھالتا ہے، جن میں یہ شامل ہیں:
 
-- خودکار کیو مینجمنٹ اور URL کی نقل نکالنا
-- بلٹ ان ریٹ لمٹنگ اور ری ٹرائی لاجک
-- قابل اعتماد درخواست ہینڈلنگ اور روٹنگ
-- ڈیٹا اسٹوریج اور ایکسپورٹ
+- خودکار queue management اور URL deduplication
+- built-in rate limiting اور retry logic
+- قابلِ ترتیب request handling اور routing
+- data storage اور export
 
-سائٹ کا ڈھانچہ جس کی ہم کرالنگ کریں گے کچھ اس طرح نظر آتا ہے:
+جس site structure پر ہم crawling کریں گے، وہ کچھ یوں ہے:
 
 ```
-ہوم پیج
-├── کیٹگری: الیکٹرانکس
-│   ├── فونز
-│   ├── لیپ ٹاپس
-│   └── اکسیسریز
-├── کیٹگری: کپڑے
-│   ├── مردانہ
-│   └── زنانہ
-└── نمایاں پروڈکٹس
+Homepage
+├── Category: Electronics
+│   ├── Phones
+│   ├── Laptops
+│   └── Accessories
+├── Category: Clothing
+│   ├── Men's
+│   └── Women's
+└── Featured Products
 ```
 
-ہر پروڈکٹ صفحہ کیٹگری کے مطابق مختلف لے آؤٹ رکھتا ہے، لیکن ہمیں مستحکم معلومات نکالنی ہیں:
+ہر product page کا layout category کے لحاظ سے مختلف ہے، لیکن ہمیں ایک جیسی معلومات اخذ کرنا ہیں:
 
 ```typescript
-// مثال ڈیٹا ڈھانچہ جو ہم بنانا چاہتے ہیں
+// Example data structure we want to build
 interface ProductData {
   name: string;
   price: number;
   rating: { score: number, count: number };
   features: string[];
-  status: string; // موجود، ناموجود، وغیرہ
+  status: string; // In Stock, Out of Stock, etc.
 }
 
 interface ResultData {
@@ -79,40 +79,40 @@ interface ResultData {
 }
 ```
 
-### Crawlee کے ساتھ اہم کرالنگ تصورات
+### Crawlee کے ساتھ Crawling کے بنیادی تصورات
 
-1. **درخواست کیو کا انتظام**
+1. **Request Queue Management**
 
-Crawlee کیو کو خودکار طور پر سنبھالتا ہے، لیکن یہاں اس کی کنفیگریشن ہے:
+Crawlee queue کو خودکار طور پر سنبھالتا ہے، لیکن ہم اسے یوں configure کرتے ہیں:
 
 ```typescript
 import { CheerioCrawler } from 'crawlee';
 
 const crawler = new CheerioCrawler({
-    // ہر درخواست کو سنبھالتا ہے
+    // Handles each request
     async requestHandler({ $, request, enqueueLinks }) {
-        // صفحے کو پروسیس کریں
+        // Process the page
         const data = extractPageData($);
 
-        // صفحے پر پائے جانے والے نئے URLs کو خودکار طور پر کیو میں شامل کریں
+        // Automatically queue new URLs found on the page
         await enqueueLinks({
             selector: 'a',
             baseUrl: request.loadedUrl,
         });
     },
-    // ہم وقتی درخواستوں کو محدود کریں
+    // Limit concurrent requests
     maxConcurrency: 10,
 });
 ```
 
-2. **URL ہینڈلنگ**
+2. **URL Handling**
 
-Crawlee بلٹ ان URL ہینڈلنگ اور نارملائزیشن فراہم کرتا ہے:
+Crawlee built-in URL handling اور normalization فراہم کرتا ہے:
 
 ```typescript
 await crawler.run([startUrl]);
 
-// یا زیادہ کنفیگریشن کے ساتھ:
+// Or with more configuration:
 await crawler.addRequests([{
     url: startUrl,
     userData: {
@@ -121,9 +121,9 @@ await crawler.addRequests([{
 }]);
 ```
 
-3. **روٹ ہینڈلنگ**
+3. **Route Handling**
 
-مختلف URLs کو مخصوص ہینڈلرز میں روٹ کریں:
+مختلف URLs کو مخصوص handlers کی طرف route کریں:
 
 ```typescript
 const crawler = new CheerioCrawler({
@@ -142,9 +142,9 @@ const crawler = new CheerioCrawler({
 });
 ```
 
-4. **ڈیٹا اکٹھا کرنا**
+4. **Data Collection**
 
-Crawlee اکٹھے کیے گئے ڈیٹا کے لیے بلٹ ان اسٹوریج فراہم کرتا ہے:
+Crawlee جمع کیے گئے data کے لیے built-in storage فراہم کرتا ہے:
 
 ```typescript
 const crawler = new CheerioCrawler({
@@ -155,50 +155,50 @@ const crawler = new CheerioCrawler({
 });
 ```
 
-### ویب کرالنگ کے بہترین طریقہ کار
+### Web Crawling کی بہترین عملی تدابیر
 
-جبکہ Crawlee بہت سے کم سطح کے خدشات کو سنبھالتا ہے، آپ کو پھر بھی غور کرنا چاہیے:
+اگرچہ Crawlee نچلی سطح کے بہت سے معاملات سنبھالتا ہے، پھر بھی آپ کو یہ باتیں پیشِ نظر رکھنی چاہییں:
 
-1. **کنفیگریشن**
-   - مناسب ریٹ لمٹس سیٹ کریں
-   - ری ٹرائی کی حکمت عملیاں کنفیگر کریں
-   - معنی خیز user-agent strings سیٹ کریں
+1. **Configuration**
+   - مناسب rate limits مقرر کریں
+   - retry strategies کو configure کریں
+   - بامعنی user-agent strings مقرر کریں
 
-2. **ایرر ہینڈلنگ**
-   - Crawlee کی بلٹ ان ایرر ہینڈلنگ استعمال کریں
-   - حسب ضرورت ایرر کال بیکس لاگو کریں
-   - معنی خیز تشخیصی معلومات لاگ کریں
+2. **Error Handling**
+   - Crawlee کے built-in error handling کا استعمال کریں
+   - حسبِ ضرورت error callbacks نافذ کریں
+   - بامعنی diagnostic معلومات log کریں
 
-3. **ڈیٹا تنظیم**
-   - اپنے ڈیٹا کو مستحکم طریقے سے ڈھانچہ دیں
-   - روٹنگ کے لیے درخواست لیبلز کا استعمال کریں
-   - Crawlee کی ڈیٹاسیٹ خصوصیات کا فائدہ اٹھائیں
+3. **Data Organization**
+   - اپنے data کو مستقل ساخت میں مرتب کریں
+   - routing کے لیے request labels استعمال کریں
+   - Crawlee کی dataset خصوصیات سے فائدہ اٹھائیں
 
-4. **ریسورس مینجمنٹ**
-   - maxConcurrency کو مناسب طریقے سے کنفیگر کریں
-   - ضرورت کے وقت maxRequestsPerCrawl استعمال کریں
-   - میموری کے استعمال کو مانیٹر کریں
+4. **Resource Management**
+   - maxConcurrency کو مناسب طور پر configure کریں
+   - ضرورت پڑنے پر maxRequestsPerCrawl استعمال کریں
+   - memory usage کی نگرانی کریں
 
 ### چیلنج
 
-آپ کا کام Crawlee پر مبنی کرالر بنانا ہے جو:
+آپ کا کام ایک Crawlee-based crawler تیار کرنا ہے جو:
 
-1. ہوم پیج سے شروع کرے اور تمام پروڈکٹ کیٹگریز دریافت کرے
-2. ہر کیٹگری اور ذیلی کیٹگری صفحے کا دورہ کرے
-3. ہر فہرست سے پروڈکٹ کی معلومات نکالے
-4. ڈیٹا کو منظم شکل میں ترتیب دے
-5. متعدد جگہوں پر نظر آنے والے پروڈکٹس کو سنبھالے (جیسے نمایاں اور کیٹگری)
+1. homepage سے شروع کرے اور تمام product categories دریافت کرے
+2. ہر category اور subcategory page پر جائے
+3. ہر listing سے product information اخذ کرے
+4. data کو ایک منظم format میں ترتیب دے
+5. ایسے products کو سنبھالے جو ایک سے زیادہ جگہوں پر ظاہر ہوتے ہوں (مثلاً featured اور category)
 
-سائٹ میں مختلف کیٹگریز میں تقریباً 25-30 پروڈکٹس شامل ہیں، مختلف لے آؤٹس اور معلومات کی ساخت کے ساتھ۔ آپ کا کرالر ایک جامع ڈیٹاسیٹ تیار کرے جو کیٹگریز اور پروڈکٹس کے درمیان درجہ بندی کے تعلق کو برقرار رکھے۔
+اس site میں مختلف categories میں تقریباً 25-30 products موجود ہیں، اور ان کے layouts اور معلوماتی ساختیں مختلف ہیں۔ آپ کے crawler کو ایک ایسا جامع dataset تیار کرنا چاہیے جو categories اور products کے درمیان درجہ وار تعلق کو برقرار رکھے۔
 
-### آپ کے حل کا امتحان
+### اپنے حل کی جانچ
 
-اس کے لیے ٹیسٹ کریں:
-- مکملیت: کیا آپ نے تمام پروڈکٹس تلاش کیے؟
-- درستگی: کیا نکالا گیا ڈیٹا درست ہے؟
-- ڈھانچہ: کیا ڈیٹا صحیح طریقے سے منظم ہے؟
-- کارکردگی: آپ نے کتنی درخواستیں کیں؟
+یہ جانچیں:
+- Completeness: کیا آپ نے تمام products تلاش کر لیے؟
+- Accuracy: کیا اخذ کیا گیا data درست ہے؟
+- Structure: کیا data مناسب طریقے سے منظم ہے؟
+- Efficiency: آپ نے کتنی requests کیں؟
 
-`_solved/chapter6/` میں حل شدہ مثال Crawlee استعمال کرتے ہوئے ریفرنس امپلیمینٹیشن فراہم کرتی ہے۔ اس کا مطالعہ کریں تاکہ سمجھ سکیں کہ موثر کثیر صفحاتی کرالنگ اور ڈیٹا تنظیم کے لیے لائبریری کی خصوصیات کا فائدہ کیسے اٹھایا جائے۔
+`exercises/chapter-06/solution/src/` میں موجود reference solution، Crawlee استعمال کرتے ہوئے ایک working implementation فراہم کرتا ہے۔ اسے غور سے دیکھیں تاکہ آپ سمجھ سکیں کہ مؤثر multi-page crawling اور data organization کے لیے library کی خصوصیات سے کیسے فائدہ اٹھایا جائے۔
 
-خوش کرالنگ!
+crawling مبارک!

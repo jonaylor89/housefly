@@ -1,31 +1,31 @@
 ---
-title: 'Web Tarama Savunmalarıyla Başa Çıkma'
+title: 'Web Tarama Savunmalarıyla Başa Çıkmak'
 publishedAt: '2025-05-18'
-summary: 'Etik kazıma uygulamalarını korurken anti-kazıma savunmalarının karmaşık dünyasında nasıl gezineceğinizi öğrenin'
+summary: 'Etik scraping uygulamalarını sürdürürken anti-scraping savunmalarının karmaşık dünyasında nasıl yol alacağınızı öğrenin'
 ---
 
-Web kazıma veri bilimciler ve geliştiriciler için temel bir beceri haline geldi, ancak web sitesi sahipleri de savunmalarını buna uygun olarak geliştirdiler. Bu bölüm web kazıma savunmalarının kedi-fare oyununu ve bunlarda etkili bir şekilde nasıl gezineceğinizi keşfediyor.
+Web scraping, veri bilimcileri ve geliştiriciler için vazgeçilmez bir beceri hâline geldi; buna karşılık web sitesi sahipleri de savunmalarını geliştirdi. Bu bölüm, web scraping savunmalarıyla süren kedi-fare oyununu ve bunların arasında nasıl etkili şekilde yol alınacağını inceliyor.
 
-## Bölüm 11: Düşman Hatlarının Arkasında
+## Bölüm 11: Düşman Hattının Gerisinde
 
-Bu bölümde, "CryptoDefend Exchange" ile uğraşacaksınız - verilerine kolay erişilm istemeyen simüle edilmiş bir kripto para borsası platformu. Çok sayıda finansal site gibi, CryptoMoon fiyat verilerinin, işlem hacimlerinin ve piyasa eğilimlerinin otomatik toplanmasını önlemek için çeşitli savunma önlemleri uyguluyor.
+Bu bölümde, verilerine kolayca erişilmesini istemeyen simüle edilmiş bir kripto para borsası platformu olan "CryptoDefend Exchange" ile uğraşacaksınız. Birçok finans sitesinde olduğu gibi, CryptoDefend da fiyat verilerinin, işlem hacimlerinin ve piyasa trendlerinin otomatik olarak toplanmasını önlemek için çeşitli savunma önlemleri uygular.
 
-Zorluğumuz bu savunmaları kontrollü bir ortamda simüle ediyor ve size şunları sağlıyor:
+Karşılaşacağınız görev, bu savunmaları kontrollü bir ortamda simüle ederek şunları yapmanızı sağlar:
 
-- Yüksek değerli hedefler tarafından kullanılan ortak anti-kazıma mekanizmalarını anlama
-- Başarılı veri çıkarma için pratik stratejiler geliştirme
-- Sebat ve teknik zorluklar arasında denge kurma
+- Yüksek değerli hedeflerde kullanılan yaygın anti-scraping mekanizmalarını anlamak
+- Başarılı veri çıkarımı için pratik stratejiler geliştirmek
+- Israr ile teknik zorluklar arasında denge kurmak
 
 ## Gerçek Dünyada Çok Katmanlı Savunmalar
 
-Bugünün anti-kazıma cephaneliği birkaç sofistike teknik içeriyor:
+Günümüzde anti-scraping cephaneliği birkaç gelişmiş tekniği içeriyor:
 
-### Oran Sınırlama ve IP Engelleme
+### Rate Limiting ve IP Engelleme
 
-En temel savunma istek sıklığını izleme ve eşikleri aşan IP'leri engelleme olarak kalıyor:
+En temel savunma hâlâ istek sıklığını izlemek ve eşikleri aşan IP’leri engellemek:
 
 ```javascript
-// Basitleştirilmiş oran sınırlama kavramı
+// Simplified rate limiting concept
 const requestCounts = {};
 
 app.use((req, res, next) => {
@@ -33,34 +33,144 @@ app.use((req, res, next) => {
   requestCounts[ip] = (requestCounts[ip] || 0) + 1;
   
   if (requestCounts[ip] > THRESHOLD) {
-    return res.status(429).send('Çok Fazla İstek');
+    return res.status(429).send('Too Many Requests');
   }
   next();
 });
 ```
 
-Oran sınırlamayı işlemek için, kazıyıcınızın şunlara ihtiyacı var:
+Rate limiting ile başa çıkmak için scraper'ınızın şunları yapması gerekir:
 
-- İstekler arasında gecikme uygulamak
-- robots.txt yönergelerine saygı göstermek
-- Büyük ölçekli kazıma yaparken IP rotasyonunu düşünmek
+- İstekler arasına gecikmeler koymak
+- robots.txt yönergelerine uymak
+- Büyük ölçekli scraping yaparken IP rotasyonu kullanmayı değerlendirmek
 
-### CAPTCHA'lar ve Etkileşimli Zorluklar
+### CAPTCHA’lar ve Etkileşimli Doğrulamalar
 
-CAPTCHA'lar insanlar için kolay ama botlar için zor görevler sunar. reCAPTCHA v3 gibi modern CAPTCHA'lar hatta arka planda görünmez bir şekilde çalışıp kullanıcı davranışını analiz ediyor:
+CAPTCHA’lar, insanlar için kolay ama botlar için zor görevler sunar. reCAPTCHA v3 gibi modern CAPTCHA’lar hatta arka planda görünmez şekilde çalışarak kullanıcı davranışını analiz eder:
 
 ```html
-<!-- Örnek CAPTCHA uygulanması -->
+<!-- Example CAPTCHA implementation -->
 <form>
   <div class="g-recaptcha" data-sitekey="your-site-key"></div>
-  <button type="submit">Gönder</button>
+  <button type="submit">Submit</button>
 </form>
 ```
 
-CAPTCHA'larda gezinmek şunları içerebilir:
+CAPTCHA’ların etrafından dolaşmak şunları içerebilir:
 
-- CAPTCHA çözme hizmetleri (etik değerlendirmeler geçerli olsa da)
-- İnsan benze ri davranışı simüle etmek için tarayıcı otomasyonunu kullanma
-- Bazı içeriklerin erişilemez kalabileceğini kabul etme
+- CAPTCHA çözme servisleri kullanmak (ancak etik değerlendirmeler geçerlidir)
+- İnsan benzeri davranışı simüle etmek için browser automation’dan yararlanmak
+- Bazı içeriklerin erişilemez kalabileceğini kabul etmek
 
-Mutlu kazıma!
+### Davranış Analizi ve Fingerprinting
+
+Gelişmiş savunmalar, botları tespit etmek için fare hareketlerini, kaydırma örüntülerini ve cihaz özelliklerini takip eder:
+
+```javascript
+// Simplified fingerprinting concept
+function collectFingerprint() {
+  return {
+    userAgent: navigator.userAgent,
+    screenResolution: `${screen.width}x${screen.height}`,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    language: navigator.language,
+    // Many more signals in production systems
+  };
+}
+```
+
+Bu tekniklere karşı koymak şunları gerektirir:
+
+- İnsan benzeri davranışı simüle edebilen headless browser’lar
+- Etkileşim örüntülerini rastgeleleştirmek
+- Cookie’leri ve oturum verilerini tutarlı biçimde yönetmek
+
+### Dinamik İçerik ve HTML Gizleme
+
+Birçok site içeriği JavaScript ile render eder ya da öğe ID’lerini ve class adlarını rastgeleleştirir:
+
+```html
+<!-- Yesterday's HTML -->
+<div class="product-price">$99.99</div>
+
+<!-- Today's HTML after obfuscation -->
+<div class="_a7b92f3e">$99.99</div>
+```
+
+Bu da scraper'ınızın şunları yapmasını gerektirir:
+
+- Playwright veya Puppeteer gibi tam browser ortamları kullanmak
+- Tam seçiciler yerine içerik örüntülerine odaklanmak
+- Daha dayanıklı parsing stratejileri uygulamak
+
+## Etik ve Hukuki Hususlar
+
+Bu bölüm savunmalar arasında yol almayı sağlayan teknikleri tanıtsa da şunu unutmamak önemlidir:
+
+- Aşırı scraping, web sitesi performansına zarar verebilir
+- Hizmet Şartları çoğu zaman scraping’i açıkça yasaklar
+- Bazı yargı bölgelerinde yetkisiz erişime ilişkin yasalar bulunur
+
+Eğitim amaçlı olarak şunları öneriyoruz:
+
+- Production siteleri scrape etmeden önce robots.txt dosyasını kontrol etmek
+- İstekler arasına makul gecikmeler koymak
+- Verimliliğin önemli olduğu durumlarda API seçeneklerini değerlendirmek
+- Uygun olduğunda tanımlanabilir bir user agent kullanmak
+
+## Göreve Yaklaşım
+
+11. Bölümdeki CryptoDefend borsamız, finansal veri toplarken karşılaşabileceğiniz gerçekçi zorluklar sunuyor. Şunlar arasında yolunuzu bulmanız gerekecek:
+
+- Fiyat API endpoint’lerinde rate limiting
+- İşlem verilerine erişmek için basit doğrulama bulmacaları
+- Yalnızca JavaScript ile render edilen piyasa grafikleri
+- Ziyaretler arasında değişen rastgeleleştirilmiş seçiciler
+
+Amaç, bu mekanizmaları anlamak ve veri toplama araç setiniz için pratik teknikler geliştirmektir.
+
+```typescript
+// Example of polite scraping with delays
+async function politeScraper(urls: string[]) {
+  for (const url of urls) {
+    // Check robots.txt first
+    if (await isAllowedByRobotsTxt(url)) {
+      const content = await fetchWithDelay(url, 2000); // 2-second delay
+      // Process content...
+    }
+  }
+}
+```
+
+## İpuçları
+
+1. Scrape etmeye çalışmadan önce sitenin davranışını analiz ederek başlayın
+2. Kabul edilebilir istek hızlarını bulmak için kademeli gecikmeler uygulayın
+3. API çağrılarını anlamak için Playwright'ın network inspector gibi araçlarını kullanın
+4. Gerçek kullanıcıların siteyle nasıl etkileşime girdiğini düşünün ve bu davranışı taklit edin
+
+Profesyonel uygulamalar için en sürdürülebilir scraping yaklaşımı, teknik gereksinimleri site sınırlamalarıyla dengeleyen yaklaşımdır. Nihai amaç, gereksiz engellerden kaçınırken ihtiyaç duyduğunuz veriyi verimli şekilde toplamaktır.
+
+```typescript
+// A robust scraper implementation includes error handling
+async function scrapeCryptoData(url: string) {
+  try {
+    // Handle rate limits with retry logic
+    // Implement dynamic delays when needed
+    // Configure appropriate request headers
+    const browser = await playwright.chromium.launch();
+    const page = await browser.newPage();
+    await page.setExtraHTTPHeaders({
+      'User-Agent': 'YourProject/1.0 (educational-purposes)'
+    });
+    
+    // Continue with data extraction logic...
+  } catch (error) {
+    // Implement smart retry logic
+    console.error('Extraction error:', error);
+  }
+}
+```
+
+İyi scraping’ler!

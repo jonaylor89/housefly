@@ -13,13 +13,13 @@ Exploraremos cómo rastrear a través de una gran variedad de sitios web—sin s
 ## ¿Qué Significa Realmente "No Estructurado" y "Gran Escala"?
 
 En secciones anteriores, a menudo sabíamos:
-- Qué sitios estábamos targeting.
+- Qué sitios teníamos como objetivo.
 - Qué datos queríamos (ej., tablas, listas, respuestas JSON).
 - Cuántas páginas necesitábamos visitar.
 
 Pero en rastreo no estructurado a gran escala:
 - Los sitios web varían enormemente: algunos están estructurados, otros son blogs con formato irregular.
-- Los paths y URLs son impredecibles.
+- Las rutas y las URL son impredecibles.
 - El esquema es inconsistente o no existe.
 - Queremos **rastrear miles de páginas**, potencialmente a través de **múltiples dominios**.
 
@@ -38,9 +38,9 @@ Hablemos sobre cómo escalar tu rastreador antes de preocuparnos por el análisi
 
 Para construir un rastreador a gran escala, tu arquitectura debe ser:
 - **Impulsada por colas:** Usa una cola de mensajes (como Redis, RabbitMQ o Kafka) para almacenar URLs pendientes.
-- **Basada en workers:** Separa los rastreadores en procesos worker que extraen de la cola y procesan trabajos independientemente.
-- **Deduplicada:** Mantén un índice fingerprinted (ej., SHA1 de URL o contenido HTML) para evitar procesar la misma página dos veces.
-- **Reanudable:** Persiste el estado del rastreo para que pueda recuperarse de crashes.
+- **Basada en procesos de trabajo:** Separa los rastreadores en procesos worker que extraen de la cola y procesan trabajos independientemente.
+- **Deduplicada:** Mantén un índice con huellas digitales (ej., SHA1 de URL o contenido HTML) para evitar procesar la misma página dos veces.
+- **Reanudable:** Persiste el estado del rastreo para que pueda recuperarse de fallos.
 
 Aquí hay un diagrama de diseño mínimo:
 
@@ -48,7 +48,7 @@ Aquí hay un diagrama de diseño mínimo:
 
 ### Proxies Residenciales
 
-Uno de los avances más significativos en scraping a gran escala es el uso de **proxies residenciales**. A diferencia de las IPs de datacenter que los sitios web pueden detectar y bloquear fácilmente, los proxies residenciales enrutan tus solicitudes a través de direcciones IP de consumidores reales, haciendo que tu scraper parezca un usuario legítimo.
+Uno de los avances más significativos en scraping a gran escala es el uso de **proxies residenciales**. A diferencia de las direcciones IP de centros de datos que los sitios web pueden detectar y bloquear fácilmente, los proxies residenciales enrutan tus solicitudes a través de direcciones IP de consumidores reales, haciendo que tu scraper parezca un usuario legítimo.
 
 ### Agentes Autónomos Potenciados por IA
 
@@ -60,7 +60,7 @@ El avance más revolucionario en 2025 es el **scraping agéntico**. En lugar de 
 
 ## Parte 3: Análisis Asistido por IA
 
-Ajusta finamente o ingenia prompts para un modelo que produzca JSON limpio:
+Ajusta finamente el modelo o diseña prompts para un modelo que produzca JSON limpio:
 
 ```json
 {
@@ -83,7 +83,7 @@ Recopilarás **muchos datos heterogéneos**. Elige tu almacenamiento basado en t
 
 Usa UUIDs o hashes de URL como claves primarias para que puedas deduplicar y rastrear elementos previamente rastreados.
 
-### Haciéndolo Buscable
+### Haciéndolo consultable
 
 Una vez almacenado, querrás **explorar y consultar** el contenido.
 

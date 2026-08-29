@@ -1,153 +1,153 @@
 ---
-title: 'جاوا اسکرپٹ سے رینڈر کیا گیا مواد'
+title: 'JavaScript سے رینڈر ہونے والا مواد'
 publishedAt: '2025-03-08'
-summary: 'واحد صفحہ سائٹ جہاں مواد جاوا اسکرپٹ کے ذریعے متحرک طور پر لوڈ ہوتا ہے + لامحدود سکرول / سست لوڈنگ'
+summary: 'Single-page سائٹ جہاں مواد JavaScript کے ذریعے متحرک طور پر لوڈ ہوتا ہے + infinite scroll / lazy loading'
 ---
 
-جدید ویب ایپلیکیشنز شاذ و نادر ہی مکمل HTML فراہم کرتی ہیں - اس کے بجائے، مواد کو متحرک طور پر لوڈ کیا جاتا ہے اور جاوا اسکرپٹ کے ذریعے رینڈر کیا جاتا ہے۔ یہ ویب اسکریپنگ کے لیے منفرد چیلنجز پیش کرتا ہے جن سے ہم ان دو ابواب میں نمٹیں گے۔
+جدید ویب ایپلی کیشنز شاذ و نادر ہی مکمل HTML فراہم کرتی ہیں — اس کے بجائے، مواد JavaScript کے ذریعے متحرک طور پر لوڈ اور رینڈر کیا جاتا ہے۔ اس سے ویب scraping کے لیے کچھ منفرد چیلنجز پیدا ہوتے ہیں، جن سے ہم ان دو ابواب میں نمٹیں گے۔
 
 ## باب 4: متحرک نیوز فیڈ
 
-ہمارا پہلا چیلنج ایک نیوز فیڈ کو اسکریپ کرنا شامل ہے جہاں مضامین جاوا اسکرپٹ کے ذریعے متحرک طور پر لوڈ ہوتے ہیں۔ یہ کئی اہم تصورات متعارف کراتا ہے:
+ہمارا پہلا چیلنج ایک ایسی نیوز فیڈ سے scraping کرنا ہے جہاں مضامین JavaScript کے ذریعے متحرک طور پر لوڈ ہوتے ہیں۔ اس سے چند اہم تصورات متعارف ہوتے ہیں:
 
-- Playwright کے ساتھ برائوزر آٹومیشن
-- متحرک مواد لوڈ ہونے کا انتظار
-- جاوا اسکرپٹ سے رینڈر شدہ DOM عناصر کا سنبھالنا
+- Playwright کے ساتھ browser automation
+- متحرک مواد کے لوڈ ہونے کا انتظار کرنا
+- JavaScript سے رینڈر ہونے والے DOM elements کو سنبھالنا
 
-صفحے کا ڈھانچہ کچھ اس طرح نظر آتا ہے:
+صفحے کی ساخت کچھ اس طرح نظر آتی ہے:
 
 ```html
 <div class="news-feed">
   <article class="news-item">
-    <h2>بریکنگ نیوز ٹائٹل</h2>
-    <p>مضمون کا مواد...</p>
+    <h2>Breaking News Title</h2>
+    <p>Article content...</p>
     <div class="meta">
-      <span>مصنف: مصنف کا نام</span>
-      <time datetime="2024-03-08T12:00:00Z">8 مارچ 2024</time>
+      <span>By Author Name</span>
+      <time datetime="2024-03-08T12:00:00Z">March 8, 2024</time>
     </div>
   </article>
-  <!-- زیادہ مضامین متحرک طور پر لوڈ ہوتے ہیں -->
+  <!-- More articles load dynamically -->
 </div>
 ```
-جامد HTML اسکریپنگ سے اہم فرق:
+جامد HTML scraping کے مقابلے میں بنیادی فرق یہ ہیں:
 
 ```typescript
-// cheerio.load() کے بجائے، ہم Playwright استعمال کرتے ہیں
+// Instead of cheerio.load(), we use Playwright
 const browser = await chromium.launch();
 const page = await browser.newPage();
 
-// مواد رینڈر ہونے کا انتظار
+// Wait for content to render
 await page.waitForSelector('.news-item');
 
-// page.$$eval() استعمال کرتے ہوئے زندہ DOM سے ڈیٹا نکالنا
-// یہ callback فنکشن کو برائوزر کے سیاق میں چلاتا ہے
-// تاکہ منتخب کنندہ سے میل کھانے والے تمام عناصر کو ایک ساتھ جانچ سکے
+// Extract data from the live DOM using page.$$eval()
+// This runs the callback function in the browser context
+// to evaluate all elements matching the selector at once
 const items = await page.$$eval('.news-item', elements => {
-  // میل کھانے والے عناصر پر Array.map() کی طرح کام کرتا ہے
-  // سیریلائز کے قابل جاوا اسکرپٹ آبجیکٹس واپس کرتا ہے
-  // متعدد عناصر سے ڈیٹا نکالنے کے لیے بہترین
+  // Works like Array.map() on matching elements
+  // Returns serializable JavaScript objects
+  // Perfect for extracting data from multiple elements
 });
 ```
 
-## باب 5: لامحدود سکرول گیلری
+## باب 5: Infinite Scroll گیلری
 
-متحرک مواد کے علم پر بنا کر، ہم اور بھی پیچیدہ منظرنامے سے نمٹتے ہیں - لامحدود سکرول والی فوٹو گیلری۔ یہ متعارف کراتا ہے:
+متحرک مواد کے بارے میں اپنی معلومات کو آگے بڑھاتے ہوئے، اب ہم ایک اور بھی زیادہ پیچیدہ صورتِ حال سے نمٹتے ہیں — ایک فوٹو گیلری جس میں infinite scroll موجود ہے۔ اس میں یہ امور شامل ہیں:
 
-- سست لوڈ شدہ مواد کا سنبھالنا
-- سکرول ایونٹس کا پتا لگانا اور متحرک کرنا
-- غیر ہم آہنگ لوڈنگ اسٹیٹس کا انتظام
-- پیچیدہ UI پیٹرن سے ڈیٹا نکالنا
+- lazy-loaded مواد کو سنبھالنا
+- scroll events کا پتا لگانا اور انہیں متحرک کرنا
+- async loading states کا نظم و نسق
+- پیچیدہ UI patterns سے ڈیٹا نکالنا
 
-یہاں چیلنج یہ ہے کہ مواد بتدریج لوڈ ہوتا ہے جیسے جیسے صارف سکرول کرتا ہے:
+یہاں چیلنج یہ ہے کہ جیسے جیسے صارف scroll کرتا ہے، مواد بتدریج لوڈ ہوتا جاتا ہے:
 
 ```html
 <div class="photo-gallery">
   <div class="photo-card">
-    <img src="..." alt="فوٹو کا ٹائٹل" />
-    <h2>فوٹو کا ٹائٹل</h2>
-    <p>فوٹوگرافر: فوٹوگرافر کا نام</p>
+    <img src="..." alt="Photo title" />
+    <h2>Photo Title</h2>
+    <p>By Photographer Name</p>
     <div class="flex">
       <span>❤️ 42</span>
     </div>
   </div>
-  <!-- زیادہ فوٹو سکرول پر لوڈ ہوتی ہیں -->
+  <!-- More photos load on scroll -->
 </div>
 ```
 
-لامحدود سکرول سنبھالنے کے اہم تصورات:
+infinite scroll کو سنبھالنے کے لیے اہم تصورات:
 
 ```typescript
-// نیچے تک سکرول کریں جب تک کہ کوئی نیا مواد لوڈ نہ ہو
+// Scroll to bottom until no new content loads
 let previousHeight;
 while (true) {
   previousHeight = await page.evaluate('document.body.scrollHeight');
   await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
-  await page.waitForTimeout(1500); // مواد کا انتظار
+  await page.waitForTimeout(1500); // Wait for content
 
   const newHeight = await page.evaluate('document.body.scrollHeight');
   if (newHeight === previousHeight) {
-    break; // لوڈ کرنے کے لیے زیادہ مواد نہیں
+    break; // No more content to load
   }
 }
 ```
 
-### اہم تحدیدات
+### اہم نکات
 
-جاوا اسکرپٹ سے رینڈر شدہ مواد کے ساتھ کام کرتے وقت:
+جب آپ JavaScript سے رینڈر ہونے والے مواد کے ساتھ کام کرتے ہیں:
 
-1. **کارکردگی**: متحرک مواد اسکریپنگ جامد HTML سے سست ہے
-2. **وسائل کا انتظام**: برائوزر آٹومیشن زیادہ سسٹم ریسورس استعمال کرتا ہے
-3. **استحکام**: لوڈنگ اسٹیٹس اور نیٹ ورک کنڈیشنز کو سنبھالنے کی ضرورت
-4. **ریٹ لمٹنگ**: اعمال کے درمیان تاخیر لاگو کرنے پر غور کریں
+1. **Performance**: متحرک مواد کی scraping، جامد HTML کے مقابلے میں سست ہوتی ہے
+2. **Resource Management**: browser automation زیادہ system resources استعمال کرتا ہے
+3. **Stability**: loading states اور network conditions کو سنبھالنے کی ضرورت ہوتی ہے
+4. **Rate Limiting**: actions کے درمیان وقفے شامل کرنے پر غور کریں
 
-### بہترین طریقہ کار
+### بہترین عملی طریقے
 
-1. مناسب انتظار کی حکمت عملیاں استعمال کریں:
+1. مناسب wait strategies استعمال کریں:
 ```typescript
-// مخصوص عناصر کا انتظار
+// Wait for specific elements
 await page.waitForSelector('.selector');
 
-// نیٹ ورک بے فعال کا انتظار
+// Wait for network idle
 await page.waitForLoadState('networkidle');
 
-// حسب ضرورت انتظار کی شرائط
+// Custom wait conditions
 await page.waitForFunction(() => {
-  // حسب ضرورت جاوا اسکرپٹ شرط
+  // Custom JavaScript condition
 });
 ```
 
-2. مضبوط ایرر ہینڈلنگ لاگو کریں:
+2. مضبوط error handling نافذ کریں:
 ```typescript
 try {
   await page.goto(url);
-  // ... اسکریپنگ لاجک
+  // ... scraping logic
 } catch (error) {
-  console.error('اسکریپنگ ناکام:', error);
+  console.error('Scraping failed:', error);
 } finally {
-  await browser.close(); // ہمیشہ صفائی کریں
+  await browser.close(); // Always clean up
 }
 ```
 
-3. قابل اعتماد کے لیے دوبارہ کوشش کے طریقہ کار لاگو کرنے پر غور کریں
-4. بڑے ڈیٹا سیٹس کے ساتھ کام کرتے وقت میموری کا استعمال مانیٹر کریں
-5. مطابقت کے لیے نکالے گئے ڈیٹا کو توثیق کریں
+3. قابلِ اعتماد نتائج کے لیے retry mechanisms نافذ کرنے پر غور کریں
+4. بڑے datasets کے ساتھ کام کرتے وقت memory usage پر نظر رکھیں
+5. extracted data کی consistency کی جانچ کریں
 
-### آپ کے حل کا امتحان
+### اپنے حل کی جانچ
 
-ٹیسٹ ماحول موک APIs فراہم کرتا ہے جو حقیقی دنیا کی حالات کو نقل کرتے ہیں:
-- متغیر لوڈنگ اوقات
-- نیٹ ورک تاخیر
-- صفحہ بندی کی میکانکس
-- ایرر اسٹیٹس
+test environment mock APIs فراہم کرتا ہے جو حقیقی دنیا جیسے حالات کی نقل کرتے ہیں:
+- مختلف loading times
+- network latency
+- pagination mechanics
+- error states
 
-ان تبدیلیوں کو آزمائیں:
-1. سکرول ٹائمنگ میں تبدیلی کریں
-2. مختلف اسکرین سائزز کو سنبھالیں
-3. سست نیٹ ورک کنڈیشنز کے ساتھ ٹیسٹ کریں
-4. ڈیٹا کی سالمیت کو توثیق کریں
+ان مختلف صورتوں کو آزمائیں:
+1. scroll timing میں تبدیلی کریں
+2. مختلف screen sizes کو سنبھالیں
+3. سست network conditions میں test کریں
+4. data integrity کی توثیق کریں
 
-متحرک مواد سنبھالنے کے لیے تیار ہیں؟ چیلنج کوڈ اور ٹیسٹ ماحول ریپازٹری میں موجود ہیں۔
+کیا آپ متحرک مواد کو سنبھالنے کے لیے تیار ہیں؟ challenge code اور test environments repository میں موجود ہیں۔
 
-ریفرنس امپلیمینٹیشن کے لیے `_solved/chapter4/` اور `_solved/chapter5/` میں حل شدہ مثالیں چیک کریں۔ یاد رکھیں - جدید ویب اسکریپنگ HTML ڈھانچہ اور ایپلیکیشن رفتار دونوں کو سمجھنے کے بارے میں ہے۔
+کام کرنے والی implementations کے لیے `exercises/chapter-04/solution/src/` اور `exercises/chapter-05/solution/src/` میں reference solutions دیکھیں۔ یاد رکھیں — جدید ویب scraping صرف HTML ساخت کو سمجھنے کا نام نہیں، بلکہ application behavior کو سمجھنا بھی اتنا ہی اہم ہے۔
 
-خوش اسکریپنگ!
+scraping مبارک!

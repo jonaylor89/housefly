@@ -1,25 +1,53 @@
 ---
-title: "İleri Düzey Web Sitesi Etkileşimi ve API'ler"
+title: 'Gelişmiş Website Etkileşimi ve API’ler'
 publishedAt: '2025-04-14'
-summary: 'API tabanlı siteleri kazımayı, formları ve girişleri işlemeyi ve GraphQL uç noktalarıyla etkileşim kurmayı öğrenin.'
+summary: 'API odaklı siteleri scrape etmeyi, formlar ve giriş işlemlerini yönetmeyi ve GraphQL endpoint’leriyle etkileşime geçmeyi öğrenin.'
 ---
 
-Bölüm 4'e hoş geldiniz! Statik ve JavaScript ile oluşturulan içeriği kazımayı ve çok sayfa sitelerde gezinmeyi ele aldık. Şimdi, doğrudan API etkileşimi, form gönderimi, kimlik doğrulama ve GraphQL gibi özel API'leri içeren daha karmaşık senaryolara dalıyoruz. Bu teknikler modern web uygulamalarıyla başa çıkmak için önemlidir.
+Bölüm 4’e hoş geldiniz! Şimdiye kadar statik ve JavaScript ile render edilen içerikleri scrape etmeyi, ayrıca çok sayfalı sitelerde gezinmeyi ele aldık. Şimdi ise doğrudan API etkileşimi, form gönderimleri, kimlik doğrulama ve GraphQL gibi özel API’leri içeren daha karmaşık senaryolara geçiyoruz. Bu teknikler, modern web uygulamalarıyla başa çıkmak için kritik öneme sahiptir.
 
-### 1. API Tabanlı Web Siteleri (Bölüm 7)
+### 1. API Odaklı Website’ler (Bölüm 7)
 
-Çoğu modern web sitesi tüm verilerini ilk HTML ile yüklemez. Bunun yerine, sayfa yüklendikten sonra arka uç API'lerden veri almak için JavaScript kullanırlar (genellikle `fetch` veya `XMLHttpRequest` kullanarak). Bu siteleri verimli bir şekilde kazımak çoğu zaman UI'yi atlayarak doğrudan bu API'lerle etkileşim kurmak anlamına gelir.
+Birçok modern website, tüm verilerini ilk HTML ile birlikte yüklemez. Bunun yerine, sayfa yüklendikten sonra backend API’lerinden veri çekmek için JavaScript kullanır (çoğunlukla `fetch` veya `XMLHttpRequest` ile). Bu siteleri verimli şekilde scrape etmek çoğu zaman UI’ı atlayıp doğrudan bu API’lerle etkileşime geçmek anlamına gelir.
 
 **Temel Kavramlar:**
 
-*   **API İsteklerini Tanımlama:** Veri döndüren istekleri (genellikle XHR/Fetch) bulmak için tarayıcınızın geliştirici araçlarını (Ağ sekmesi) kullanın, genellikle JSON formatında.
-*   **API'leri Doğrudan Kazıma:** Bir API uç noktası bulduğunuzda, genellikle `axios` gibi kütüphaneler veya Node.js'teki yerleşik `fetch` kullanarak doğrudan istekler gönderebilirsiniz. Bu genellikle tarayıcı otomasyonundan daha hızlı ve güvenilirdir.
-*   **Sayfalama ve Parametreleri İşleme:** API'ler genellikle sayfalama (`page`, `limit`), filtreleme veya sıralama için sorgu parametreleri kullanır. Bunları kazıma script'inizde anlayıp çoğaltmanız gerekecek.
+*   **API İsteklerini Tespit Etme:** Veri döndüren istekleri (genellikle XHR/Fetch) bulmak için tarayıcınızın geliştirici araçlarını (Network sekmesi) kullanın; bu veriler çoğunlukla JSON formatındadır.
+*   **API’leri Doğrudan Scrape Etme:** Bir API endpoint’i bulduğunuzda, çoğu zaman `axios` gibi kütüphanelerle veya Node.js içindeki yerleşik `fetch` ile doğrudan istek gönderebilirsiniz. Bu yaklaşım genellikle browser automation’dan daha hızlı ve daha güvenilirdir.
+*   **Pagination ve Parametreleri Yönetme:** API’ler çoğu zaman pagination (`page`, `limit`), filtreleme veya sıralama için query parametreleri kullanır. Scraping script’inizde bunları anlamanız ve yeniden üretmeniz gerekir.
 
-**Zorluk (Bölüm 7):** Ürün listelerinin RESTful API'den dinamik olarak yüklendiği bir e-ticaret sitesini kazıyacaksınız. Göreviniz bu API ile etkileşim kurarak, sayfalamayı doğru bir şekilde işleyerek tüm ürünleri almaktır.
+**Meydan Okuma (Bölüm 7):** Ürün listelerinin RESTful bir API’den dinamik olarak yüklendiği bir e-ticaret sitesini scrape edeceksiniz. Göreviniz, bu API ile etkileşime geçerek pagination’ı doğru şekilde yönetip tüm ürünleri çekmek.
+
+*Doğrudan API scraping örneğini gösteren bir referans çözümü `exercises/chapter-07/solution/src/` dizininde bulabilirsiniz.*
 
 ### 2. Formlar ve Kimlik Doğrulama (Bölüm 8)
 
-Çoğu zaman, değerli veriler giriş ekranının arkasında veya karmaşık formların gönderilmesini gerektirir. Örneğin, Bölüm 8'deki seyahat rezervasyon platformu temel işlevselliğe erişim için kimlik doğrulama gerektirir.
+Çoğu zaman değerli veriler bir giriş ekranının arkasındadır ya da karmaşık formların gönderilmesini gerektirir. Örneğin, Bölüm 8’deki seyahat rezervasyon platformu, temel işlevlere erişmek için kimlik doğrulama ister. Destinasyon aramak (autocomplete kullanarak), seyahat tarihlerini seçmek (bir takvim widget’ıyla etkileşime girerek), filtreler uygulamak ve sonuçları görüntülemek için (yalnızca giriş yapmış kullanıcılara açık premium ilanlar dahil), önce giriş sürecini otomatikleştirmeniz gerekir. Bu; formları yönetmeyi, session cookie’lerini idare etmeyi (yeniden kimlik doğrulama gerektirebilecek olası timeout’lar ve CSRF koruması dahil) ve nihayetinde gerçek bir kullanıcı gibi işlem yapmak için tarayıcıyı kontrol etmeyi içerir.
 
-Mutlu kazıma!
+**Temel Kavramlar:**
+
+*   **Form Gönderimlerini Otomatikleştirme:** Input alanlarını doldurmak, seçenekleri seçmek ve formları göndermek için butonlara tıklamak amacıyla Playwright veya Puppeteer gibi araçları kullanın (ör. giriş formları, arama çubukları, filtre kontrolleri).
+*   **Kimlik Doğrulamayı Yönetme:**
+    *   **Cookie Tabanlı:** Bir kez giriş yapın; ardından tarayıcı context’i (Playwright/Puppeteer tarafından yönetilen) sonraki istekler için session cookie’lerini çoğu zaman otomatik olarak yönetir.
+    *   **Token Tabanlı (ör. JWT):** Giriş yapın, token’ı çıkarın (çoğu zaman local storage’dan veya bir API yanıtından) ve bunu sonraki API isteklerinde header’lara ekleyin (ör. `Authorization: Bearer <token>`).
+*   **Session’ları Yönetme:** Scraper’ınız içinde farklı sayfalar veya işlemler arasında giriş yapılmış durumu koruyun.
+*   **Korumalı İçeriğe Erişme:** Kimlik doğrulandıktan sonra, yalnızca giriş yapmış kullanıcılara açık sayfalara veya verilere gidebilir ve bunları scrape edebilirsiniz.
+
+**Meydan Okuma (Bölüm 8):** Bu bölüm çok adımlı bir süreci içerir: bir siteye giriş yapmak, bir arama sayfasına gitmek, filtrelerle birlikte karmaşık ve çok parçalı bir formu doldurmak, sonuçları çıkarmak (yalnızca giriş yapıldığında görülebilen premium içerik dahil) ve hatta aramayı bir kullanıcı dashboard’una kaydetmek.
+
+### 3. GraphQL API’leriyle Çalışma (Bölüm 9)
+
+GraphQL, REST API’lere giderek daha popüler hâle gelen bir alternatiftir. İstemcilerin, belirli bir sorgu dili kullanarak tam olarak ihtiyaç duydukları veriyi istemesine olanak tanır.
+
+**Temel Kavramlar:**
+
+*   **GraphQL Endpoint’i:** Genellikle tek bir endpoint vardır (ör. `/graphql` veya `/api/graphql`).
+*   **Sorgu Dili:** Hangi alanları ve ilişkileri almak istediğinizi belirtmek için GraphQL sorguları oluşturmanız gerekir. Insomnia veya Postman gibi araçlar GraphQL schema’larını keşfetmeye yardımcı olabilir.
+*   **Mutation’lar:** Veri değiştiren işlemler için kullanılır (giriş yapmak veya veri göndermek gibi); REST’teki POST/PUT/DELETE’e benzer.
+*   **Kimlik Doğrulama:** Çoğu zaman REST API’lere benzer şekilde bir `Authorization` header’ı göndermeyi içerir; bu da genellikle bir login mutation’ından sonra elde edilir.
+
+**Meydan Okuma (Bölüm 9):** GraphQL API ile çalışan bir siteyle etkileşime geçeceksiniz. Görev, bir login mutation’ı aracılığıyla kimlik doğrulamak ve ardından GraphQL sorgularını kullanarak challenge’lar ve kullanıcı profilleri hakkında belirli yapılandırılmış verileri çekmektir.
+
+Bu gelişmiş tekniklerde ustalaşmak, etkili şekilde scrape edebileceğiniz website ve veri yelpazesini önemli ölçüde genişletir. Her zaman sorumlu şekilde scrape etmeyi ve website’lerin hizmet şartlarına saygı göstermeyi unutmayın.
+
+İyi scraping’ler!

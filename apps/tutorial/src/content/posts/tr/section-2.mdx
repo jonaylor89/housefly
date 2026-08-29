@@ -1,95 +1,153 @@
 ---
-title: 'JavaScript ile Oluşturulan İçerik'
+title: 'JavaScript ile Render Edilen İçerik'
 publishedAt: '2025-03-08'
-summary: 'İçeriğin JavaScript ile dinamik olarak yüklendiği tek sayfa sitesi + sonsuz kaydırma / tembel yükleme'
+summary: 'İçeriğin JavaScript ile dinamik olarak yüklendiği + infinite scroll / lazy loading kullanan single-page site'
 ---
 
-Modern web uygulamaları nadiren eksiksiz HTML sunar - bunun yerine, içerik dinamik olarak yüklenir ve JavaScript aracılığıyla oluşturulur. Bu, bu iki bölümde ele alacağımız web kazıma için benzersiz zorluklar sunar.
+Modern web uygulamaları artık nadiren tam HTML sunuyor; bunun yerine içerik JavaScript üzerinden dinamik olarak yüklenip render ediliyor. Bu da web scraping için kendine özgü zorluklar ortaya çıkarıyor ve bunları bu iki bölümde ele alacağız.
 
 ## Bölüm 4: Dinamik Haber Akışı
 
-İlk zorluğumuz, makalelerin JavaScript aracılığıyla dinamik olarak yüklendiği bir haber akışını kazımayı içerir. Bu birkaç temel kavram tanıtır:
+İlk görevimiz, makalelerin JavaScript aracılığıyla dinamik olarak yüklendiği bir haber akışını scrape etmek. Bu, birkaç önemli kavramı beraberinde getiriyor:
 
 - Playwright ile tarayıcı otomasyonu
 - Dinamik içeriğin yüklenmesini bekleme
-- JavaScript ile oluşturulan DOM öğelerini işleme
+- JavaScript ile render edilen DOM öğelerini ele alma
 
-Sayfa yapısı şöyle görünür:
+Sayfanın yapısı kabaca şöyle görünüyor:
 
 ```html
 <div class="news-feed">
   <article class="news-item">
-    <h2>Son Dakika Haberi Başlığı</h2>
-    <p>Makale içeriği...</p>
+    <h2>Breaking News Title</h2>
+    <p>Article content...</p>
     <div class="meta">
-      <span>Yazar: Yazar Adı</span>
-      <time datetime="2024-03-08T12:00:00Z">8 Mart 2024</time>
+      <span>By Author Name</span>
+      <time datetime="2024-03-08T12:00:00Z">March 8, 2024</time>
     </div>
   </article>
-  <!-- Daha fazla makale dinamik olarak yüklenir -->
+  <!-- More articles load dynamically -->
 </div>
 ```
-
-Statik HTML kazımadan temel farklar:
+Statik HTML scraping’e göre temel farklar şunlar:
 
 ```typescript
-// cheerio.load() yerine Playwright kullanıyoruz
+// Instead of cheerio.load(), we use Playwright
 const browser = await chromium.launch();
 const page = await browser.newPage();
 
-// İçeriğin oluşturulmasını bekleyin
+// Wait for content to render
 await page.waitForSelector('.news-item');
 
-// page.$$eval() kullanarak canlı DOM'dan veri çıkarın
-// Bu, callback fonksiyonunu tarayıcı bağlamında çalıştırır
-// seçiciyle eşleşen tüm öğeleri bir kerede değerlendirmek için
+// Extract data from the live DOM using page.$$eval()
+// This runs the callback function in the browser context
+// to evaluate all elements matching the selector at once
 const items = await page.$$eval('.news-item', elements => {
-  // Eşleşen öğeler üzerinde Array.map() gibi çalışır
-  // Serileştirilebilir JavaScript nesneleri döndürür
-  // Birden fazla öğeden veri çıkarmak için mükemmel
+  // Works like Array.map() on matching elements
+  // Returns serializable JavaScript objects
+  // Perfect for extracting data from multiple elements
 });
 ```
 
-## Bölüm 5: Sonsuz Kaydırma Galerisi
+## Bölüm 5: Infinite Scroll Galerisi
 
-Dinamik içerik bilgisi üzerine inşa ederek, daha da karmaşık bir senaryoyla uğraşıyoruz - sonsuz kaydırmaya sahip fotoğraf galerisi. Bu şunları tanıtır:
+Dinamik içerik konusundaki bilgilerimizin üzerine inşa ederek, daha da karmaşık bir senaryoyu ele alıyoruz: infinite scroll kullanan bir fotoğraf galerisi. Bu bölümde şunlarla tanışacağız:
 
-- Tembel yüklenmiş içeriği işleme
-- Kaydırma olaylarını algılama ve tetikleme
-- Asenkron yükleme durumlarını yönetme
-- Karmaşık UI desenlerinden veri çıkarma
+- Lazy-loaded içeriği ele alma
+- Scroll event’lerini algılama ve tetikleme
+- Async yükleme durumlarını yönetme
+- Karmaşık UI kalıplarından veri çıkarma
 
-Buradaki zorluk, kullanıcı kaydırdıkça içeriğin kademeli olarak yüklenmesidir:
+Buradaki zorluk, kullanıcının scroll yaptıkça içeriğin aşamalı olarak yüklenmesi:
 
 ```html
 <div class="photo-gallery">
   <div class="photo-card">
-    <img src="..." alt="Fotoğraf Başlığı" />
-    <h2>Fotoğraf Başlığı</h2>
-    <p>Fotoğrafçı: Fotoğrafçı Adı</p>
+    <img src="..." alt="Photo title" />
+    <h2>Photo Title</h2>
+    <p>By Photographer Name</p>
     <div class="flex">
       <span>❤️ 42</span>
     </div>
   </div>
-  <!-- Kaydırmada daha fazla fotoğraf yüklenir -->
+  <!-- More photos load on scroll -->
 </div>
 ```
 
-Sonsuz kaydırmayı işlemek için temel kavramlar:
+Infinite scroll’u ele almak için temel kavramlar:
 
 ```typescript
-// Yeni içerik yüklenene kadar aşağı kaydırın
+// Scroll to bottom until no new content loads
 let previousHeight;
 while (true) {
   previousHeight = await page.evaluate('document.body.scrollHeight');
   await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
-  await page.waitForTimeout(1500); // İçerik bekleyin
+  await page.waitForTimeout(1500); // Wait for content
 
   const newHeight = await page.evaluate('document.body.scrollHeight');
   if (newHeight === previousHeight) {
-    break; // Yüklenecek daha fazla içerik yok
+    break; // No more content to load
   }
 }
 ```
 
-Mutlu kazıma!
+### Önemli Noktalar
+
+JavaScript ile render edilen içerikle çalışırken:
+
+1. **Performans**: Dinamik içerik scraping’i, statik HTML’ye göre daha yavaştır
+2. **Kaynak Yönetimi**: Tarayıcı otomasyonu daha fazla sistem kaynağı kullanır
+3. **Kararlılık**: Yükleme durumlarını ve ağ koşullarını ele almanız gerekir
+4. **Rate Limiting**: Aksiyonlar arasına gecikme eklemeyi değerlendirin
+
+### En İyi Uygulamalar
+
+1. Uygun bekleme stratejileri kullanın:
+```typescript
+// Wait for specific elements
+await page.waitForSelector('.selector');
+
+// Wait for network idle
+await page.waitForLoadState('networkidle');
+
+// Custom wait conditions
+await page.waitForFunction(() => {
+  // Custom JavaScript condition
+});
+```
+
+2. Sağlam error handling uygulayın:
+```typescript
+try {
+  await page.goto(url);
+  // ... scraping logic
+} catch (error) {
+  console.error('Scraping failed:', error);
+} finally {
+  await browser.close(); // Always clean up
+}
+```
+
+3. Güvenilirlik için retry mekanizmaları eklemeyi değerlendirin
+4. Büyük veri kümeleriyle çalışırken bellek kullanımını izleyin
+5. Tutarlılık için çıkarılan verileri doğrulayın
+
+### Çözümünüzü Test Etme
+
+Test ortamı, gerçek dünya koşullarını simüle eden mock API’ler sağlar:
+- Değişken yükleme süreleri
+- Ağ gecikmesi
+- Sayfalama mekanikleri
+- Hata durumları
+
+Şu varyasyonları deneyin:
+1. Scroll zamanlamasını değiştirin
+2. Farklı ekran boyutlarını ele alın
+3. Yavaş ağ koşullarında test edin
+4. Veri bütünlüğünü doğrulayın
+
+Dinamik içerikle başa çıkmaya hazır mısınız? Challenge kodu ve test ortamları repository içinde bulunuyor.
+
+Çalışan implementasyonlar için `exercises/chapter-04/solution/src/` ve `exercises/chapter-05/solution/src/` içindeki referans çözümlere göz atın. Unutmayın: modern web scraping, hem HTML yapısını hem de uygulama davranışını anlamakla ilgilidir.
+
+İyi scraping’ler!

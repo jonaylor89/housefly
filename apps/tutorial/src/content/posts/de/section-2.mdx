@@ -51,14 +51,14 @@ const items = await page.$$eval('.news-item', elements => {
 
 ## Kapitel 5: Galerie mit unendlichem Scrollen
 
-Aufbauend auf unserem Wissen über dynamische Inhalte gehen wir ein noch komplexeres Szenario an - eine Fotogalerie mit unendlichem Scrollen. Das führt ein:
+Aufbauend auf unserem Wissen über dynamische Inhalte gehen wir ein noch komplexeres Szenario an - eine Fotogalerie mit unendlichem Scrollen. Das führt Folgendes ein:
 
-- Umgang mit lazy-geladenem Inhalt
+- Umgang mit per Lazy Loading geladenen Inhalten
 - Erkennen und Auslösen von Scroll-Events
 - Verwaltung asynchroner Ladezustände
 - Datenextraktion aus komplexen UI-Mustern
 
-Die Herausforderung hier ist, dass Inhalt progressiv lädt, während der Nutzer scrollt:
+Die Herausforderung hier ist, dass Inhalte schrittweise geladen werden, während der Nutzer scrollt:
 
 ```html
 <div class="photo-gallery">
@@ -95,9 +95,9 @@ while (true) {
 
 Beim Arbeiten mit JavaScript-gerenderten Inhalten:
 
-1. **Performance**: Dynamisches Inhalt-Scraping ist langsamer als statisches HTML
+1. **Performance**: Das Scraping dynamischer Inhalte ist langsamer als statisches HTML
 2. **Ressourcenverwaltung**: Browser-Automatisierung verbraucht mehr Systemressourcen
-3. **Stabilität**: Muss Ladezustände und Netzwerkbedingungen handhaben
+3. **Stabilität**: Ladezustände und Netzwerkbedingungen müssen berücksichtigt werden
 4. **Rate Limiting**: Erwäge die Implementierung von Verzögerungen zwischen Aktionen
 
 ### Best Practices
@@ -141,13 +141,13 @@ Die Testumgebung bietet Mock-APIs, die reale Bedingungen simulieren:
 - Fehlerzustände
 
 Probiere diese Variationen:
-1. Modifiziere Scroll-Timing
-2. Handle verschiedene Bildschirmgrößen
+1. Ändere das Scroll-Timing
+2. Berücksichtige verschiedene Bildschirmgrößen
 3. Teste mit langsamen Netzwerkbedingungen
 4. Validiere Datenintegrität
 
 Bereit, dynamische Inhalte zu handhaben? Der Challenge-Code und die Testumgebungen sind im Repository.
 
-Sieh dir die gelösten Beispiele in `_solved/chapter4/` und `_solved/chapter5/` für Referenzimplementierungen an. Denke daran - modernes Web-Scraping geht darum, sowohl HTML-Struktur als auch Anwendungsverhalten zu verstehen.
+Sieh dir die gelösten Beispiele in `exercises/chapter-04/solution/src/` und `exercises/chapter-05/solution/src/` für Referenzimplementierungen an. Denke daran - modernes Web-Scraping geht darum, sowohl HTML-Struktur als auch Anwendungsverhalten zu verstehen.
 
 Frohes Scraping!

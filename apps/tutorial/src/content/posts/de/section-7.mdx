@@ -4,7 +4,7 @@ publishedAt: '2025-05-20'
 summary: 'KI-unterstütztes Parsing für chaotische und unstrukturierte Daten + Such-Crawler'
 ---
 
-Willkommen zum finalen Abschnitt in unserer hands-on Web-Crawling-Tutorial-Serie. Anstelle einer traditionellen Lektion nehmen wir einen anderen Ansatz. Für diesen Abschnitt habe ich den Housefly Metascraper gebaut - einen Crawler im `./apps/metascraper` Verzeichnis, der demonstriert, wie alles, was wir gelernt haben, in einem realen Szenario angewendet wird.
+Willkommen zum finalen Abschnitt in unserer hands-on Web-Crawling-Tutorial-Serie. Anstelle einer traditionellen Lektion nehmen wir einen anderen Ansatz. Für diesen Abschnitt habe ich den Housefly Metascraper entwickelt - einen Crawler im `./apps/metascraper` Verzeichnis, der demonstriert, wie alles, was wir gelernt haben, in einem realen Szenario angewendet wird.
 
 Der Metascraper demonstriert, wie unsere schrittweise Reise - vom Scraping einfacher statischer HTML-Seiten, Navigation durch JavaScript-gerenderte Inhalte, bis hin zur Interaktion mit APIs und Überwindung von Crawling-Abwehrmechanismen - in einem Tool kulminiert, das **das unstrukturierte, vielfältige und chaotische Web im großen Maßstab** handhaben kann.
 
@@ -18,9 +18,9 @@ In vorherigen Abschnitten wussten wir oft:
 - Wie viele Seiten wir besuchen mussten.
 
 Aber beim großmaßstäblichen unstrukturierten Crawling:
-- Die Websites variieren wild: einige sind strukturiert, andere sind Blogs mit unregelmäßiger Formatierung.
+- Die Websites unterscheiden sich stark: einige sind strukturiert, andere sind Blogs mit unregelmäßiger Formatierung.
 - Pfade und URLs sind unvorhersagbar.
-- Schema ist inkonsistent oder nicht existent.
+- Das Schema ist inkonsistent oder nicht vorhanden.
 - Wir wollen **Tausende von Seiten crawlen**, potenziell über **mehrere Domains**.
 
 Denke an:
@@ -60,7 +60,7 @@ Der revolutionärste Fortschritt in 2025 ist **agentisches Scraping**. Anstatt S
 
 ## Teil 3: KI-unterstütztes Parsing
 
-Fine-tune oder prompt-engineer ein Modell, um sauberes JSON auszugeben:
+Fine-tune ein Modell oder entwickle Prompts dafür, um sauberes JSON auszugeben:
 
 ```json
 {
@@ -142,7 +142,7 @@ Inspiriert von Tools wie SearchXNG und Perplexity demonstriert der Metascraper e
 
 Dieser Ansatz bietet mehrere Vorteile:
 
-- **Zielgerichtete Erkundung**: Anstatt erschöpfendem Crawling besuchst du nur Seiten, die wahrscheinlich relevante Informationen enthalten
+- **Zielgerichtete Erkundung**: Anstatt erschöpfend zu crawlen, besuchst du nur Seiten, die wahrscheinlich relevante Informationen enthalten
 - **Aktuelle Ergebnisse**: Jeder Crawl startet frisch mit aktuellen Suchergebnissen
 - **Domain-agnostisch**: Nicht auf vordefinierte Sites oder URL-Muster beschränkt
 - **Intentionsgesteuert**: Orientiert sich daran, wie Menschen tatsächlich Themen recherchieren
